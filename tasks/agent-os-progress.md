@@ -1,6 +1,6 @@
 # Nexora Agent OS Development Progress
 
-> 这是 Nexora Agent OS 的唯一开发进度清单。实施细节以 [Agent OS Implementation Plan](/Users/zq/Desktop/ai-projs/posp/Nexora/docs/superpowers/plans/2026-08-23-agent-os-implementation.md) 为准；C10-C16 的产品/UI 决策以 [Nexora Agent OS Frontend UI Design](/Users/zq/Desktop/ai-projs/posp/Nexora/docs/nexora-agent-os-ui-design.md) 和 [DESIGN.md](/Users/zq/Desktop/ai-projs/posp/Nexora/DESIGN.md) 为准；本文件只记录执行状态、验证证据、阻塞原因和 commit 结果。
+> 这是 Nexora Agent OS 的唯一开发进度清单。实施细节以 [Agent OS Implementation Plan](/Users/zq/Desktop/ai-projs/posp/Nexora/docs/superpowers/plans/2026-08-23-agent-os-implementation.md) 为准；C10-C16 的产品/UI 决策以 [中文 Nexora Agent OS Frontend UI Design](/Users/zq/Desktop/ai-projs/posp/Nexora/docs/nexora-agent-os-ui-design.zh-CN.md)、[中文 DESIGN](/Users/zq/Desktop/ai-projs/posp/Nexora/DESIGN.zh-CN.md) 和 [中文 UI/布局图册](/Users/zq/Desktop/ai-projs/posp/Nexora/docs/nexora-agent-os-ui-diagrams.zh-CN.md) 为准；英文文档是术语和来源对照；本文件只记录执行状态、验证证据、阻塞原因和 commit 结果。
 
 ## 1. 当前状态
 
@@ -12,7 +12,7 @@
 | 当前工作 | 尚未开始；下一项为 C00.1 分支和工作树检查 |
 | 当前分支 | `main`；执行 C00 前创建 `codex/agent-os-implementation` |
 | 计划版本 | `2026-08-23-agent-os-implementation` |
-| 前端设计版本 | `nexora-agent-os-ui-design` + `DESIGN.md`；C10-C16 的必读契约 |
+| 前端设计版本 | `nexora-agent-os-ui-design.zh-CN` + `DESIGN.zh-CN.md` + `nexora-agent-os-ui-diagrams.zh-CN.md`；C10-C16 的必读契约 |
 | 最后更新 | 2026-08-23 |
 | 已完成 commit | 无 |
 | 事实源 | SQLite：运行域和事件；Markdown vault：Memory、SOP、receipt 摘要和 Artifact 文件 |
@@ -46,7 +46,7 @@
 
 ### 2.3 C10-C16 前端设计前置条件
 
-1. 开始 C10-C16 的任何子项前，先阅读 `docs/nexora-agent-os-ui-design.md` 和根目录 `DESIGN.md` 的相关章节；实现不得把其中的未实现能力伪装为可用。
+1. 开始 C10-C16 的任何子项前，先阅读 `docs/nexora-agent-os-ui-design.zh-CN.md`、`DESIGN.zh-CN.md` 和 `docs/nexora-agent-os-ui-diagrams.zh-CN.md` 的相关章节；英文文档用于术语/来源对照，实现不得把其中的未实现能力伪装为可用。
 2. C10 必须先完成 `/design-system` primitive showcase，并在 375px、768px、1024px、1440px 验证长内容、错误、脱敏、离线与键盘状态，再组合产品页面。
 3. C11-C16 复用已验证原语；新增 token、状态、交互、响应式规则、无障碍约束或接受的设计债务，必须先更新 `DESIGN.md`，再写页面代码和测试。
 4. 与 UI 规格存在冲突时，优先保持 scope、R0-R3、Review、Artifact 版本和 receipt 的控制面约束；在实施计划、ADR 和本文件的变更记录中记录经批准的偏离。
@@ -90,7 +90,7 @@ Known limitations:
 | `[ ]` | C15 | observability、backup、quarantine、audit export | C08+C09+C13+C14 | G12 | `artifacts/progress/c15/` | 关闭增强运维组件，不影响核心事件事实 |
 | `[ ]` | C16 | Docker、CI、全量 QA、release handoff | C00-C15 | G13 | `artifacts/progress/c16/` | 不发布 release 镜像，保留 QA 报告 |
 
-> C10-C16 共同前置条件：对应阶段开始前已按本文件 2.3 阅读并应用 `docs/nexora-agent-os-ui-design.md` 和 `DESIGN.md`；任何偏离均有 ADR、计划变更和验证证据。
+> C10-C16 共同前置条件：对应阶段开始前已按本文件 2.3 阅读并应用中文 UI 规格、中文 DESIGN 和中文图册；任何偏离均有 ADR、计划变更和验证证据。
 
 ## 4. 阶段详细清单
 
@@ -361,7 +361,7 @@ Known limitations:
 **依赖：** C09  
 **计划提交：** `feat: add mission control shell and state matrix`
 
-- [ ] C10.0 阅读 UI 规格和 `DESIGN.md`，记录本阶段采用的路由、原语、状态和任何 ADR 偏离；先建立 `/design-system` showcase 验收范围。
+- [ ] C10.0 阅读中文 UI 规格、中文 `DESIGN` 和中文 UI/布局图册，记录本阶段采用的路由、原语、状态、布局尺寸和任何 ADR 偏离；先建立 `/design-system` showcase 验收范围。
 - [ ] C10.1 确认 C09 API health、查询和 SSE 在浏览器跨域/本地模式下可访问。
 - [ ] C10.2 创建 React/Vite router、TanStack Query client、SSE client 和 scope context。
 - [ ] C10.3 实现 Mission Control、Inbox、Goals、Tickets、Runs、Review、Artifacts、Memory、Settings 路由。
@@ -562,7 +562,8 @@ Known limitations:
 | 版本 | 日期 | 变更 | 原因 | 影响阶段 | 批准/证据 |
 |---|---|---|---|---|---|
 | 1.0 | 2026-08-23 | 从实施方案生成本进度清单 | 建立持续迭代的唯一状态入口 | C00-C16 | 清单自审通过 |
-| 1.1 | 2026-08-23 | 接入 Agent OS × AionUI UI 规格与设计系统契约；按 C00-C16 重排阶段明细 | 让后续 UI 实施可追溯到明确的产品、交互和可访问性决策 | C10-C16 | 文档链接与独立审阅待本次收口 |
+| 1.1 | 2026-08-23 | 接入 Agent OS × AionUI UI 规格与设计系统契约；按 C00-C16 重排阶段明细 | 让后续 UI 实施可追溯到明确的产品、交互和可访问性决策 | C10-C16 | 文档链接与独立审阅通过 |
+| 1.2 | 2026-08-24 | 增加中文设计系统、中文 UI 规格和 UI/布局图册，并将中文文档设为 C10-C16 首选入口 | 降低实施语言门槛，同时保留英文原稿作为术语和来源对照 | C10-C16 | 中文文档结构、链接、Mermaid 图块 QA 待本次收口 |
 
 ## 7. 迭代交接模板
 
@@ -590,4 +591,3 @@ Known limitations:
 4. G0-G13 全部有人工观察记录，且截图、日志、trace、receipt 或 restore report 可定位。
 5. 最终工作树、CI、README 和 runbook 一致；不存在未提交的实现文件或未解释的用户改动。
 6. 最终 commit SHA、测试摘要、残余风险和后续非阻塞工作已写入本文件最后一条 Handoff。
-
