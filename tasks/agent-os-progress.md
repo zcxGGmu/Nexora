@@ -13,7 +13,7 @@
 | 当前分支 | `main`；执行 C00 前创建 `codex/agent-os-implementation` |
 | 计划版本 | `2026-08-23-agent-os-implementation` |
 | 前端设计版本 | `nexora-agent-os-ui-design.zh-CN` + `DESIGN.zh-CN.md` + `nexora-agent-os-ui-diagrams.zh-CN.md`；C10-C16 的必读契约 |
-| 最后更新 | 2026-08-23 |
+| 最后更新 | 2026-08-24 |
 | 已完成 commit | 无 |
 | 事实源 | SQLite：运行域和事件；Markdown vault：Memory、SOP、receipt 摘要和 Artifact 文件 |
 | 首版范围 | 本地 Web Mission Control、deterministic adapter、本地 subprocess adapter、SEO draft workflow；不自动发布 |
@@ -563,7 +563,7 @@ Known limitations:
 |---|---|---|---|---|---|
 | 1.0 | 2026-08-23 | 从实施方案生成本进度清单 | 建立持续迭代的唯一状态入口 | C00-C16 | 清单自审通过 |
 | 1.1 | 2026-08-23 | 接入 Agent OS × AionUI UI 规格与设计系统契约；按 C00-C16 重排阶段明细 | 让后续 UI 实施可追溯到明确的产品、交互和可访问性决策 | C10-C16 | 文档链接与独立审阅通过 |
-| 1.2 | 2026-08-24 | 增加中文设计系统、中文 UI 规格和 UI/布局图册，并将中文文档设为 C10-C16 首选入口 | 降低实施语言门槛，同时保留英文原稿作为术语和来源对照 | C10-C16 | 中文文档结构、链接、Mermaid 图块 QA 待本次收口 |
+| 1.2 | 2026-08-24 | 增加中文设计系统、中文 UI 规格和 UI/布局图册，并将中文文档设为 C10-C16 首选入口 | 降低实施语言门槛，同时保留英文原稿作为术语和来源对照 | C10-C16 | 中文文档结构、链接、Mermaid 图块 QA 通过；独立 HEAVY 审阅通过 |
 
 ## 7. 迭代交接模板
 
@@ -580,6 +580,16 @@ Known limitations:
 - 未解决问题：
 - 证据路径：
 ```
+
+### Handoff 2026-08-24 / 中文 UI 文档交付
+
+- 当前状态：`[x]` 中文设计系统、中文 UI 规格与 UI/布局图册已交付；C00-C16 实现尚未开始。
+- 本次完成：新增 `DESIGN.zh-CN.md`、`docs/nexora-agent-os-ui-design.zh-CN.md`、`docs/nexora-agent-os-ui-diagrams.zh-CN.md`；英文原稿保留为术语和来源对照；跟踪入口已切换到中文实施契约。
+- 下一步唯一动作：从 C00.1 创建 `codex/agent-os-implementation` 分支并开始 workspace/health 底座。
+- 最近验证命令及结果：中文结构/链接/Mermaid/C00-C16 顺序验证 PASS；翻译结构对照 PASS；`git diff --check` PASS；独立 HEAVY gate review APPROVED。
+- 最近 commit SHA：`3450f157e03b38ed7f086c4899b98e38db14d38a` (`docs: add Chinese Nexora UI specifications`)
+- 未解决问题：仓库当前没有可运行前端，因此未执行浏览器视觉 QA；按计划延后至 C10 `/design-system` 实现后。
+- 证据路径：`.omo/evidence/final-zh-docs-qa.json`、`.omo/evidence/translation-structure-final.json`、`.omo/evidence/final-zh-docs-gate-review.md`
 
 ## 8. 完成判定
 
