@@ -1,0 +1,28 @@
+import { z } from "zod";
+
+const ULID_PATTERN = /^[0-7][0-9A-HJKMNP-TV-Z]{25}$/;
+export const UlidSchema = z.string().regex(ULID_PATTERN);
+export const AgentIdSchema = UlidSchema.brand("AgentId");
+export const GoalIdSchema = UlidSchema.brand("GoalId");
+export const TicketIdSchema = UlidSchema.brand("TicketId");
+export const RunIdSchema = UlidSchema.brand("RunId");
+export const AttemptIdSchema = UlidSchema.brand("AttemptId");
+export const StepIdSchema = UlidSchema.brand("StepId");
+export const ArtifactIdSchema = UlidSchema.brand("ArtifactId");
+export const WorkspaceIdSchema = UlidSchema.brand("WorkspaceId");
+export const TraceIdSchema = UlidSchema.brand("TraceId");
+export const EventIdSchema = UlidSchema.brand("EventId");
+export const MessageIdSchema = UlidSchema.brand("MessageId");
+export const LeaseIdSchema = UlidSchema.brand("LeaseId");
+export type AgentId = z.infer<typeof AgentIdSchema>;
+export type GoalId = z.infer<typeof GoalIdSchema>;
+export type TicketId = z.infer<typeof TicketIdSchema>;
+export type RunId = z.infer<typeof RunIdSchema>;
+export type AttemptId = z.infer<typeof AttemptIdSchema>;
+export type StepId = z.infer<typeof StepIdSchema>;
+export type ArtifactId = z.infer<typeof ArtifactIdSchema>;
+export type WorkspaceId = z.infer<typeof WorkspaceIdSchema>;
+export type TraceId = z.infer<typeof TraceIdSchema>;
+export type EventId = z.infer<typeof EventIdSchema>;
+export type MessageId = z.infer<typeof MessageIdSchema>;
+export type LeaseId = z.infer<typeof LeaseIdSchema>;

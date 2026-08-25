@@ -1,0 +1,3 @@
+Command: pnpm --filter @nexora/contracts test --run
+Result: expected RED before implementation; package dependencies are not installed and Vitest reports no test files found from the package working directory.
+Raw output captured in /tmp/c01-red.log during the same invocation.

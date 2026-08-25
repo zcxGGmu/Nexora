@@ -1,0 +1,8 @@
+Command: node --import tsx --input-type=module temporary HTTP validation probe (not committed)
+Request: complete valid GoalSchema fixture, status 200
+Response: {"case":"valid","status":200,"body":{"ok":true,"value":{"id":"01ARZ3NDEKTSV4RRFFQ69G5FAV","workspace_id":"01ARZ3NDEKTSV4RRFFQ69G5FAV","schema_version":1,"created_at":"2026-08-26T04:00:00.000Z","updated_at":"2026-08-26T04:00:00.000Z","title":"C01","objective":"Versioned contracts","definition_of_done":["schemas pass"]}}}
+Request: unknown field `secret` GoalSchema payload, status 400
+Response: {"case":"unknown_field","status":400,"body":{"ok":false,"error":{"schema_version":1,"code":"SCHEMA_INVALID","message":"Contract validation failed","retryable":false,"required_action":"correct_request","trace_id":"01ARZ3NDEKTSV4RRFFQ69G5FAV","details":[{"path":[],"code":"unrecognized_keys"}]}}}
+Request: old schema_version=2 GoalSchema payload, status 400
+Response: {"case":"old_schema","status":400,"body":{"ok":false,"error":{"schema_version":1,"code":"SCHEMA_INVALID","message":"Contract validation failed","retryable":false,"required_action":"correct_request","trace_id":"01ARZ3NDEKTSV4RRFFQ69G5FAV","details":[{"path":["schema_version"],"code":"invalid_literal"}]}}}
+State: validation only; no persistence.
