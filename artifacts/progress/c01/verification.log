@@ -1,0 +1,8 @@
+pnpm install: passed (lockfile resolution up to date).
+pnpm install --frozen-lockfile: passed.
+pnpm --filter @nexora/contracts test --run: 4 files, 72 tests passed.
+pnpm typecheck: passed.
+pnpm test --run: 6 files, 76 tests passed.
+pnpm audit --prod --audit-level=high: passed; no known vulnerabilities.
+curl http://127.0.0.1:5173: HTTP 200.
+git diff --check -- scoped C01 paths: passed with no output.
