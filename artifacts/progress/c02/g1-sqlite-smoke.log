@@ -1,0 +1,6 @@
+Command: NEXORA_DATA_DIR=<temporary-dir> NEXORA_DB_PATH=<temporary-dir>/test.sqlite pnpm db:migrate
+Result: PASS; version 1 recorded in schema_migrations.
+Command: NEXORA_MIGRATION_MODE=validate pnpm --filter @nexora/persistence migrate
+Result: PASS; existing migration accepted without write.
+Observed SQLite pragmas after reopen: journal_mode=wal; foreign_keys=1.
+State: local SQLite persistence only; no API route, queue, event projection, or real connector was introduced.

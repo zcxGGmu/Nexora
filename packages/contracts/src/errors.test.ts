@@ -27,6 +27,8 @@ describe("error semantics", () => {
       "IDEMPOTENCY_KEY_REUSED",
       "CONNECTOR_UNAVAILABLE",
       "PROJECTION_DEGRADED",
+      "INVALID_STATE_TRANSITION",
+      "VERSION_CONFLICT",
     ]);
   });
 

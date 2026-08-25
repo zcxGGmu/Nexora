@@ -45,6 +45,8 @@ The production direction is a single TypeScript monorepo. React/Vite Mission Con
 
 The `@nexora/contracts` package is the C01 wire-contract boundary. Persisted domain records use raw canonical uppercase 26-character ULIDs and include `schema_version: 1` with workspace and UTC timestamp metadata. Contract objects are strict: unknown top-level and nested fields are rejected. Schema version and runtime protocol version are independent axes and are rejected when old or future.
 
+C02 uses Node 22.13+'s built-in `node:sqlite` module. `pnpm db:migrate` applies the versioned SQLite migration to `NEXORA_DB_PATH` (defaulting to `<NEXORA_DATA_DIR>/nexora.sqlite`); `NEXORA_MIGRATION_MODE=validate` checks that migration 1 is already applied without changing the database.
+
 Commands are asynchronous. An HTTP `202 Accepted` means the command was accepted for processing; it does not mean business work completed. Clients observe completion through versioned run and event contracts.
 
 Error responses have a stable shape and never echo rejected values or third-party text:

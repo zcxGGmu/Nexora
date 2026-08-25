@@ -1,0 +1,18 @@
+{
+  "name": "@nexora/persistence",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "scripts": {
+    "test": "vitest --root ../.. packages/persistence/src",
+    "migrate": "tsx src/migrate.ts"
+  },
+  "dependencies": {
+    "@nexora/config": "workspace:*",
+    "@nexora/contracts": "workspace:*",
+    "zod": "^3.24.3"
+  }
+}

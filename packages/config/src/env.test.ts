@@ -37,7 +37,20 @@ describe("parseEnvironment", () => {
       apiPort: 4310,
       logLevel: "info",
       authMode: "local",
+      dbPath: "/tmp/nexora-data/nexora.sqlite",
+      migrationMode: "auto",
     });
+  });
+
+  test("Given explicit database settings When parsed Then it preserves the path and migration mode", () => {
+    const environment = parseEnvironment({
+      NEXORA_DATA_DIR: "/tmp/nexora-data",
+      NEXORA_DB_PATH: "/tmp/custom.sqlite",
+      NEXORA_MIGRATION_MODE: "validate",
+    });
+
+    expect(environment.dbPath).toBe("/tmp/custom.sqlite");
+    expect(environment.migrationMode).toBe("validate");
   });
 
   test("Given missing data directory When parsed Then it reports a redacted typed error", () => {

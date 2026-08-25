@@ -69,6 +69,27 @@ importers:
         specifier: ^3.24.3
         version: 3.25.76
 
+  packages/domain:
+    dependencies:
+      '@nexora/contracts':
+        specifier: workspace:*
+        version: link:../contracts
+      zod:
+        specifier: ^3.24.3
+        version: 3.25.76
+
+  packages/persistence:
+    dependencies:
+      '@nexora/config':
+        specifier: workspace:*
+        version: link:../config
+      '@nexora/contracts':
+        specifier: workspace:*
+        version: link:../contracts
+      zod:
+        specifier: ^3.24.3
+        version: 3.25.76
+
 packages:
 
   '@esbuild/aix-ppc64@0.25.12':

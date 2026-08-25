@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { join } from "node:path";
 
 const LOG_LEVELS = ["trace", "debug", "info", "warn", "error", "fatal"] as const;
 const AUTH_MODES = ["local", "disabled"] as const;
@@ -12,6 +13,8 @@ const EnvironmentSchema = z.object({
   ),
   NEXORA_LOG_LEVEL: z.enum(LOG_LEVELS).default("info"),
   NEXORA_AUTH_MODE: z.enum(AUTH_MODES).default("local"),
+  NEXORA_DB_PATH: z.string().trim().min(1).optional(),
+  NEXORA_MIGRATION_MODE: z.enum(["auto", "validate", "disabled"]).default("auto"),
 });
 
 type EnvironmentInput = Record<string, string | undefined>;
@@ -22,6 +25,8 @@ export type NexoraEnvironment = {
   readonly apiPort: number;
   readonly logLevel: (typeof LOG_LEVELS)[number];
   readonly authMode: (typeof AUTH_MODES)[number];
+  readonly dbPath: string;
+  readonly migrationMode: "auto" | "validate" | "disabled";
 };
 
 export class EnvironmentValidationError extends Error {
@@ -57,5 +62,7 @@ export function parseEnvironment(input: EnvironmentInput): NexoraEnvironment {
     apiPort: result.data.NEXORA_API_PORT,
     logLevel: result.data.NEXORA_LOG_LEVEL,
     authMode: result.data.NEXORA_AUTH_MODE,
+    dbPath: result.data.NEXORA_DB_PATH ?? join(result.data.NEXORA_DATA_DIR, "nexora.sqlite"),
+    migrationMode: result.data.NEXORA_MIGRATION_MODE,
   };
 }

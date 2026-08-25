@@ -1,0 +1,14 @@
+C02 verification date: 2026-08-26
+
+pnpm install --frozen-lockfile: PASS; lockfile up to date.
+pnpm --filter @nexora/contracts test --run: PASS; 4 files, 72 tests.
+pnpm --filter @nexora/persistence test --run: PASS; 2 files, 6 tests.
+pnpm --filter @nexora/domain test --run: PASS; 2 files, 17 tests.
+pnpm typecheck: PASS.
+pnpm test --run: PASS; 10 files, 100 tests.
+pnpm audit --prod --audit-level=high: PASS; no known vulnerabilities.
+pnpm db:migrate with file-backed SQLite: PASS; migration 1 recorded.
+NEXORA_MIGRATION_MODE=validate: PASS; validates without applying.
+File-backed smoke: journal_mode=wal, foreign_keys=1.
+Node host: v25.9.0; expected engine warning because project requires Node >=22.13 <23.
+git diff --check: PASS.
