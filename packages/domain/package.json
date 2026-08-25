@@ -1,0 +1,16 @@
+{
+  "name": "@nexora/domain",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "scripts": {
+    "test": "vitest --root ../.. packages/domain/src"
+  },
+  "dependencies": {
+    "@nexora/contracts": "workspace:*",
+    "zod": "^3.24.3"
+  }
+}

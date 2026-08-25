@@ -1,0 +1,4 @@
+Command: pnpm --filter @nexora/persistence test --run
+Result: RED during first implementation pass; migration rollback used unsupported comma-separated DROP syntax and TicketRepository bound ten values to nine placeholders.
+Observed failures: 2 tests failed (schema rollback syntax; ticket insert).
+Follow-up: fixed each root cause, reran persistence tests to GREEN (5 tests).

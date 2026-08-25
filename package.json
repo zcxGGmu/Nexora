@@ -5,7 +5,7 @@
   "type": "module",
   "packageManager": "pnpm@10.10.0",
   "engines": {
-    "node": ">=22.0.0 <23.0.0"
+    "node": ">=22.13.0 <23.0.0"
   },
   "scripts": {
     "dev": "pnpm --parallel --filter @nexora/api --filter @nexora/worker --filter @nexora/mission-control dev",
@@ -13,6 +13,7 @@
     "dev:worker": "pnpm --filter @nexora/worker dev",
     "dev:web": "pnpm --filter @nexora/mission-control dev",
     "typecheck": "tsc --project tsconfig.base.json --noEmit",
+    "db:migrate": "pnpm --filter @nexora/persistence migrate",
     "test": "vitest",
     "test:integration": "vitest run --passWithNoTests tests/integration",
     "test:e2e": "playwright test"
