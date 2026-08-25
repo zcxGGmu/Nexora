@@ -1,0 +1,9 @@
+$ pnpm --filter @nexora/mission-control dev
+
+> @nexora/mission-control@0.1.0 dev
+> vite --host 127.0.0.1 --port 4311
+
+VITE v6.4.3 ready
+Local: http://127.0.0.1:4311/
+
+Web server stopped with SIGINT after verification.

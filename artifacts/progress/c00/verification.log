@@ -1,0 +1,28 @@
+$ pnpm install
+PASS; generated pnpm-lock.yaml.
+
+$ pnpm install --frozen-lockfile
+PASS.
+
+$ pnpm test --run
+PASS: 2 test files, 4 tests.
+
+$ pnpm typecheck
+PASS.
+
+$ pnpm --filter @nexora/mission-control build
+PASS: Vite production build completed.
+
+$ curl -fsS http://127.0.0.1:4310/v1/health
+PASS: saved exact response in health.json.
+
+$ curl -fsS http://127.0.0.1:4311/
+PASS: HTTP 200.
+
+$ in-app browser fresh navigation to http://127.0.0.1:4311/
+PASS: #root rendered `<main><p>Nexora Mission Control</p><h1>Control plane is starting</h1></main>` and fresh console errors were `[]`. Final screenshot: mission-control-shell-fresh.png (PNG signature verified, 1280x720).
+
+$ curl -fsS -o /dev/null -w 'demo 5173 HTTP %{http_code}\n' http://127.0.0.1:5173/
+PASS: demo 5173 HTTP 200; C00 did not modify or stop it.
+
+Environment note: the host currently runs Node v25.9.0 while this project intentionally requires Node 22; pnpm emitted an engine warning but all commands above exited successfully.

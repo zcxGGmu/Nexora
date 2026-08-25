@@ -1,0 +1,10 @@
+$ NEXORA_DATA_DIR=/tmp/nexora-c00-data pnpm --filter @nexora/api start
+
+> @nexora/api@0.1.0 start
+> tsx src/server.ts
+
+{"level":30,"msg":"Server listening at http://127.0.0.1:4310"}
+{"level":30,"req":{"method":"GET","url":"/v1/health","host":"127.0.0.1:4310"},"msg":"incoming request"}
+{"level":30,"res":{"statusCode":200},"msg":"request completed"}
+
+API stopped with SIGINT after verification.

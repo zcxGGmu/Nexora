@@ -1,0 +1,30 @@
+{
+  "name": "nexora",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "packageManager": "pnpm@10.10.0",
+  "engines": {
+    "node": ">=22.0.0 <23.0.0"
+  },
+  "scripts": {
+    "dev": "pnpm --parallel --filter @nexora/api --filter @nexora/worker --filter @nexora/mission-control dev",
+    "dev:api": "pnpm --filter @nexora/api dev",
+    "dev:worker": "pnpm --filter @nexora/worker dev",
+    "dev:web": "pnpm --filter @nexora/mission-control dev",
+    "typecheck": "tsc --project tsconfig.base.json --noEmit",
+    "test": "vitest",
+    "test:integration": "vitest run --passWithNoTests tests/integration",
+    "test:e2e": "playwright test"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.52.0",
+    "@types/node": "^22.15.3",
+    "@types/react": "^19.1.2",
+    "@types/react-dom": "^19.1.2",
+    "tsx": "^4.19.3",
+    "typescript": "^5.8.3",
+    "vite": "^6.3.2",
+    "vitest": "^3.1.2"
+  }
+}

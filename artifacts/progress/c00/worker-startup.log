@@ -1,0 +1,8 @@
+$ NEXORA_DATA_DIR=/tmp/nexora-c00-data pnpm --filter @nexora/worker start
+
+> @nexora/worker@0.1.0 start
+> tsx src/main.ts
+
+{"event":"worker_idle","service":"worker","status":"ready","data_dir":"/tmp/nexora-c00-data","queue":"not_configured"}
+
+Worker stopped with SIGINT after verification.
