@@ -1,0 +1,6 @@
+$ NEXORA_API_SECRET=<redacted> pnpm --filter @nexora/api start
+
+Invalid Nexora environment: NEXORA_DATA_DIR
+Exit status 1
+
+The raw sentinel value is absent from this output.

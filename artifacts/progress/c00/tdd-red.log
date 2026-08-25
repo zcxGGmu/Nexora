@@ -1,0 +1,12 @@
+$ pnpm exec vitest run packages/config/src/env.test.ts apps/api/src/routes/health.test.ts
+
+FAIL packages/config/src/env.test.ts
+Error: Cannot find module './env.js' imported from 'packages/config/src/env.test.ts'
+
+FAIL apps/api/src/routes/health.test.ts
+Error: Cannot find module '../server.js' imported from 'apps/api/src/routes/health.test.ts'
+
+Test Files 2 failed
+Tests no tests
+
+This was the required RED run before the production modules were added.
