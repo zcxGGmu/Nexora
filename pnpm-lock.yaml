@@ -126,6 +126,12 @@ importers:
         specifier: workspace:*
         version: link:../contracts
 
+  packages/runtime-adapters:
+    dependencies:
+      '@nexora/contracts':
+        specifier: workspace:*
+        version: link:../contracts
+
 packages:
 
   '@esbuild/aix-ppc64@0.25.12':

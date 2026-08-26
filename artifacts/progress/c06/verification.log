@@ -1,0 +1,13 @@
+2026-08-26 C06 verification
+
+- pnpm install --frozen-lockfile: PASS; workspace lockfile includes @nexora/runtime-adapters.
+- pnpm typecheck: PASS.
+- pnpm --filter @nexora/runtime-adapters test --run: PASS, 4 files / 35 tests.
+- pnpm --filter @nexora/contracts test --run: PASS, 5 files / 76 tests.
+- pnpm test --run: PASS, 29 files / 209 tests.
+- pnpm test:integration: PASS, 3 files / 5 tests.
+- pnpm --filter @nexora/mission-control build: PASS.
+- pnpm audit --prod --audit-level=high: PASS; no known vulnerabilities.
+- G5 smoke: deterministic fixture paused at cursor 1, resumed through tool/artifact/completed events with fencing token 8, cancel acknowledged, business status remained pending_quality_gate.
+- Boundary coverage: strict payload schemas, protocol mismatch and peer identity, unknown-event preservation, executable allowlist, absolute cwd, shell=false, scope/fencing rejection, duplicate/descending sequence rejection, globally unique message IDs, output/stderr byte caps, deadline expiry, crash mapping, cancel timeout unknown, cross-chunk stderr redaction and clean-exit wakeup.
+- git diff --check: implementation/evidence files clean; pre-existing task-file trailing whitespace remains outside the C06 commit.
