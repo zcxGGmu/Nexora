@@ -1,0 +1,18 @@
+.                                        |  WARN  Unsupported engine: wanted: {"node":">=22.13.0 <23.0.0"} (current: {"node":"v25.9.0","pnpm":"10.10.0"})
+
+> @nexora/policy@0.1.0 test /Users/zq/Desktop/ai-projs/posp/Nexora/packages/policy
+> vitest --root ../.. packages/policy/src --run
+
+
+ RUN  v3.2.7 /Users/zq/Desktop/ai-projs/posp/Nexora
+
+ ✓ packages/policy/src/egress.test.ts (4 tests) 4ms
+ ✓ packages/policy/src/scope.test.ts (3 tests) 5ms
+ ✓ packages/policy/src/risk.test.ts (3 tests) 5ms
+ ✓ packages/policy/src/redaction.test.ts (2 tests) 10ms
+ ✓ packages/policy/src/rbac.test.ts (3 tests) 8ms
+
+ Test Files  5 passed (5)
+      Tests  15 passed (15)
+   Start at  10:35:40
+   Duration  1.03s (transform 204ms, setup 0ms, collect 1.10s, tests 32ms, environment 1ms, prepare 542ms)

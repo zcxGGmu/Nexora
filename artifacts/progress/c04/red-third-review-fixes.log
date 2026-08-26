@@ -1,0 +1,101 @@
+.                                        |  WARN  Unsupported engine: wanted: {"node":">=22.13.0 <23.0.0"} (current: {"node":"v25.9.0","pnpm":"10.10.0"})
+
+> @nexora/policy@0.1.0 test /Users/zq/Desktop/ai-projs/posp/Nexora/packages/policy
+> vitest --root ../.. packages/policy/src --run
+
+
+ RUN  v3.2.7 /Users/zq/Desktop/ai-projs/posp/Nexora
+
+ ✓ packages/policy/src/rbac.test.ts (3 tests) 2ms
+ ✓ packages/policy/src/scope.test.ts (3 tests) 3ms
+ ✓ packages/policy/src/redaction.test.ts (3 tests) 12ms
+ ❯ packages/policy/src/risk.test.ts (9 tests | 1 failed) 19ms
+   ✓ policy risk > Given R3 connector without approval When risk is evaluated Then human review is required 2ms
+   ✓ policy risk > Given stale approval When payload hash changes Then execution is denied 1ms
+   ✓ policy risk > Given forged Agent approval When R3 risk is evaluated Then execution is denied 0ms
+   ✓ policy risk > Given rejected approval-shaped input When R3 risk is evaluated Then execution is denied 0ms
+   ✓ policy risk > Given approval with malformed reviewer id When R3 risk is evaluated Then execution is denied 1ms
+   ✓ policy risk > Given R3 approval without payload hash When risk is evaluated Then execution is denied 0ms
+   ✓ policy risk > Given empty payload hashes When R3 risk is evaluated Then execution is denied 0ms
+   × policy risk > Given non-canonical payload hashes When R3 risk is evaluated Then execution is denied 13ms
+     → expected { allowed: true, …(2) } to match object { allowed: false, …(1) }
+(2 matching properties omitted from actual)
+   ✓ policy risk > Given matching approval When R3 risk is evaluated Then execution can continue 0ms
+ ❯ packages/policy/src/egress.test.ts (22 tests | 1 failed) 20ms
+   ✓ policy egress > Given remote restricted data When minimal snapshot is absent Then egress is denied 3ms
+   ✓ policy egress > Given local internal data When provider and region are allowed Then egress is allowed 2ms
+   ✓ policy egress > rejects unsafe egress target http://169.254.169.254/latest/meta-data 0ms
+   ✓ policy egress > rejects unsafe egress target https://example.com/../../secret 0ms
+   ✓ policy egress > rejects unsafe egress target file:///etc/passwd 0ms
+   ✓ policy egress > rejects unsafe egress target ftp://example.com/resource 0ms
+   ✓ policy egress > rejects unsafe egress target http://[::1]/ 0ms
+   ✓ policy egress > rejects unsafe egress target https://[2606:4700:4700::1111]/ 0ms
+   ✓ policy egress > rejects unsafe egress target https://[::ffff:127.0.0.1]/ 0ms
+   ✓ policy egress > rejects unsafe egress target https://[::ffff:7f00:1]/ 0ms
+   ✓ policy egress > rejects unsafe egress target https://[0:0:0:0:0:ffff:7f00:1]/ 0ms
+   ✓ policy egress > rejects unsafe egress target https://[::ffff:a00:1]/ 0ms
+   ✓ policy egress > rejects unsafe egress target https://[::ffff:ac10:1]/ 0ms
+   ✓ policy egress > rejects unsafe egress target https://[::ffff:c0a8:1]/ 0ms
+   × policy egress > rejects unsafe resolved IP 2606:4700:4700::1111 11ms
+     → expected { allowed: true, …(2) } to match object { allowed: false, …(1) }
+(2 matching properties omitted from actual)
+   ✓ policy egress > rejects unsafe resolved IP ::ffff:7f00:1 0ms
+   ✓ policy egress > rejects unsafe resolved IP 0:0:0:0:0:ffff:7f00:1 0ms
+   ✓ policy egress > rejects unsafe resolved IP ::ffff:a00:1 0ms
+   ✓ policy egress > rejects unsafe resolved IP ::ffff:ac10:1 0ms
+   ✓ policy egress > rejects unsafe resolved IP ::ffff:c0a8:1 0ms
+   ✓ policy egress > Given remote public data When provider region and resolved IP are allowed Then egress is allowed 0ms
+   ✓ policy egress > Given remote public host without resolved IPs When evaluated Then egress is denied by default 0ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 2 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  packages/policy/src/egress.test.ts > policy egress > rejects unsafe resolved IP 2606:4700:4700::1111
+AssertionError: expected { allowed: true, …(2) } to match object { allowed: false, …(1) }
+(2 matching properties omitted from actual)
+
+- Expected
++ Received
+
+  {
+-   "allowed": false,
+-   "code": "POLICY_DENIED",
++   "allowed": true,
+  }
+
+ ❯ packages/policy/src/egress.test.ts:70:22
+     68|     });
+     69|
+     70|     expect(decision).toMatchObject({ allowed: false, code: "POLICY_DEN…
+       |                      ^
+     71|   });
+     72|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/2]⎯
+
+ FAIL  packages/policy/src/risk.test.ts > policy risk > Given non-canonical payload hashes When R3 risk is evaluated Then execution is denied
+AssertionError: expected { allowed: true, …(2) } to match object { allowed: false, …(1) }
+(2 matching properties omitted from actual)
+
+- Expected
++ Received
+
+  {
+-   "allowed": false,
+-   "code": "POLICY_REVIEW_REQUIRED",
++   "allowed": true,
+  }
+
+ ❯ packages/policy/src/risk.test.ts:37:224
+
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/2]⎯
+
+
+ Test Files  2 failed | 3 passed (5)
+      Tests  2 failed | 38 passed (40)
+   Start at  11:09:46
+   Duration  670ms (transform 318ms, setup 0ms, collect 911ms, tests 56ms, environment 1ms, prepare 522ms)
+
+/Users/zq/Desktop/ai-projs/posp/Nexora/packages/policy:
+ ERR_PNPM_RECURSIVE_RUN_FIRST_FAIL  @nexora/policy@0.1.0 test: `vitest --root ../.. packages/policy/src --run`
+Exit status 1

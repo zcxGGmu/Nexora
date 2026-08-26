@@ -9,8 +9,10 @@ import { AgentRepository, ArtifactRepository, AttemptRepository, GoalRepository,
 const ID = "01ARZ3NDEKTSV4RRFFQ69G5FAV";
 const TIME = "2026-08-26T04:00:00.000Z";
 const meta = { id: ID, workspace_id: ID, schema_version: 1 as const, created_at: TIME, updated_at: TIME };
+const policyDecision = { allowed: true, code: null, event_type: null, reason: "Allowed", required_action: "none", redactions: [] };
+const PAYLOAD_HASH = "sha256:0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef";
 
-const agent: AgentProfile = { ...meta, purpose: "Coordinate", runtime: { kind: "local", adapter: "test" }, model_policy: { allowed_models: ["test"], default_model: "test" }, memory_reads: [{ scope: "workspace" }], tools: { allow: ["read"], deny: [] }, handoff_outputs: ["report"], requires_review: false, quality_gates: ["tests"] };
+const agent: AgentProfile = { ...meta, purpose: "Coordinate", role: "Agent", allowed_scopes: [{ kind: "workspace", id: ID }], runtime: { kind: "local", adapter: "test" }, model_policy: { allowed_models: ["test"], default_model: "test" }, memory_reads: [{ scope: "workspace" }], tools: { allow: ["memory:read"], deny: [] }, handoff_outputs: ["report"], requires_review: false, quality_gates: ["tests"] };
 const goal: Goal = { ...meta, title: "Goal", objective: "Objective", definition_of_done: ["done"] };
 const ticket: Ticket = { ...meta, goal_id: ID, status: "ready", definition_of_done: ["done"], assigned_agents: [ID], approval_policy: { mode: "required" }, idempotency_key: "ticket-1" };
 const run: Run = { ...meta, ticket_id: ID, execution_location: "local", status: "queued", budget: { max_tokens: 10, max_cost_usd: 1 }, memory_snapshot: { snapshot_id: ID, version: 1 }, connector_versions: { test: "1.0.0" } };
@@ -18,7 +20,7 @@ const attempt: Attempt = { ...meta, run_id: ID, status: "queued" };
 const step: Step = { ...meta, run_id: ID, attempt_id: ID, agent_id: ID, status: "pending", inputs: ["input://request"], outputs: ["output://result"], retry_policy: { max_attempts: 1, backoff_ms: 0 }, requires_review: false };
 const artifact: Artifact = { ...meta, type: "report", status: "verified", source_ticket: ID, source_run: ID, version: 1, visibility: "workspace", content_ref: "artifact://report", evidence_refs: ["evidence://tests"] };
 const receipt: Receipt = { ...meta, run_id: ID, inputs: ["input://request"], tool_calls: [{ tool: "test", status: "succeeded" }], validation_results: [{ gate: "tests", passed: true }], unverified_items: [], side_effects: [] };
-const review: ReviewDecision = { ...meta, artifact_id: ID, artifact_version: 1, review_version: 1, judge_result: "pass", human_decision: "approved", reviewer_id: ID, reason: "Approved", approved_payload_hash: "sha256:abc" };
+const review: ReviewDecision = { ...meta, artifact_id: ID, artifact_version: 1, review_version: 1, judge_result: "pass", human_decision: "approved", reviewer_id: ID, reviewer_role: "Reviewer", reason: "Approved", approved_payload_hash: PAYLOAD_HASH, risk_level: "R3", policy_decision: policyDecision };
 
 describe("contract repositories", () => {
   it("persists and reads a complete scoped graph while preserving immutable attempts and receipts", () => {

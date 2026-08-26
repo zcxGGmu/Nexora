@@ -1,0 +1,17 @@
+.                                        |  WARN  Unsupported engine: wanted: {"node":">=22.13.0 <23.0.0"} (current: {"node":"v25.9.0","pnpm":"10.10.0"})
+
+> @nexora/contracts@0.1.0 test /Users/zq/Desktop/ai-projs/posp/Nexora/packages/contracts
+> vitest --root ../.. packages/contracts/src --run
+
+
+ RUN  v3.2.7 /Users/zq/Desktop/ai-projs/posp/Nexora
+
+ ✓ packages/contracts/src/ids.test.ts (7 tests) 3ms
+ ✓ packages/contracts/src/errors.test.ts (6 tests) 4ms
+ ✓ packages/contracts/src/envelope.test.ts (22 tests) 19ms
+ ✓ packages/contracts/src/schemas.test.ts (38 tests) 21ms
+
+ Test Files  4 passed (4)
+      Tests  73 passed (73)
+   Start at  11:17:12
+   Duration  1.07s (transform 269ms, setup 0ms, collect 848ms, tests 47ms, environment 1ms, prepare 590ms)

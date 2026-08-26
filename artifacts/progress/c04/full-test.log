@@ -1,0 +1,40 @@
+ WARN  Unsupported engine: wanted: {"node":">=22.13.0 <23.0.0"} (current: {"node":"v25.9.0","pnpm":"10.10.0"})
+
+> nexora@0.1.0 test /Users/zq/Desktop/ai-projs/posp/Nexora
+> vitest --run
+
+
+ RUN  v3.2.7 /Users/zq/Desktop/ai-projs/posp/Nexora
+
+ ✓ packages/contracts/src/schemas.test.ts (38 tests) 11ms
+ ✓ packages/policy/src/egress.test.ts (22 tests) 6ms
+ ✓ packages/persistence/src/schema.test.ts (3 tests) 8ms
+ ✓ packages/persistence/src/repositories.test.ts (3 tests) 12ms
+ ✓ packages/event-store/src/projections.test.ts (2 tests) 26ms
+ ✓ packages/event-store/src/cursor.test.ts (4 tests) 25ms
+ ✓ packages/event-store/src/event-store.test.ts (2 tests) 25ms
+ ✓ packages/policy/src/risk.test.ts (9 tests) 4ms
+ ✓ packages/config/src/env.test.ts (4 tests) 4ms
+ ✓ packages/contracts/src/envelope.test.ts (22 tests) 6ms
+ ✓ tests/integration/policy-boundary.test.ts (3 tests) 4ms
+ ✓ packages/contracts/src/errors.test.ts (6 tests) 7ms
+ ✓ packages/policy/src/scope.test.ts (3 tests) 7ms
+{"level":30,"time":1787714369418,"pid":22512,"hostname":"zqdeMacBook-Air.local","reqId":"req-1","req":{"method":"GET","url":"/v1/health","host":"localhost:80","remoteAddress":"127.0.0.1"},"msg":"incoming request"}
+{"level":30,"time":1787714369437,"pid":22512,"hostname":"zqdeMacBook-Air.local","reqId":"req-1","req":{"method":"GET","url":"/v1/health","host":"localhost:80","remoteAddress":"127.0.0.1"},"msg":"incoming request"}
+{"level":30,"time":1787714369442,"pid":22512,"hostname":"zqdeMacBook-Air.local","reqId":"req-1","req":{"method":"GET","url":"/v1/health","host":"localhost:80","remoteAddress":"127.0.0.1"},"msg":"incoming request"}
+{"level":30,"time":1787714369427,"pid":22512,"hostname":"zqdeMacBook-Air.local","reqId":"req-1","res":{"statusCode":200},"responseTime":8.049791000000027,"msg":"request completed"}
+{"level":30,"time":1787714369437,"pid":22512,"hostname":"zqdeMacBook-Air.local","reqId":"req-1","res":{"statusCode":200},"responseTime":0.26845800000000963,"msg":"request completed"}
+{"level":30,"time":1787714369442,"pid":22512,"hostname":"zqdeMacBook-Air.local","reqId":"req-1","res":{"statusCode":200},"responseTime":0.1402500000000373,"msg":"request completed"}
+{"level":30,"time":1787714369442,"pid":22512,"hostname":"zqdeMacBook-Air.local","reqId":"req-2","req":{"method":"GET","url":"/v1/health","host":"localhost:80","remoteAddress":"127.0.0.1"},"msg":"incoming request"}
+{"level":30,"time":1787714369442,"pid":22512,"hostname":"zqdeMacBook-Air.local","reqId":"req-2","res":{"statusCode":200},"responseTime":0.10225000000002638,"msg":"request completed"}
+ ✓ apps/api/src/routes/health.test.ts (3 tests) 156ms
+ ✓ packages/contracts/src/ids.test.ts (7 tests) 3ms
+ ✓ packages/policy/src/redaction.test.ts (3 tests) 4ms
+ ✓ packages/policy/src/rbac.test.ts (3 tests) 2ms
+ ✓ packages/domain/src/run-state.test.ts (15 tests) 4ms
+ ✓ packages/domain/src/commands.test.ts (2 tests) 9ms
+
+ Test Files  19 passed (19)
+      Tests  154 passed (154)
+   Start at  11:19:27
+   Duration  1.56s (transform 461ms, setup 0ms, collect 2.25s, tests 322ms, environment 2ms, prepare 1.48s)

@@ -1,0 +1,80 @@
+.                                        |  WARN  Unsupported engine: wanted: {"node":">=22.13.0 <23.0.0"} (current: {"node":"v25.9.0","pnpm":"10.10.0"})
+
+> @nexora/policy@0.1.0 test /Users/zq/Desktop/ai-projs/posp/Nexora/packages/policy
+> vitest --root ../.. packages/policy/src --run
+
+
+ RUN  v3.2.7 /Users/zq/Desktop/ai-projs/posp/Nexora
+
+
+⎯⎯⎯⎯⎯⎯ Failed Suites 4 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  packages/policy/src/egress.test.ts [ packages/policy/src/egress.test.ts ]
+Error: Cannot find module './index.js' imported from '/Users/zq/Desktop/ai-projs/posp/Nexora/packages/policy/src/egress.test.ts'
+ ❯ packages/policy/src/egress.test.ts:3:1
+      1| import { describe, expect, it } from "vitest";
+      2|
+      3| import { evaluateEgressPolicy } from "./index.js";
+       | ^
+      4|
+      5| describe("policy egress", () => {
+
+Caused by: Error: Failed to load url ./index.js (resolved id: ./index.js) in /Users/zq/Desktop/ai-projs/posp/Nexora/packages/policy/src/rbac.test.ts. Does the file exist?
+ ❯ loadAndTransform node_modules/.pnpm/vite@6.4.3_@types+node@22.20.1_tsx@4.23.12/node_modules/vite/dist/node/chunks/dep-Dm0c1Wj2.js:35835:17
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/4]⎯
+
+ FAIL  packages/policy/src/rbac.test.ts [ packages/policy/src/rbac.test.ts ]
+Error: Cannot find module './index.js' imported from '/Users/zq/Desktop/ai-projs/posp/Nexora/packages/policy/src/rbac.test.ts'
+ ❯ packages/policy/src/rbac.test.ts:3:1
+      1| import { describe, expect, it } from "vitest";
+      2|
+      3| import { canIssueHumanDecision, canRolePerform, requiresReviewForRisk …
+       | ^
+      4|
+      5| describe("policy rbac", () => {
+
+Caused by: Error: Failed to load url ./index.js (resolved id: ./index.js) in /Users/zq/Desktop/ai-projs/posp/Nexora/packages/policy/src/rbac.test.ts. Does the file exist?
+ ❯ loadAndTransform node_modules/.pnpm/vite@6.4.3_@types+node@22.20.1_tsx@4.23.12/node_modules/vite/dist/node/chunks/dep-Dm0c1Wj2.js:35835:17
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/4]⎯
+
+ FAIL  packages/policy/src/redaction.test.ts [ packages/policy/src/redaction.test.ts ]
+Error: Cannot find module './index.js' imported from '/Users/zq/Desktop/ai-projs/posp/Nexora/packages/policy/src/redaction.test.ts'
+ ❯ packages/policy/src/redaction.test.ts:3:1
+      1| import { describe, expect, it } from "vitest";
+      2|
+      3| import { createPolicyEvent, redactSecrets } from "./index.js";
+       | ^
+      4|
+      5| const SENTINEL = "nxr_live_secret_123456";
+
+Caused by: Error: Failed to load url ./index.js (resolved id: ./index.js) in /Users/zq/Desktop/ai-projs/posp/Nexora/packages/policy/src/rbac.test.ts. Does the file exist?
+ ❯ loadAndTransform node_modules/.pnpm/vite@6.4.3_@types+node@22.20.1_tsx@4.23.12/node_modules/vite/dist/node/chunks/dep-Dm0c1Wj2.js:35835:17
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/4]⎯
+
+ FAIL  packages/policy/src/scope.test.ts [ packages/policy/src/scope.test.ts ]
+Error: Cannot find package '@nexora/contracts' imported from '/Users/zq/Desktop/ai-projs/posp/Nexora/packages/policy/src/scope.test.ts'
+ ❯ packages/policy/src/scope.test.ts:2:1
+      1| import { describe, expect, it } from "vitest";
+      2| import { EventEnvelopeSchema, WorkspaceIdSchema } from "@nexora/contra…
+       | ^
+      3|
+      4| import { assertScope, createPolicyEvent } from "./index.js";
+
+Caused by: Error: Failed to load url @nexora/contracts (resolved id: @nexora/contracts) in /Users/zq/Desktop/ai-projs/posp/Nexora/packages/policy/src/scope.test.ts. Does the file exist?
+ ❯ loadAndTransform node_modules/.pnpm/vite@6.4.3_@types+node@22.20.1_tsx@4.23.12/node_modules/vite/dist/node/chunks/dep-Dm0c1Wj2.js:35835:17
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[4/4]⎯
+
+
+ Test Files  4 failed (4)
+      Tests  no tests
+   Start at  10:27:58
+   Duration  386ms (transform 88ms, setup 0ms, collect 0ms, tests 0ms, environment 1ms, prepare 299ms)
+
+/Users/zq/Desktop/ai-projs/posp/Nexora/packages/policy:
+ ERR_PNPM_RECURSIVE_RUN_FIRST_FAIL  @nexora/policy@0.1.0 test: `vitest --root ../.. packages/policy/src --run`
+Exit status 1
+ WARN   Local package.json exists, but node_modules missing, did you mean to install?

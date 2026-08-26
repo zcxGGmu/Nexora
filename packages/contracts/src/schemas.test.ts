@@ -8,8 +8,10 @@ import {
 const ID = "01ARZ3NDEKTSV4RRFFQ69G5FAV";
 const TIME = "2026-08-26T04:00:00.000Z";
 const meta = { id: ID, workspace_id: ID, schema_version: 1, created_at: TIME, updated_at: TIME };
+const policyDecision = { allowed: true, code: null, event_type: null, reason: "Allowed", required_action: "none", redactions: [] };
+const PAYLOAD_HASH = "sha256:0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef";
 const fixtures = {
-  agent: { ...meta, purpose: "Coordinate work", runtime: { kind: "local", adapter: "codex" }, model_policy: { allowed_models: ["gpt-5"], default_model: "gpt-5" }, memory_reads: [{ scope: "workspace" }], tools: { allow: ["read"], deny: ["deploy"] }, handoff_outputs: ["artifact"], requires_review: true, quality_gates: ["tests"] },
+  agent: { ...meta, purpose: "Coordinate work", role: "Agent", allowed_scopes: [{ kind: "workspace", id: ID }], runtime: { kind: "local", adapter: "codex" }, model_policy: { allowed_models: ["gpt-5"], default_model: "gpt-5" }, memory_reads: [{ scope: "workspace" }], tools: { allow: ["memory:read", "connector:execute"], deny: ["workspace:admin"] }, handoff_outputs: ["artifact"], requires_review: true, quality_gates: ["tests"] },
   goal: { ...meta, title: "Ship C01", objective: "Define contracts", definition_of_done: ["tests pass"] },
   ticket: { ...meta, goal_id: ID, status: "ready", definition_of_done: ["schema published"], assigned_agents: [ID], approval_policy: { mode: "required" }, idempotency_key: "ticket-c01" },
   run: { ...meta, ticket_id: ID, execution_location: "local", status: "queued", budget: { max_tokens: 1000, max_cost_usd: 1 }, memory_snapshot: { snapshot_id: ID, version: 1 }, connector_versions: { github: "1.0.0" } },
@@ -17,8 +19,8 @@ const fixtures = {
   step: { ...meta, run_id: ID, attempt_id: ID, agent_id: ID, status: "pending", inputs: ["input://request"], outputs: ["output://result"], retry_policy: { max_attempts: 1, backoff_ms: 0 }, requires_review: false },
   artifact: { ...meta, type: "report", status: "verified", source_ticket: ID, source_run: ID, version: 1, visibility: "workspace", content_ref: "artifact://c01", evidence_refs: ["evidence://tests"] },
   receipt: { ...meta, run_id: ID, inputs: ["input://request"], tool_calls: [{ tool: "pnpm", status: "succeeded" }], validation_results: [{ gate: "tests", passed: true }], unverified_items: [], side_effects: [{ kind: "file_write", reference: "packages/contracts" }] },
-  review: { ...meta, artifact_id: ID, artifact_version: 1, review_version: 1, judge_result: "pass", human_decision: "approved_with_edits", reviewer_id: ID, reason: "Meets gates", approved_payload_hash: "sha256:abc" },
-  connector: { id: "github", version: "1.0.0", risk_level: "R1", data_classification: "internal", input_schema: { schema_version: 1, name: "github.input" }, output_schema: { schema_version: 1, name: "github.output" }, supports_idempotency: true, supports_dry_run: true, timeout_seconds: 30, retry: { max_attempts: 3, backoff_ms: 100 }, rollback: "supported", requires_review: false },
+  review: { ...meta, artifact_id: ID, artifact_version: 1, review_version: 1, judge_result: "pass", human_decision: "approved_with_edits", reviewer_id: ID, reviewer_role: "Reviewer", reason: "Meets gates", approved_payload_hash: PAYLOAD_HASH, risk_level: "R3", policy_decision: policyDecision },
+  connector: { id: "github", version: "1.0.0", risk_level: "R1", data_classification: "internal", allowed_scopes: [{ kind: "workspace", id: ID }], egress: { execution_location: "remote", provider: "github", region: "us", allowed_providers: ["github"], allowed_regions: ["us"], minimal_snapshot_required: true }, input_schema: { schema_version: 1, name: "github.input" }, output_schema: { schema_version: 1, name: "github.output" }, supports_idempotency: true, supports_dry_run: true, timeout_seconds: 30, retry: { max_attempts: 3, backoff_ms: 100 }, rollback: "supported", requires_review: false },
 } as const;
 
 describe("persisted domain schemas", () => {
@@ -52,9 +54,18 @@ describe("persisted domain schemas", () => {
     for (const status of ["draft", "verified", "approved", "published", "superseded", "side_effect_unknown"] as const) {
       expect(ArtifactSchema.safeParse({ ...fixtures.artifact, status }).success).toBe(true);
     }
-    for (const decision of ["approved", "rejected", "changes_requested", "approved_with_edits", "pending"] as const) {
-      expect(ReviewDecisionSchema.safeParse({ ...fixtures.review, human_decision: decision }).success).toBe(true);
+    expect(ReviewDecisionSchema.safeParse({ ...fixtures.review, human_decision: "approved" }).success).toBe(true);
+    expect(ReviewDecisionSchema.safeParse({ ...fixtures.review, human_decision: "approved_with_edits" }).success).toBe(true);
+    for (const decision of ["rejected", "changes_requested", "pending"] as const) {
+      expect(ReviewDecisionSchema.safeParse({ ...fixtures.review, human_decision: decision, approved_payload_hash: null }).success).toBe(true);
     }
+  });
+
+  it("rejects invalid persisted R3 approval states", () => {
+    expect(ReviewDecisionSchema.safeParse({ ...fixtures.review, reviewer_role: "Agent" }).success).toBe(false);
+    expect(ReviewDecisionSchema.safeParse({ ...fixtures.review, approved_payload_hash: null }).success).toBe(false);
+    expect(ReviewDecisionSchema.safeParse({ ...fixtures.review, human_decision: "pending", approved_payload_hash: PAYLOAD_HASH }).success).toBe(false);
+    expect(ReviewDecisionSchema.safeParse({ ...fixtures.review, approved_payload_hash: "sha256:new" }).success).toBe(false);
   });
 
   it("rejects unknown top-level and known nested fields", () => {

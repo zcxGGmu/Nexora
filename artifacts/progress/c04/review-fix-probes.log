@@ -1,0 +1,26 @@
+{
+  "forged": {
+    "allowed": false,
+    "code": "POLICY_REVIEW_REQUIRED",
+    "event_type": "policy.denied",
+    "reason": "Reviewer role cannot approve connector risk",
+    "required_action": "request_human_reviewer",
+    "redactions": []
+  },
+  "file": {
+    "allowed": false,
+    "code": "POLICY_DENIED",
+    "event_type": "policy.denied",
+    "reason": "Egress target is not allowed",
+    "required_action": "choose_allowed_target",
+    "redactions": []
+  },
+  "ipv6": {
+    "allowed": false,
+    "code": "POLICY_DENIED",
+    "event_type": "policy.denied",
+    "reason": "Egress target is not allowed",
+    "required_action": "choose_allowed_target",
+    "redactions": []
+  }
+}

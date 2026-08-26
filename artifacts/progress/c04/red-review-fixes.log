@@ -1,0 +1,133 @@
+.                                        |  WARN  Unsupported engine: wanted: {"node":">=22.13.0 <23.0.0"} (current: {"node":"v25.9.0","pnpm":"10.10.0"})
+
+> @nexora/policy@0.1.0 test /Users/zq/Desktop/ai-projs/posp/Nexora/packages/policy
+> vitest --root ../.. packages/policy/src --run
+
+
+ RUN  v3.2.7 /Users/zq/Desktop/ai-projs/posp/Nexora
+
+ ✓ packages/policy/src/rbac.test.ts (3 tests) 4ms
+ ✓ packages/policy/src/scope.test.ts (3 tests) 9ms
+ ❯ packages/policy/src/redaction.test.ts (3 tests | 1 failed) 16ms
+   ✓ policy redaction > Given secret sentinel values When redacted Then logs and previews cannot contain the sentinel 1ms
+   ✓ policy redaction > Given a redaction decision When an event is created Then the event payload does not leak secrets 2ms
+   × policy redaction > Given cyclic data When redacted Then traversal terminates safely 12ms
+     → Maximum call stack size exceeded
+ ❯ packages/policy/src/egress.test.ts (7 tests | 3 failed) 15ms
+   ✓ policy egress > Given remote restricted data When minimal snapshot is absent Then egress is denied 1ms
+   ✓ policy egress > Given local internal data When provider and region are allowed Then egress is allowed 0ms
+   ✓ policy egress > rejects unsafe egress target http://169.254.169.254/latest/meta-data 0ms
+   ✓ policy egress > rejects unsafe egress target https://example.com/../../secret 0ms
+   × policy egress > rejects unsafe egress target file:///etc/passwd 11ms
+     → expected { allowed: true, …(2) } to match object { allowed: false, …(1) }
+(2 matching properties omitted from actual)
+   × policy egress > rejects unsafe egress target ftp://example.com/resource 1ms
+     → expected { allowed: true, …(2) } to match object { allowed: false, …(1) }
+(2 matching properties omitted from actual)
+   × policy egress > rejects unsafe egress target http://[::1]/ 1ms
+     → expected { allowed: true, …(2) } to match object { allowed: false, …(1) }
+(2 matching properties omitted from actual)
+ ❯ packages/policy/src/risk.test.ts (5 tests | 2 failed) 19ms
+   ✓ policy risk > Given R3 connector without approval When risk is evaluated Then human review is required 3ms
+   ✓ policy risk > Given stale approval When payload hash changes Then execution is denied 0ms
+   × policy risk > Given forged Agent approval When R3 risk is evaluated Then execution is denied 13ms
+     → expected { allowed: true, …(2) } to match object { allowed: false, …(1) }
+(2 matching properties omitted from actual)
+   × policy risk > Given R3 approval without payload hash When risk is evaluated Then execution is denied 1ms
+     → expected { allowed: true, …(2) } to match object { allowed: false, …(1) }
+(2 matching properties omitted from actual)
+   ✓ policy risk > Given matching approval When R3 risk is evaluated Then execution can continue 0ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 6 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  packages/policy/src/egress.test.ts > policy egress > rejects unsafe egress target file:///etc/passwd
+ FAIL  packages/policy/src/egress.test.ts > policy egress > rejects unsafe egress target ftp://example.com/resource
+ FAIL  packages/policy/src/egress.test.ts > policy egress > rejects unsafe egress target http://[::1]/
+AssertionError: expected { allowed: true, …(2) } to match object { allowed: false, …(1) }
+(2 matching properties omitted from actual)
+
+- Expected
++ Received
+
+  {
+-   "allowed": false,
+-   "code": "POLICY_DENIED",
++   "allowed": true,
+  }
+
+ ❯ packages/policy/src/egress.test.ts:54:22
+     52|
+     53|     // Then
+     54|     expect(decision).toMatchObject({ allowed: false, code: "POLICY_DEN…
+       |                      ^
+     55|   });
+     56| });
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/6]⎯
+
+ FAIL  packages/policy/src/redaction.test.ts > policy redaction > Given cyclic data When redacted Then traversal terminates safely
+RangeError: Maximum call stack size exceeded
+ ❯ redactString packages/policy/src/redaction.ts:27:10
+     25| }
+     26|
+     27| function redactString(value: string, path: string, secrets: readonly s…
+       |          ^
+     28|   let redacted = value;
+     29|   for (const secret of secrets) {
+ ❯ redactValue packages/policy/src/redaction.ts:21:41
+ ❯ redactRecord packages/policy/src/redaction.ts:49:20
+ ❯ redactValue packages/policy/src/redaction.ts:23:31
+ ❯ redactRecord packages/policy/src/redaction.ts:49:20
+ ❯ redactValue packages/policy/src/redaction.ts:23:31
+ ❯ redactRecord packages/policy/src/redaction.ts:49:20
+ ❯ redactValue packages/policy/src/redaction.ts:23:31
+ ❯ redactRecord packages/policy/src/redaction.ts:49:20
+ ❯ redactValue packages/policy/src/redaction.ts:23:31
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/6]⎯
+
+ FAIL  packages/policy/src/risk.test.ts > policy risk > Given forged Agent approval When R3 risk is evaluated Then execution is denied
+AssertionError: expected { allowed: true, …(2) } to match object { allowed: false, …(1) }
+(2 matching properties omitted from actual)
+
+- Expected
++ Received
+
+  {
+-   "allowed": false,
+-   "code": "POLICY_REVIEW_REQUIRED",
++   "allowed": true,
+  }
+
+ ❯ packages/policy/src/risk.test.ts:17:221
+
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/6]⎯
+
+ FAIL  packages/policy/src/risk.test.ts > policy risk > Given R3 approval without payload hash When risk is evaluated Then execution is denied
+AssertionError: expected { allowed: true, …(2) } to match object { allowed: false, …(1) }
+(2 matching properties omitted from actual)
+
+- Expected
++ Received
+
+  {
+-   "allowed": false,
+-   "code": "POLICY_REVIEW_REQUIRED",
++   "allowed": true,
+  }
+
+ ❯ packages/policy/src/risk.test.ts:21:213
+
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[4/6]⎯
+
+
+ Test Files  3 failed | 2 passed (5)
+      Tests  6 failed | 15 passed (21)
+   Start at  10:45:33
+   Duration  528ms (transform 175ms, setup 0ms, collect 647ms, tests 63ms, environment 1ms, prepare 458ms)
+
+/Users/zq/Desktop/ai-projs/posp/Nexora/packages/policy:
+ ERR_PNPM_RECURSIVE_RUN_FIRST_FAIL  @nexora/policy@0.1.0 test: `vitest --root ../.. packages/policy/src --run`
+Exit status 1
