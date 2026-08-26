@@ -14,6 +14,7 @@ describe("error semantics", () => {
     expect(ERROR_CODES).toEqual([
       "AUTH_EXPIRED",
       "SCOPE_DENIED",
+      "POLICY_DENIED",
       "POLICY_REVIEW_REQUIRED",
       "RATE_LIMITED",
       "CONNECTOR_TIMEOUT",

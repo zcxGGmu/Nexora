@@ -1,0 +1,15 @@
+.                                        |  WARN  Unsupported engine: wanted: {"node":">=22.13.0 <23.0.0"} (current: {"node":"v25.9.0","pnpm":"10.10.0"})
+
+> @nexora/persistence@0.1.0 test /Users/zq/Desktop/ai-projs/posp/Nexora/packages/persistence
+> vitest --root ../.. packages/persistence/src --run
+
+
+ RUN  v3.2.7 /Users/zq/Desktop/ai-projs/posp/Nexora
+
+ ✓ packages/persistence/src/schema.test.ts (3 tests) 22ms
+ ✓ packages/persistence/src/repositories.test.ts (3 tests) 88ms
+
+ Test Files  2 passed (2)
+      Tests  6 passed (6)
+   Start at  11:14:56
+   Duration  1.92s (transform 250ms, setup 0ms, collect 715ms, tests 111ms, environment 0ms, prepare 434ms)

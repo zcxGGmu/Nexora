@@ -1,0 +1,7 @@
+ WARN  Unsupported engine: wanted: {"node":">=22.13.0 <23.0.0"} (current: {"node":"v25.9.0","pnpm":"10.10.0"})
+Scope: all 10 workspace projects
+Progress: resolved 0, reused 1, downloaded 0, added 0
+Already up to date
+Progress: resolved 192, reused 117, downloaded 0, added 0, done
+
+Done in 715ms using pnpm v10.10.0

@@ -1,0 +1,43 @@
+{
+  "apiDecision": {
+    "allowed": false,
+    "code": "SCOPE_DENIED",
+    "event_type": "scope.denied",
+    "reason": "api denied requested scope",
+    "required_action": "request_authorized_scope",
+    "redactions": []
+  },
+  "workerDecision": {
+    "allowed": false,
+    "code": "SCOPE_DENIED",
+    "event_type": "scope.denied",
+    "reason": "worker denied requested scope",
+    "required_action": "request_authorized_scope",
+    "redactions": []
+  },
+  "connectorDecision": {
+    "allowed": false,
+    "code": "POLICY_REVIEW_REQUIRED",
+    "event_type": "policy.denied",
+    "reason": "Connector requires human review",
+    "required_action": "request_review",
+    "redactions": []
+  },
+  "forged": {
+    "allowed": false,
+    "code": "POLICY_REVIEW_REQUIRED",
+    "event_type": "policy.denied",
+    "reason": "Approval is not a valid approved human decision",
+    "required_action": "request_review",
+    "redactions": []
+  },
+  "ipv6": {
+    "allowed": false,
+    "code": "POLICY_DENIED",
+    "event_type": "policy.denied",
+    "reason": "Egress target is not allowed",
+    "required_action": "choose_allowed_target",
+    "redactions": []
+  },
+  "externalCalls": 0
+}

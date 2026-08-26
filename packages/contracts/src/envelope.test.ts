@@ -30,7 +30,7 @@ describe("event envelope", () => {
     expect(EVENT_TYPES).toEqual(expect.arrayContaining([
       "run.created", "step.started", "tool.called", "artifact.created",
       "judge.completed", "review.decided", "run.paused", "run.resumed",
-      "run.failed", "run.completed",
+      "run.failed", "run.completed", "scope.denied", "policy.denied", "secret.redacted",
     ]));
   });
 

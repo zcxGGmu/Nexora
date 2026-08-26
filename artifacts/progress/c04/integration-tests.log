@@ -1,0 +1,14 @@
+ WARN  Unsupported engine: wanted: {"node":">=22.13.0 <23.0.0"} (current: {"node":"v25.9.0","pnpm":"10.10.0"})
+
+> nexora@0.1.0 test:integration /Users/zq/Desktop/ai-projs/posp/Nexora
+> vitest run --passWithNoTests tests/integration
+
+
+ RUN  v3.2.7 /Users/zq/Desktop/ai-projs/posp/Nexora
+
+ ✓ tests/integration/policy-boundary.test.ts (3 tests) 2ms
+
+ Test Files  1 passed (1)
+      Tests  3 passed (3)
+   Start at  11:19:27
+   Duration  738ms (transform 101ms, setup 0ms, collect 152ms, tests 2ms, environment 0ms, prepare 81ms)
