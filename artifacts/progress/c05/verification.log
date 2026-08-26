@@ -1,0 +1,12 @@
+2026-08-26 C05 verification
+
+- pnpm install --lockfile-only: PASS; workspace lockfile includes @nexora/orchestration.
+- pnpm install: PASS (Node 25.9.0 host emitted the existing Node 22 engine warning).
+- pnpm typecheck: PASS.
+- pnpm test --run: PASS, 23 files / 170 tests.
+- pnpm test:integration: PASS, 2 files / 4 tests.
+- pnpm --filter @nexora/orchestration test --run: PASS, 9 tests.
+- pnpm vitest run apps/worker/src/worker-loop.test.ts: PASS, 3 tests.
+- pnpm audit --prod --audit-level=high: PASS; no known vulnerabilities.
+- Final review fixes verified: requestCancel is transaction/CAS protected; queue completion and retry are atomic with lease release; retry preserves failed Step and creates a new Attempt/Step; malformed budget/retry timing is rejected; exhausted recovery candidates are not resumable.
+- git diff --check: PASS for implementation/evidence files; pre-existing task-file trailing whitespace remains outside the C05 commit.

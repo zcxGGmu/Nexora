@@ -9,6 +9,10 @@ const ATTEMPT_ID = "01CRZ3NDEKTSV4RRFFQ69G5FAV";
 const STEP_ID = "01DRZ3NDEKTSV4RRFFQ69G5FAV";
 const TRACE_ID = "01ERZ3NDEKTSV4RRFFQ69G5FAV";
 const SYSTEM_ID = "01FRZ3NDEKTSV4RRFFQ69G5FAV";
+const FENCED_STEP_ID = "01GRZ3NDEKTSV4RRFFQ69G5FAV";
+const FENCED_ATTEMPT_ID = "01HRZ3NDEKTSV4RRFFQ69H5FAV";
+const JOB_ID = "01JRZ3NDEKTSV4RRFFQ69J5FAV";
+const LEASE_ID = "01KRZ3NDEKTSV4RRFFQ69K5FAV";
 const TIME = "2026-08-26T04:00:00.000Z";
 
 function seedRun(database: ReturnType<typeof openDatabase>): void {
@@ -38,6 +42,24 @@ function event(sequence: number, eventId: string): EventEnvelope {
 }
 
 describe("EventStore append", () => {
+  it("Given a current lease When appending a fenced event Then a stale lease cannot write after takeover", () => {
+    const database = openDatabase(":memory:");
+    migrate(database);
+    seedRun(database);
+    database.prepare("INSERT INTO agents(id, workspace_id, payload_json, schema_version, created_at, updated_at) VALUES (?, ?, ?, 1, ?, ?)").run(SYSTEM_ID, WORKSPACE_ID, "{}", TIME, TIME);
+    database.prepare("INSERT INTO attempts(id, workspace_id, run_id, status, payload_json, schema_version, created_at, updated_at) VALUES (?, ?, ?, 'queued', ?, 1, ?, ?)").run(FENCED_ATTEMPT_ID, WORKSPACE_ID, RUN_ID, "{}", TIME, TIME);
+    database.prepare("INSERT INTO steps(id, workspace_id, run_id, attempt_id, agent_id, status, payload_json, schema_version, created_at, updated_at) VALUES (?, ?, ?, ?, ?, 'pending', ?, 1, ?, ?)").run(FENCED_STEP_ID, WORKSPACE_ID, RUN_ID, FENCED_ATTEMPT_ID, SYSTEM_ID, "{}", TIME, TIME);
+    database.prepare("INSERT INTO queue_jobs(id, workspace_id, run_id, step_id, idempotency_key, request_hash, status, available_at, attempts, max_attempts, fencing_token, payload_json, created_at, updated_at) VALUES (?, ?, ?, ?, ?, ?, 'leased', ?, 1, 3, 1, ?, ?, ?)").run(JOB_ID, WORKSPACE_ID, RUN_ID, FENCED_STEP_ID, "event:fenced", "sha256:event", TIME, "{}", TIME, TIME);
+    database.prepare("INSERT INTO leases(lease_id, workspace_id, job_id, run_id, step_id, worker_id, fencing_token, status, heartbeat_at, expires_at, created_at, updated_at) VALUES (?, ?, ?, ?, ?, ?, 1, 'active', ?, ?, ?, ?)").run(LEASE_ID, WORKSPACE_ID, JOB_ID, RUN_ID, FENCED_STEP_ID, "worker-a", TIME, "2026-08-26T04:00:30.000Z", TIME, TIME);
+    const store = new EventStore(database, { now: () => TIME });
+    const fenced = EventEnvelopeSchema.parse({ ...event(0, "01SRZ3NDEKTSV4RRFFQ69S5FAV"), attempt_id: FENCED_ATTEMPT_ID, step_id: FENCED_STEP_ID });
+    const token = { workspace_id: WORKSPACE_ID, job_id: JOB_ID, run_id: RUN_ID, step_id: FENCED_STEP_ID, lease_id: LEASE_ID, fencing_token: 1 };
+    expect(store.appendFenced(fenced, -1, token)).toEqual(fenced);
+    database.prepare("UPDATE leases SET status = 'expired' WHERE lease_id = ?").run(LEASE_ID);
+    expect(() => store.appendFenced(EventEnvelopeSchema.parse({ ...fenced, event_id: "01TRZ3NDEKTSV4RRFFQ69T5FAV", sequence: 1 }), 0, token)).toThrowError(EventStoreError);
+    database.close();
+  });
+
   it("Given ordered events When appending Then it stores immutable events and advances sequence", () => {
     const database = openDatabase(":memory:");
     migrate(database);

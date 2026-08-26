@@ -1,0 +1,4 @@
+2026-08-26 C05 migration smoke
+
+Command: NEXORA_DATA_DIR=$(mktemp -d) pnpm db:migrate; sqlite inspection of the created database.
+Result: PASS; schema_migrations contains [1, 2, 3] and the new durable tables are [leases, queue_jobs].

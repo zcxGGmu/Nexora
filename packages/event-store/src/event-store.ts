@@ -4,7 +4,16 @@ import { decodeEventCursor, encodeEventCursor } from "./cursor.js";
 
 export const EVENT_CURSOR_EXPIRED = "EVENT_CURSOR_EXPIRED";
 
-export type EventStoreErrorCode = "EVENT_CURSOR_EXPIRED" | "EVENT_DUPLICATE" | "EVENT_LIMIT_INVALID" | "EVENT_SCOPE_MISMATCH" | "EVENT_SEQUENCE_CONFLICT";
+export type EventStoreErrorCode = "EVENT_CURSOR_EXPIRED" | "EVENT_DUPLICATE" | "EVENT_LIMIT_INVALID" | "EVENT_SCOPE_MISMATCH" | "EVENT_SEQUENCE_CONFLICT" | "EVENT_STALE_LEASE";
+
+export type EventLeaseToken = {
+  readonly workspace_id: string;
+  readonly job_id: string;
+  readonly run_id: string;
+  readonly step_id: string;
+  readonly lease_id: string;
+  readonly fencing_token: number;
+};
 
 export class EventStoreError extends Error {
   readonly code: EventStoreErrorCode;
@@ -38,21 +47,16 @@ export class EventStore {
       throw new EventStoreError("EVENT_SCOPE_MISMATCH", "Event scope must match its run");
     }
 
-    return withTransaction(this.database, () => {
-      const currentSequence = this.currentSequence(parsed.workspace_id, parsed.run_id);
-      if (currentSequence !== expectedSequence) {
-        throw new EventStoreError("EVENT_SEQUENCE_CONFLICT", "Expected sequence does not match current run sequence");
-      }
-      if (parsed.sequence !== currentSequence + 1) {
-        throw new EventStoreError("EVENT_SEQUENCE_CONFLICT", "Event sequence must be the next run sequence");
-      }
+    return withTransaction(this.database, () => this.appendParsed(parsed, expectedSequence));
+  }
 
-      try {
-        this.database.prepare("INSERT INTO events(event_id, workspace_id, run_id, sequence, event_type, occurred_at, received_at, trace_id, attempt_id, step_id, payload_json, schema_version) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)").run(parsed.event_id, parsed.workspace_id, parsed.run_id, parsed.sequence, parsed.event_type, parsed.occurred_at, this.clock.now(), parsed.trace_id, parsed.attempt_id, parsed.step_id, JSON.stringify(parsed), parsed.schema_version);
-      } catch (error) {
-        throw eventStoreSqliteError(error);
-      }
-      return parsed;
+  appendFenced(event: EventEnvelope, expectedSequence: number, lease: EventLeaseToken): EventEnvelope {
+    const parsed = EventEnvelopeSchema.parse(event);
+    if (parsed.workspace_id !== lease.workspace_id || parsed.run_id !== lease.run_id || parsed.step_id !== lease.step_id) throw new EventStoreError("EVENT_STALE_LEASE", "Event does not match the leased step");
+    return withTransaction(this.database, () => {
+      const leaseRow = this.database.prepare("SELECT job_id, run_id, step_id, fencing_token, status, expires_at FROM leases WHERE workspace_id = ? AND lease_id = ?").get(lease.workspace_id, lease.lease_id);
+      if (leaseRow === undefined || readText(leaseRow["job_id"]) !== lease.job_id || readText(leaseRow["run_id"]) !== lease.run_id || readText(leaseRow["step_id"]) !== lease.step_id || readInteger(leaseRow["fencing_token"]) !== lease.fencing_token || readText(leaseRow["status"]) !== "active" || readText(leaseRow["expires_at"]) <= this.clock.now()) throw new EventStoreError("EVENT_STALE_LEASE", "Event write was rejected by fencing");
+      return this.appendParsed(parsed, expectedSequence);
     });
   }
 
@@ -78,6 +82,17 @@ export class EventStore {
     const value = row?.["sequence"];
     if (value === null || value === undefined) return -1;
     return readInteger(value);
+  }
+
+  private appendParsed(parsed: EventEnvelope, expectedSequence: number): EventEnvelope {
+    const currentSequence = this.currentSequence(parsed.workspace_id, parsed.run_id);
+    if (currentSequence !== expectedSequence || parsed.sequence !== currentSequence + 1) throw new EventStoreError("EVENT_SEQUENCE_CONFLICT", "Event sequence must be the next run sequence");
+    try {
+      this.database.prepare("INSERT INTO events(event_id, workspace_id, run_id, sequence, event_type, occurred_at, received_at, trace_id, attempt_id, step_id, payload_json, schema_version) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)").run(parsed.event_id, parsed.workspace_id, parsed.run_id, parsed.sequence, parsed.event_type, parsed.occurred_at, this.clock.now(), parsed.trace_id, parsed.attempt_id, parsed.step_id, JSON.stringify(parsed), parsed.schema_version);
+    } catch (error) {
+      throw eventStoreSqliteError(error);
+    }
+    return parsed;
   }
 
   private afterSequence(input: ListEventsInput): number {

@@ -12,7 +12,9 @@ export const CORE_TABLES = [
   "idempotency_records",
   "events",
   "projection_checkpoints",
+  "queue_jobs",
+  "leases",
 ] as const;
 
 export type CoreTable = (typeof CORE_TABLES)[number];
-export const CORE_MIGRATION_VERSION = 2;
+export const CORE_MIGRATION_VERSION = 3;

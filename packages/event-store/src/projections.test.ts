@@ -2,7 +2,7 @@ import { describe, expect, it } from "vitest";
 import { EventEnvelopeSchema, type EventEnvelope } from "@nexora/contracts";
 import { migrate, openDatabase } from "@nexora/persistence";
 import { EventStore } from "./event-store.js";
-import { PROJECTION_NAMES, ProjectionStore } from "./projections.js";
+import { isOrchestrationEventType, PROJECTION_NAMES, ProjectionStore } from "./projections.js";
 
 const WORKSPACE_ID = "01ARZ3NDEKTSV4RRFFQ69G5FAV";
 const RUN_ID = "01BRZ3NDEKTSV4RRFFQ69G5FAV";
@@ -37,6 +37,12 @@ function runEvent(sequence: number, eventId: string, eventType: EventEnvelope["e
 }
 
 describe("ProjectionStore", () => {
+  it("recognizes orchestration facts without changing the existing read projection set", () => {
+    expect(isOrchestrationEventType("lease.acquired")).toBe(true);
+    expect(isOrchestrationEventType("step.retry_scheduled")).toBe(true);
+    expect(isOrchestrationEventType("run.created")).toBe(false);
+  });
+
   it("Given raw events When rebuilding Then all projection checkpoints reach the last event", () => {
     const database = openDatabase(":memory:");
     migrate(database);

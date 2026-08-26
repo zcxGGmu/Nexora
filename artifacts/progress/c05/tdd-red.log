@@ -1,0 +1,5 @@
+2026-08-26 C05 RED
+
+Command: pnpm vitest run packages/persistence/src/orchestration-schema.test.ts
+Result: FAIL (expected CORE_MIGRATION_VERSION 3, received 2)
+Meaning: the durable queue/lease migration was not yet registered; failure was the intended missing C05 boundary.

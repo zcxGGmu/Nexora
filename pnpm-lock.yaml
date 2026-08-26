@@ -56,6 +56,15 @@ importers:
       '@nexora/config':
         specifier: workspace:*
         version: link:../../packages/config
+      '@nexora/contracts':
+        specifier: workspace:*
+        version: link:../../packages/contracts
+      '@nexora/orchestration':
+        specifier: workspace:*
+        version: link:../../packages/orchestration
+      '@nexora/persistence':
+        specifier: workspace:*
+        version: link:../../packages/persistence
 
   packages/config:
     dependencies:
@@ -89,6 +98,15 @@ importers:
       zod:
         specifier: ^3.24.3
         version: 3.25.76
+
+  packages/orchestration:
+    dependencies:
+      '@nexora/contracts':
+        specifier: workspace:*
+        version: link:../contracts
+      '@nexora/persistence':
+        specifier: workspace:*
+        version: link:../persistence
 
   packages/persistence:
     dependencies:
