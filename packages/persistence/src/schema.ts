@@ -10,7 +10,9 @@ export const CORE_TABLES = [
   "receipts",
   "review_decisions",
   "idempotency_records",
+  "events",
+  "projection_checkpoints",
 ] as const;
 
 export type CoreTable = (typeof CORE_TABLES)[number];
-export const CORE_MIGRATION_VERSION = 1;
+export const CORE_MIGRATION_VERSION = 2;

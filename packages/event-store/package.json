@@ -1,0 +1,17 @@
+{
+  "name": "@nexora/event-store",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "scripts": {
+    "test": "vitest --root ../.. packages/event-store/src"
+  },
+  "dependencies": {
+    "@nexora/contracts": "workspace:*",
+    "@nexora/persistence": "workspace:*",
+    "zod": "^3.24.3"
+  }
+}

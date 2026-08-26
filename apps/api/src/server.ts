@@ -7,11 +7,9 @@ import {
   parseEnvironment,
 } from "@nexora/config";
 
-import { registerHealthRoute } from "./routes/health.js";
+import { registerHealthRoute, type HealthRouteOptions } from "./routes/health.js";
 
-export type ApiServerOptions = {
-  readonly version: string;
-};
+export type ApiServerOptions = HealthRouteOptions;
 
 export function createApiServer(options: ApiServerOptions): FastifyInstance {
   const app = Fastify({ logger: true });

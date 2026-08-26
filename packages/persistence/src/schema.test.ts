@@ -8,12 +8,14 @@ describe("core SQLite migration", () => {
 
     const tables = database.prepare("SELECT name FROM sqlite_master WHERE type = 'table'").all().map((row) => row["name"]);
     expect(tables).toEqual(expect.arrayContaining(["schema_migrations", ...CORE_TABLES]));
+    expect(tables).toEqual(expect.arrayContaining(["events", "projection_checkpoints"]));
     expect(database.prepare("PRAGMA foreign_keys").get()?.["foreign_keys"]).toBe(1);
-    expect(database.prepare("SELECT version FROM schema_migrations").get()?.["version"]).toBe(1);
-    expect(database.prepare("SELECT applied_at FROM schema_migrations").get()?.["applied_at"]).toBe("2026-08-26T04:00:00.000Z");
+    expect(database.prepare("PRAGMA recursive_triggers").get()?.["recursive_triggers"]).toBe(1);
+    expect(database.prepare("SELECT version FROM schema_migrations ORDER BY version").all().map((row) => row["version"])).toEqual([1, 2]);
+    expect(database.prepare("SELECT DISTINCT applied_at FROM schema_migrations").all().map((row) => row["applied_at"])).toEqual(["2026-08-26T04:00:00.000Z"]);
 
     migrate(database, { now: () => "2026-08-26T04:00:00.000Z" });
-    expect(database.prepare("SELECT COUNT(*) AS count FROM schema_migrations").get()?.["count"]).toBe(1);
+    expect(database.prepare("SELECT COUNT(*) AS count FROM schema_migrations").get()?.["count"]).toBe(2);
 
     rollback(database);
     const remaining = database.prepare("SELECT name FROM sqlite_master WHERE type = 'table'").all();
@@ -23,7 +25,7 @@ describe("core SQLite migration", () => {
 
   it("validates an applied migration without applying it", () => {
     const database = openDatabase(":memory:");
-    expect(() => validateMigration(database)).toThrow("migration 1 is not applied");
+    expect(() => validateMigration(database)).toThrow("migration 2 is not applied");
     migrate(database);
     expect(() => validateMigration(database)).not.toThrow();
     database.close();

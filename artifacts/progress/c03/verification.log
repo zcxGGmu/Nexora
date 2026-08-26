@@ -1,0 +1,160 @@
+# C03 verification 2026-08-26T01:32:55Z
+$ pnpm install --frozen-lockfile
+ WARN  Unsupported engine: wanted: {"node":">=22.13.0 <23.0.0"} (current: {"node":"v25.9.0","pnpm":"10.10.0"})
+Scope: all 9 workspace projects
+Lockfile is up to date, resolution step is skipped
+Already up to date
+
+Done in 338ms using pnpm v10.10.0
+$ pnpm --filter @nexora/contracts test --run
+.                                        |  WARN  Unsupported engine: wanted: {"node":">=22.13.0 <23.0.0"} (current: {"node":"v25.9.0","pnpm":"10.10.0"})
+
+> @nexora/contracts@0.1.0 test /Users/zq/Desktop/ai-projs/posp/Nexora/packages/contracts
+> vitest --root ../.. packages/contracts/src --run
+
+
+ RUN  v3.2.7 /Users/zq/Desktop/ai-projs/posp/Nexora
+
+ ✓ packages/contracts/src/ids.test.ts (7 tests) 3ms
+ ✓ packages/contracts/src/errors.test.ts (6 tests) 4ms
+ ✓ packages/contracts/src/envelope.test.ts (22 tests) 5ms
+ ✓ packages/contracts/src/schemas.test.ts (37 tests) 8ms
+
+ Test Files  4 passed (4)
+      Tests  72 passed (72)
+   Start at  09:32:57
+   Duration  477ms (transform 119ms, setup 0ms, collect 378ms, tests 20ms, environment 1ms, prepare 281ms)
+
+$ pnpm --filter @nexora/event-store test --run
+.                                        |  WARN  Unsupported engine: wanted: {"node":">=22.13.0 <23.0.0"} (current: {"node":"v25.9.0","pnpm":"10.10.0"})
+
+> @nexora/event-store@0.1.0 test /Users/zq/Desktop/ai-projs/posp/Nexora/packages/event-store
+> vitest --root ../.. packages/event-store/src --run
+
+
+ RUN  v3.2.7 /Users/zq/Desktop/ai-projs/posp/Nexora
+
+ ✓ packages/event-store/src/event-store.test.ts (2 tests) 10ms
+ ✓ packages/event-store/src/cursor.test.ts (4 tests) 11ms
+ ✓ packages/event-store/src/projections.test.ts (2 tests) 9ms
+
+ Test Files  3 passed (3)
+      Tests  8 passed (8)
+   Start at  09:32:58
+   Duration  458ms (transform 109ms, setup 0ms, collect 370ms, tests 29ms, environment 0ms, prepare 191ms)
+
+$ pnpm --filter @nexora/persistence test --run
+.                                        |  WARN  Unsupported engine: wanted: {"node":">=22.13.0 <23.0.0"} (current: {"node":"v25.9.0","pnpm":"10.10.0"})
+
+> @nexora/persistence@0.1.0 test /Users/zq/Desktop/ai-projs/posp/Nexora/packages/persistence
+> vitest --root ../.. packages/persistence/src --run
+
+
+ RUN  v3.2.7 /Users/zq/Desktop/ai-projs/posp/Nexora
+
+ ✓ packages/persistence/src/schema.test.ts (3 tests) 9ms
+ ✓ packages/persistence/src/repositories.test.ts (3 tests) 12ms
+
+ Test Files  2 passed (2)
+      Tests  6 passed (6)
+   Start at  09:33:00
+   Duration  497ms (transform 118ms, setup 0ms, collect 246ms, tests 20ms, environment 0ms, prepare 152ms)
+
+$ pnpm exec vitest run apps/api/src/routes/health.test.ts
+
+ RUN  v3.2.7 /Users/zq/Desktop/ai-projs/posp/Nexora
+
+{"level":30,"time":1787707981849,"pid":26468,"hostname":"zqdeMacBook-Air.local","reqId":"req-1","req":{"method":"GET","url":"/v1/health","host":"localhost:80","remoteAddress":"127.0.0.1"},"msg":"incoming request"}
+{"level":30,"time":1787707981857,"pid":26468,"hostname":"zqdeMacBook-Air.local","reqId":"req-1","req":{"method":"GET","url":"/v1/health","host":"localhost:80","remoteAddress":"127.0.0.1"},"msg":"incoming request"}
+{"level":30,"time":1787707981859,"pid":26468,"hostname":"zqdeMacBook-Air.local","reqId":"req-1","req":{"method":"GET","url":"/v1/health","host":"localhost:80","remoteAddress":"127.0.0.1"},"msg":"incoming request"}
+ ✓ apps/api/src/routes/health.test.ts (3 tests) 106ms
+{"level":30,"time":1787707981853,"pid":26468,"hostname":"zqdeMacBook-Air.local","reqId":"req-1","res":{"statusCode":200},"responseTime":3.4346249999999827,"msg":"request completed"}
+{"level":30,"time":1787707981858,"pid":26468,"hostname":"zqdeMacBook-Air.local","reqId":"req-1","res":{"statusCode":200},"responseTime":0.32166599999999335,"msg":"request completed"}
+{"level":30,"time":1787707981860,"pid":26468,"hostname":"zqdeMacBook-Air.local","reqId":"req-1","res":{"statusCode":200},"responseTime":0.14500000000003865,"msg":"request completed"}
+{"level":30,"time":1787707981860,"pid":26468,"hostname":"zqdeMacBook-Air.local","reqId":"req-2","req":{"method":"GET","url":"/v1/health","host":"localhost:80","remoteAddress":"127.0.0.1"},"msg":"incoming request"}
+{"level":30,"time":1787707981860,"pid":26468,"hostname":"zqdeMacBook-Air.local","reqId":"req-2","res":{"statusCode":200},"responseTime":0.09254199999998036,"msg":"request completed"}
+
+ Test Files  1 passed (1)
+      Tests  3 passed (3)
+   Start at  09:33:01
+   Duration  543ms (transform 35ms, setup 0ms, collect 166ms, tests 106ms, environment 0ms, prepare 52ms)
+
+$ pnpm test --run
+ WARN  Unsupported engine: wanted: {"node":">=22.13.0 <23.0.0"} (current: {"node":"v25.9.0","pnpm":"10.10.0"})
+
+> nexora@0.1.0 test /Users/zq/Desktop/ai-projs/posp/Nexora
+> vitest --run
+
+
+ RUN  v3.2.7 /Users/zq/Desktop/ai-projs/posp/Nexora
+
+ ✓ packages/config/src/env.test.ts (4 tests) 14ms
+{"level":30,"time":1787707983004,"pid":26641,"hostname":"zqdeMacBook-Air.local","reqId":"req-1","req":{"method":"GET","url":"/v1/health","host":"localhost:80","remoteAddress":"127.0.0.1"},"msg":"incoming request"}
+{"level":30,"time":1787707983011,"pid":26641,"hostname":"zqdeMacBook-Air.local","reqId":"req-1","req":{"method":"GET","url":"/v1/health","host":"localhost:80","remoteAddress":"127.0.0.1"},"msg":"incoming request"}
+{"level":30,"time":1787707983013,"pid":26641,"hostname":"zqdeMacBook-Air.local","reqId":"req-1","req":{"method":"GET","url":"/v1/health","host":"localhost:80","remoteAddress":"127.0.0.1"},"msg":"incoming request"}
+ ✓ apps/api/src/routes/health.test.ts (3 tests) 65ms
+{"level":30,"time":1787707983007,"pid":26641,"hostname":"zqdeMacBook-Air.local","reqId":"req-1","res":{"statusCode":200},"responseTime":2.9334579999999733,"msg":"request completed"}
+{"level":30,"time":1787707983012,"pid":26641,"hostname":"zqdeMacBook-Air.local","reqId":"req-1","res":{"statusCode":200},"responseTime":0.23245900000000574,"msg":"request completed"}
+{"level":30,"time":1787707983014,"pid":26641,"hostname":"zqdeMacBook-Air.local","reqId":"req-1","res":{"statusCode":200},"responseTime":0.15733299999999417,"msg":"request completed"}
+{"level":30,"time":1787707983014,"pid":26641,"hostname":"zqdeMacBook-Air.local","reqId":"req-2","req":{"method":"GET","url":"/v1/health","host":"localhost:80","remoteAddress":"127.0.0.1"},"msg":"incoming request"}
+{"level":30,"time":1787707983014,"pid":26641,"hostname":"zqdeMacBook-Air.local","reqId":"req-2","res":{"statusCode":200},"responseTime":0.08320800000001327,"msg":"request completed"}
+ ✓ packages/persistence/src/schema.test.ts (3 tests) 11ms
+ ✓ packages/persistence/src/repositories.test.ts (3 tests) 15ms
+ ✓ packages/event-store/src/cursor.test.ts (4 tests) 10ms
+ ✓ packages/event-store/src/event-store.test.ts (2 tests) 9ms
+ ✓ packages/event-store/src/projections.test.ts (2 tests) 13ms
+ ✓ packages/contracts/src/schemas.test.ts (37 tests) 9ms
+ ✓ packages/contracts/src/envelope.test.ts (22 tests) 6ms
+ ✓ packages/contracts/src/errors.test.ts (6 tests) 4ms
+ ✓ packages/contracts/src/ids.test.ts (7 tests) 3ms
+ ✓ packages/domain/src/commands.test.ts (2 tests) 4ms
+ ✓ packages/domain/src/run-state.test.ts (15 tests) 7ms
+
+ Test Files  13 passed (13)
+      Tests  110 passed (110)
+   Start at  09:33:02
+   Duration  916ms (transform 402ms, setup 0ms, collect 1.55s, tests 170ms, environment 2ms, prepare 835ms)
+
+$ pnpm test:integration
+ WARN  Unsupported engine: wanted: {"node":">=22.13.0 <23.0.0"} (current: {"node":"v25.9.0","pnpm":"10.10.0"})
+
+> nexora@0.1.0 test:integration /Users/zq/Desktop/ai-projs/posp/Nexora
+> vitest run --passWithNoTests tests/integration
+
+
+ RUN  v3.2.7 /Users/zq/Desktop/ai-projs/posp/Nexora
+
+No test files found, exiting with code 0
+
+filter: tests/integration
+include: apps/**/*.test.ts, packages/**/*.test.ts
+exclude:  **/node_modules/**, **/dist/**, **/cypress/**, **/.{idea,git,cache,output,temp}/**, **/{karma,rollup,webpack,vite,vitest,jest,ava,babel,nyc,cypress,tsup,build,eslint,prettier}.config.*
+
+$ pnpm typecheck
+ WARN  Unsupported engine: wanted: {"node":">=22.13.0 <23.0.0"} (current: {"node":"v25.9.0","pnpm":"10.10.0"})
+
+> nexora@0.1.0 typecheck /Users/zq/Desktop/ai-projs/posp/Nexora
+> tsc --project tsconfig.base.json --noEmit
+
+$ NEXORA_DATA_DIR=/var/folders/w0/kv_hbdx54fz_d8c55qtlk0h00000gn/T/tmp.NdRR0jCS6K pnpm db:migrate
+ WARN  Unsupported engine: wanted: {"node":">=22.13.0 <23.0.0"} (current: {"node":"v25.9.0","pnpm":"10.10.0"})
+
+> nexora@0.1.0 db:migrate /Users/zq/Desktop/ai-projs/posp/Nexora
+> pnpm --filter @nexora/persistence migrate
+
+.                                        |  WARN  Unsupported engine: wanted: {"node":">=22.13.0 <23.0.0"} (current: {"node":"v25.9.0","pnpm":"10.10.0"})
+
+> @nexora/persistence@0.1.0 migrate /Users/zq/Desktop/ai-projs/posp/Nexora/packages/persistence
+> tsx src/migrate.ts
+
+$ git diff --check
+$ curl -fsS -I http://127.0.0.1:5173/
+HTTP/1.1 200 OK
+Vary: Origin
+Content-Type: text/html
+Cache-Control: no-cache
+Etag: W/"2bb-yVlemCTDxjpWkBRLiTvB/tGaI+Y"
+Date: Wed, 26 Aug 2026 01:33:07 GMT
+Connection: keep-alive
+Keep-Alive: timeout=5
+
