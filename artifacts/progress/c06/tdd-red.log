@@ -1,0 +1,5 @@
+2026-08-26 C06 RED
+
+Command: pnpm --filter @nexora/runtime-adapters test --run
+Result: FAIL, 16 tests failed against the intentionally unimplemented adapter/codec stubs.
+Meaning: the new contract suite exercised missing lifecycle behavior before implementation; failures were assertions and typed not-implemented errors, not a false-green placeholder.

@@ -1,0 +1,39 @@
+2026-08-26 C06 G5 runtime smoke
+{
+  "paused_cursor": "1",
+  "resumed": [
+    {
+      "type": "tool_called",
+      "cursor": "2",
+      "sequence": 2,
+      "message_id": "0101A3B1B79A4205DF181CF47E"
+    },
+    {
+      "type": "artifact_created",
+      "cursor": "3",
+      "sequence": 3,
+      "message_id": "0D0A751C93995A184B07B376B6"
+    },
+    {
+      "type": "completed",
+      "cursor": "4",
+      "sequence": 4,
+      "message_id": "0C3D6148984C6E2BE4508C7CEC"
+    }
+  ],
+  "fencing_token": 8,
+  "cancel": {
+    "state": "cancelled",
+    "reason": "Runtime acknowledged cancellation"
+  },
+  "receipt": {
+    "runtime": "deterministic",
+    "timeline": [
+      "started",
+      "tool_called",
+      "artifact_created",
+      "completed"
+    ],
+    "business_status": "pending_quality_gate"
+  }
+}

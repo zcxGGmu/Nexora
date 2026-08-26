@@ -19,6 +19,7 @@ describe("error semantics", () => {
       "RATE_LIMITED",
       "CONNECTOR_TIMEOUT",
       "SCHEMA_INVALID",
+      "PROTOCOL_MISMATCH",
       "BUDGET_EXCEEDED",
       "DUPLICATE_SIDE_EFFECT",
       "RUNTIME_CRASHED",
