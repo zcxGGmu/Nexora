@@ -31,6 +31,7 @@ describe("error semantics", () => {
       "EVENT_CURSOR_EXPIRED",
       "INVALID_STATE_TRANSITION",
       "VERSION_CONFLICT",
+      "CANCEL_UNKNOWN",
     ]);
   });
 

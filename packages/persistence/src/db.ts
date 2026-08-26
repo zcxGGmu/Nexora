@@ -7,6 +7,7 @@ import { CORE_MIGRATION_VERSION, CORE_TABLES } from "./schema.js";
 const MIGRATIONS = [
   { version: 1, path: "./migrations/0001_core.sql" },
   { version: 2, path: "./migrations/0002_event_store.sql" },
+  { version: 3, path: "./migrations/0003_orchestration.sql" },
 ] as const;
 
 export type SqliteDatabase = DatabaseSync;
@@ -52,7 +53,9 @@ export function rollback(database: SqliteDatabase): void {
   if (migrationTable === undefined) return;
 
   withTransaction(database, () => {
-    database.exec(`DROP TABLE IF EXISTS projection_checkpoints;
+    database.exec(`DROP TABLE IF EXISTS leases;
+      DROP TABLE IF EXISTS queue_jobs;
+      DROP TABLE IF EXISTS projection_checkpoints;
       DROP TABLE IF EXISTS events;
       DROP TABLE IF EXISTS review_decisions;
       DROP TABLE IF EXISTS receipts;

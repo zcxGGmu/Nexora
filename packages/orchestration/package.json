@@ -1,16 +1,16 @@
 {
-  "name": "@nexora/worker",
+  "name": "@nexora/orchestration",
   "version": "0.1.0",
   "private": true,
   "type": "module",
+  "exports": {
+    ".": "./src/index.ts"
+  },
   "scripts": {
-    "dev": "tsx watch src/main.ts",
-    "start": "tsx src/main.ts"
+    "test": "vitest --root ../.. packages/orchestration/src"
   },
   "dependencies": {
-    "@nexora/config": "workspace:*",
     "@nexora/contracts": "workspace:*",
-    "@nexora/orchestration": "workspace:*",
     "@nexora/persistence": "workspace:*"
   }
 }

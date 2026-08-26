@@ -3,6 +3,12 @@ import { withTransaction, type SqliteDatabase } from "@nexora/persistence";
 
 export const PROJECTION_NAMES = ["runs", "steps", "artifacts", "reviews"] as const;
 export type ProjectionName = (typeof PROJECTION_NAMES)[number];
+export const ORCHESTRATION_EVENT_TYPES = ["lease.acquired", "lease.renewed", "lease.expired", "step.retry_scheduled", "step.cancel_requested", "step.cancelled", "step.cancel_unknown", "run.cancel_requested", "run.cancelled", "run.cancel_unknown", "budget.exceeded"] as const;
+export type OrchestrationEventType = (typeof ORCHESTRATION_EVENT_TYPES)[number];
+
+export function isOrchestrationEventType(value: string): value is OrchestrationEventType {
+  return ORCHESTRATION_EVENT_TYPES.some((eventType) => eventType === value);
+}
 
 export type ProjectionCheckpoint = {
   readonly workspace_id: string;

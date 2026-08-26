@@ -1,0 +1,13 @@
+2026-08-26 G4 manual recovery smoke
+
+Command: pnpm exec tsx --eval '<shared SQLite database, WorkerLoop A/B, lease expiry and late-write probe>'
+Observed JSON:
+{"leaseA":1,"expired":1,"workerB":{"kind":"succeeded","job_id":"01HRZ3NDEKTSV4RRFFQ69H5FAV","fencing_token":2},"lateWrite":false,"lateError":"Worker lease is no longer current","status":"completed","tokens":[1,2]}
+
+Gate result: PASS. Worker A's lease expired; Worker B resumed the queued step with fencing token 2; the old token could not invoke the write callback; the queue reached completed without a duplicate active lease.
+
+Final rerun after atomic completion/retry fencing hardening:
+{"leaseA":1,"expired":1,"workerB":{"kind":"succeeded","job_id":"01HRZ3NDEKTSV4RRFFQ69H5FAV","fencing_token":2},"lateWrite":false,"lateError":"Worker lease is no longer current","status":"completed","tokens":[1,2],"stepStatus":"pending","attempts":1}
+
+Final rerun with retry-attempt factory and fenced EventStore support:
+{"worker_a_token":1,"expired":1,"worker_b":{"kind":"succeeded","job_id":"01HRZ3NDEKTSV4RRFFQ69H5FAV","fencing_token":2},"late_write":false,"late_error":"OrchestrationError:Worker lease is no longer current","final_status":"completed","tokens":[1,2]}
