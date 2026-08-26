@@ -1,0 +1,20 @@
+{
+  "first_page_event_ids": [
+    "01GRZ3NDEKTSV4RRFFQ69G5FAV",
+    "01HRZ3NDEKTSV4RRFFQ69G5FAV"
+  ],
+  "first_page_last_event_id": "01HRZ3NDEKTSV4RRFFQ69G5FAV",
+  "next_cursor": "run:01BRZ3NDEKTSV4RRFFQ69G5FAV:1",
+  "reconnect_event_ids": [
+    "01JRZ3NDEKTSV4RRFFQ69G5FAV"
+  ],
+  "deduped_event_ids": [
+    "01JRZ3NDEKTSV4RRFFQ69G5FAV"
+  ],
+  "checkpoint_count": 4,
+  "projection_health": {
+    "status": "ok",
+    "projection_lag": 0
+  }
+}
+G2 PASS

@@ -78,6 +78,18 @@ importers:
         specifier: ^3.24.3
         version: 3.25.76
 
+  packages/event-store:
+    dependencies:
+      '@nexora/contracts':
+        specifier: workspace:*
+        version: link:../contracts
+      '@nexora/persistence':
+        specifier: workspace:*
+        version: link:../persistence
+      zod:
+        specifier: ^3.24.3
+        version: 3.25.76
+
   packages/persistence:
     dependencies:
       '@nexora/config':
