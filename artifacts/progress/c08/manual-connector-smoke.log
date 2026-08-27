@@ -1,0 +1,10 @@
+{
+  "pending_kind": "review_required",
+  "descriptor_risk": "R3",
+  "forged_review_ignored": true,
+  "forged_authorization_blocked": true,
+  "stale_blocked": true,
+  "artifact_absent_after_blocked_paths": true,
+  "verified_status": "verified",
+  "idempotent_reused": true
+}

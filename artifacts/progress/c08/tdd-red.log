@@ -1,0 +1,19 @@
+C08 Red evidence captured before implementation in this task.
+
+Expected failing commands:
+
+- pnpm --filter @nexora/contracts test --run packages/contracts/src/connectors.test.ts packages/contracts/src/review.test.ts --reporter=verbose
+  - Failed because connector lifecycle schemas were not exported yet and ReviewDecisionSchema did not accept requested_scope / expires_at.
+
+- pnpm --filter @nexora/connectors test --run --reporter=verbose
+  - Failed because @nexora/connectors was a new workspace package without linked implementation files yet.
+
+- pnpm test:integration -- review-gate.test.ts --reporter=verbose
+  - Failed because @nexora/artifacts / @nexora/connectors imports were not available for the new C08 review-gate integration surface.
+
+Green evidence after implementation is stored in:
+
+- artifacts/progress/c08/green-contracts.log
+- artifacts/progress/c08/green-connectors.log
+- artifacts/progress/c08/green-persistence.log
+- artifacts/progress/c08/g7-review-stale-smoke.log

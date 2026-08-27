@@ -1,0 +1,13 @@
+.                                        |  WARN  Unsupported engine: wanted: {"node":">=22.13.0 <23.0.0"} (current: {"node":"v25.9.0","pnpm":"10.10.0"})
+
+> @nexora/mission-control@0.1.0 build /Users/zq/Desktop/ai-projs/posp/Nexora/apps/mission-control
+> vite build
+
+vite v6.4.3 building for production...
+transforming...
+✓ 22 modules transformed.
+rendering chunks...
+computing gzip size...
+dist/index.html                  0.33 kB │ gzip:  0.24 kB
+dist/assets/index-C9UOVBTj.js  194.13 kB │ gzip: 60.71 kB
+✓ built in 576ms

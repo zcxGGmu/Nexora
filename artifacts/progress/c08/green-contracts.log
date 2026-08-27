@@ -1,0 +1,97 @@
+.                                        |  WARN  Unsupported engine: wanted: {"node":">=22.13.0 <23.0.0"} (current: {"node":"v25.9.0","pnpm":"10.10.0"})
+
+> @nexora/contracts@0.1.0 test /Users/zq/Desktop/ai-projs/posp/Nexora/packages/contracts
+> vitest --root ../.. packages/contracts/src --run packages/contracts/src/connectors.test.ts packages/contracts/src/review.test.ts --reporter\=verbose
+
+
+ RUN  v3.2.7 /Users/zq/Desktop/ai-projs/posp/Nexora
+
+ ✓ packages/contracts/src/connectors.test.ts > C08 connector lifecycle contracts > Given a connector request When parsed Then it binds descriptor version, scope, hashes, and idempotency key 9ms
+ ✓ packages/contracts/src/connectors.test.ts > C08 connector lifecycle contracts > Given a connector preview When review is required Then the pending payload carries the exact artifact and payload hash 2ms
+ ✓ packages/contracts/src/connectors.test.ts > C08 connector lifecycle contracts > Given an execution receipt When parsed Then it records verification and side-effect uncertainty explicitly 3ms
+ ✓ packages/contracts/src/review.test.ts > C08 review gate contracts > Given a review request When parsed Then it binds scope, artifact version, review version, and payload hash 4ms
+ ✓ packages/contracts/src/review.test.ts > C08 review gate contracts > Given an R3 approval When scope is missing Then the decision is invalid 1ms
+ ✓ packages/contracts/src/review.test.ts > C08 review gate contracts > Given review audit events When parsed Then event type and payload shape must match 1ms
+ ✓ packages/contracts/src/memory.test.ts > C07 memory and artifact contracts > Given memory and artifact provenance payloads When parsed Then strict versioned contracts preserve lineage 9ms
+ ✓ packages/contracts/src/errors.test.ts > error semantics > publishes the complete stable C01 error code set 4ms
+ ✓ packages/contracts/src/errors.test.ts > error semantics > accepts a strict versioned error response 2ms
+ ✓ packages/contracts/src/errors.test.ts > error semantics > returns a redacted SCHEMA_INVALID result at the parse boundary 3ms
+ ✓ packages/contracts/src/errors.test.ts > error semantics > rejects unknown error response fields and unsafe detail fields 2ms
+ ✓ packages/contracts/src/errors.test.ts > error semantics > returns a redacted error with a safe trace fallback for malformed trace input 0ms
+ ✓ packages/contracts/src/errors.test.ts > error semantics > rejects unsafe or unbounded error strings 0ms
+ ✓ packages/contracts/src/envelope.test.ts > event envelope > accepts a valid strict event envelope 6ms
+ ✓ packages/contracts/src/envelope.test.ts > event envelope > rejects invalid envelope structure 0 1ms
+ ✓ packages/contracts/src/envelope.test.ts > event envelope > rejects invalid envelope structure 1 0ms
+ ✓ packages/contracts/src/envelope.test.ts > event envelope > rejects invalid envelope structure 2 0ms
+ ✓ packages/contracts/src/envelope.test.ts > event envelope > rejects invalid envelope structure 3 0ms
+ ✓ packages/contracts/src/envelope.test.ts > event envelope > rejects invalid envelope structure 4 0ms
+ ✓ packages/contracts/src/envelope.test.ts > event envelope > enforces a strict typed event payload 0ms
+ ✓ packages/contracts/src/envelope.test.ts > event envelope > does not strip unknown fields from a non-strict payload factory input 0ms
+ ✓ packages/contracts/src/envelope.test.ts > runtime envelope > accepts runtime discriminator hello 0ms
+ ✓ packages/contracts/src/envelope.test.ts > runtime envelope > accepts runtime discriminator hello_ack 0ms
+ ✓ packages/contracts/src/envelope.test.ts > runtime envelope > accepts runtime discriminator start 0ms
+ ✓ packages/contracts/src/envelope.test.ts > runtime envelope > accepts runtime discriminator event 0ms
+ ✓ packages/contracts/src/envelope.test.ts > runtime envelope > accepts runtime discriminator heartbeat 0ms
+ ✓ packages/contracts/src/envelope.test.ts > runtime envelope > accepts runtime discriminator resume 0ms
+ ✓ packages/contracts/src/envelope.test.ts > runtime envelope > accepts runtime discriminator cancel 0ms
+ ✓ packages/contracts/src/envelope.test.ts > runtime envelope > accepts runtime discriminator cancel_ack 0ms
+ ✓ packages/contracts/src/envelope.test.ts > runtime envelope > accepts runtime discriminator close 0ms
+ ✓ packages/contracts/src/envelope.test.ts > runtime envelope > rejects schema version 0 independently 0ms
+ ✓ packages/contracts/src/envelope.test.ts > runtime envelope > rejects schema version 2 independently 0ms
+ ✓ packages/contracts/src/envelope.test.ts > runtime envelope > rejects protocol version 0 independently 0ms
+ ✓ packages/contracts/src/envelope.test.ts > runtime envelope > rejects protocol version 2 independently 0ms
+ ✓ packages/contracts/src/envelope.test.ts > runtime envelope > rejects invalid runtime fields and strict typed payloads 0ms
+ ✓ packages/contracts/src/schemas.test.ts > persisted domain schemas > accepts a valid minimal fixture 0 3ms
+ ✓ packages/contracts/src/schemas.test.ts > persisted domain schemas > accepts a valid minimal fixture 1 0ms
+ ✓ packages/contracts/src/schemas.test.ts > persisted domain schemas > accepts a valid minimal fixture 2 0ms
+ ✓ packages/contracts/src/schemas.test.ts > persisted domain schemas > accepts a valid minimal fixture 3 3ms
+ ✓ packages/contracts/src/schemas.test.ts > persisted domain schemas > accepts a valid minimal fixture 4 0ms
+ ✓ packages/contracts/src/schemas.test.ts > persisted domain schemas > accepts a valid minimal fixture 5 1ms
+ ✓ packages/contracts/src/schemas.test.ts > persisted domain schemas > accepts a valid minimal fixture 6 0ms
+ ✓ packages/contracts/src/schemas.test.ts > persisted domain schemas > accepts a valid minimal fixture 7 0ms
+ ✓ packages/contracts/src/schemas.test.ts > persisted domain schemas > accepts a valid minimal fixture 8 0ms
+ ✓ packages/contracts/src/schemas.test.ts > persisted domain schemas > rejects missing workspace metadata 0 1ms
+ ✓ packages/contracts/src/schemas.test.ts > persisted domain schemas > rejects missing workspace metadata 1 0ms
+ ✓ packages/contracts/src/schemas.test.ts > persisted domain schemas > rejects missing workspace metadata 2 0ms
+ ✓ packages/contracts/src/schemas.test.ts > persisted domain schemas > rejects missing workspace metadata 3 0ms
+ ✓ packages/contracts/src/schemas.test.ts > persisted domain schemas > rejects missing workspace metadata 4 0ms
+ ✓ packages/contracts/src/schemas.test.ts > persisted domain schemas > rejects missing workspace metadata 5 0ms
+ ✓ packages/contracts/src/schemas.test.ts > persisted domain schemas > rejects missing workspace metadata 6 0ms
+ ✓ packages/contracts/src/schemas.test.ts > persisted domain schemas > rejects missing workspace metadata 7 0ms
+ ✓ packages/contracts/src/schemas.test.ts > persisted domain schemas > rejects missing workspace metadata 8 0ms
+ ✓ packages/contracts/src/schemas.test.ts > persisted domain schemas > rejects illegal entity statuses 0ms
+ ✓ packages/contracts/src/schemas.test.ts > persisted domain schemas > accepts documented artifact and review lifecycle values 1ms
+ ✓ packages/contracts/src/schemas.test.ts > persisted domain schemas > rejects invalid persisted R3 approval states 0ms
+ ✓ packages/contracts/src/schemas.test.ts > persisted domain schemas > rejects unknown top-level and known nested fields 0ms
+ ✓ packages/contracts/src/schemas.test.ts > persisted domain schemas > rejects persisted schema version 0 0ms
+ ✓ packages/contracts/src/schemas.test.ts > persisted domain schemas > rejects persisted schema version 2 0ms
+ ✓ packages/contracts/src/schemas.test.ts > persisted domain schemas > rejects invalid UTC timestamps 0ms
+ ✓ packages/contracts/src/schemas.test.ts > clock > uses an injectable fixed clock and serializes system time as UTC ISO-8601 0ms
+ ✓ packages/contracts/src/schemas.test.ts > connector descriptor > accepts the strict minimal descriptor 0ms
+ ✓ packages/contracts/src/schemas.test.ts > connector descriptor > rejects invalid connector values 0 0ms
+ ✓ packages/contracts/src/schemas.test.ts > connector descriptor > rejects invalid connector values 1 0ms
+ ✓ packages/contracts/src/schemas.test.ts > connector descriptor > rejects invalid connector values 2 0ms
+ ✓ packages/contracts/src/schemas.test.ts > connector descriptor > rejects invalid connector values 3 0ms
+ ✓ packages/contracts/src/schemas.test.ts > connector descriptor > rejects invalid connector values 4 0ms
+ ✓ packages/contracts/src/schemas.test.ts > connector descriptor > rejects invalid connector values 5 0ms
+ ✓ packages/contracts/src/schemas.test.ts > connector descriptor > rejects invalid connector values 6 0ms
+ ✓ packages/contracts/src/schemas.test.ts > connector descriptor > rejects invalid connector values 7 0ms
+ ✓ packages/contracts/src/schemas.test.ts > connector descriptor > rejects nested secret objects in C01 reference fields 0ms
+ ✓ packages/contracts/src/schemas.test.ts > connector descriptor > rejects non-finite or excessive budget costs 0ms
+ ✓ packages/contracts/src/schemas.test.ts > connector descriptor > rejects unbounded connector version maps 0ms
+ ✓ packages/contracts/src/ids.test.ts > entity IDs > parses a canonical uppercase ULID when the wire value is valid 2ms
+ ✓ packages/contracts/src/ids.test.ts > entity IDs > rejects malformed ID 01arz3ndektsv4rrffq69g5fav 3ms
+ ✓ packages/contracts/src/ids.test.ts > entity IDs > rejects malformed ID agent_01ARZ3NDEKTSV4RRFFQ69G5FAV 0ms
+ ✓ packages/contracts/src/ids.test.ts > entity IDs > rejects malformed ID 01ARZ3NDEKTSV4RRFFQ69G5FA 0ms
+ ✓ packages/contracts/src/ids.test.ts > entity IDs > rejects malformed ID 01ARZ3NDEKTSV4RRFFQ69G5FAI 0ms
+ ✓ packages/contracts/src/ids.test.ts > entity IDs > rejects malformed ID 81ARZ3NDEKTSV4RRFFQ69G5FAV 0ms
+ ✓ packages/contracts/src/ids.test.ts > entity IDs > exports independently branded entity schemas 0ms
+ ✓ packages/contracts/src/runtime.test.ts > runtime payload contracts > accepts the typed handshake and start payloads 4ms
+ ✓ packages/contracts/src/runtime.test.ts > runtime payload contracts > keeps unknown runtime event names parseable for unmapped-event handling 0ms
+ ✓ packages/contracts/src/runtime.test.ts > runtime payload contracts > rejects extra fields in cancellation acknowledgements 0ms
+
+ Test Files  8 passed (8)
+      Tests  83 passed (83)
+   Start at  19:45:47
+   Duration  2.90s (transform 617ms, setup 0ms, collect 2.63s, tests 80ms, environment 16ms, prepare 2.62s)
+

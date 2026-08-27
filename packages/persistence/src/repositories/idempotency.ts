@@ -1,5 +1,5 @@
 import { withTransaction, type SqliteDatabase } from "../db.js";
-import { PersistenceError, readText, sqliteError } from "./utils.js";
+import { PersistenceError, readText, sqliteError, updateChanged } from "./utils.js";
 
 export type IdempotencyRecord = {
   readonly workspace_id: string;
@@ -8,6 +8,15 @@ export type IdempotencyRecord = {
   readonly resource_type: string;
   readonly resource_id: string;
   readonly created_at: string;
+};
+
+export type IdempotencyResourceUpdate = {
+  readonly workspace_id: string;
+  readonly idempotency_key: string;
+  readonly request_hash: string;
+  readonly from_resource_type: string;
+  readonly to_resource_type: string;
+  readonly resource_id: string;
 };
 
 export class IdempotencyRepository {
@@ -24,6 +33,26 @@ export class IdempotencyRepository {
       if (existing === undefined) throw new PersistenceError("CONSTRAINT_VIOLATION", "Idempotency reservation was not written");
       if (existing.request_hash !== record.request_hash) throw new PersistenceError("IDEMPOTENCY_KEY_REUSED", "Idempotency key was reused with a different request");
       return existing;
+    });
+  }
+
+  replaceResource(record: IdempotencyResourceUpdate): IdempotencyRecord {
+    return withTransaction(this.database, () => {
+      const existing = this.get(record.workspace_id, record.idempotency_key);
+      if (existing === undefined) throw new PersistenceError("NOT_FOUND", "Idempotency reservation was not found");
+      if (existing.request_hash !== record.request_hash) throw new PersistenceError("IDEMPOTENCY_KEY_REUSED", "Idempotency key was reused with a different request");
+      if (existing.resource_type !== record.from_resource_type || existing.resource_id !== record.resource_id) throw new PersistenceError("CONSTRAINT_VIOLATION", "Idempotency reservation has a different resource");
+      try {
+        const result = this.database
+          .prepare("UPDATE idempotency_records SET resource_type = ? WHERE workspace_id = ? AND idempotency_key = ? AND request_hash = ? AND resource_type = ? AND resource_id = ?")
+          .run(record.to_resource_type, record.workspace_id, record.idempotency_key, record.request_hash, record.from_resource_type, record.resource_id);
+        updateChanged(result, "idempotency reservation");
+      } catch (error) {
+        throw sqliteError(error);
+      }
+      const updated = this.get(record.workspace_id, record.idempotency_key);
+      if (updated === undefined) throw new PersistenceError("CONSTRAINT_VIOLATION", "Idempotency reservation was not updated");
+      return updated;
     });
   }
 
