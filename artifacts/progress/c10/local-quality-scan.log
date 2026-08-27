@@ -1,0 +1,4 @@
+C10 local quality scan refreshed at 2026-08-27T19:26:05Z
+
+$ rg -n "as any|as unknown|@ts-ignore|@ts-expect-error|!\.|enum |throw ['\"]|catch \{|catch \([^)]*\) \{\s*\}" apps/mission-control/src vitest.config.ts apps/mission-control/vite.config.ts
+Result: no matches for prohibited TypeScript escape hatches in C10 source/config scope.

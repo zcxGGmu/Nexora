@@ -1,14 +1,10 @@
-import React, { StrictMode } from "react";
+import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
+import { QueryClientProvider } from "@tanstack/react-query";
 
-function App(): React.JSX.Element {
-  return (
-    <main>
-      <p>Nexora Mission Control</p>
-      <h1>Control plane is starting</h1>
-    </main>
-  );
-}
+import { AppRouter } from "./app/router.js";
+import { queryClient } from "./app/query-client.js";
+import "./design/tokens.css";
 
 const rootElement = document.getElementById("root");
 if (rootElement === null) {
@@ -17,6 +13,8 @@ if (rootElement === null) {
 
 createRoot(rootElement).render(
   <StrictMode>
-    <App />
+    <QueryClientProvider client={queryClient}>
+      <AppRouter />
+    </QueryClientProvider>
   </StrictMode>,
 );
