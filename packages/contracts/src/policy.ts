@@ -2,7 +2,7 @@ import { z } from "zod";
 import { UlidSchema } from "./ids.js";
 
 export const RoleSchema = z.enum(["Owner", "Operator", "Reviewer", "Viewer", "Agent"]);
-export const PolicyActionSchema = z.enum(["workspace:admin", "run:read", "run:write", "memory:read", "connector:execute", "review:decide"]);
+export const PolicyActionSchema = z.enum(["workspace:admin", "run:read", "run:write", "memory:read", "memory:write", "artifact:read", "artifact:write", "connector:execute", "review:decide"]);
 export const RiskLevelSchema = z.enum(["R0", "R1", "R2", "R3"]);
 export const DataClassificationSchema = z.enum(["public", "internal", "confidential", "restricted"]);
 export const ExecutionLocationSchema = z.enum(["local", "remote"]);

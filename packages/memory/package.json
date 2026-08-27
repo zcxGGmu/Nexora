@@ -1,0 +1,17 @@
+{
+  "name": "@nexora/memory",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "scripts": {
+    "test": "vitest --root ../.. packages/memory/src"
+  },
+  "dependencies": {
+    "@nexora/contracts": "workspace:*",
+    "@nexora/persistence": "workspace:*",
+    "@nexora/policy": "workspace:*"
+  }
+}

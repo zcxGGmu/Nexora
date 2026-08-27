@@ -14,7 +14,11 @@ export const CORE_TABLES = [
   "projection_checkpoints",
   "queue_jobs",
   "leases",
+  "memory_notes",
+  "memory_versions",
+  "memory_snapshots",
+  "artifact_versions",
 ] as const;
 
 export type CoreTable = (typeof CORE_TABLES)[number];
-export const CORE_MIGRATION_VERSION = 3;
+export const CORE_MIGRATION_VERSION = 4;

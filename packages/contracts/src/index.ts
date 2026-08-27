@@ -9,6 +9,7 @@ export * from "./goal.js";
 export * from "./ticket.js";
 export * from "./run.js";
 export * from "./artifact.js";
+export * from "./memory.js";
 export * from "./review.js";
 export * from "./connectors.js";
 export * from "./policy.js";
