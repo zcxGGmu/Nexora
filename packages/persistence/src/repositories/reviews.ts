@@ -19,4 +19,9 @@ export class ReviewRepository {
     const row = this.database.prepare("SELECT payload_json FROM review_decisions WHERE workspace_id = ? AND id = ? AND review_version = ?").get(workspaceId, id, reviewVersion);
     return row === undefined ? undefined : readJson(row["payload_json"], ReviewDecisionSchema);
   }
+
+  latestForArtifactVersion(workspaceId: string, artifactId: string, artifactVersion: number): ReviewDecision | undefined {
+    const row = this.database.prepare("SELECT payload_json FROM review_decisions WHERE workspace_id = ? AND artifact_id = ? AND artifact_version = ? ORDER BY review_version DESC LIMIT 1").get(workspaceId, artifactId, artifactVersion);
+    return row === undefined ? undefined : readJson(row["payload_json"], ReviewDecisionSchema);
+  }
 }

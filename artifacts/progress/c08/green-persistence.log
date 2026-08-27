@@ -1,0 +1,22 @@
+.                                        |  WARN  Unsupported engine: wanted: {"node":">=22.13.0 <23.0.0"} (current: {"node":"v25.9.0","pnpm":"10.10.0"})
+
+> @nexora/persistence@0.1.0 test /Users/zq/Desktop/ai-projs/posp/Nexora/packages/persistence
+> vitest --root ../.. packages/persistence/src --run packages/persistence/src/repositories.test.ts --reporter\=verbose
+
+
+ RUN  v3.2.7 /Users/zq/Desktop/ai-projs/posp/Nexora
+
+ ✓ packages/persistence/src/orchestration-schema.test.ts > orchestration SQLite migration > Given a migrated database When C05 starts Then queue and lease tables enforce scoped durable claims 7ms
+ ✓ packages/persistence/src/memory-artifact-schema.test.ts > memory and artifact SQLite migration > Given a migrated database When C07 starts Then memory and artifact version facts are immutable 10ms
+ ✓ packages/persistence/src/schema.test.ts > core SQLite migration > creates the current core tables with foreign keys enabled and can roll back 6ms
+ ✓ packages/persistence/src/schema.test.ts > core SQLite migration > validates an applied migration without applying it 4ms
+ ✓ packages/persistence/src/schema.test.ts > core SQLite migration > enforces foreign keys and workspace-scoped unique indexes 8ms
+ ✓ packages/persistence/src/repositories.test.ts > contract repositories > persists and reads a complete scoped graph while preserving immutable attempts and receipts 9ms
+ ✓ packages/persistence/src/repositories.test.ts > contract repositories > enforces optimistic versions, workspace scope, and idempotency reuse 3ms
+ ✓ packages/persistence/src/repositories.test.ts > contract repositories > revalidates runtime DTOs before writing 4ms
+
+ Test Files  4 passed (4)
+      Tests  8 passed (8)
+   Start at  23:14:50
+   Duration  729ms (transform 246ms, setup 0ms, collect 938ms, tests 55ms, environment 1ms, prepare 374ms)
+

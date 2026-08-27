@@ -1,0 +1,67 @@
+ WARN  Unsupported engine: wanted: {"node":">=22.13.0 <23.0.0"} (current: {"node":"v25.9.0","pnpm":"10.10.0"})
+
+> nexora@0.1.0 test /Users/zq/Desktop/ai-projs/posp/Nexora
+> vitest --run
+
+
+ RUN  v3.2.7 /Users/zq/Desktop/ai-projs/posp/Nexora
+
+{"level":30,"time":1787843924020,"pid":35307,"hostname":"192.168.31.54","reqId":"req-1","req":{"method":"GET","url":"/v1/health","host":"localhost:80","remoteAddress":"127.0.0.1"},"msg":"incoming request"}
+{"level":30,"time":1787843924032,"pid":35307,"hostname":"192.168.31.54","reqId":"req-1","req":{"method":"GET","url":"/v1/health","host":"localhost:80","remoteAddress":"127.0.0.1"},"msg":"incoming request"}
+{"level":30,"time":1787843924040,"pid":35307,"hostname":"192.168.31.54","reqId":"req-1","req":{"method":"GET","url":"/v1/health","host":"localhost:80","remoteAddress":"127.0.0.1"},"msg":"incoming request"}
+{"level":30,"time":1787843924023,"pid":35307,"hostname":"192.168.31.54","reqId":"req-1","res":{"statusCode":200},"responseTime":2.400666000000001,"msg":"request completed"}
+{"level":30,"time":1787843924032,"pid":35307,"hostname":"192.168.31.54","reqId":"req-1","res":{"statusCode":200},"responseTime":0.3538330000000087,"msg":"request completed"}
+{"level":30,"time":1787843924040,"pid":35307,"hostname":"192.168.31.54","reqId":"req-1","res":{"statusCode":200},"responseTime":0.17266600000004928,"msg":"request completed"}
+{"level":30,"time":1787843924040,"pid":35307,"hostname":"192.168.31.54","reqId":"req-2","req":{"method":"GET","url":"/v1/health","host":"localhost:80","remoteAddress":"127.0.0.1"},"msg":"incoming request"}
+{"level":30,"time":1787843924040,"pid":35307,"hostname":"192.168.31.54","reqId":"req-2","res":{"statusCode":200},"responseTime":0.07991700000002311,"msg":"request completed"}
+ ✓ apps/api/src/routes/health.test.ts (3 tests) 180ms
+ ✓ packages/event-store/src/cursor.test.ts (4 tests) 23ms
+ ✓ packages/connectors/src/mock-draft-connector.test.ts (6 tests) 55ms
+ ✓ packages/orchestration/src/orchestration.test.ts (9 tests) 34ms
+ ✓ packages/connectors/src/connector.test.ts (7 tests) 78ms
+ ✓ packages/memory/src/vault.test.ts (5 tests) 70ms
+ ✓ apps/worker/src/worker-loop.test.ts (3 tests) 16ms
+ ✓ packages/memory/src/snapshots.test.ts (1 test) 17ms
+ ✓ packages/persistence/src/schema.test.ts (3 tests) 18ms
+ ✓ packages/event-store/src/event-store.test.ts (3 tests) 20ms
+ ✓ packages/event-store/src/projections.test.ts (3 tests) 25ms
+ ✓ tests/integration/review-gate.test.ts (2 tests) 15ms
+ ✓ packages/persistence/src/repositories.test.ts (3 tests) 17ms
+ ✓ packages/contracts/src/memory.test.ts (1 test) 5ms
+ ✓ packages/connectors/src/idempotency.test.ts (3 tests) 10ms
+ ✓ tests/integration/recovery.test.ts (1 test) 8ms
+ ✓ packages/persistence/src/memory-artifact-schema.test.ts (1 test) 10ms
+ ✓ tests/integration/provenance.test.ts (1 test) 17ms
+ ✓ packages/contracts/src/connectors.test.ts (3 tests) 4ms
+ ✓ packages/contracts/src/schemas.test.ts (38 tests) 9ms
+ ✓ packages/runtime-adapters/src/deterministic-adapter.test.ts (14 tests) 11ms
+ ✓ packages/artifacts/src/store.test.ts (1 test) 11ms
+ ✓ packages/runtime-adapters/src/runtime-adapter.test.ts (2 tests) 4ms
+ ✓ packages/persistence/src/orchestration-schema.test.ts (1 test) 8ms
+ ✓ packages/artifacts/src/metadata.test.ts (1 test) 3ms
+ ✓ packages/contracts/src/ids.test.ts (7 tests) 3ms
+ ✓ packages/contracts/src/runtime.test.ts (3 tests) 4ms
+ ✓ packages/policy/src/risk.test.ts (9 tests) 4ms
+ ✓ packages/domain/src/run-state.test.ts (15 tests) 4ms
+ ✓ tests/integration/runtime-contract.test.ts (1 test) 7ms
+ ✓ packages/runtime-adapters/src/local-process-adapter.test.ts (15 tests) 2047ms
+   ✓ local process adapter > terminates an unresponsive child when the runtime deadline expires  504ms
+ ✓ packages/contracts/src/review.test.ts (3 tests) 8ms
+ ✓ packages/contracts/src/envelope.test.ts (22 tests) 6ms
+ ✓ packages/contracts/src/errors.test.ts (6 tests) 9ms
+ ✓ packages/policy/src/redaction.test.ts (3 tests) 5ms
+ ✓ packages/policy/src/egress.test.ts (22 tests) 7ms
+ ✓ packages/policy/src/rbac.test.ts (3 tests) 4ms
+ ✓ packages/runtime-adapters/src/envelope-codec.test.ts (4 tests) 10ms
+ ✓ packages/config/src/env.test.ts (4 tests) 9ms
+ ✓ packages/policy/src/scope.test.ts (3 tests) 7ms
+ ✓ packages/domain/src/commands.test.ts (2 tests) 3ms
+ ✓ tests/integration/policy-boundary.test.ts (3 tests) 3ms
+ ✓ packages/memory/src/scope-filter.test.ts (1 test) 3ms
+ ✓ packages/connectors/src/registry.test.ts (2 tests) 4ms
+
+ Test Files  44 passed (44)
+      Tests  247 passed (247)
+   Start at  23:18:43
+   Duration  3.44s (transform 1.33s, setup 0ms, collect 6.55s, tests 2.82s, environment 5ms, prepare 2.99s)
+

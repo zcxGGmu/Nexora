@@ -1,0 +1,32 @@
+.                                        |  WARN  Unsupported engine: wanted: {"node":">=22.13.0 <23.0.0"} (current: {"node":"v25.9.0","pnpm":"10.10.0"})
+
+> @nexora/connectors@0.1.0 test /Users/zq/Desktop/ai-projs/posp/Nexora/packages/connectors
+> vitest --root ../.. packages/connectors/src --run --reporter\=verbose
+
+
+ RUN  v3.2.7 /Users/zq/Desktop/ai-projs/posp/Nexora
+
+ ✓ packages/connectors/src/registry.test.ts > ConnectorRegistry > Given a connector descriptor When registered Then it can be resolved by id and version 2ms
+ ✓ packages/connectors/src/registry.test.ts > ConnectorRegistry > Given a duplicate descriptor When registered Then it is rejected 0ms
+ ✓ packages/connectors/src/idempotency.test.ts > ConnectorIdempotencyGate > Given the same idempotency key and request hash When claimed twice Then it reuses the first receipt 7ms
+ ✓ packages/connectors/src/idempotency.test.ts > ConnectorIdempotencyGate > Given a side effect reservation When confirmed Then later claims reuse the confirmed receipt 2ms
+ ✓ packages/connectors/src/idempotency.test.ts > ConnectorIdempotencyGate > Given an unknown side effect When the same key is claimed Then execution is frozen until reconcile 2ms
+ ✓ packages/connectors/src/mock-draft-connector.test.ts > MockDraftConnector > Given an R3 draft request without approval When authorized Then it returns review_required and writes no artifact 11ms
+ ✓ packages/connectors/src/mock-draft-connector.test.ts > MockDraftConnector > Given an exact Review decision When the draft executes Then it writes one verified artifact and reuses duplicate requests 7ms
+ ✓ packages/connectors/src/mock-draft-connector.test.ts > MockDraftConnector > Given a Review decision for an old payload When one character changes Then authorization fails stale before execution 6ms
+ ✓ packages/connectors/src/mock-draft-connector.test.ts > MockDraftConnector > Given a Review decision with another id When authorized Then it fails stale before artifact write 8ms
+ ✓ packages/connectors/src/mock-draft-connector.test.ts > MockDraftConnector > Given persisted Review payload has malformed expiry When authorized Then schema validation blocks artifact write 9ms
+ ✓ packages/connectors/src/mock-draft-connector.test.ts > MockDraftConnector > Given a Review decision that expires now When authorized Then execution is blocked stale before artifact write 3ms
+ ✓ packages/connectors/src/connector.test.ts > Connector lifecycle > Given connector modules When inspected Then authorization minting helpers are not exported 22ms
+ ✓ packages/connectors/src/connector.test.ts > Connector lifecycle > Given an R1 draft request When executed without review Then the lifecycle writes and verifies an artifact 11ms
+ ✓ packages/connectors/src/connector.test.ts > Connector lifecycle > Given an R2 draft request without review When authorized Then it returns review_required and writes no artifact 3ms
+ ✓ packages/connectors/src/connector.test.ts > Connector lifecycle > Given caller input downgrades risk When previewed Then descriptor risk still requires review 3ms
+ ✓ packages/connectors/src/connector.test.ts > Connector lifecycle > Given a caller supplies an unpersisted Review decision When authorized Then it still requires review 3ms
+ ✓ packages/connectors/src/connector.test.ts > Connector lifecycle > Given approved edits When executed Then the connector writes the next artifact version 8ms
+ ✓ packages/connectors/src/connector.test.ts > Connector lifecycle > Given an artifact write failure When retried Then idempotency freezes the key until reconcile 6ms
+
+ Test Files  4 passed (4)
+      Tests  18 passed (18)
+   Start at  23:14:48
+   Duration  1.93s (transform 885ms, setup 0ms, collect 2.97s, tests 119ms, environment 0ms, prepare 982ms)
+

@@ -20,7 +20,7 @@ const attempt: Attempt = { ...meta, run_id: ID, status: "queued" };
 const step: Step = { ...meta, run_id: ID, attempt_id: ID, agent_id: ID, status: "pending", inputs: ["input://request"], outputs: ["output://result"], retry_policy: { max_attempts: 1, backoff_ms: 0 }, requires_review: false };
 const artifact: Artifact = { ...meta, type: "report", status: "verified", source_ticket: ID, source_run: ID, version: 1, visibility: "workspace", content_ref: "artifact://report", evidence_refs: ["evidence://tests"] };
 const receipt: Receipt = { ...meta, run_id: ID, inputs: ["input://request"], tool_calls: [{ tool: "test", status: "succeeded" }], validation_results: [{ gate: "tests", passed: true }], unverified_items: [], side_effects: [] };
-const review: ReviewDecision = { ...meta, artifact_id: ID, artifact_version: 1, review_version: 1, judge_result: "pass", human_decision: "approved", reviewer_id: ID, reviewer_role: "Reviewer", reason: "Approved", approved_payload_hash: PAYLOAD_HASH, risk_level: "R3", policy_decision: policyDecision };
+const review: ReviewDecision = { ...meta, artifact_id: ID, artifact_version: 1, review_version: 1, requested_scope: { kind: "workspace", id: ID }, expires_at: TIME, judge_result: "pass", human_decision: "approved", reviewer_id: ID, reviewer_role: "Reviewer", reason: "Approved", approved_payload_hash: PAYLOAD_HASH, risk_level: "R3", policy_decision: policyDecision };
 
 describe("contract repositories", () => {
   it("persists and reads a complete scoped graph while preserving immutable attempts and receipts", () => {
@@ -42,6 +42,7 @@ describe("contract repositories", () => {
     expect(new StepRepository(database).get(ID, ID)).toEqual(step);
     expect(new ArtifactRepository(database).get(ID, ID, 1)).toEqual(artifact);
     expect(new ReviewRepository(database).get(ID, ID, 1)).toEqual(review);
+    expect(new ReviewRepository(database).latestForArtifactVersion(ID, ID, 1)).toEqual(review);
     expect(new AttemptRepository(database).get(ID, ID)).toEqual(attempt);
     expect(new ReceiptRepository(database).get(ID, ID)).toEqual(receipt);
     database.close();
