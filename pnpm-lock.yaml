@@ -38,9 +38,30 @@ importers:
       '@nexora/config':
         specifier: workspace:*
         version: link:../../packages/config
+      '@nexora/contracts':
+        specifier: workspace:*
+        version: link:../../packages/contracts
+      '@nexora/domain':
+        specifier: workspace:*
+        version: link:../../packages/domain
+      '@nexora/event-store':
+        specifier: workspace:*
+        version: link:../../packages/event-store
+      '@nexora/orchestration':
+        specifier: workspace:*
+        version: link:../../packages/orchestration
+      '@nexora/persistence':
+        specifier: workspace:*
+        version: link:../../packages/persistence
+      '@nexora/policy':
+        specifier: workspace:*
+        version: link:../../packages/policy
       fastify:
         specifier: ^5.3.2
         version: 5.12.1
+      zod:
+        specifier: ^3.24.3
+        version: 3.25.76
 
   apps/mission-control:
     dependencies:

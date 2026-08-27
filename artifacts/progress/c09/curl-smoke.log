@@ -1,0 +1,83 @@
+# C09 curl smoke 2026-08-27T18:16:29.901Z
+temporary API: http://127.0.0.1:49263
+temporary data dir: /var/folders/w0/kv_hbdx54fz_d8c55qtlk0h00000gn/T/nexora-c09-smoke.Qodb37
+
+## GET /v1/health
+{"status":"ok","version":"0.1.0","checks":{"api":"ok","db":"not_configured","queue":"not_configured"}}
+
+## POST /v1/goals
+{"schema_version":1,"command_id":"curl:goal","status":"accepted","object_type":"goal","object_id":"02ARZ3NDEKTSV4RRFFQ69A5FAV","status_url":"/v1/goals/02ARZ3NDEKTSV4RRFFQ69A5FAV?workspace_id=01ARZ3NDEKTSV4RRFFQ69G5FAV","events_url":null}
+
+## POST /v1/tickets
+{"schema_version":1,"command_id":"curl:ticket","status":"accepted","object_type":"ticket","object_id":"02BRZ3NDEKTSV4RRFFQ69B5FAV","status_url":"/v1/tickets/02BRZ3NDEKTSV4RRFFQ69B5FAV?workspace_id=01ARZ3NDEKTSV4RRFFQ69G5FAV","events_url":null}
+
+## GET /v1/tickets/:id
+{"schema_version":1,"ticket":{"id":"02BRZ3NDEKTSV4RRFFQ69B5FAV","workspace_id":"01ARZ3NDEKTSV4RRFFQ69G5FAV","schema_version":1,"created_at":"2026-08-27T04:00:00.000Z","updated_at":"2026-08-27T04:00:00.000Z","goal_id":"02ARZ3NDEKTSV4RRFFQ69A5FAV","status":"ready","definition_of_done":["smoke passes"],"assigned_agents":["01DRZ3NDEKTSV4RRFFQ69G5FAV"],"approval_policy":{"mode":"required"}}}
+Ticket public query omitted idempotency_key.
+
+## POST /v1/runs
+{"schema_version":1,"command_id":"curl:run","status":"accepted","object_type":"run","object_id":"02CRZ3NDEKTSV4RRFFQ69C5FAV","run_id":"02CRZ3NDEKTSV4RRFFQ69C5FAV","status_url":"/v1/runs/02CRZ3NDEKTSV4RRFFQ69C5FAV?workspace_id=01ARZ3NDEKTSV4RRFFQ69G5FAV","events_url":"/v1/runs/02CRZ3NDEKTSV4RRFFQ69C5FAV/events?workspace_id=01ARZ3NDEKTSV4RRFFQ69G5FAV"}
+
+## GET /v1/runs/:id/events
+id: 02GRZ3NDEKTSV4RRFFQ69G5FAV
+event: run.created
+data: {"event_id":"02GRZ3NDEKTSV4RRFFQ69G5FAV","event_type":"run.created","schema_version":1,"occurred_at":"2026-08-27T04:00:00.000Z","workspace_id":"01ARZ3NDEKTSV4RRFFQ69G5FAV","run_id":"02CRZ3NDEKTSV4RRFFQ69C5FAV","attempt_id":null,"step_id":null,"sequence":0}
+
+event: nexora.cursor
+data: {"next_cursor":null,"last_event_id":"02GRZ3NDEKTSV4RRFFQ69G5FAV"}
+
+
+SSE public summary omitted actor, payload, redactions, scope.
+
+## POST /v1/runs/:id/pause
+{"schema_version":1,"command_id":"curl:pause","status":"accepted","object_type":"run","object_id":"02CRZ3NDEKTSV4RRFFQ69C5FAV","run_id":"02CRZ3NDEKTSV4RRFFQ69C5FAV","status_url":"/v1/runs/02CRZ3NDEKTSV4RRFFQ69C5FAV?workspace_id=01ARZ3NDEKTSV4RRFFQ69G5FAV","events_url":"/v1/runs/02CRZ3NDEKTSV4RRFFQ69C5FAV/events?workspace_id=01ARZ3NDEKTSV4RRFFQ69G5FAV"}
+
+## POST /v1/runs/:id/resume
+{"schema_version":1,"command_id":"curl:resume","status":"accepted","object_type":"run","object_id":"02CRZ3NDEKTSV4RRFFQ69C5FAV","run_id":"02CRZ3NDEKTSV4RRFFQ69C5FAV","status_url":"/v1/runs/02CRZ3NDEKTSV4RRFFQ69C5FAV?workspace_id=01ARZ3NDEKTSV4RRFFQ69G5FAV","events_url":"/v1/runs/02CRZ3NDEKTSV4RRFFQ69C5FAV/events?workspace_id=01ARZ3NDEKTSV4RRFFQ69G5FAV"}
+
+## POST /v1/reviews/:id/decision
+{"schema_version":1,"command_id":"curl:review","status":"accepted","object_type":"review","object_id":"033RZ3NDEKTSV4RRFFQ69Z5FAV","status_url":"/v1/reviews/033RZ3NDEKTSV4RRFFQ69Z5FAV?workspace_id=01ARZ3NDEKTSV4RRFFQ69G5FAV","events_url":null}
+
+## GET /v1/reviews/:id
+{"schema_version":1,"review":{"id":"033RZ3NDEKTSV4RRFFQ69Z5FAV","workspace_id":"01ARZ3NDEKTSV4RRFFQ69G5FAV","schema_version":1,"created_at":"2026-08-27T04:00:00.000Z","updated_at":"2026-08-27T04:00:00.000Z","artifact_id":"032RZ3NDEKTSV4RRFFQ69Z5FAV","artifact_version":1,"review_version":1,"requested_scope":{"kind":"workspace","id":"01ARZ3NDEKTSV4RRFFQ69G5FAV"},"expires_at":"2026-08-27T04:10:00.000Z","judge_result":"pass","human_decision":"approved","reason":"Smoke review approved","risk_level":"R3"}}
+Review public query omitted reviewer_id, reviewer_role, approved_payload_hash, policy_decision.
+
+## GET /v1/runs/:id/events after review
+id: 02GRZ3NDEKTSV4RRFFQ69G5FAV
+event: run.created
+data: {"event_id":"02GRZ3NDEKTSV4RRFFQ69G5FAV","event_type":"run.created","schema_version":1,"occurred_at":"2026-08-27T04:00:00.000Z","workspace_id":"01ARZ3NDEKTSV4RRFFQ69G5FAV","run_id":"02CRZ3NDEKTSV4RRFFQ69C5FAV","attempt_id":null,"step_id":null,"sequence":0}
+
+id: 02HRZ3NDEKTSV4RRFFQ69H5FAV
+event: run.paused
+data: {"event_id":"02HRZ3NDEKTSV4RRFFQ69H5FAV","event_type":"run.paused","schema_version":1,"occurred_at":"2026-08-27T04:00:00.000Z","workspace_id":"01ARZ3NDEKTSV4RRFFQ69G5FAV","run_id":"02CRZ3NDEKTSV4RRFFQ69C5FAV","attempt_id":null,"step_id":null,"sequence":1}
+
+id: 02JRZ3NDEKTSV4RRFFQ69J5FAV
+event: run.resumed
+data: {"event_id":"02JRZ3NDEKTSV4RRFFQ69J5FAV","event_type":"run.resumed","schema_version":1,"occurred_at":"2026-08-27T04:00:00.000Z","workspace_id":"01ARZ3NDEKTSV4RRFFQ69G5FAV","run_id":"02CRZ3NDEKTSV4RRFFQ69C5FAV","attempt_id":null,"step_id":null,"sequence":2}
+
+id: 035RZ3NDEKTSV4RRFFQ69Z5FAV
+event: review.requested
+data: {"event_id":"035RZ3NDEKTSV4RRFFQ69Z5FAV","event_type":"review.requested","schema_version":1,"occurred_at":"2026-08-27T04:00:00.000Z","workspace_id":"01ARZ3NDEKTSV4RRFFQ69G5FAV","run_id":"02CRZ3NDEKTSV4RRFFQ69C5FAV","attempt_id":null,"step_id":null,"sequence":3}
+
+id: 02KRZ3NDEKTSV4RRFFQ69K5FAV
+event: review.decided
+data: {"event_id":"02KRZ3NDEKTSV4RRFFQ69K5FAV","event_type":"review.decided","schema_version":1,"occurred_at":"2026-08-27T04:00:00.000Z","workspace_id":"01ARZ3NDEKTSV4RRFFQ69G5FAV","run_id":"02CRZ3NDEKTSV4RRFFQ69C5FAV","attempt_id":null,"step_id":null,"sequence":4}
+
+event: nexora.cursor
+data: {"next_cursor":null,"last_event_id":"02KRZ3NDEKTSV4RRFFQ69K5FAV"}
+
+
+Review SSE summary omitted payload_hash, reviewer_id, actor.
+
+## GET /v1/memory/:id
+{"schema_version":1,"memory":{"id":"030RZ3NDEKTSV4RRFFQ69Z5FAV","workspace_id":"01ARZ3NDEKTSV4RRFFQ69G5FAV","schema_version":1,"created_at":"2026-08-27T04:00:00.000Z","updated_at":"2026-08-27T04:00:00.000Z","path":"Reports/c09.md","scope":{"kind":"workspace","id":"01ARZ3NDEKTSV4RRFFQ69G5FAV"},"current_version":1,"trust_state":"trusted","source_refs":[{"kind":"manual","ref":"manual://c09","verified":true}],"provenance":{"run_id":null,"artifact_refs":[],"receipt_refs":[]}}}
+Memory public query omitted created_by, 01CRZ3NDEKTSV4RRFFQ69G5FAV.
+
+## POST /v1/runs/:id/cancel
+{"schema_version":1,"command_id":"curl:cancel","status":"accepted","object_type":"run","object_id":"02CRZ3NDEKTSV4RRFFQ69C5FAV","run_id":"02CRZ3NDEKTSV4RRFFQ69C5FAV","status_url":"/v1/runs/02CRZ3NDEKTSV4RRFFQ69C5FAV?workspace_id=01ARZ3NDEKTSV4RRFFQ69G5FAV","events_url":"/v1/runs/02CRZ3NDEKTSV4RRFFQ69C5FAV/events?workspace_id=01ARZ3NDEKTSV4RRFFQ69G5FAV"}
+
+## GET /v1/runs/:id
+{"schema_version":1,"run":{"id":"02CRZ3NDEKTSV4RRFFQ69C5FAV","workspace_id":"01ARZ3NDEKTSV4RRFFQ69G5FAV","schema_version":1,"created_at":"2026-08-27T04:00:00.000Z","updated_at":"2026-08-27T04:00:00.000Z","ticket_id":"02BRZ3NDEKTSV4RRFFQ69B5FAV","execution_location":"local","status":"cancelled","budget":{"max_tokens":100000,"max_cost_usd":100},"memory_snapshot":{"snapshot_id":"01ARZ3NDEKTSV4RRFFQ69G5FAV","version":1},"connector_versions":{"deterministic":"1.0.0"}},"version":4,"attempts":[{"id":"02DRZ3NDEKTSV4RRFFQ69D5FAV","workspace_id":"01ARZ3NDEKTSV4RRFFQ69G5FAV","schema_version":1,"created_at":"2026-08-27T04:00:00.000Z","updated_at":"2026-08-27T04:00:00.000Z","run_id":"02CRZ3NDEKTSV4RRFFQ69C5FAV","status":"queued"}],"steps":[{"id":"02ERZ3NDEKTSV4RRFFQ69E5FAV","workspace_id":"01ARZ3NDEKTSV4RRFFQ69G5FAV","schema_version":1,"created_at":"2026-08-27T04:00:00.000Z","updated_at":"2026-08-27T04:00:00.000Z","run_id":"02CRZ3NDEKTSV4RRFFQ69C5FAV","attempt_id":"02DRZ3NDEKTSV4RRFFQ69D5FAV","agent_id":"01DRZ3NDEKTSV4RRFFQ69G5FAV","status":"pending","inputs":["ticket://02BRZ3NDEKTSV4RRFFQ69B5FAV"],"outputs":["run://02CRZ3NDEKTSV4RRFFQ69C5FAV"],"retry_policy":{"max_attempts":3,"backoff_ms":100},"requires_review":false}],"queue_jobs":[{"id":"02FRZ3NDEKTSV4RRFFQ69F5FAV","workspace_id":"01ARZ3NDEKTSV4RRFFQ69G5FAV","run_id":"02CRZ3NDEKTSV4RRFFQ69C5FAV","step_id":"02ERZ3NDEKTSV4RRFFQ69E5FAV","status":"cancelled","available_at":"2026-08-27T04:00:00.000Z","attempts":0,"max_attempts":3,"created_at":"2026-08-27T04:00:00.000Z","updated_at":"2026-08-27T04:00:00.000Z"}]}
+Run detail queue_jobs omitted idempotency_key, request_hash, payload, fencing_token, lease_id.
+
+PASS: C09 HTTP smoke completed without public response leaks.

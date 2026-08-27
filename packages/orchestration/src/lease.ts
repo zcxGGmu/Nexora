@@ -36,7 +36,7 @@ export class LeaseManager {
     if (!Number.isInteger(leaseSeconds) || leaseSeconds < 1 || leaseSeconds > 3600) throw new OrchestrationError("LEASE_BUSY", "Lease duration must be between 1 and 3600 seconds");
     return withTransaction(this.database, () => {
       this.expireLeases(input.workspace_id, input.now);
-      const row = this.database.prepare("SELECT id, workspace_id, run_id, step_id, attempts, max_attempts, fencing_token FROM queue_jobs WHERE workspace_id = ? AND status = 'queued' AND available_at <= ? ORDER BY available_at ASC, created_at ASC LIMIT 1").get(input.workspace_id, input.now);
+      const row = this.database.prepare("SELECT q.id, q.workspace_id, q.run_id, q.step_id, q.attempts, q.max_attempts, q.fencing_token FROM queue_jobs q INNER JOIN runs r ON r.workspace_id = q.workspace_id AND r.id = q.run_id WHERE q.workspace_id = ? AND q.status = 'queued' AND q.available_at <= ? AND r.status IN ('queued', 'running') ORDER BY q.available_at ASC, q.created_at ASC LIMIT 1").get(input.workspace_id, input.now);
       if (row === undefined) return undefined;
       const jobId = readText(row["id"]);
       const workspaceId = readText(row["workspace_id"]);

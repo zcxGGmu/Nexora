@@ -53,6 +53,16 @@ describe("parseEnvironment", () => {
     expect(environment.migrationMode).toBe("validate");
   });
 
+  test("Given a local control token secret When parsed Then it exposes the secret without changing migration defaults", () => {
+    const environment = parseEnvironment({
+      NEXORA_DATA_DIR: "/tmp/nexora-data",
+      NEXORA_CONTROL_TOKEN_SECRET: "0123456789abcdef0123456789abcdef",
+    });
+
+    expect(environment.controlTokenSecret).toBe("0123456789abcdef0123456789abcdef");
+    expect(environment.migrationMode).toBe("auto");
+  });
+
   test("Given missing data directory When parsed Then it reports a redacted typed error", () => {
     const error = captureValidationError({
       NEXORA_API_SECRET: secretSentinel,

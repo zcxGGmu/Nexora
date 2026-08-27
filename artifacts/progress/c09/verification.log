@@ -1,0 +1,85 @@
+# C09 verification 2026-08-27T18:17:37Z
+
+## git status --short --branch
+
+- Exit: 0
+- Branch: `codex/agent-os-implementation`
+- Latest committed stage before C09: `4484db4 feat: add connector contracts and review gates`
+- User-owned dirty paths remain present and must not be staged for C09: `tasks/`, `demo/`, `.omo/`, broader untracked design docs/assets.
+
+## Demo launchd / port smoke
+
+- Exit: 0
+- `launchctl print gui/$(id -u)/com.nexora.agent-os-demo`: service state `running`, pid `96501`.
+- `lsof -nP -iTCP:5173 -sTCP:LISTEN`: `node` is listening on `127.0.0.1:5173`.
+- `curl -fsS -I http://127.0.0.1:5173/`: `HTTP/1.1 200 OK`.
+
+## pnpm --filter @nexora/mission-control build
+
+- Exit: 0
+- Output: Vite transformed 22 modules and produced `dist/index.html` plus `dist/assets/index-C9UOVBTj.js`.
+- Warning observed: project engine wants Node `>=22.13.0 <23.0.0`; current runtime is Node `v25.9.0` with pnpm `10.10.0`.
+
+## Temporary migration check
+
+- Exit: 0
+- Command: `NEXORA_DATA_DIR="$(mktemp -d /tmp/nexora-c09-migrate.XXXXXX)" pnpm db:migrate`.
+- Output: `@nexora/persistence migrate` ran `tsx src/migrate.ts` successfully.
+- Warning observed: project engine wants Node `>=22.13.0 <23.0.0`; current runtime is Node `v25.9.0` with pnpm `10.10.0`.
+
+## pnpm typecheck
+
+- Exit: 0
+- Command: `tsc --project tsconfig.base.json --noEmit`.
+- Warning observed: project engine wants Node `>=22.13.0 <23.0.0`; current runtime is Node `v25.9.0` with pnpm `10.10.0`.
+
+## pnpm test --run
+
+- Exit: 0
+- Result: 51 test files passed, 279 tests passed.
+- Coverage includes C09 route tests for runs, events, memory, reviews, tickets, config env parsing, event-store cursors, persistence repositories, orchestration run control, and full package regression coverage.
+- Warning observed: project engine wants Node `>=22.13.0 <23.0.0`; current runtime is Node `v25.9.0` with pnpm `10.10.0`.
+
+## pnpm test:integration
+
+- Exit: 0
+- Result: 6 integration files passed, 10 tests passed.
+- Coverage includes policy boundary, runtime contract, review gate, provenance, recovery, and API command integration.
+- Warning observed: project engine wants Node `>=22.13.0 <23.0.0`; current runtime is Node `v25.9.0` with pnpm `10.10.0`.
+
+## pnpm audit --audit-level moderate
+
+- Exit: 0
+- Output: `No known vulnerabilities found`.
+
+## TypeScript no-excuse audit availability
+
+- Exit: 2
+- Command: `bun run /Users/zq/.codex/plugins/cache/sisyphuslabs/omo/4.19.4/skills/programming/scripts/typescript/check-no-excuse-rules.ts apps/api packages tests`.
+- Output: `error: cannot resolve "typescript" from the caller project (/Users/zq/Desktop/ai-projs/posp/Nexora). Install it in the project being checked (e.g. bun add -d typescript) and re-run.`
+- Follow-up inspection: root `node_modules/typescript` resolves to TypeScript `5.9.3`; `typescript/unstable/async` returns `MODULE_NOT_FOUND`.
+- Fallback scan: `rg -n "as (any|unknown)|@ts-(ignore|expect-error)|throw\\s+([\\\"']|[0-9])|export\\s+(let|var)|^\\s*enum\\s" apps/api/src packages/config/src packages/contracts/src packages/domain/src packages/event-store/src packages/orchestration/src packages/persistence/src tests/integration/api-commands.test.ts` returned no matches.
+- Decision: do not mutate project dependencies solely to satisfy an external skill script; typecheck, unit, integration, migration, audit, build, fallback text scan, and manual HTTP smoke provide C09 verification.
+
+## Manual HTTP smoke
+
+- Exit: 0
+- Evidence file: `artifacts/progress/c09/curl-smoke.log`.
+- A temporary Fastify API listened on `127.0.0.1` with an ephemeral port, in-memory SQLite database, seeded workspace/agent, signed local bearer auth, and migrated schema.
+- Observed health, goal create, ticket create/query, run create, SSE event stream, pause, resume, review decision/query, review SSE, memory query, cancel, and final run detail.
+- Explicit leak checks passed: ticket queries omitted `idempotency_key`; review queries omitted `reviewer_id`, `reviewer_role`, `approved_payload_hash`, and `policy_decision`; memory queries omitted `provenance.created_by`; SSE public summaries omitted `actor`, `payload`, `redactions`, `scope`, `payload_hash`, and `reviewer_id`; run detail queue jobs omitted `idempotency_key`, `request_hash`, `payload`, `fencing_token`, and `lease_id`.
+
+## Post-review fixes verified
+
+- Stale memory candidate acceptance now rejects with `409 MEMORY_CONFLICT` and leaves the active note at its newer version.
+- Accepted non-pending review decisions now append `review.decided` events and public SSE summaries hide internal payload/actor fields.
+- Public ticket, review, memory, SSE, and queue job query shapes avoid the sensitive fields identified by review.
+- Path IDs, event `step_id`, and command body IDs are ULID-validated; write idempotency keys are trimmed and capped at 128 characters.
+- Create agent/goal and review decision bodies reject caller-owned identity/idempotency fields through strict schemas.
+
+## Final gate review
+
+- Verdict: PASS.
+- Gate reviewer reported no blockers for the scoped C09 implementation.
+- Non-blocking residual risks recorded by the reviewer: no dedicated C09 code-review report under `artifacts/progress/c09`, and the no-excuse script remains unavailable under TypeScript 5.9.3. Both are covered by direct source inspection, targeted test reproduction, and fallback no-excuse text scan.
+- Report location: `.omo/evidence/c09-gate-review.md`. This path remains untracked/user-owned and is not part of the C09 implementation commit.

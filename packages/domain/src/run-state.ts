@@ -4,7 +4,7 @@ import { DomainError } from "./errors.js";
 export type RunStatus = Run["status"];
 
 const transitions: Readonly<Record<RunStatus, readonly RunStatus[]>> = {
-  queued: ["running", "cancelled", "failed"],
+  queued: ["running", "paused", "cancelled", "failed"],
   running: ["paused", "waiting_review", "succeeded", "partial", "failed", "cancelled"],
   paused: ["running", "cancelled", "failed"],
   waiting_review: ["running", "succeeded", "partial", "failed", "cancelled"],

@@ -36,6 +36,7 @@ export type ListEventsInput = {
   readonly runId: string;
   readonly after: string | null;
   readonly limit: number;
+  readonly stepId?: string | null;
 };
 
 export class EventStore {
@@ -65,7 +66,9 @@ export class EventStore {
       throw new EventStoreError("EVENT_LIMIT_INVALID", "Event page limit must be between 1 and 1000");
     }
     const afterSequence = this.afterSequence(input);
-    const rows = this.database.prepare("SELECT payload_json, sequence, event_id FROM events WHERE workspace_id = ? AND run_id = ? AND sequence > ? ORDER BY sequence ASC LIMIT ?").all(input.workspaceId, input.runId, afterSequence, input.limit + 1);
+    const rows = input.stepId === undefined || input.stepId === null
+      ? this.database.prepare("SELECT payload_json, sequence, event_id FROM events WHERE workspace_id = ? AND run_id = ? AND sequence > ? ORDER BY sequence ASC LIMIT ?").all(input.workspaceId, input.runId, afterSequence, input.limit + 1)
+      : this.database.prepare("SELECT payload_json, sequence, event_id FROM events WHERE workspace_id = ? AND run_id = ? AND step_id = ? AND sequence > ? ORDER BY sequence ASC LIMIT ?").all(input.workspaceId, input.runId, input.stepId, afterSequence, input.limit + 1);
     const pageRows = rows.slice(0, input.limit);
     const events = pageRows.map((row) => EventEnvelopeSchema.parse(JSON.parse(readText(row["payload_json"]))));
     const lastEvent = events.at(-1);

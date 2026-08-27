@@ -7,7 +7,7 @@ describe("run state machine", () => {
     ["queued", "running"], ["running", "paused"], ["paused", "running"],
     ["running", "waiting_review"], ["waiting_review", "succeeded"],
     ["running", "partial"], ["partial", "succeeded"], ["running", "failed"],
-    ["failed", "running"], ["queued", "cancelled"],
+    ["failed", "running"], ["queued", "paused"], ["queued", "cancelled"],
   ] as const)("allows %s -> %s", (from, to) => {
     expect(canTransitionRun(from, to)).toBe(true);
     expect(transitionRun(from, to)).toBe(to);

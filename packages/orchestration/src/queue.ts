@@ -93,6 +93,16 @@ export class DurableQueue {
     });
   }
 
+  requestCancelRun(workspaceId: string, runId: string): readonly QueueJob[] {
+    return withTransaction(this.database, () => {
+      const now = this.clock.now();
+      this.database.prepare("UPDATE queue_jobs SET status = 'cancelled', lease_id = NULL, updated_at = ? WHERE workspace_id = ? AND run_id = ? AND status = 'queued'").run(now, workspaceId, runId);
+      this.database.prepare("UPDATE queue_jobs SET status = 'cancel_requested', updated_at = ? WHERE workspace_id = ? AND run_id = ? AND status IN ('leased', 'cancel_requested')").run(now, workspaceId, runId);
+      const rows = this.database.prepare("SELECT id, workspace_id, run_id, step_id, idempotency_key, request_hash, status, available_at, attempts, max_attempts, fencing_token, lease_id, last_error_code, payload_json, created_at, updated_at FROM queue_jobs WHERE workspace_id = ? AND run_id = ? ORDER BY created_at ASC, id ASC").all(workspaceId, runId);
+      return rows.map((row) => readQueueJob(row));
+    });
+  }
+
   setTerminal(token: LeaseToken, status: Extract<QueueJobStatus, "completed" | "failed" | "cancelled" | "cancel_unknown">, errorCode: string | null = null): QueueJob {
     const result = this.database.prepare("UPDATE queue_jobs SET status = ?, lease_id = NULL, last_error_code = ?, updated_at = ? WHERE workspace_id = ? AND id = ? AND lease_id = ? AND fencing_token = ? AND status IN ('leased', 'cancel_requested', 'cancel_unknown')").run(status, errorCode, this.clock.now(), token.workspace_id, token.job_id, token.lease_id, token.fencing_token);
     if (result.changes !== 1 && result.changes !== 1n) throw new OrchestrationError("STALE_LEASE", "Queue terminal write was rejected by fencing");
