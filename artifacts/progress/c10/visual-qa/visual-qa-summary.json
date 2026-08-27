@@ -1,0 +1,932 @@
+[
+  {
+    "route": "/design-system",
+    "width": 375,
+    "screenshot": "/Users/zq/Desktop/ai-projs/posp/Nexora/artifacts/progress/c10/visual-qa/design-system-375.png",
+    "consoleErrors": [],
+    "pageErrors": [],
+    "title": "Primitive showcase and state matrix",
+    "scrollWidth": 375,
+    "viewportWidth": 375,
+    "visibleMobileItems": 5,
+    "stateCount": 6,
+    "visibleTargetCount": 10,
+    "undersized": [],
+    "hasColorOnlyState": false,
+    "topbarBoxes": [
+      {
+        "className": "scope-button",
+        "text": "Demo Workspaceread_write",
+        "left": 8,
+        "right": 187.8,
+        "top": 5.5,
+        "bottom": 49.5,
+        "width": 179.8,
+        "height": 44
+      },
+      {
+        "className": "row-action",
+        "text": "Start",
+        "left": 229.7,
+        "right": 315,
+        "top": 5.5,
+        "bottom": 49.5,
+        "width": 85.3,
+        "height": 44
+      },
+      {
+        "className": "status-badge status-badge--success",
+        "text": "Connected",
+        "left": 323,
+        "right": 367,
+        "top": 5.5,
+        "bottom": 49.5,
+        "width": 44,
+        "height": 44
+      }
+    ],
+    "topbarOverlaps": [],
+    "mobileTopbar": {
+      "createVisible": false,
+      "searchControlVisible": false,
+      "searchLabelVisible": false,
+      "scopeAccessVisible": false,
+      "statusTextVisible": false
+    }
+  },
+  {
+    "route": "/design-system",
+    "width": 768,
+    "screenshot": "/Users/zq/Desktop/ai-projs/posp/Nexora/artifacts/progress/c10/visual-qa/design-system-768.png",
+    "consoleErrors": [],
+    "pageErrors": [],
+    "title": "Primitive showcase and state matrix",
+    "scrollWidth": 768,
+    "viewportWidth": 768,
+    "visibleMobileItems": 0,
+    "stateCount": 6,
+    "visibleTargetCount": 18,
+    "undersized": [],
+    "hasColorOnlyState": false,
+    "topbarBoxes": [
+      {
+        "className": "scope-button",
+        "text": "Demo Workspaceread_write",
+        "left": 16,
+        "right": 171.8,
+        "top": 5.5,
+        "bottom": 49.5,
+        "width": 155.8,
+        "height": 44
+      },
+      {
+        "className": "meta topbar-search-label",
+        "text": "Search",
+        "left": 183.8,
+        "right": 223.1,
+        "top": 19.5,
+        "bottom": 35.5,
+        "width": 39.3,
+        "height": 16
+      },
+      {
+        "className": "search-control",
+        "text": "",
+        "left": 235.1,
+        "right": 464.1,
+        "top": 4.5,
+        "bottom": 50.5,
+        "width": 229,
+        "height": 46
+      },
+      {
+        "className": "row-action",
+        "text": "Start",
+        "left": 488.1,
+        "right": 553.6,
+        "top": 5.5,
+        "bottom": 49.5,
+        "width": 65.5,
+        "height": 44
+      },
+      {
+        "className": "primary-action",
+        "text": "Create",
+        "left": 565.6,
+        "right": 642.1,
+        "top": 5.5,
+        "bottom": 49.5,
+        "width": 76.5,
+        "height": 44
+      },
+      {
+        "className": "status-badge status-badge--success",
+        "text": "Connected",
+        "left": 654.1,
+        "right": 752,
+        "top": 15.5,
+        "bottom": 39.5,
+        "width": 97.9,
+        "height": 24
+      }
+    ],
+    "topbarOverlaps": [],
+    "mobileTopbar": {
+      "createVisible": true,
+      "searchControlVisible": true,
+      "searchLabelVisible": true,
+      "scopeAccessVisible": true,
+      "statusTextVisible": true
+    }
+  },
+  {
+    "route": "/design-system",
+    "width": 1024,
+    "screenshot": "/Users/zq/Desktop/ai-projs/posp/Nexora/artifacts/progress/c10/visual-qa/design-system-1024.png",
+    "consoleErrors": [],
+    "pageErrors": [],
+    "title": "Primitive showcase and state matrix",
+    "scrollWidth": 1024,
+    "viewportWidth": 1024,
+    "visibleMobileItems": 0,
+    "stateCount": 6,
+    "visibleTargetCount": 18,
+    "undersized": [],
+    "hasColorOnlyState": false,
+    "topbarBoxes": [
+      {
+        "className": "scope-button",
+        "text": "Demo Workspaceread_write",
+        "left": 16,
+        "right": 237.2,
+        "top": 5.5,
+        "bottom": 49.5,
+        "width": 221.2,
+        "height": 44
+      },
+      {
+        "className": "meta topbar-search-label",
+        "text": "Search",
+        "left": 249.2,
+        "right": 288.5,
+        "top": 19.5,
+        "bottom": 35.5,
+        "width": 39.3,
+        "height": 16
+      },
+      {
+        "className": "search-control",
+        "text": "",
+        "left": 300.5,
+        "right": 648.6,
+        "top": 4.5,
+        "bottom": 50.5,
+        "width": 348.2,
+        "height": 46
+      },
+      {
+        "className": "row-action",
+        "text": "Start",
+        "left": 698.8,
+        "right": 784.2,
+        "top": 5.5,
+        "bottom": 49.5,
+        "width": 85.3,
+        "height": 44
+      },
+      {
+        "className": "primary-action",
+        "text": "Create",
+        "left": 796.2,
+        "right": 898.1,
+        "top": 5.5,
+        "bottom": 49.5,
+        "width": 102,
+        "height": 44
+      },
+      {
+        "className": "status-badge status-badge--success",
+        "text": "Connected",
+        "left": 910.1,
+        "right": 1008,
+        "top": 15.5,
+        "bottom": 39.5,
+        "width": 97.9,
+        "height": 24
+      }
+    ],
+    "topbarOverlaps": [],
+    "mobileTopbar": {
+      "createVisible": true,
+      "searchControlVisible": true,
+      "searchLabelVisible": true,
+      "scopeAccessVisible": true,
+      "statusTextVisible": true
+    }
+  },
+  {
+    "route": "/design-system",
+    "width": 1440,
+    "screenshot": "/Users/zq/Desktop/ai-projs/posp/Nexora/artifacts/progress/c10/visual-qa/design-system-1440.png",
+    "consoleErrors": [],
+    "pageErrors": [],
+    "title": "Primitive showcase and state matrix",
+    "scrollWidth": 1440,
+    "viewportWidth": 1440,
+    "visibleMobileItems": 0,
+    "stateCount": 7,
+    "visibleTargetCount": 18,
+    "undersized": [],
+    "hasColorOnlyState": false,
+    "topbarBoxes": [
+      {
+        "className": "scope-button",
+        "text": "Demo Workspaceread_write",
+        "left": 16,
+        "right": 237.2,
+        "top": 5.5,
+        "bottom": 49.5,
+        "width": 221.2,
+        "height": 44
+      },
+      {
+        "className": "meta topbar-search-label",
+        "text": "Search",
+        "left": 249.2,
+        "right": 288.5,
+        "top": 19.5,
+        "bottom": 35.5,
+        "width": 39.3,
+        "height": 16
+      },
+      {
+        "className": "search-control",
+        "text": "",
+        "left": 300.5,
+        "right": 720.5,
+        "top": 4.5,
+        "bottom": 50.5,
+        "width": 420,
+        "height": 46
+      },
+      {
+        "className": "row-action",
+        "text": "Start",
+        "left": 1114.8,
+        "right": 1200.2,
+        "top": 5.5,
+        "bottom": 49.5,
+        "width": 85.3,
+        "height": 44
+      },
+      {
+        "className": "primary-action",
+        "text": "Create",
+        "left": 1212.2,
+        "right": 1314.1,
+        "top": 5.5,
+        "bottom": 49.5,
+        "width": 102,
+        "height": 44
+      },
+      {
+        "className": "status-badge status-badge--success",
+        "text": "Connected",
+        "left": 1326.1,
+        "right": 1424,
+        "top": 15.5,
+        "bottom": 39.5,
+        "width": 97.9,
+        "height": 24
+      }
+    ],
+    "topbarOverlaps": [],
+    "mobileTopbar": {
+      "createVisible": true,
+      "searchControlVisible": true,
+      "searchLabelVisible": true,
+      "scopeAccessVisible": true,
+      "statusTextVisible": true
+    }
+  },
+  {
+    "route": "/mission-control",
+    "width": 375,
+    "screenshot": "/Users/zq/Desktop/ai-projs/posp/Nexora/artifacts/progress/c10/visual-qa/mission-control-375.png",
+    "consoleErrors": [],
+    "pageErrors": [],
+    "title": "Attention, active work, and next safe actions",
+    "scrollWidth": 375,
+    "viewportWidth": 375,
+    "visibleMobileItems": 5,
+    "stateCount": 1,
+    "visibleTargetCount": 13,
+    "undersized": [],
+    "hasColorOnlyState": false,
+    "topbarBoxes": [
+      {
+        "className": "scope-button",
+        "text": "Demo Workspaceread_write",
+        "left": 8,
+        "right": 187.8,
+        "top": 5.5,
+        "bottom": 49.5,
+        "width": 179.8,
+        "height": 44
+      },
+      {
+        "className": "row-action",
+        "text": "Start",
+        "left": 229.7,
+        "right": 315,
+        "top": 5.5,
+        "bottom": 49.5,
+        "width": 85.3,
+        "height": 44
+      },
+      {
+        "className": "status-badge status-badge--success",
+        "text": "Connected",
+        "left": 323,
+        "right": 367,
+        "top": 5.5,
+        "bottom": 49.5,
+        "width": 44,
+        "height": 44
+      }
+    ],
+    "topbarOverlaps": [],
+    "mobileTopbar": {
+      "createVisible": false,
+      "searchControlVisible": false,
+      "searchLabelVisible": false,
+      "scopeAccessVisible": false,
+      "statusTextVisible": false
+    }
+  },
+  {
+    "route": "/mission-control",
+    "width": 768,
+    "screenshot": "/Users/zq/Desktop/ai-projs/posp/Nexora/artifacts/progress/c10/visual-qa/mission-control-768.png",
+    "consoleErrors": [],
+    "pageErrors": [],
+    "title": "Attention, active work, and next safe actions",
+    "scrollWidth": 768,
+    "viewportWidth": 768,
+    "visibleMobileItems": 0,
+    "stateCount": 1,
+    "visibleTargetCount": 21,
+    "undersized": [],
+    "hasColorOnlyState": false,
+    "topbarBoxes": [
+      {
+        "className": "scope-button",
+        "text": "Demo Workspaceread_write",
+        "left": 16,
+        "right": 171.8,
+        "top": 5.5,
+        "bottom": 49.5,
+        "width": 155.8,
+        "height": 44
+      },
+      {
+        "className": "meta topbar-search-label",
+        "text": "Search",
+        "left": 183.8,
+        "right": 223.1,
+        "top": 19.5,
+        "bottom": 35.5,
+        "width": 39.3,
+        "height": 16
+      },
+      {
+        "className": "search-control",
+        "text": "",
+        "left": 235.1,
+        "right": 464.1,
+        "top": 4.5,
+        "bottom": 50.5,
+        "width": 229,
+        "height": 46
+      },
+      {
+        "className": "row-action",
+        "text": "Start",
+        "left": 488.1,
+        "right": 553.6,
+        "top": 5.5,
+        "bottom": 49.5,
+        "width": 65.5,
+        "height": 44
+      },
+      {
+        "className": "primary-action",
+        "text": "Create",
+        "left": 565.6,
+        "right": 642.1,
+        "top": 5.5,
+        "bottom": 49.5,
+        "width": 76.5,
+        "height": 44
+      },
+      {
+        "className": "status-badge status-badge--success",
+        "text": "Connected",
+        "left": 654.1,
+        "right": 752,
+        "top": 15.5,
+        "bottom": 39.5,
+        "width": 97.9,
+        "height": 24
+      }
+    ],
+    "topbarOverlaps": [],
+    "mobileTopbar": {
+      "createVisible": true,
+      "searchControlVisible": true,
+      "searchLabelVisible": true,
+      "scopeAccessVisible": true,
+      "statusTextVisible": true
+    }
+  },
+  {
+    "route": "/mission-control",
+    "width": 1024,
+    "screenshot": "/Users/zq/Desktop/ai-projs/posp/Nexora/artifacts/progress/c10/visual-qa/mission-control-1024.png",
+    "consoleErrors": [],
+    "pageErrors": [],
+    "title": "Attention, active work, and next safe actions",
+    "scrollWidth": 1024,
+    "viewportWidth": 1024,
+    "visibleMobileItems": 0,
+    "stateCount": 1,
+    "visibleTargetCount": 21,
+    "undersized": [],
+    "hasColorOnlyState": false,
+    "topbarBoxes": [
+      {
+        "className": "scope-button",
+        "text": "Demo Workspaceread_write",
+        "left": 16,
+        "right": 237.2,
+        "top": 5.5,
+        "bottom": 49.5,
+        "width": 221.2,
+        "height": 44
+      },
+      {
+        "className": "meta topbar-search-label",
+        "text": "Search",
+        "left": 249.2,
+        "right": 288.5,
+        "top": 19.5,
+        "bottom": 35.5,
+        "width": 39.3,
+        "height": 16
+      },
+      {
+        "className": "search-control",
+        "text": "",
+        "left": 300.5,
+        "right": 648.6,
+        "top": 4.5,
+        "bottom": 50.5,
+        "width": 348.2,
+        "height": 46
+      },
+      {
+        "className": "row-action",
+        "text": "Start",
+        "left": 698.8,
+        "right": 784.2,
+        "top": 5.5,
+        "bottom": 49.5,
+        "width": 85.3,
+        "height": 44
+      },
+      {
+        "className": "primary-action",
+        "text": "Create",
+        "left": 796.2,
+        "right": 898.1,
+        "top": 5.5,
+        "bottom": 49.5,
+        "width": 102,
+        "height": 44
+      },
+      {
+        "className": "status-badge status-badge--success",
+        "text": "Connected",
+        "left": 910.1,
+        "right": 1008,
+        "top": 15.5,
+        "bottom": 39.5,
+        "width": 97.9,
+        "height": 24
+      }
+    ],
+    "topbarOverlaps": [],
+    "mobileTopbar": {
+      "createVisible": true,
+      "searchControlVisible": true,
+      "searchLabelVisible": true,
+      "scopeAccessVisible": true,
+      "statusTextVisible": true
+    }
+  },
+  {
+    "route": "/mission-control",
+    "width": 1440,
+    "screenshot": "/Users/zq/Desktop/ai-projs/posp/Nexora/artifacts/progress/c10/visual-qa/mission-control-1440.png",
+    "consoleErrors": [],
+    "pageErrors": [],
+    "title": "Attention, active work, and next safe actions",
+    "scrollWidth": 1440,
+    "viewportWidth": 1440,
+    "visibleMobileItems": 0,
+    "stateCount": 1,
+    "visibleTargetCount": 22,
+    "undersized": [],
+    "hasColorOnlyState": false,
+    "topbarBoxes": [
+      {
+        "className": "scope-button",
+        "text": "Demo Workspaceread_write",
+        "left": 16,
+        "right": 237.2,
+        "top": 5.5,
+        "bottom": 49.5,
+        "width": 221.2,
+        "height": 44
+      },
+      {
+        "className": "meta topbar-search-label",
+        "text": "Search",
+        "left": 249.2,
+        "right": 288.5,
+        "top": 19.5,
+        "bottom": 35.5,
+        "width": 39.3,
+        "height": 16
+      },
+      {
+        "className": "search-control",
+        "text": "",
+        "left": 300.5,
+        "right": 720.5,
+        "top": 4.5,
+        "bottom": 50.5,
+        "width": 420,
+        "height": 46
+      },
+      {
+        "className": "row-action",
+        "text": "Start",
+        "left": 1114.8,
+        "right": 1200.2,
+        "top": 5.5,
+        "bottom": 49.5,
+        "width": 85.3,
+        "height": 44
+      },
+      {
+        "className": "primary-action",
+        "text": "Create",
+        "left": 1212.2,
+        "right": 1314.1,
+        "top": 5.5,
+        "bottom": 49.5,
+        "width": 102,
+        "height": 44
+      },
+      {
+        "className": "status-badge status-badge--success",
+        "text": "Connected",
+        "left": 1326.1,
+        "right": 1424,
+        "top": 15.5,
+        "bottom": 39.5,
+        "width": 97.9,
+        "height": 24
+      }
+    ],
+    "topbarOverlaps": [],
+    "mobileTopbar": {
+      "createVisible": true,
+      "searchControlVisible": true,
+      "searchLabelVisible": true,
+      "scopeAccessVisible": true,
+      "statusTextVisible": true
+    }
+  },
+  {
+    "route": "/inbox",
+    "width": 375,
+    "screenshot": "/Users/zq/Desktop/ai-projs/posp/Nexora/artifacts/progress/c10/visual-qa/inbox-375.png",
+    "consoleErrors": [],
+    "pageErrors": [],
+    "title": "Human attention queue",
+    "scrollWidth": 375,
+    "viewportWidth": 375,
+    "visibleMobileItems": 5,
+    "stateCount": 0,
+    "visibleTargetCount": 16,
+    "undersized": [],
+    "hasColorOnlyState": false,
+    "topbarBoxes": [
+      {
+        "className": "scope-button",
+        "text": "Demo Workspaceread_write",
+        "left": 8,
+        "right": 187.8,
+        "top": 5.5,
+        "bottom": 49.5,
+        "width": 179.8,
+        "height": 44
+      },
+      {
+        "className": "row-action",
+        "text": "Start",
+        "left": 229.7,
+        "right": 315,
+        "top": 5.5,
+        "bottom": 49.5,
+        "width": 85.3,
+        "height": 44
+      },
+      {
+        "className": "status-badge status-badge--success",
+        "text": "Connected",
+        "left": 323,
+        "right": 367,
+        "top": 5.5,
+        "bottom": 49.5,
+        "width": 44,
+        "height": 44
+      }
+    ],
+    "topbarOverlaps": [],
+    "mobileTopbar": {
+      "createVisible": false,
+      "searchControlVisible": false,
+      "searchLabelVisible": false,
+      "scopeAccessVisible": false,
+      "statusTextVisible": false
+    }
+  },
+  {
+    "route": "/inbox",
+    "width": 768,
+    "screenshot": "/Users/zq/Desktop/ai-projs/posp/Nexora/artifacts/progress/c10/visual-qa/inbox-768.png",
+    "consoleErrors": [],
+    "pageErrors": [],
+    "title": "Human attention queue",
+    "scrollWidth": 768,
+    "viewportWidth": 768,
+    "visibleMobileItems": 0,
+    "stateCount": 0,
+    "visibleTargetCount": 24,
+    "undersized": [],
+    "hasColorOnlyState": false,
+    "topbarBoxes": [
+      {
+        "className": "scope-button",
+        "text": "Demo Workspaceread_write",
+        "left": 16,
+        "right": 171.8,
+        "top": 5.5,
+        "bottom": 49.5,
+        "width": 155.8,
+        "height": 44
+      },
+      {
+        "className": "meta topbar-search-label",
+        "text": "Search",
+        "left": 183.8,
+        "right": 223.1,
+        "top": 19.5,
+        "bottom": 35.5,
+        "width": 39.3,
+        "height": 16
+      },
+      {
+        "className": "search-control",
+        "text": "",
+        "left": 235.1,
+        "right": 464.1,
+        "top": 4.5,
+        "bottom": 50.5,
+        "width": 229,
+        "height": 46
+      },
+      {
+        "className": "row-action",
+        "text": "Start",
+        "left": 488.1,
+        "right": 553.6,
+        "top": 5.5,
+        "bottom": 49.5,
+        "width": 65.5,
+        "height": 44
+      },
+      {
+        "className": "primary-action",
+        "text": "Create",
+        "left": 565.6,
+        "right": 642.1,
+        "top": 5.5,
+        "bottom": 49.5,
+        "width": 76.5,
+        "height": 44
+      },
+      {
+        "className": "status-badge status-badge--success",
+        "text": "Connected",
+        "left": 654.1,
+        "right": 752,
+        "top": 15.5,
+        "bottom": 39.5,
+        "width": 97.9,
+        "height": 24
+      }
+    ],
+    "topbarOverlaps": [],
+    "mobileTopbar": {
+      "createVisible": true,
+      "searchControlVisible": true,
+      "searchLabelVisible": true,
+      "scopeAccessVisible": true,
+      "statusTextVisible": true
+    }
+  },
+  {
+    "route": "/inbox",
+    "width": 1024,
+    "screenshot": "/Users/zq/Desktop/ai-projs/posp/Nexora/artifacts/progress/c10/visual-qa/inbox-1024.png",
+    "consoleErrors": [],
+    "pageErrors": [],
+    "title": "Human attention queue",
+    "scrollWidth": 1024,
+    "viewportWidth": 1024,
+    "visibleMobileItems": 0,
+    "stateCount": 0,
+    "visibleTargetCount": 24,
+    "undersized": [],
+    "hasColorOnlyState": false,
+    "topbarBoxes": [
+      {
+        "className": "scope-button",
+        "text": "Demo Workspaceread_write",
+        "left": 16,
+        "right": 237.2,
+        "top": 5.5,
+        "bottom": 49.5,
+        "width": 221.2,
+        "height": 44
+      },
+      {
+        "className": "meta topbar-search-label",
+        "text": "Search",
+        "left": 249.2,
+        "right": 288.5,
+        "top": 19.5,
+        "bottom": 35.5,
+        "width": 39.3,
+        "height": 16
+      },
+      {
+        "className": "search-control",
+        "text": "",
+        "left": 300.5,
+        "right": 648.6,
+        "top": 4.5,
+        "bottom": 50.5,
+        "width": 348.2,
+        "height": 46
+      },
+      {
+        "className": "row-action",
+        "text": "Start",
+        "left": 698.8,
+        "right": 784.2,
+        "top": 5.5,
+        "bottom": 49.5,
+        "width": 85.3,
+        "height": 44
+      },
+      {
+        "className": "primary-action",
+        "text": "Create",
+        "left": 796.2,
+        "right": 898.1,
+        "top": 5.5,
+        "bottom": 49.5,
+        "width": 102,
+        "height": 44
+      },
+      {
+        "className": "status-badge status-badge--success",
+        "text": "Connected",
+        "left": 910.1,
+        "right": 1008,
+        "top": 15.5,
+        "bottom": 39.5,
+        "width": 97.9,
+        "height": 24
+      }
+    ],
+    "topbarOverlaps": [],
+    "mobileTopbar": {
+      "createVisible": true,
+      "searchControlVisible": true,
+      "searchLabelVisible": true,
+      "scopeAccessVisible": true,
+      "statusTextVisible": true
+    }
+  },
+  {
+    "route": "/inbox",
+    "width": 1440,
+    "screenshot": "/Users/zq/Desktop/ai-projs/posp/Nexora/artifacts/progress/c10/visual-qa/inbox-1440.png",
+    "consoleErrors": [],
+    "pageErrors": [],
+    "title": "Human attention queue",
+    "scrollWidth": 1440,
+    "viewportWidth": 1440,
+    "visibleMobileItems": 0,
+    "stateCount": 1,
+    "visibleTargetCount": 24,
+    "undersized": [],
+    "hasColorOnlyState": false,
+    "topbarBoxes": [
+      {
+        "className": "scope-button",
+        "text": "Demo Workspaceread_write",
+        "left": 16,
+        "right": 237.2,
+        "top": 5.5,
+        "bottom": 49.5,
+        "width": 221.2,
+        "height": 44
+      },
+      {
+        "className": "meta topbar-search-label",
+        "text": "Search",
+        "left": 249.2,
+        "right": 288.5,
+        "top": 19.5,
+        "bottom": 35.5,
+        "width": 39.3,
+        "height": 16
+      },
+      {
+        "className": "search-control",
+        "text": "",
+        "left": 300.5,
+        "right": 720.5,
+        "top": 4.5,
+        "bottom": 50.5,
+        "width": 420,
+        "height": 46
+      },
+      {
+        "className": "row-action",
+        "text": "Start",
+        "left": 1114.8,
+        "right": 1200.2,
+        "top": 5.5,
+        "bottom": 49.5,
+        "width": 85.3,
+        "height": 44
+      },
+      {
+        "className": "primary-action",
+        "text": "Create",
+        "left": 1212.2,
+        "right": 1314.1,
+        "top": 5.5,
+        "bottom": 49.5,
+        "width": 102,
+        "height": 44
+      },
+      {
+        "className": "status-badge status-badge--success",
+        "text": "Connected",
+        "left": 1326.1,
+        "right": 1424,
+        "top": 15.5,
+        "bottom": 39.5,
+        "width": 97.9,
+        "height": 24
+      }
+    ],
+    "topbarOverlaps": [],
+    "mobileTopbar": {
+      "createVisible": true,
+      "searchControlVisible": true,
+      "searchLabelVisible": true,
+      "scopeAccessVisible": true,
+      "statusTextVisible": true
+    }
+  }
+]
