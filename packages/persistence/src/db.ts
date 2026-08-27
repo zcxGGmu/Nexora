@@ -78,6 +78,7 @@ export function rollback(database: SqliteDatabase): void {
 }
 
 export function withTransaction<T>(database: SqliteDatabase, work: () => T): T {
+  if (database.isTransaction) return work();
   database.exec("BEGIN IMMEDIATE");
   try {
     const result = work();

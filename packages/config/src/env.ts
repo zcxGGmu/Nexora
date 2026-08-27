@@ -13,6 +13,7 @@ const EnvironmentSchema = z.object({
   ),
   NEXORA_LOG_LEVEL: z.enum(LOG_LEVELS).default("info"),
   NEXORA_AUTH_MODE: z.enum(AUTH_MODES).default("local"),
+  NEXORA_CONTROL_TOKEN_SECRET: z.string().trim().min(32).optional(),
   NEXORA_DB_PATH: z.string().trim().min(1).optional(),
   NEXORA_MIGRATION_MODE: z.enum(["auto", "validate", "disabled"]).default("auto"),
 });
@@ -25,6 +26,7 @@ export type NexoraEnvironment = {
   readonly apiPort: number;
   readonly logLevel: (typeof LOG_LEVELS)[number];
   readonly authMode: (typeof AUTH_MODES)[number];
+  readonly controlTokenSecret?: string;
   readonly dbPath: string;
   readonly migrationMode: "auto" | "validate" | "disabled";
 };
@@ -56,7 +58,7 @@ export function parseEnvironment(input: EnvironmentInput): NexoraEnvironment {
     throw new EnvironmentValidationError(fields);
   }
 
-  return {
+  const environment = {
     dataDir: result.data.NEXORA_DATA_DIR,
     apiHost: result.data.NEXORA_API_HOST,
     apiPort: result.data.NEXORA_API_PORT,
@@ -65,4 +67,6 @@ export function parseEnvironment(input: EnvironmentInput): NexoraEnvironment {
     dbPath: result.data.NEXORA_DB_PATH ?? join(result.data.NEXORA_DATA_DIR, "nexora.sqlite"),
     migrationMode: result.data.NEXORA_MIGRATION_MODE,
   };
+  if (result.data.NEXORA_CONTROL_TOKEN_SECRET === undefined) return environment;
+  return { ...environment, controlTokenSecret: result.data.NEXORA_CONTROL_TOKEN_SECRET };
 }

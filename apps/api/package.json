@@ -9,6 +9,13 @@
   },
   "dependencies": {
     "@nexora/config": "workspace:*",
+    "@nexora/contracts": "workspace:*",
+    "@nexora/domain": "workspace:*",
+    "@nexora/event-store": "workspace:*",
+    "@nexora/orchestration": "workspace:*",
+    "@nexora/persistence": "workspace:*",
+    "@nexora/policy": "workspace:*",
+    "zod": "^3.24.3",
     "fastify": "^5.3.2"
   }
 }

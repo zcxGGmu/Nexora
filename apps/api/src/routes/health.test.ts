@@ -1,4 +1,5 @@
 import { describe, expect, test } from "vitest";
+import { migrate, openDatabase } from "@nexora/persistence";
 
 import { createApiServer } from "../server.js";
 
@@ -68,6 +69,23 @@ describe("GET /v1/health", () => {
       expect(second.json()["checks"]["event_store"]).toEqual({ status: "degraded", projection_lag: 3 });
     } finally {
       await api.close();
+    }
+  });
+
+  test("Given auth disabled When a database is configured Then health remains available and control routes are absent", async () => {
+    const database = openDatabase(":memory:");
+    migrate(database);
+    const api = createApiServer({ version: "0.1.0", database, auth: { mode: "disabled" } });
+
+    try {
+      const health = await api.inject({ method: "GET", url: "/v1/health" });
+      const control = await api.inject({ method: "GET", url: "/v1/runs?workspace_id=01ARZ3NDEKTSV4RRFFQ69G5FAV" });
+
+      expect(health.statusCode).toBe(200);
+      expect(control.statusCode).toBe(404);
+    } finally {
+      await api.close();
+      database.close();
     }
   });
 });
