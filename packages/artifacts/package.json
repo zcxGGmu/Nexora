@@ -1,0 +1,17 @@
+{
+  "name": "@nexora/artifacts",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "scripts": {
+    "test": "vitest --root ../.. packages/artifacts/src"
+  },
+  "dependencies": {
+    "@nexora/contracts": "workspace:*",
+    "@nexora/persistence": "workspace:*",
+    "@nexora/policy": "workspace:*"
+  }
+}

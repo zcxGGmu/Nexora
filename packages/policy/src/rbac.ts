@@ -1,11 +1,11 @@
 import type { PolicyAction, PolicyRole, RiskLevel } from "@nexora/contracts";
 
 const ROLE_ACTIONS = {
-  Owner: ["workspace:admin", "run:read", "run:write", "memory:read", "connector:execute", "review:decide"],
-  Operator: ["run:read", "run:write", "memory:read", "connector:execute"],
-  Reviewer: ["run:read", "memory:read", "review:decide"],
-  Viewer: ["run:read", "memory:read"],
-  Agent: ["run:read", "memory:read", "connector:execute"],
+  Owner: ["workspace:admin", "run:read", "run:write", "memory:read", "memory:write", "artifact:read", "artifact:write", "connector:execute", "review:decide"],
+  Operator: ["run:read", "run:write", "memory:read", "memory:write", "artifact:read", "artifact:write", "connector:execute"],
+  Reviewer: ["run:read", "memory:read", "artifact:read", "review:decide"],
+  Viewer: ["run:read", "memory:read", "artifact:read"],
+  Agent: ["run:read", "memory:read", "memory:write", "artifact:write", "connector:execute"],
 } as const satisfies Record<PolicyRole, readonly PolicyAction[]>;
 
 export function canRolePerform(input: { readonly role: PolicyRole; readonly action: PolicyAction }): boolean {

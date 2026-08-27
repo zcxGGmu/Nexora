@@ -1,0 +1,19 @@
+.                                        |  WARN  Unsupported engine: wanted: {"node":">=22.13.0 <23.0.0"} (current: {"node":"v25.9.0","pnpm":"10.10.0"})
+
+> @nexora/memory@0.1.0 test /Users/zq/Desktop/ai-projs/posp/Nexora/packages/memory
+> vitest --root ../.. packages/memory/src --run packages/memory/src/vault.test.ts --reporter\=verbose
+
+
+ RUN  v3.2.7 /Users/zq/Desktop/ai-projs/posp/Nexora
+
+ ✓ packages/memory/src/scope-filter.test.ts > memory scope filter > Given read and write memory actions When roles differ Then Viewer remains read-only and Agent writes only inside scope 1ms
+ ✓ packages/memory/src/snapshots.test.ts > MemorySnapshotStore > Given a snapshot When a later note version is rolled back Then rollback creates a new version from the snapshot 21ms
+ ✓ packages/memory/src/vault.test.ts > MemoryVault > Given a scoped write without verified sources When reading the note Then it returns versioned unverified provenance 14ms
+ ✓ packages/memory/src/vault.test.ts > MemoryVault > Given unsafe vault paths When resolving reads or writes Then traversal and escaping symlinks are rejected 7ms
+ ✓ packages/memory/src/vault.test.ts > MemoryVault > Given two runs edit the same note When the second uses a stale version Then active content is not overwritten and conflict review metadata is returned 9ms
+ ✓ packages/memory/src/vault.test.ts > MemoryVault > Given an actor outside the note scope When reading memory Then the denial does not reveal note content 7ms
+
+ Test Files  3 passed (3)
+      Tests  6 passed (6)
+   Start at  10:14:40
+   Duration  681ms (transform 180ms, setup 0ms, collect 470ms, tests 61ms, environment 0ms, prepare 262ms)
