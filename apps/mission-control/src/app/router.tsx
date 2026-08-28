@@ -2,14 +2,10 @@ import { useSyncExternalStore } from "react";
 import type { JSX } from "react";
 
 import { createScopeState, ScopeProvider, type ScopeSelection, type ScopeUrlState } from "./scope-context.js";
+import { pageForRoute, railForRoute } from "./detail-pages.js";
 import { AppShell } from "../components/layout/AppShell.js";
 import type { MobileNavItem } from "../components/layout/MobileNav.js";
 import type { ShellNavGroup, ShellRouteKey } from "../components/layout/Sidebar.js";
-import { EmptyState } from "../components/states/EmptyState.js";
-import { DesignSystemPage } from "../pages/DesignSystemPage.js";
-import { InboxPage, inboxFixture } from "../pages/InboxPage.js";
-import { MissionControlPage, MissionControlRail, missionControlFixture } from "../pages/MissionControlPage.js";
-import { PlaceholderPage } from "../pages/PlaceholderPage.js";
 
 export type RouteDefinition = {
   readonly key: ShellRouteKey;
@@ -94,40 +90,6 @@ function currentHref(): string {
 
 function serverHref(): string {
   return "http://nexora.local/mission-control?workspace=ws-demo&site=site-demo&project=project-demo";
-}
-
-function pageForRoute(route: ParsedRoute): JSX.Element {
-  switch (route.key) {
-    case "artifacts":
-      return <PlaceholderPage title="Artifact Workspace" scope={route.urlState.workspace ?? "current workspace"} nextStage="C11" />;
-    case "cowork":
-      return <PlaceholderPage title="Quick Cowork" scope={route.urlState.workspace ?? "current workspace"} nextStage="C10 entry" />;
-    case "design-system":
-      return <DesignSystemPage />;
-    case "goals":
-      return <PlaceholderPage title="Goal Portfolio" scope={route.urlState.workspace ?? "current workspace"} nextStage="C11" />;
-    case "inbox":
-      return <InboxPage view={inboxFixture} />;
-    case "memory":
-      return <PlaceholderPage title="Memory Explorer" scope={route.urlState.workspace ?? "current workspace"} nextStage="C11" />;
-    case "mission-control":
-      return <MissionControlPage view={missionControlFixture} />;
-    case "review":
-      return <PlaceholderPage title="Review Center" scope={route.urlState.workspace ?? "current workspace"} nextStage="C11" />;
-    case "runs":
-      return <PlaceholderPage title="Run Detail" scope={route.urlState.workspace ?? "current workspace"} nextStage="C11" />;
-    case "settings":
-      return <PlaceholderPage title="Settings" scope={route.urlState.workspace ?? "current workspace"} nextStage="C10 shell" />;
-    case "tickets":
-      return <PlaceholderPage title="Tickets" scope={route.urlState.workspace ?? "current workspace"} nextStage="C11" />;
-    default:
-      return assertNever(route.key);
-  }
-}
-
-function railForRoute(route: ParsedRoute): JSX.Element {
-  if (route.key === "mission-control") return <MissionControlRail health={missionControlFixture.health} />;
-  return <EmptyState title="Evidence rail" impact="Select a Run, Review, Artifact, or Memory item to inspect provenance." nextAction="Open Mission Control." />;
 }
 
 function navigationGroups(state: ScopeUrlState): readonly ShellNavGroup[] {
