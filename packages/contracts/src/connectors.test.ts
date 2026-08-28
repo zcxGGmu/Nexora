@@ -31,6 +31,25 @@ describe("C08 connector lifecycle contracts", () => {
     expect(request.requested_scope).toEqual(scope);
   });
 
+  it("Given a site workflow request When parsed Then site scope can bind non-ULID site identifiers", () => {
+    const request = ConnectorRequestSchema.parse({
+      schema_version: 1,
+      connector_id: "gsc.fixture",
+      connector_version: "1.0.0",
+      workspace_id: ID,
+      run_id: RUN_ID,
+      step_id: STEP_ID,
+      requested_scope: { kind: "site", id: "site-acme" },
+      idempotency_key: "connector:gsc:site-acme:v1",
+      request_hash: REQUEST_HASH,
+      payload_hash: PAYLOAD_HASH,
+      dry_run: true,
+      input: { source_file: "fixtures/gsc/acme.json" },
+    });
+
+    expect(request.requested_scope).toEqual({ kind: "site", id: "site-acme" });
+  });
+
   it("Given a connector preview When review is required Then the pending payload carries the exact artifact and payload hash", () => {
     const preview = ConnectorPreviewSchema.parse({
       schema_version: 1,

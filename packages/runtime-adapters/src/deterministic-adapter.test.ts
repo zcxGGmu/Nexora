@@ -22,7 +22,7 @@ describe("deterministic adapter", () => {
     const types = await collectTypes(adapter, handle);
 
     expect(types[0]).toBe("started");
-    const terminalType = scenario === "success" ? "completed" : scenario === "judge_fail" ? "judge_failed" : scenario === "review_needed" ? "review_needed" : scenario;
+    const terminalType = terminalTypeForScenario(scenario);
     expect(types).toContain(terminalType);
   });
 
@@ -105,3 +105,24 @@ describe("deterministic adapter", () => {
     await expect(collectTypes(adapter, handle)).resolves.toContain("completed");
   });
 });
+
+function terminalTypeForScenario(scenario: DeterministicScenario): string {
+  switch (scenario) {
+    case "success":
+      return "completed";
+    case "judge_fail":
+      return "judge_failed";
+    case "review_needed":
+    case "seo_draft_v1":
+      return "review_needed";
+    case "partial":
+    case "timeout":
+      return scenario;
+    default:
+      return assertNever(scenario);
+  }
+}
+
+function assertNever(value: never): never {
+  throw new Error(`Unhandled deterministic scenario ${String(value)}`);
+}

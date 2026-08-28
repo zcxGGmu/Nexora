@@ -204,6 +204,21 @@ importers:
         specifier: workspace:*
         version: link:../contracts
 
+  packages/workflows:
+    dependencies:
+      '@nexora/artifacts':
+        specifier: workspace:*
+        version: link:../artifacts
+      '@nexora/connectors':
+        specifier: workspace:*
+        version: link:../connectors
+      '@nexora/contracts':
+        specifier: workspace:*
+        version: link:../contracts
+      '@nexora/persistence':
+        specifier: workspace:*
+        version: link:../persistence
+
 packages:
 
   '@esbuild/aix-ppc64@0.25.12':

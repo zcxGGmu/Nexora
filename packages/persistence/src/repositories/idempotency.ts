@@ -19,20 +19,30 @@ export type IdempotencyResourceUpdate = {
   readonly resource_id: string;
 };
 
+export type IdempotencyReservation =
+  | { readonly kind: "reserved"; readonly record: IdempotencyRecord }
+  | { readonly kind: "existing"; readonly record: IdempotencyRecord };
+
 export class IdempotencyRepository {
   constructor(private readonly database: SqliteDatabase) {}
 
   reserve(record: IdempotencyRecord): IdempotencyRecord {
+    return this.reserveOrGet(record).record;
+  }
+
+  reserveOrGet(record: IdempotencyRecord): IdempotencyReservation {
     return withTransaction(this.database, () => {
+      let inserted = false;
       try {
-        this.database.prepare("INSERT OR IGNORE INTO idempotency_records(workspace_id, idempotency_key, request_hash, resource_type, resource_id, created_at) VALUES (?, ?, ?, ?, ?, ?)").run(record.workspace_id, record.idempotency_key, record.request_hash, record.resource_type, record.resource_id, record.created_at);
+        const result = this.database.prepare("INSERT OR IGNORE INTO idempotency_records(workspace_id, idempotency_key, request_hash, resource_type, resource_id, created_at) VALUES (?, ?, ?, ?, ?, ?)").run(record.workspace_id, record.idempotency_key, record.request_hash, record.resource_type, record.resource_id, record.created_at);
+        inserted = result.changes === 1 || result.changes === 1n;
       } catch (error) {
         throw sqliteError(error);
       }
       const existing = this.get(record.workspace_id, record.idempotency_key);
       if (existing === undefined) throw new PersistenceError("CONSTRAINT_VIOLATION", "Idempotency reservation was not written");
       if (existing.request_hash !== record.request_hash) throw new PersistenceError("IDEMPOTENCY_KEY_REUSED", "Idempotency key was reused with a different request");
-      return existing;
+      return { kind: inserted ? "reserved" : "existing", record: existing };
     });
   }
 

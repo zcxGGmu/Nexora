@@ -5,6 +5,7 @@ export const RUNTIME_EVENT_TYPES = [
   "started",
   "tool_called",
   "artifact_created",
+  "judge_completed",
   "progress",
   "completed",
   "failed",
