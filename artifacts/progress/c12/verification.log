@@ -1,0 +1,19 @@
+C12 SEO Draft Workflow verification
+
+- pnpm vitest run packages/contracts/src/connectors.test.ts packages/workflows/src/definition.test.ts tests/integration/seo-draft-workflow.test.ts packages/runtime-adapters/src/seo-workflow-stations.test.ts apps/mission-control/src/pages/workflow.test.tsx --reporter=verbose: PASS, 5 files / 18 tests.
+- pnpm typecheck: PASS.
+- pnpm --filter @nexora/workflows test --run: PASS, 1 file / 1 test.
+- pnpm --filter @nexora/connectors test --run: PASS, 5 files / 20 tests.
+- pnpm --filter @nexora/runtime-adapters test --run: PASS, 5 files / 37 tests.
+- pnpm --filter @nexora/mission-control test --run: PASS, 15 files / 31 tests.
+- pnpm vitest run tests/integration/seo-draft-workflow.test.ts --reporter=verbose: PASS, 1 file / 9 tests.
+- pnpm test --run: PASS, 70 files / 325 tests.
+- pnpm --filter @nexora/mission-control build: PASS.
+- curl -fsS -I http://127.0.0.1:5173/: PASS, HTTP/1.1 200 OK.
+- pnpm test:e2e -- seo-draft-review.spec.ts: PASS, 3 Playwright tests including the C12 SEO draft journey.
+- Playwright screenshot refresh: PASS, recaptured Workflow Studio and SEO Draft Run at 1440x900 and 390x844 after the final UI accessibility id fix; `file` and `sips` confirmed PNG signatures and viewport dimensions.
+- C12 code review blockers addressed: expired handoffs block before writes, `seo_draft_v1` requires site scope, duplicate/unknown reservations do not write durable facts, and post-reservation failures leave `workflow_side_effect_unknown` for reconcile.
+- Final code and visual re-review spawn attempts were blocked by the current Codex agent thread limit; final local verification, fresh screenshots, and existing C12 gate artifacts were used for closeout.
+- Source LOC gate: PASS, no TypeScript/TSX source file in the touched application/package/test paths exceeds 250 non-comment, non-blank lines.
+
+Environment note: pnpm reports Node v25.9.0 while package engines require >=22.13.0 <23.0.0. This is an environment warning only; verification was still executed.

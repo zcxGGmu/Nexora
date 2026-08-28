@@ -116,6 +116,8 @@ a { color: inherit; text-decoration: none; }
 .preview-body { padding: var(--space-4); }
 .tree-list { display: grid; gap: var(--space-3); padding: var(--space-4); }
 .tree-branch, .tree-leaf { display: grid; gap: var(--space-2); padding: var(--space-3); border-inline-start: 2px solid var(--border-default); min-inline-size: 0; }
+.workflow-review-body { display: grid; justify-items: start; gap: var(--space-4); padding: var(--space-4); }
+.workflow-review-body p { margin: 0; color: var(--text-primary); font-size: 16px; line-height: 20px; overflow-wrap: anywhere; }
 :focus-visible { outline: 2px solid var(--focus-ring); outline-offset: 2px; }
 button:hover, a:hover { border-color: var(--accent-hover); }
 button:active, a:active { transform: translateY(1px); }

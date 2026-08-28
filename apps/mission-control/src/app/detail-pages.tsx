@@ -12,6 +12,7 @@ import { PlaceholderPage } from "../pages/PlaceholderPage.js";
 import { ReviewPage, reviewFixture, staleReviewFixture } from "../pages/ReviewPage.js";
 import { blockedRunDetailFixture, RunDetailPage, runDetailFixture } from "../pages/RunDetailPage.js";
 import { TicketPage, ticketFixture } from "../pages/TicketPage.js";
+import { WorkflowPage, WorkflowRunPage, seoWorkflowRunFixture, seoWorkflowTemplateFixture } from "../pages/WorkflowPage.js";
 import type { ParsedRoute } from "./router.js";
 
 export function pageForRoute(route: ParsedRoute): JSX.Element {
@@ -41,6 +42,8 @@ export function pageForRoute(route: ParsedRoute): JSX.Element {
       return <PlaceholderPage title="Settings" scope={route.urlState.workspace ?? "current workspace"} nextStage="C10 shell" />;
     case "tickets":
       return <TicketPage view={ticketFixture} />;
+    case "workflows":
+      return workflowPageForRoute(route);
     default:
       return assertNever(route.key);
   }
@@ -73,6 +76,14 @@ function runPageForId(id: string): JSX.Element {
     default:
       return <MissingDetailPage view={{ id, kind: "Run" }} />;
   }
+}
+
+function workflowPageForRoute(route: ParsedRoute): JSX.Element {
+  const workflowId = route.params["workflowId"] ?? "seo_draft_v1";
+  if (workflowId !== seoWorkflowTemplateFixture.id) return <MissingDetailPage view={{ id: workflowId, kind: "Workflow" }} />;
+  const runId = route.params["runId"];
+  if (runId !== undefined) return runId === seoWorkflowRunFixture.id ? <WorkflowRunPage view={seoWorkflowRunFixture} /> : <MissingDetailPage view={{ id: runId, kind: "Run" }} />;
+  return <WorkflowPage view={seoWorkflowTemplateFixture} />;
 }
 
 function detailId(route: ParsedRoute): string {

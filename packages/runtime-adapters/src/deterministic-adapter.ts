@@ -4,7 +4,7 @@ import { RuntimeAdapterError } from "./errors.js";
 import type { AttemptHandle, CapabilityDescriptor, CancelResult, HealthReport, RuntimeAdapter, RuntimeCommand, RuntimeEvent, RuntimeEventType, RuntimePayload, StartInput } from "./runtime-adapter.js";
 import { messageIdFor, parseStartInput } from "./runtime-message-utils.js";
 
-export const DETERMINISTIC_SCENARIOS = ["success", "judge_fail", "timeout", "partial", "review_needed"] as const;
+export const DETERMINISTIC_SCENARIOS = ["success", "judge_fail", "timeout", "partial", "review_needed", "seo_draft_v1"] as const;
 export type DeterministicScenario = (typeof DETERMINISTIC_SCENARIOS)[number];
 
 export type DeterministicAdapterOptions = {
@@ -176,6 +176,12 @@ export class DeterministicAdapter implements RuntimeAdapter {
       case "timeout": events.push(this.event(session, "timeout", { error_code: "CONNECTOR_TIMEOUT" })); break;
       case "partial": events.push(this.event(session, "partial", { completed: 1, remaining: 1 })); break;
       case "review_needed": events.push(this.event(session, "review_needed", { risk_level: "R3", required_action: "human_review" })); break;
+      case "seo_draft_v1":
+        events.push(
+          this.event(session, "judge_completed", { workflow_id: "seo_draft_v1", judge_status: "pass", quality_gates: 5 }),
+          this.event(session, "review_needed", { workflow_id: "seo_draft_v1", publish_disabled: true, run_status: "waiting_review", risk_level: "R2", required_action: "human_review" }),
+        );
+        break;
       default: return assertNeverScenario(session.scenario);
     }
     session.events = events;

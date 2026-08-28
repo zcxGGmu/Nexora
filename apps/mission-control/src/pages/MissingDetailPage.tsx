@@ -4,7 +4,7 @@ import { EmptyState } from "../components/states/EmptyState.js";
 
 export type MissingDetailView = {
   readonly id: string;
-  readonly kind: "Artifact" | "Review" | "Run";
+  readonly kind: "Artifact" | "Review" | "Run" | "Workflow";
 };
 
 export function MissingDetailPage(props: { readonly view: MissingDetailView }): JSX.Element {

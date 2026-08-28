@@ -14,6 +14,8 @@ describe("C10 route contract", () => {
       "/goals",
       "/tickets",
       "/runs/:id",
+      "/workflows/:workflowId/runs/:runId",
+      "/workflows/:workflowId?",
       "/review/:id",
       "/artifacts/:id",
       "/memory",
