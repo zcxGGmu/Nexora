@@ -124,7 +124,7 @@ export function MissionControlRail(props: { readonly health: MissionControlView[
       <RailFact label="Model route" value={props.health.modelRoute} />
       <RailFact label="Approval Queue" value={props.health.approvalQueue} />
       <RailFact label="Last cursor" value={props.health.lastCursor} />
-      <a className="row-action" href="/review?workspace=ws-demo&filter=pending">Open Review</a>
+      <a className="row-action" href="/review/rev-r3?workspace=ws-demo&filter=pending">Open Review</a>
     </div>
   );
 }

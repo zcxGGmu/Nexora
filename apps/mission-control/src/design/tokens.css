@@ -89,6 +89,33 @@ a { color: inherit; text-decoration: none; }
 .list-detail { display: grid; grid-template-columns: minmax(260px, 0.9fr) minmax(0, 1.2fr); gap: var(--space-4); }
 .showcase-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(20rem, 100%), 1fr)); gap: var(--space-4); }
 .mono { font-family: "Fira Code", SFMono-Regular, Consolas, monospace; font-variant-numeric: tabular-nums; overflow-wrap: anywhere; }
+.workspace-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(22rem, 100%), 1fr)); gap: var(--space-4); align-items: start; }
+.workspace-grid--wide { grid-template-columns: minmax(min(28rem, 100%), 1.1fr) minmax(min(22rem, 100%), 0.9fr); }
+.fact-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(14rem, 100%), 1fr)); gap: var(--space-3); padding: var(--space-4); margin: 0; }
+.fact-grid div { min-inline-size: 0; display: grid; gap: var(--space-1); }
+.fact-grid dt, .field-label { color: var(--text-muted); font-size: 12px; line-height: 16px; }
+.fact-grid dd { margin: 0; color: var(--text-primary); font-size: 14px; line-height: 22px; overflow-wrap: anywhere; }
+.metric-panel .fact-grid { grid-template-columns: minmax(0, 1fr); }
+.timeline-list { list-style: none; margin: 0; padding: 0; }
+.timeline-event { display: grid; grid-template-columns: 72px minmax(0, 1fr); gap: var(--space-3); padding: var(--space-4); border-block-end: 1px solid var(--border-subtle); }
+.timeline-event:last-child { border-block-end: 0; }
+.timeline-event h3, .kanban-lane h3, .ticket-card h3 { margin: 0; font-size: 14px; line-height: 22px; }
+.timeline-event p, .action-card p, .interaction-note, .ticket-card p, .preview-body p, .tree-leaf p { margin: var(--space-1) 0 0; color: var(--text-secondary); font-size: 14px; line-height: 22px; overflow-wrap: anywhere; }
+.action-grid, .kanban-board { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(15rem, 100%), 1fr)); gap: var(--space-3); padding: var(--space-4); }
+.action-card, .ticket-card, .kanban-lane { min-inline-size: 0; border: 1px solid var(--border-subtle); border-radius: var(--radius-panel); background: var(--surface-raised); }
+.action-card, .ticket-card { display: grid; gap: var(--space-2); padding: var(--space-3); }
+.interaction-note { padding: var(--space-3) var(--space-4) 0; }
+.lane-header { padding: var(--space-3); }
+.ticket-card select, .decision-sheet textarea, .decision-sheet input { inline-size: 100%; min-block-size: 44px; border: 1px solid var(--border-default); border-radius: var(--radius-standard); background: var(--surface-default); color: var(--text-primary); padding: var(--space-2) var(--space-3); }
+.decision-sheet textarea { min-block-size: 88px; resize: vertical; }
+.button-row { display: flex; flex-wrap: wrap; gap: var(--space-2); padding-block-start: var(--space-3); }
+.padded-row { padding: var(--space-4); }
+.decision-sheet { padding-block-end: var(--space-4); }
+.decision-sheet > .field-label, .decision-sheet > textarea, .decision-sheet > input, .decision-sheet > .state-plane__action, .decision-sheet > .button-row { margin-inline: var(--space-4); }
+.code-block { margin: 0; padding: var(--space-4); background: var(--surface-sunken); color: var(--text-secondary); font-family: "Fira Code", SFMono-Regular, Consolas, monospace; font-size: 12px; line-height: 18px; overflow: auto; white-space: pre-wrap; overflow-wrap: anywhere; }
+.preview-body { padding: var(--space-4); }
+.tree-list { display: grid; gap: var(--space-3); padding: var(--space-4); }
+.tree-branch, .tree-leaf { display: grid; gap: var(--space-2); padding: var(--space-3); border-inline-start: 2px solid var(--border-default); min-inline-size: 0; }
 :focus-visible { outline: 2px solid var(--focus-ring); outline-offset: 2px; }
 button:hover, a:hover { border-color: var(--accent-hover); }
 button:active, a:active { transform: translateY(1px); }
@@ -120,6 +147,7 @@ button:disabled { cursor: not-allowed; opacity: 0.56; }
   .topbar .row-action { flex: 0 0 auto; }
   .search-control { display: none; }
   .list-detail { grid-template-columns: minmax(0, 1fr); }
+  .workspace-grid, .workspace-grid--wide { grid-template-columns: minmax(0, 1fr); }
   .work-row { grid-template-columns: minmax(0, 1fr); }
 }
 

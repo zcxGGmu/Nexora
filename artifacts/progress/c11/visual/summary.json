@@ -1,0 +1,520 @@
+[
+  {
+    "name": "goal",
+    "viewportName": "desktop",
+    "screenshot": "artifacts/progress/c11/visual/desktop-goal.png",
+    "metrics": {
+      "bodyScrollWidth": 1440,
+      "clientWidth": 1440,
+      "mainClientWidth": 872,
+      "mainScrollWidth": 872,
+      "title": "Goal Portfolio",
+      "wideGridClientWidth": null,
+      "wideGridScrollWidth": null
+    },
+    "visible": [
+      [
+        "Goal Portfolio",
+        true
+      ],
+      [
+        "Drag updates planning only",
+        true
+      ]
+    ],
+    "hasHorizontalOverflow": false
+  },
+  {
+    "name": "goal-status-review",
+    "viewportName": "desktop",
+    "screenshot": "artifacts/progress/c11/visual/desktop-goal-status-review.png",
+    "metrics": {
+      "bodyScrollWidth": 1440,
+      "clientWidth": 1440,
+      "mainClientWidth": 872,
+      "mainScrollWidth": 872,
+      "title": "Goal Portfolio",
+      "wideGridClientWidth": null,
+      "wideGridScrollWidth": null
+    },
+    "visible": [
+      [
+        "Planned status Review",
+        true
+      ],
+      [
+        "Status change queued as planning update only; no Agent started.",
+        true
+      ]
+    ],
+    "hasHorizontalOverflow": false
+  },
+  {
+    "name": "run-detail",
+    "viewportName": "desktop",
+    "screenshot": "artifacts/progress/c11/visual/desktop-run-detail.png",
+    "metrics": {
+      "bodyScrollWidth": 1440,
+      "clientWidth": 1440,
+      "mainClientWidth": 872,
+      "mainScrollWidth": 872,
+      "title": "Run Detail",
+      "wideGridClientWidth": null,
+      "wideGridScrollWidth": null
+    },
+    "visible": [
+      [
+        "Run Detail",
+        true
+      ],
+      [
+        "Completed side effects remain recorded.",
+        true
+      ]
+    ],
+    "hasHorizontalOverflow": false
+  },
+  {
+    "name": "run-pause-selected",
+    "viewportName": "desktop",
+    "screenshot": "artifacts/progress/c11/visual/desktop-run-pause-selected.png",
+    "metrics": {
+      "bodyScrollWidth": 1440,
+      "clientWidth": 1440,
+      "mainClientWidth": 872,
+      "mainScrollWidth": 872,
+      "title": "Run Detail",
+      "wideGridClientWidth": null,
+      "wideGridScrollWidth": null
+    },
+    "visible": [
+      [
+        "Recovery action selected: Pause run. Completed side effects remain recorded.",
+        true
+      ]
+    ],
+    "hasHorizontalOverflow": false
+  },
+  {
+    "name": "run-retry-selected",
+    "viewportName": "desktop",
+    "screenshot": "artifacts/progress/c11/visual/desktop-run-retry-selected.png",
+    "metrics": {
+      "bodyScrollWidth": 1440,
+      "clientWidth": 1440,
+      "mainClientWidth": 872,
+      "mainScrollWidth": 872,
+      "title": "Run Detail",
+      "wideGridClientWidth": null,
+      "wideGridScrollWidth": null
+    },
+    "visible": [
+      [
+        "Recovery action selected: Retry failed step. Retry creates a new attempt. Completed side effects remain recorded.",
+        true
+      ]
+    ],
+    "hasHorizontalOverflow": false
+  },
+  {
+    "name": "review-stale",
+    "viewportName": "desktop",
+    "screenshot": "artifacts/progress/c11/visual/desktop-review-stale.png",
+    "metrics": {
+      "bodyScrollWidth": 1440,
+      "clientWidth": 1440,
+      "mainClientWidth": 872,
+      "mainScrollWidth": 872,
+      "title": "Review Center",
+      "wideGridClientWidth": null,
+      "wideGridScrollWidth": null
+    },
+    "visible": [
+      [
+        "Review Center",
+        true
+      ],
+      [
+        "Payload hash stale",
+        true
+      ]
+    ],
+    "hasHorizontalOverflow": false
+  },
+  {
+    "name": "review-request-changes",
+    "viewportName": "desktop",
+    "screenshot": "artifacts/progress/c11/visual/desktop-review-request-changes.png",
+    "metrics": {
+      "bodyScrollWidth": 1440,
+      "clientWidth": 1440,
+      "mainClientWidth": 872,
+      "mainScrollWidth": 872,
+      "title": "Review Center",
+      "wideGridClientWidth": null,
+      "wideGridScrollWidth": null
+    },
+    "visible": [
+      [
+        "Decision recorded: Request changes for rev-r2; no external side effect executed.",
+        true
+      ]
+    ],
+    "hasHorizontalOverflow": false
+  },
+  {
+    "name": "artifact",
+    "viewportName": "desktop",
+    "screenshot": "artifacts/progress/c11/visual/desktop-artifact.png",
+    "metrics": {
+      "bodyScrollWidth": 1440,
+      "clientWidth": 1440,
+      "mainClientWidth": 872,
+      "mainScrollWidth": 872,
+      "title": "Artifact Workspace",
+      "wideGridClientWidth": null,
+      "wideGridScrollWidth": null
+    },
+    "visible": [
+      [
+        "Artifact Workspace",
+        true
+      ],
+      [
+        "Editing creates a new artifact version",
+        true
+      ]
+    ],
+    "hasHorizontalOverflow": false
+  },
+  {
+    "name": "artifact-source-tab",
+    "viewportName": "desktop",
+    "screenshot": "artifacts/progress/c11/visual/desktop-artifact-source-tab.png",
+    "metrics": {
+      "bodyScrollWidth": 1440,
+      "clientWidth": 1440,
+      "mainClientWidth": 872,
+      "mainScrollWidth": 872,
+      "title": "Artifact Workspace",
+      "wideGridClientWidth": null,
+      "wideGridScrollWidth": null
+    },
+    "visible": [
+      [
+        "Source Run run-active created receipt rcp-artifact-v1.",
+        true
+      ]
+    ],
+    "hasHorizontalOverflow": false
+  },
+  {
+    "name": "artifact-missing",
+    "viewportName": "desktop",
+    "screenshot": "artifacts/progress/c11/visual/desktop-artifact-missing.png",
+    "metrics": {
+      "bodyScrollWidth": 1440,
+      "clientWidth": 1440,
+      "mainClientWidth": 872,
+      "mainScrollWidth": 872,
+      "title": "Artifact not found",
+      "wideGridClientWidth": null,
+      "wideGridScrollWidth": null
+    },
+    "visible": [
+      [
+        "Artifact not found",
+        true
+      ],
+      [
+        "No C11 fixture exists for Artifact artifact-missing.",
+        true
+      ]
+    ],
+    "hasHorizontalOverflow": false
+  },
+  {
+    "name": "memory",
+    "viewportName": "desktop",
+    "screenshot": "artifacts/progress/c11/visual/desktop-memory.png",
+    "metrics": {
+      "bodyScrollWidth": 1440,
+      "clientWidth": 1440,
+      "mainClientWidth": 872,
+      "mainScrollWidth": 872,
+      "title": "Memory Explorer",
+      "wideGridClientWidth": null,
+      "wideGridScrollWidth": null
+    },
+    "visible": [
+      [
+        "Memory Explorer",
+        true
+      ],
+      [
+        "Never silently overwrite memory.",
+        true
+      ]
+    ],
+    "hasHorizontalOverflow": false
+  },
+  {
+    "name": "goal",
+    "viewportName": "mobile",
+    "screenshot": "artifacts/progress/c11/visual/mobile-goal.png",
+    "metrics": {
+      "bodyScrollWidth": 390,
+      "clientWidth": 390,
+      "mainClientWidth": 390,
+      "mainScrollWidth": 390,
+      "title": "Goal Portfolio",
+      "wideGridClientWidth": null,
+      "wideGridScrollWidth": null
+    },
+    "visible": [
+      [
+        "Goal Portfolio",
+        true
+      ],
+      [
+        "Drag updates planning only",
+        true
+      ]
+    ],
+    "hasHorizontalOverflow": false
+  },
+  {
+    "name": "goal-status-review",
+    "viewportName": "mobile",
+    "screenshot": "artifacts/progress/c11/visual/mobile-goal-status-review.png",
+    "metrics": {
+      "bodyScrollWidth": 390,
+      "clientWidth": 390,
+      "mainClientWidth": 390,
+      "mainScrollWidth": 390,
+      "title": "Goal Portfolio",
+      "wideGridClientWidth": null,
+      "wideGridScrollWidth": null
+    },
+    "visible": [
+      [
+        "Planned status Review",
+        true
+      ],
+      [
+        "Status change queued as planning update only; no Agent started.",
+        true
+      ]
+    ],
+    "hasHorizontalOverflow": false
+  },
+  {
+    "name": "run-detail",
+    "viewportName": "mobile",
+    "screenshot": "artifacts/progress/c11/visual/mobile-run-detail.png",
+    "metrics": {
+      "bodyScrollWidth": 390,
+      "clientWidth": 390,
+      "mainClientWidth": 390,
+      "mainScrollWidth": 390,
+      "title": "Run Detail",
+      "wideGridClientWidth": null,
+      "wideGridScrollWidth": null
+    },
+    "visible": [
+      [
+        "Run Detail",
+        true
+      ],
+      [
+        "Completed side effects remain recorded.",
+        true
+      ]
+    ],
+    "hasHorizontalOverflow": false
+  },
+  {
+    "name": "run-pause-selected",
+    "viewportName": "mobile",
+    "screenshot": "artifacts/progress/c11/visual/mobile-run-pause-selected.png",
+    "metrics": {
+      "bodyScrollWidth": 390,
+      "clientWidth": 390,
+      "mainClientWidth": 390,
+      "mainScrollWidth": 390,
+      "title": "Run Detail",
+      "wideGridClientWidth": null,
+      "wideGridScrollWidth": null
+    },
+    "visible": [
+      [
+        "Recovery action selected: Pause run. Completed side effects remain recorded.",
+        true
+      ]
+    ],
+    "hasHorizontalOverflow": false
+  },
+  {
+    "name": "run-retry-selected",
+    "viewportName": "mobile",
+    "screenshot": "artifacts/progress/c11/visual/mobile-run-retry-selected.png",
+    "metrics": {
+      "bodyScrollWidth": 390,
+      "clientWidth": 390,
+      "mainClientWidth": 390,
+      "mainScrollWidth": 390,
+      "title": "Run Detail",
+      "wideGridClientWidth": null,
+      "wideGridScrollWidth": null
+    },
+    "visible": [
+      [
+        "Recovery action selected: Retry failed step. Retry creates a new attempt. Completed side effects remain recorded.",
+        true
+      ]
+    ],
+    "hasHorizontalOverflow": false
+  },
+  {
+    "name": "review-stale",
+    "viewportName": "mobile",
+    "screenshot": "artifacts/progress/c11/visual/mobile-review-stale.png",
+    "metrics": {
+      "bodyScrollWidth": 390,
+      "clientWidth": 390,
+      "mainClientWidth": 390,
+      "mainScrollWidth": 390,
+      "title": "Review Center",
+      "wideGridClientWidth": null,
+      "wideGridScrollWidth": null
+    },
+    "visible": [
+      [
+        "Review Center",
+        true
+      ],
+      [
+        "Payload hash stale",
+        true
+      ]
+    ],
+    "hasHorizontalOverflow": false
+  },
+  {
+    "name": "review-request-changes",
+    "viewportName": "mobile",
+    "screenshot": "artifacts/progress/c11/visual/mobile-review-request-changes.png",
+    "metrics": {
+      "bodyScrollWidth": 390,
+      "clientWidth": 390,
+      "mainClientWidth": 390,
+      "mainScrollWidth": 390,
+      "title": "Review Center",
+      "wideGridClientWidth": null,
+      "wideGridScrollWidth": null
+    },
+    "visible": [
+      [
+        "Decision recorded: Request changes for rev-r2; no external side effect executed.",
+        true
+      ]
+    ],
+    "hasHorizontalOverflow": false
+  },
+  {
+    "name": "artifact",
+    "viewportName": "mobile",
+    "screenshot": "artifacts/progress/c11/visual/mobile-artifact.png",
+    "metrics": {
+      "bodyScrollWidth": 390,
+      "clientWidth": 390,
+      "mainClientWidth": 390,
+      "mainScrollWidth": 390,
+      "title": "Artifact Workspace",
+      "wideGridClientWidth": null,
+      "wideGridScrollWidth": null
+    },
+    "visible": [
+      [
+        "Artifact Workspace",
+        true
+      ],
+      [
+        "Editing creates a new artifact version",
+        true
+      ]
+    ],
+    "hasHorizontalOverflow": false
+  },
+  {
+    "name": "artifact-source-tab",
+    "viewportName": "mobile",
+    "screenshot": "artifacts/progress/c11/visual/mobile-artifact-source-tab.png",
+    "metrics": {
+      "bodyScrollWidth": 390,
+      "clientWidth": 390,
+      "mainClientWidth": 390,
+      "mainScrollWidth": 390,
+      "title": "Artifact Workspace",
+      "wideGridClientWidth": null,
+      "wideGridScrollWidth": null
+    },
+    "visible": [
+      [
+        "Source Run run-active created receipt rcp-artifact-v1.",
+        true
+      ]
+    ],
+    "hasHorizontalOverflow": false
+  },
+  {
+    "name": "artifact-missing",
+    "viewportName": "mobile",
+    "screenshot": "artifacts/progress/c11/visual/mobile-artifact-missing.png",
+    "metrics": {
+      "bodyScrollWidth": 390,
+      "clientWidth": 390,
+      "mainClientWidth": 390,
+      "mainScrollWidth": 390,
+      "title": "Artifact not found",
+      "wideGridClientWidth": null,
+      "wideGridScrollWidth": null
+    },
+    "visible": [
+      [
+        "Artifact not found",
+        true
+      ],
+      [
+        "No C11 fixture exists for Artifact artifact-missing.",
+        true
+      ]
+    ],
+    "hasHorizontalOverflow": false
+  },
+  {
+    "name": "memory",
+    "viewportName": "mobile",
+    "screenshot": "artifacts/progress/c11/visual/mobile-memory.png",
+    "metrics": {
+      "bodyScrollWidth": 390,
+      "clientWidth": 390,
+      "mainClientWidth": 390,
+      "mainScrollWidth": 390,
+      "title": "Memory Explorer",
+      "wideGridClientWidth": null,
+      "wideGridScrollWidth": null
+    },
+    "visible": [
+      [
+        "Memory Explorer",
+        true
+      ],
+      [
+        "Never silently overwrite memory.",
+        true
+      ]
+    ],
+    "hasHorizontalOverflow": false
+  }
+]
