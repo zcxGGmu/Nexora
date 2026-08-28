@@ -1,0 +1,16 @@
+{
+  "name": "@nexora/remote-worker",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "vitest --root ../.. apps/remote-worker/src"
+  },
+  "dependencies": {
+    "@nexora/contracts": "workspace:*",
+    "@nexora/memory": "workspace:*",
+    "@nexora/policy": "workspace:*",
+    "@nexora/runtime-adapters": "workspace:*",
+    "fastify": "^5.3.2"
+  }
+}

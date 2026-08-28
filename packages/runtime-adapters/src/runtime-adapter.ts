@@ -1,5 +1,5 @@
 import { AttemptIdSchema, LeaseIdSchema, RunIdSchema, RuntimePayloadSchema, StepIdSchema, TimestampSchema, TraceIdSchema, z } from "@nexora/contracts";
-import type { AttemptId, LeaseId, RunId, RuntimeEnvelope, StepId, TraceId } from "@nexora/contracts";
+import type { AttemptId, LeaseId, RunId, RuntimeEnvelope, RuntimeValue as ContractRuntimeValue, StepId, TraceId } from "@nexora/contracts";
 
 export const RUNTIME_EVENT_TYPES = [
   "started",
@@ -22,7 +22,7 @@ export const RUNTIME_EVENT_TYPES = [
 export type RuntimeEventType = (typeof RUNTIME_EVENT_TYPES)[number];
 
 export type RuntimeScalar = string | number | boolean | null;
-export type RuntimeValue = RuntimeScalar | readonly RuntimeValue[] | { readonly [key: string]: RuntimeValue };
+export type RuntimeValue = ContractRuntimeValue;
 export type RuntimePayload = Readonly<Record<string, RuntimeValue>>;
 
 export const StartInputSchema = z.object({ run_id: RunIdSchema, attempt_id: AttemptIdSchema, step_id: StepIdSchema, trace_id: TraceIdSchema, deadline_at: TimestampSchema, lease_id: LeaseIdSchema, fencing_token: z.number().int().positive(), input: RuntimePayloadSchema }).strict();
@@ -30,7 +30,7 @@ export const StartInputSchema = z.object({ run_id: RunIdSchema, attempt_id: Atte
 export type CapabilityDescriptor = {
   readonly adapter_id: string;
   readonly protocol_version: 1;
-  readonly execution_location: "local";
+  readonly execution_location: "local" | "remote";
   readonly supports_resume: boolean;
   readonly supports_cancel: boolean;
   readonly supports_streaming: boolean;

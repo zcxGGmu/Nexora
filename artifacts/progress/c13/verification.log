@@ -1,0 +1,34 @@
+C13 verification log
+Date: 2026-08-28
+Environment: Node v25.9.0 (repository engine warning; required >=22.13.0 <23.0.0), pnpm 10.10.0
+
+RED
+- Initial remote integration run failed at the expected missing apps/remote-worker modules.
+- RED evidence: artifacts/progress/c13/red.log
+
+GREEN
+- pnpm vitest run tests/integration/remote-egress.test.ts tests/integration/remote-recovery.test.ts --reporter=verbose
+  PASS: 2 files, 6 tests
+- pnpm typecheck
+  PASS
+- pnpm test --run
+  PASS: 73 files, 345 tests
+- pnpm test:integration
+  PASS: 9 files, 25 tests
+- pnpm --filter @nexora/mission-control build
+  PASS
+- pnpm audit --prod --audit-level=high
+  PASS: No known vulnerabilities found
+- bun run check-no-excuse-rules.ts apps packages tests
+  NOT RUN: the repository TypeScript package does not expose the script's required typescript/unstable/* API; pnpm typecheck remains the authoritative type gate for this checkout.
+- curl -fsS -I http://127.0.0.1:5173/
+  PASS: HTTP/1.1 200 OK; launchd demo left running
+
+G10 recovery smoke
+- Remote adapter capability reports execution_location=remote.
+- Injected network failure on the first resume returned CONNECTOR_UNAVAILABLE.
+- No local adapter or fallback_to_local message was invoked.
+- Explicit resume replayed started/completed events from the same remote session.
+- Expired capability token returned HTTP 401 AUTH_EXPIRED before execution.
+- Explicit location switch created a new queued remote Attempt with previous_attempt_id; failed local Attempt remained unchanged.
+- Snapshot secret scan returned no findings after redaction; snapshot hash was canonical and receipt metadata preserved location/provider/region/classification/redactions/hash. Remote start requires a matching receipt and validates transmitted memory hashes.

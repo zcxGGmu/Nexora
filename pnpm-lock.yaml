@@ -20,6 +20,9 @@ importers:
       '@types/react-dom':
         specifier: ^19.1.2
         version: 19.2.5(@types/react@19.2.18)
+      fastify:
+        specifier: ^5.3.2
+        version: 5.12.1
       tsx:
         specifier: ^4.19.3
         version: 4.23.12
@@ -80,6 +83,24 @@ importers:
       react-dom:
         specifier: ^19.1.0
         version: 19.2.8(react@19.2.8)
+
+  apps/remote-worker:
+    dependencies:
+      '@nexora/contracts':
+        specifier: workspace:*
+        version: link:../../packages/contracts
+      '@nexora/memory':
+        specifier: workspace:*
+        version: link:../../packages/memory
+      '@nexora/policy':
+        specifier: workspace:*
+        version: link:../../packages/policy
+      '@nexora/runtime-adapters':
+        specifier: workspace:*
+        version: link:../../packages/runtime-adapters
+      fastify:
+        specifier: ^5.3.2
+        version: 5.12.1
 
   apps/worker:
     dependencies:

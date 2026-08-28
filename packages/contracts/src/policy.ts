@@ -17,7 +17,10 @@ export const PolicyScopeSchema = z.discriminatedUnion("kind", [
   z.object({ kind: z.literal("site"), id: z.string().min(1) }).strict(),
 ]);
 export const EgressPolicySchema = z.object({ execution_location: ExecutionLocationSchema, provider: z.string().min(1), region: z.string().min(1), allowed_providers: z.array(z.string().min(1)), allowed_regions: z.array(z.string().min(1)), minimal_snapshot_required: z.boolean() }).strict();
-export const PolicyDecisionSchema = z.object({ allowed: z.boolean(), code: PolicyDenialCodeSchema.nullable(), event_type: PolicyEventTypeSchema.nullable(), reason: z.string().min(1), required_action: z.string().min(1), redactions: z.array(z.string().min(1)) }).strict();
+export const PolicyDecisionSchema = z.object({ allowed: z.boolean(), code: PolicyDenialCodeSchema.nullable(), event_type: PolicyEventTypeSchema.nullable(), reason: z.string().min(1), required_action: z.string().min(1), redactions: z.array(z.string().min(1)) }).strict().superRefine((decision, context) => {
+  if (decision.allowed && (decision.code !== null || decision.event_type !== null || decision.required_action !== "none")) context.addIssue({ code: z.ZodIssueCode.custom, message: "Allowed decisions must have null denial fields and required_action=none" });
+  if (!decision.allowed && (decision.code === null || decision.event_type === null)) context.addIssue({ code: z.ZodIssueCode.custom, message: "Denied decisions must include denial fields" });
+});
 
 export type PolicyRole = z.infer<typeof RoleSchema>;
 export type PolicyAction = z.infer<typeof PolicyActionSchema>;

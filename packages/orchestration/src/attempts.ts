@@ -19,6 +19,37 @@ export class AttemptManager {
     return this.attempts.create(AttemptSchema.parse(attempt));
   }
 
+  get(workspaceId: string, attemptId: string): Attempt | undefined {
+    return this.attempts.get(workspaceId, attemptId);
+  }
+
+  createLocationSwitchAttempt(input: {
+    readonly previous_attempt: Attempt;
+    readonly previous_step: Step;
+    readonly attempt: Attempt;
+    readonly step: Step;
+  }): { readonly attempt: Attempt; readonly step: Step } {
+    const previousAttempt = AttemptSchema.parse(input.previous_attempt);
+    const previousStep = StepSchema.parse(input.previous_step);
+    const attempt = AttemptSchema.parse(input.attempt);
+    const step = StepSchema.parse(input.step);
+    return withTransaction(this.database, () => {
+      const persisted = this.attempts.get(previousAttempt.workspace_id, previousAttempt.id);
+      if (persisted === undefined) throw new OrchestrationError("NOT_FOUND", "Previous attempt was not found");
+      const persistedStep = this.steps.get(previousStep.workspace_id, previousStep.id);
+      if (persistedStep === undefined) throw new OrchestrationError("NOT_FOUND", "Previous step was not found");
+      if (persisted.status !== "failed" && persisted.status !== "cancelled") throw new OrchestrationError("RETRY_NOT_ALLOWED", "Only a terminal attempt can switch execution location");
+      if (persistedStep.status !== "failed" && persistedStep.status !== "cancelled") throw new OrchestrationError("RETRY_NOT_ALLOWED", "Only a terminal step can switch execution location");
+      if (persistedStep.workspace_id !== persisted.workspace_id || persistedStep.run_id !== persisted.run_id || persistedStep.attempt_id !== persisted.id) throw new OrchestrationError("RETRY_NOT_ALLOWED", "Previous step is outside the attempt scope");
+      if (attempt.id === persisted.id || attempt.workspace_id !== persisted.workspace_id || attempt.run_id !== persisted.run_id || attempt.previous_attempt_id !== persisted.id || attempt.status !== "queued" || attempt.execution_location === undefined || attempt.execution_location === persisted.execution_location) throw new OrchestrationError("RETRY_NOT_ALLOWED", "Location switch must create a new queued attempt in the same run");
+      if (step.id === previousStep.id || step.workspace_id !== attempt.workspace_id || step.run_id !== attempt.run_id || step.attempt_id !== attempt.id || step.status !== "pending") throw new OrchestrationError("RETRY_NOT_ALLOWED", "Location switch step must be a new pending step");
+      if (this.attempts.get(attempt.workspace_id, attempt.id) !== undefined) throw new OrchestrationError("RETRY_NOT_ALLOWED", "Location switch attempt already exists");
+      this.attempts.create(attempt);
+      this.steps.create(step);
+      return { attempt, step };
+    });
+  }
+
   createRetryAttempt(attempt: Attempt, failedStep: Step, retryStep: Step): { readonly attempt: Attempt; readonly step: Step } {
     const parsedAttempt = AttemptSchema.parse(attempt);
     const parsedInputStep = StepSchema.parse(failedStep);
