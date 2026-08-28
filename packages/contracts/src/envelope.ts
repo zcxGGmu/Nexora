@@ -11,4 +11,5 @@ export function createEventEnvelopeSchema<T extends z.AnyZodObject>(payload: T) 
 export const RUNTIME_MESSAGE_TYPES = ["hello", "hello_ack", "start", "event", "heartbeat", "resume", "cancel", "cancel_ack", "close"] as const;
 export const RuntimeEnvelopeSchema = z.object({ schema_version: z.literal(1), protocol_version: z.literal(1), message_id: MessageIdSchema, message_type: z.enum(RUNTIME_MESSAGE_TYPES), run_id: RunIdSchema, attempt_id: AttemptIdSchema.nullable(), step_id: StepIdSchema.nullable(), trace_id: TraceIdSchema, sequence: NonNegativeInt, cursor: z.string().nullable(), deadline_at: TimestampSchema, lease_id: LeaseIdSchema, fencing_token: NonNegativeInt, payload: JsonObjectSchema }).strict();
 export type RuntimeEnvelope = z.infer<typeof RuntimeEnvelopeSchema>;
+export type RuntimeMessage = z.input<typeof RuntimeEnvelopeSchema>;
 export function createRuntimeEnvelopeSchema<T extends z.AnyZodObject>(payload: T) { return RuntimeEnvelopeSchema.omit({ payload: true }).extend({ payload: payload.strict() }).strict(); }

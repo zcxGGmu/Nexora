@@ -1,0 +1,10 @@
+C13 RED verification
+
+Command:
+pnpm vitest run tests/integration/remote-egress.test.ts tests/integration/remote-recovery.test.ts --reporter=verbose
+
+Expected result: FAIL
+
+- tests/integration/remote-egress.test.ts failed because apps/remote-worker/src/snapshot.ts did not exist.
+- tests/integration/remote-recovery.test.ts failed because apps/remote-worker/src/server.ts did not exist.
+- Node v25.9.0 produced the known engine warning; repository requirement remains >=22.13.0 <23.0.0.

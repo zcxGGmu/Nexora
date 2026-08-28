@@ -1,8 +1,8 @@
 import { RuntimeAdapterError } from "./errors.js";
-import { MessageIdSchema, type MessageId } from "@nexora/contracts";
+import { MessageIdSchema, RuntimePayloadSchema, type MessageId } from "@nexora/contracts";
 import { createHash } from "node:crypto";
 import { StartInputSchema, type StartInput } from "./runtime-adapter.js";
-import { RUNTIME_EVENT_TYPES, type RuntimeEventType, type RuntimePayload, type RuntimeValue } from "./runtime-adapter.js";
+import { RUNTIME_EVENT_TYPES, type RuntimeEventType, type RuntimePayload } from "./runtime-adapter.js";
 
 export function readBoolean(payload: RuntimePayload, key: string): boolean | undefined {
   const value = payload[key];
@@ -17,9 +17,7 @@ export function readString(payload: RuntimePayload, key: string): string | undef
 export function readPayload(payload: RuntimePayload, key: string): RuntimePayload {
   const value = payload[key];
   if (value === null || typeof value !== "object" || Array.isArray(value)) throw new RuntimeAdapterError("SCHEMA_INVALID", `Runtime event ${key} must be an object`);
-  const output: Record<string, RuntimeValue> = {};
-  for (const [entryKey, entryValue] of Object.entries(value)) output[entryKey] = entryValue;
-  return output;
+  return RuntimePayloadSchema.parse(value);
 }
 
 export function readEventType(payload: RuntimePayload): RuntimeEventType {
