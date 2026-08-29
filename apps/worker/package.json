@@ -11,6 +11,8 @@
     "@nexora/config": "workspace:*",
     "@nexora/contracts": "workspace:*",
     "@nexora/orchestration": "workspace:*",
-    "@nexora/persistence": "workspace:*"
+    "@nexora/persistence": "workspace:*",
+    "@nexora/policy": "workspace:*",
+    "@nexora/runtime-adapters": "workspace:*"
   }
 }

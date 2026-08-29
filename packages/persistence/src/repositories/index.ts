@@ -1,5 +1,5 @@
 export { AgentRepository } from "./agents.js";
-export { ArtifactRepository, ReceiptRepository } from "./artifacts.js";
+export { ArtifactRepository, EgressReceiptRepository, ReceiptRepository } from "./artifacts.js";
 export { GoalRepository } from "./goals.js";
 export { IdempotencyRepository, type IdempotencyRecord, type IdempotencyReservation } from "./idempotency.js";
 export { ReviewRepository } from "./reviews.js";

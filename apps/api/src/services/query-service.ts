@@ -10,9 +10,11 @@ import {
   RunSchema,
   StepSchema,
   TicketSchema,
+  EgressReceiptSchema,
   type AgentProfile,
   type Artifact,
   type Attempt,
+  type EgressReceipt,
   type Goal,
   type MemoryProvenance,
   type MemoryNote,
@@ -52,6 +54,7 @@ export class QueryService {
   listRuns(workspaceId: string): readonly Run[] { return this.list("runs", workspaceId, RunSchema); }
   listArtifacts(workspaceId: string): readonly Artifact[] { return this.list("artifacts", workspaceId, ArtifactSchema); }
   listReceipts(workspaceId: string): readonly Receipt[] { return this.list("receipts", workspaceId, ReceiptSchema); }
+  listEgressReceipts(workspaceId: string): readonly EgressReceipt[] { return this.list("egress_receipts", workspaceId, EgressReceiptSchema); }
   listReviews(workspaceId: string): readonly PublicReviewDecision[] { return this.list("review_decisions", workspaceId, ReviewDecisionSchema).map(publicReviewDecision); }
   listMemory(workspaceId: string): readonly PublicMemoryNote[] { return this.list("memory_notes", workspaceId, MemoryNoteSchema).map(publicMemoryNote); }
 
@@ -74,6 +77,7 @@ export class QueryService {
   }
 
   getReceipt(workspaceId: string, id: string): Receipt { return this.get("receipts", workspaceId, id, ReceiptSchema); }
+  getEgressReceipt(workspaceId: string, id: string): EgressReceipt { return this.get("egress_receipts", workspaceId, id, EgressReceiptSchema); }
   getReview(workspaceId: string, id: string, reviewVersion: number): PublicReviewDecision {
     const row = this.database.prepare("SELECT payload_json FROM review_decisions WHERE workspace_id = ? AND id = ? AND review_version = ?").get(workspaceId, id, reviewVersion);
     if (row === undefined) throw notFound();
@@ -81,18 +85,18 @@ export class QueryService {
   }
   getMemory(workspaceId: string, id: string): PublicMemoryNote { return publicMemoryNote(this.get("memory_notes", workspaceId, id, MemoryNoteSchema)); }
 
-  private list<T>(table: string, workspaceId: string, schema: z.ZodType<T>): readonly T[] {
+  private list<TSchema extends z.ZodTypeAny>(table: string, workspaceId: string, schema: TSchema): readonly z.output<TSchema>[] {
     const rows = this.database.prepare(`SELECT payload_json FROM ${table} WHERE workspace_id = ? ORDER BY updated_at DESC, id ASC`).all(workspaceId);
     return rows.map((row) => schema.parse(JSON.parse(readText(row["payload_json"]))));
   }
 
-  private get<T>(table: string, workspaceId: string, id: string, schema: z.ZodType<T>): T {
+  private get<TSchema extends z.ZodTypeAny>(table: string, workspaceId: string, id: string, schema: TSchema): z.output<TSchema> {
     const row = this.database.prepare(`SELECT payload_json FROM ${table} WHERE workspace_id = ? AND id = ?`).get(workspaceId, id);
     if (row === undefined) throw notFound();
     return schema.parse(JSON.parse(readText(row["payload_json"])));
   }
 
-  private listByRun<T>(table: string, workspaceId: string, runId: string, schema: z.ZodType<T>): readonly T[] {
+  private listByRun<TSchema extends z.ZodTypeAny>(table: string, workspaceId: string, runId: string, schema: TSchema): readonly z.output<TSchema>[] {
     const rows = this.database.prepare(`SELECT payload_json FROM ${table} WHERE workspace_id = ? AND run_id = ? ORDER BY created_at ASC, id ASC`).all(workspaceId, runId);
     return rows.map((row) => schema.parse(JSON.parse(readText(row["payload_json"]))));
   }

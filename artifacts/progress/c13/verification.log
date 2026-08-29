@@ -32,3 +32,44 @@ G10 recovery smoke
 - Expired capability token returned HTTP 401 AUTH_EXPIRED before execution.
 - Explicit location switch created a new queued remote Attempt with previous_attempt_id; failed local Attempt remained unchanged.
 - Snapshot secret scan returned no findings after redaction; snapshot hash was canonical and receipt metadata preserved location/provider/region/classification/redactions/hash. Remote start requires a matching receipt and validates transmitted memory hashes.
+
+C13 hardening verification
+Date: 2026-08-29
+Environment: Node v25.9.0 (repository engine warning; required >=22.13.0 <23.0.0), pnpm 10.10.0
+
+Scope
+- Added worker runtime dispatcher coverage for API-created remote queue jobs.
+- Added durable `egress_receipts` migration/repository/query coverage.
+- Added `/v1/receipts` list surface assertion showing `egress_receipts` alongside legacy receipts.
+- Added dispatcher transport-failure assertion proving remote `CONNECTOR_UNAVAILABLE` is rescheduled and never invokes the local adapter.
+- Left `apps/worker/src/main.ts` as an idle/config stub because the config package has no deployment-safe remote URL, provider, region, resolved-IP, or signing-key inputs; no production secret/config was guessed.
+
+RED
+- pnpm vitest run packages/persistence/src/egress-receipts.test.ts tests/integration/remote-dispatcher.test.ts --reporter=verbose
+  EXPECTED FAIL before hardening: `EgressReceiptRepository is not a constructor`; missing `apps/worker/src/runtime-dispatcher.js`.
+
+GREEN
+- pnpm vitest run tests/integration/remote-dispatcher.test.ts packages/persistence/src/egress-receipts.test.ts --reporter=verbose
+  PASS: 2 files, 3 tests; engine warning recorded.
+- pnpm typecheck
+  PASS; engine warning recorded.
+- pnpm vitest run packages/persistence/src apps/worker/src tests/integration/api-commands.test.ts tests/integration/remote-egress.test.ts tests/integration/remote-recovery.test.ts tests/integration/remote-dispatcher.test.ts --reporter=verbose
+  PASS: 10 files, 22 tests; engine warning recorded.
+- pnpm test:integration
+  PASS: 10 files, 27 tests; engine warning recorded.
+- pnpm test --run
+  PASS: 75 files, 348 tests; engine warning recorded. Note: an earlier concurrent validation attempt failed `local-process-adapter` stderr-bound timing once; the same test passed in isolation and the sequential full suite passed.
+- pnpm --filter @nexora/mission-control build
+  PASS; Vite emitted known module-level `use client` directive warnings from dependencies; engine warning recorded.
+- pnpm audit --prod --audit-level=high
+  PASS: No known vulnerabilities found.
+- curl -fsS -I http://127.0.0.1:5173/
+  PASS: HTTP/1.1 200 OK; launchd demo left running.
+- launchctl print gui/$(id -u)/com.nexora.agent-os-demo
+  PASS: state=running, pid=96501; launchd service was not stopped, replaced, or restarted.
+
+Hardening G10 smoke
+- API-created remote Run enqueues `payload.kind = remote` with trace id and is claimed by `WorkerLoop` through `createRuntimeDispatcher`.
+- Dispatcher builds the minimal remote snapshot, records a durable egress receipt before remote start, and sends the remote `start` message through `RemoteRuntimeAdapter`.
+- The persisted egress receipt is queryable through `/v1/egress-receipts/:id` and the existing `/v1/receipts` list surface under `egress_receipts`.
+- Remote transport failure maps to `CONNECTOR_UNAVAILABLE`, leaves queue state recoverable, persists remote egress evidence, and does not call the local adapter.
