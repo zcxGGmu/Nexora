@@ -1,0 +1,46 @@
+name: Nexora CI
+
+on:
+  push:
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 10.10.0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22.13.0
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm lint
+      - run: pnpm typecheck
+      - run: pnpm test --run
+      - run: pnpm test:integration
+      - run: pnpm --filter @nexora/mission-control build
+      - run: pnpm exec playwright install --with-deps chromium
+      - run: pnpm test:e2e
+      - name: Docker Compose smoke
+        run: |
+          trap 'docker compose down -v' EXIT
+          docker compose build
+          docker compose up -d --wait --wait-timeout 90
+          docker compose ps
+          curl -fsS http://127.0.0.1:4310/v1/health
+          curl -fsS -I http://127.0.0.1:4311/
+      - if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: nexora-playwright-results
+          path: |
+            test-results/
+            playwright-report/
+          if-no-files-found: ignore

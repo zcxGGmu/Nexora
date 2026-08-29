@@ -1,0 +1,64 @@
+services:
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile.api
+    environment:
+      NEXORA_DATA_DIR: /var/lib/nexora
+      NEXORA_DB_PATH: /var/lib/nexora/nexora.sqlite
+      NEXORA_API_HOST: 0.0.0.0
+      NEXORA_API_PORT: "4310"
+      NEXORA_AUTH_MODE: disabled
+      NEXORA_MIGRATION_MODE: auto
+    ports:
+      - "127.0.0.1:4310:4310"
+    volumes:
+      - nexora-data:/var/lib/nexora
+    healthcheck:
+      test: ["CMD", "node", "-e", "fetch('http://127.0.0.1:4310/v1/health').then((response) => { if (!response.ok) process.exit(1); }).catch(() => process.exit(1))"]
+      interval: 5s
+      timeout: 3s
+      retries: 12
+      start_period: 10s
+
+  worker:
+    build:
+      context: .
+      dockerfile: Dockerfile.worker
+    environment:
+      NEXORA_DATA_DIR: /var/lib/nexora
+      NEXORA_DB_PATH: /var/lib/nexora/nexora.sqlite
+      NEXORA_AUTH_MODE: disabled
+      NEXORA_MIGRATION_MODE: auto
+    depends_on:
+      api:
+        condition: service_healthy
+    volumes:
+      - nexora-data:/var/lib/nexora
+    healthcheck:
+      test: ["CMD", "node", "-e", "process.kill(1, 0)"]
+      interval: 5s
+      timeout: 3s
+      retries: 6
+      start_period: 5s
+
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile.web
+      args:
+        VITE_NEXORA_API_BASE_URL: http://127.0.0.1:4310
+    depends_on:
+      api:
+        condition: service_healthy
+    ports:
+      - "127.0.0.1:4311:4311"
+    healthcheck:
+      test: ["CMD", "node", "-e", "fetch('http://127.0.0.1:4311/').then((response) => { if (!response.ok) process.exit(1); }).catch(() => process.exit(1))"]
+      interval: 5s
+      timeout: 3s
+      retries: 12
+      start_period: 10s
+
+volumes:
+  nexora-data:

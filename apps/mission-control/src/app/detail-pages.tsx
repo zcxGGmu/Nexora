@@ -29,7 +29,7 @@ export function pageForRoute(route: ParsedRoute): JSX.Element {
     case "goals":
       return <GoalPage view={goalWorkspaceFixture} />;
     case "inbox":
-      return <InboxPage view={inboxFixture} />;
+      return <InboxPage selectedTab={route.urlState.tab} view={inboxFixture} />;
     case "memory":
       return <MemoryPage view={memoryFixture} />;
     case "mission-control":

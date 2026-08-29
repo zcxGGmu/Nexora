@@ -20,6 +20,27 @@ pnpm dev:worker    # structured idle log; Ctrl-C stops it
 pnpm dev:web       # http://127.0.0.1:4311
 ```
 
+Run a release-like local stack with SQLite in a named volume:
+
+```bash
+docker compose config
+docker compose build
+docker compose up -d
+curl -fsS http://127.0.0.1:4310/v1/health
+curl -fsS -I http://127.0.0.1:4311/
+docker compose down
+```
+
+The compose file is local-only: API and web bind to loopback, auth is disabled only for this smoke stack, and no external database, queue, telemetry backend, provider, or connector is started.
+
+Create a deterministic QA workspace graph and exercise the explicit fault fixture:
+
+```bash
+NEXORA_DATA_DIR=/tmp/nexora-c16/data pnpm tsx tests/fixtures/seed-workspace.ts --data-dir /tmp/nexora-c16/data
+```
+
+See [docs/runbooks/development.md](docs/runbooks/development.md), [docs/runbooks/release.md](docs/runbooks/release.md), and [docs/runbooks/e2e-journeys.md](docs/runbooks/e2e-journeys.md) for the full verification and handoff flow. Backup and security recovery remain documented in [docs/runbooks/backup-restore.md](docs/runbooks/backup-restore.md) and [docs/runbooks/security-incident.md](docs/runbooks/security-incident.md).
+
 The API requires `NEXORA_DATA_DIR`; other C00 settings have local-safe defaults. Configuration errors are typed and only report field names, never environment values. The bootstrap health contract is:
 
 ```json
@@ -33,6 +54,9 @@ apps/api/              Fastify Control API and health route
 apps/worker/           stoppable idle worker entrypoint
 apps/mission-control/  React/Vite Mission Control shell
 packages/config/       Zod environment boundary
+tests/fixtures/        deterministic seed and fault injection fixtures
+Dockerfile.*           Node 22 service images for local release smoke
+docker-compose.yml      API, worker, web, and SQLite data volume
 docs/adr/              architecture decisions
 artifacts/progress/    command and runtime evidence by commit
 ```

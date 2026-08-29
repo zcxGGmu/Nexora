@@ -12,6 +12,7 @@
     "dev:api": "pnpm --filter @nexora/api dev",
     "dev:worker": "pnpm --filter @nexora/worker dev",
     "dev:web": "pnpm --filter @nexora/mission-control dev",
+    "lint": "node scripts/lint.mjs",
     "typecheck": "tsc --project tsconfig.base.json --noEmit",
     "db:migrate": "pnpm --filter @nexora/persistence migrate",
     "test": "vitest",
@@ -19,11 +20,12 @@
     "test:e2e": "playwright test"
   },
   "devDependencies": {
+    "@axe-core/playwright": "^4.13.0",
     "@playwright/test": "^1.52.0",
-    "fastify": "^5.3.2",
     "@types/node": "^22.15.3",
     "@types/react": "^19.1.2",
     "@types/react-dom": "^19.1.2",
+    "fastify": "^5.3.2",
     "tsx": "^4.19.3",
     "typescript": "^5.8.3",
     "vite": "^6.3.2",

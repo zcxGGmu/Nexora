@@ -25,7 +25,7 @@ export function Topbar(props: { readonly createHref: string; readonly coworkHref
         <Plus aria-hidden="true" size={16} />
         <span className="topbar-create-label">Create</span>
       </a>
-      <span className="status-badge status-badge--success" aria-label="Connection status Connected">
+      <span className="status-badge status-badge--success" role="status" aria-label="Connection status Connected">
         <Wifi aria-hidden="true" size={14} />
         <span className="topbar-status-label">Connected</span>
       </span>
