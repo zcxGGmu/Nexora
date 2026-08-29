@@ -44,7 +44,7 @@ export class EventStore {
 
   append(event: EventEnvelope, expectedSequence: number): EventEnvelope {
     const parsed = EventEnvelopeSchema.parse(event);
-    if (parsed.scope.kind !== "run" || parsed.scope.id !== parsed.run_id) {
+    if (parsed.run_id === null || parsed.scope.kind !== "run" || parsed.scope.id !== parsed.run_id) {
       throw new EventStoreError("EVENT_SCOPE_MISMATCH", "Event scope must match its run");
     }
 
@@ -88,7 +88,9 @@ export class EventStore {
   }
 
   private appendParsed(parsed: EventEnvelope, expectedSequence: number): EventEnvelope {
-    const currentSequence = this.currentSequence(parsed.workspace_id, parsed.run_id);
+    const runId = parsed.run_id;
+    if (runId === null) throw new EventStoreError("EVENT_SCOPE_MISMATCH", "Event scope must match its run");
+    const currentSequence = this.currentSequence(parsed.workspace_id, runId);
     if (currentSequence !== expectedSequence || parsed.sequence !== currentSequence + 1) throw new EventStoreError("EVENT_SEQUENCE_CONFLICT", "Event sequence must be the next run sequence");
     try {
       this.database.prepare("INSERT INTO events(event_id, workspace_id, run_id, sequence, event_type, occurred_at, received_at, trace_id, attempt_id, step_id, payload_json, schema_version) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)").run(parsed.event_id, parsed.workspace_id, parsed.run_id, parsed.sequence, parsed.event_type, parsed.occurred_at, this.clock.now(), parsed.trace_id, parsed.attempt_id, parsed.step_id, JSON.stringify(parsed), parsed.schema_version);

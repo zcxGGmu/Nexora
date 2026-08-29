@@ -1,6 +1,7 @@
 import { randomBytes } from "node:crypto";
 import { CommandService, type IdFactory } from "./services/command-service.js";
 import { QueryService } from "./services/query-service.js";
+import { ScheduleCommandService } from "./services/schedule-service.js";
 import { SseService } from "./services/sse-service.js";
 import type { SqliteDatabase } from "@nexora/persistence";
 
@@ -15,12 +16,14 @@ export type ControlServicesInput = {
 export function createControlServices(input: ControlServicesInput): {
   readonly commands: CommandService;
   readonly queries: QueryService;
+  readonly scheduleCommands: ScheduleCommandService;
   readonly sse: SseService;
 } {
   const idFactory = input.idFactory ?? createUlidFactory();
   return {
     commands: new CommandService({ database: input.database, clock: input.clock, idFactory }),
     queries: new QueryService(input.database),
+    scheduleCommands: new ScheduleCommandService({ database: input.database, clock: input.clock, idFactory }),
     sse: new SseService(input.database),
   };
 }

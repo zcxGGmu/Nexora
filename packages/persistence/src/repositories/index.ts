@@ -4,6 +4,7 @@ export { GoalRepository } from "./goals.js";
 export { IdempotencyRepository, type IdempotencyRecord, type IdempotencyReservation } from "./idempotency.js";
 export { ReviewRepository } from "./reviews.js";
 export { AttemptRepository, RunRepository, StepRepository } from "./runs.js";
+export { ScheduleOccurrenceRepository, ScheduleRepository, type ScheduleOccurrenceCreateResult } from "./schedules.js";
 export { TicketRepository } from "./tickets.js";
 export { WorkspaceRepository, type WorkspaceRecord } from "./workspaces.js";
 export { PersistenceError } from "./utils.js";

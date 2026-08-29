@@ -1,7 +1,9 @@
-import { AttemptSchema, StepSchema, type Attempt, type Step } from "@nexora/contracts";
+import { AttemptSchema, RunSchema, StepSchema, type Attempt, type Run, type Step } from "@nexora/contracts";
 import { withTransaction, type SqliteDatabase } from "@nexora/persistence";
 import { AttemptRepository, StepRepository } from "@nexora/persistence";
 import { OrchestrationError } from "./errors.js";
+
+type StepTerminalStatus = Extract<Step["status"], "succeeded" | "failed" | "cancelled">;
 
 export type CancelState = "none" | "cancel_requested" | "cancelled" | "cancel_unknown";
 export type CancelResult = { readonly state: Exclude<CancelState, "none">; readonly reason?: string };
@@ -83,6 +85,22 @@ export class AttemptManager {
     return failed;
   }
 
+  markStepTerminalInTransaction(input: { readonly workspace_id: string; readonly step_id: string; readonly now: string; readonly status: StepTerminalStatus }): Step {
+    const current = this.steps.get(input.workspace_id, input.step_id);
+    if (current === undefined) throw new OrchestrationError("NOT_FOUND", "Step was not found");
+    if (current.status !== "pending" && current.status !== "running") throw new OrchestrationError("INVALID_QUEUE_STATE", "Only a pending or running step can become terminal");
+    const attempt = this.attempts.get(current.workspace_id, current.attempt_id);
+    if (attempt === undefined) throw new OrchestrationError("NOT_FOUND", "Attempt was not found");
+    const run = this.readRun(current.workspace_id, current.run_id);
+    const terminalStep = StepSchema.parse({ ...current, status: input.status, updated_at: input.now });
+    const terminalAttempt = AttemptSchema.parse({ ...attempt, status: input.status, updated_at: input.now });
+    const terminalRun = RunSchema.parse({ ...run, status: input.status, updated_at: input.now });
+    this.updateStep(terminalStep);
+    this.updateAttempt(terminalAttempt);
+    this.updateRun(terminalRun);
+    return terminalStep;
+  }
+
   private createRetryAttemptInTransaction(attempt: Attempt, failedStep: Step, retryStep: Step): { readonly attempt: Attempt; readonly step: Step } {
     if (failedStep.status !== "failed") throw new OrchestrationError("RETRY_NOT_ALLOWED", "Only a failed step can create a retry attempt");
     if (failedStep.run_id !== attempt.run_id) throw new OrchestrationError("RETRY_NOT_ALLOWED", "Retry attempt must belong to the same run");
@@ -91,6 +109,27 @@ export class AttemptManager {
     this.attempts.create(attempt);
     this.steps.create(retryStep);
     return { attempt, step: retryStep };
+  }
+
+  private readRun(workspaceId: string, runId: string): Run {
+    const row = this.database.prepare("SELECT payload_json FROM runs WHERE workspace_id = ? AND id = ?").get(workspaceId, runId);
+    if (row === undefined) throw new OrchestrationError("NOT_FOUND", "Run was not found");
+    return RunSchema.parse(JSON.parse(readText(row["payload_json"])));
+  }
+
+  private updateRun(run: Run): void {
+    const result = this.database.prepare("UPDATE runs SET status = ?, payload_json = ?, updated_at = ?, version = version + 1 WHERE workspace_id = ? AND id = ?").run(run.status, JSON.stringify(run), run.updated_at, run.workspace_id, run.id);
+    if (result.changes !== 1 && result.changes !== 1n) throw new OrchestrationError("STALE_LEASE", "Run terminal write lost its version race");
+  }
+
+  private updateAttempt(attempt: Attempt): void {
+    const result = this.database.prepare("UPDATE attempts SET status = ?, payload_json = ?, updated_at = ?, version = version + 1 WHERE workspace_id = ? AND id = ?").run(attempt.status, JSON.stringify(attempt), attempt.updated_at, attempt.workspace_id, attempt.id);
+    if (result.changes !== 1 && result.changes !== 1n) throw new OrchestrationError("STALE_LEASE", "Attempt terminal write lost its version race");
+  }
+
+  private updateStep(step: Step): void {
+    const result = this.database.prepare("UPDATE steps SET status = ?, payload_json = ?, updated_at = ?, version = version + 1 WHERE workspace_id = ? AND id = ?").run(step.status, JSON.stringify(step), step.updated_at, step.workspace_id, step.id);
+    if (result.changes !== 1 && result.changes !== 1n) throw new OrchestrationError("STALE_LEASE", "Step terminal write lost its version race");
   }
 
   cancelResult(input: { readonly requested: boolean; readonly adapter_acknowledged: boolean; readonly adapter_unknown: boolean }): CancelResult {
@@ -105,4 +144,9 @@ function readVersion(value: unknown): number | undefined {
   if (typeof value === "number" && Number.isInteger(value)) return value;
   if (typeof value === "bigint" && Number.isSafeInteger(Number(value))) return Number(value);
   return undefined;
+}
+
+function readText(value: unknown): string {
+  if (typeof value !== "string") throw new OrchestrationError("INVALID_QUEUE_STATE", "Expected text column");
+  return value;
 }

@@ -46,8 +46,14 @@ describe("persisted domain schemas", () => {
     // Given / When / Then
     expect(TicketSchema.safeParse({ ...fixtures.ticket, status: "waiting_review" }).success).toBe(false);
     expect(RunSchema.safeParse({ ...fixtures.run, status: "done" }).success).toBe(false);
-    expect(AttemptSchema.safeParse({ ...fixtures.attempt, status: "succeeded" }).success).toBe(false);
+    expect(AttemptSchema.safeParse({ ...fixtures.attempt, status: "abandoned" }).success).toBe(false);
     expect(StepSchema.safeParse({ ...fixtures.step, status: "queued" }).success).toBe(false);
+  });
+
+  it("accepts documented attempt terminal statuses", () => {
+    expect(AttemptSchema.safeParse({ ...fixtures.attempt, status: "succeeded" }).success).toBe(true);
+    expect(AttemptSchema.safeParse({ ...fixtures.attempt, status: "failed" }).success).toBe(true);
+    expect(AttemptSchema.safeParse({ ...fixtures.attempt, status: "cancelled" }).success).toBe(true);
   });
 
   it("accepts documented artifact and review lifecycle values", () => {

@@ -8,7 +8,7 @@ describe("orchestration SQLite migration", () => {
     const database = openDatabase(":memory:");
     migrate(database);
 
-    expect(CORE_MIGRATION_VERSION).toBe(5);
+    expect(CORE_MIGRATION_VERSION).toBe(6);
     expect(CORE_TABLES).toEqual(expect.arrayContaining(["queue_jobs", "leases"]));
     const tables = database.prepare("SELECT name FROM sqlite_master WHERE type = 'table'").all().map((row) => row["name"]);
     expect(tables).toEqual(expect.arrayContaining(["queue_jobs", "leases"]));

@@ -8,6 +8,8 @@ import {
   ReceiptSchema,
   ReviewDecisionSchema,
   RunSchema,
+  ScheduleOccurrenceSchema,
+  ScheduleSchema,
   StepSchema,
   TicketSchema,
   EgressReceiptSchema,
@@ -21,6 +23,8 @@ import {
   type Receipt,
   type ReviewDecision,
   type Run,
+  type Schedule,
+  type ScheduleOccurrence,
   type Step,
   type Ticket,
 } from "@nexora/contracts";
@@ -52,6 +56,13 @@ export class QueryService {
   listTickets(workspaceId: string): readonly PublicTicket[] { return this.list("tickets", workspaceId, TicketSchema).map(publicTicket); }
   getTicket(workspaceId: string, id: string): PublicTicket { return publicTicket(this.get("tickets", workspaceId, id, TicketSchema)); }
   listRuns(workspaceId: string): readonly Run[] { return this.list("runs", workspaceId, RunSchema); }
+  listSchedules(workspaceId: string): readonly Schedule[] { return this.list("schedules", workspaceId, ScheduleSchema); }
+  getSchedule(workspaceId: string, id: string): Schedule { return this.get("schedules", workspaceId, id, ScheduleSchema); }
+  listScheduleOccurrences(workspaceId: string, scheduleId: string): readonly ScheduleOccurrence[] {
+    this.getSchedule(workspaceId, scheduleId);
+    const rows = this.database.prepare("SELECT payload_json FROM schedule_occurrences WHERE workspace_id = ? AND schedule_id = ? ORDER BY scheduled_for ASC, id ASC").all(workspaceId, scheduleId);
+    return rows.map((row) => ScheduleOccurrenceSchema.parse(JSON.parse(readText(row["payload_json"]))));
+  }
   listArtifacts(workspaceId: string): readonly Artifact[] { return this.list("artifacts", workspaceId, ArtifactSchema); }
   listReceipts(workspaceId: string): readonly Receipt[] { return this.list("receipts", workspaceId, ReceiptSchema); }
   listEgressReceipts(workspaceId: string): readonly EgressReceipt[] { return this.list("egress_receipts", workspaceId, EgressReceiptSchema); }

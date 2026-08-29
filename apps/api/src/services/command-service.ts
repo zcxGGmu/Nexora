@@ -255,6 +255,7 @@ export class CommandService {
   }
 
   private appendReviewDecidedEvent(input: { readonly request: ReviewRequestedEvent; readonly decision: ReviewDecision; readonly actor_id: string }): void {
+    if (input.request.run_id === null || input.request.scope.kind !== "run" || input.request.scope.id !== input.request.run_id) throw reviewStale("Review request is not run scoped");
     const sequence = currentSequence(this.options.database, input.decision.workspace_id, input.request.run_id) + 1;
     new EventStore(this.options.database, this.options.clock).append(ReviewDecidedEventSchema.parse({ event_id: this.options.idFactory(), event_type: "review.decided", schema_version: 1, occurred_at: this.now(), workspace_id: input.decision.workspace_id, scope: { kind: "run", id: input.request.run_id }, trace_id: input.request.trace_id, run_id: input.request.run_id, attempt_id: input.request.attempt_id, step_id: input.request.step_id, actor: { type: "human", id: input.actor_id }, payload: { review_id: input.decision.id, artifact_id: input.decision.artifact_id, artifact_version: input.decision.artifact_version, review_version: input.decision.review_version, payload_hash: input.request.payload["payload_hash"], risk_level: input.decision.risk_level, requested_scope: input.decision.requested_scope, human_decision: input.decision.human_decision, reviewer_id: input.actor_id }, redactions: [], sequence }), sequence - 1);
   }

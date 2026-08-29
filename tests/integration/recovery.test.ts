@@ -1,4 +1,5 @@
 import { describe, expect, it } from "vitest";
+import { AttemptSchema, RunSchema } from "../../packages/contracts/src/index.js";
 import { migrate, openDatabase } from "../../packages/persistence/src/index.js";
 import { AttemptManager, DurableQueue, LeaseManager } from "../../packages/orchestration/src/index.js";
 import { WorkerLoop, type RetryAttemptFactory } from "../../apps/worker/src/worker-loop.js";
@@ -14,8 +15,10 @@ function setup(): { readonly database: ReturnType<typeof openDatabase>; readonly
   database.prepare("INSERT INTO agents(id, workspace_id, payload_json, schema_version, created_at, updated_at) VALUES (?, ?, ?, 1, ?, ?)").run(ID.agent, ID.workspace, "{}", START, START);
   database.prepare("INSERT INTO goals(id, workspace_id, title, objective, definition_of_done_json, payload_json, schema_version, created_at, updated_at) VALUES (?, ?, ?, ?, ?, ?, 1, ?, ?)").run(ID.goal, ID.workspace, "Goal", "Recover", "[]", "{}", START, START);
   database.prepare("INSERT INTO tickets(id, workspace_id, goal_id, status, idempotency_key, payload_json, schema_version, created_at, updated_at) VALUES (?, ?, ?, ?, ?, ?, 1, ?, ?)").run(ID.ticket, ID.workspace, ID.goal, "ready", "ticket:recovery", "{}", START, START);
-  database.prepare("INSERT INTO runs(id, workspace_id, ticket_id, status, payload_json, schema_version, created_at, updated_at) VALUES (?, ?, ?, ?, ?, 1, ?, ?)").run(ID.run, ID.workspace, ID.ticket, "queued", "{}", START, START);
-  database.prepare("INSERT INTO attempts(id, workspace_id, run_id, status, payload_json, schema_version, created_at, updated_at) VALUES (?, ?, ?, ?, ?, 1, ?, ?)").run(ID.attempt, ID.workspace, ID.run, "queued", "{}", START, START);
+  const runPayload = RunSchema.parse({ id: ID.run, workspace_id: ID.workspace, schema_version: 1, created_at: START, updated_at: START, ticket_id: ID.ticket, execution_location: "local", status: "queued", budget: { max_tokens: 10_000, max_cost_usd: 10 }, memory_snapshot: { snapshot_id: ID.workspace, version: 1 }, connector_versions: { deterministic: "1.0.0" } });
+  const attemptPayload = AttemptSchema.parse({ id: ID.attempt, workspace_id: ID.workspace, schema_version: 1, created_at: START, updated_at: START, run_id: ID.run, status: "queued", execution_location: "local" });
+  database.prepare("INSERT INTO runs(id, workspace_id, ticket_id, status, payload_json, schema_version, created_at, updated_at) VALUES (?, ?, ?, ?, ?, 1, ?, ?)").run(ID.run, ID.workspace, ID.ticket, runPayload.status, JSON.stringify(runPayload), START, START);
+  database.prepare("INSERT INTO attempts(id, workspace_id, run_id, status, payload_json, schema_version, created_at, updated_at) VALUES (?, ?, ?, ?, ?, 1, ?, ?)").run(ID.attempt, ID.workspace, ID.run, attemptPayload.status, JSON.stringify(attemptPayload), START, START);
   const stepPayload = { id: ID.step, workspace_id: ID.workspace, schema_version: 1, created_at: START, updated_at: START, run_id: ID.run, attempt_id: ID.attempt, agent_id: ID.agent, status: "pending", inputs: ["input://recovery"], outputs: ["output://recovery"], retry_policy: { max_attempts: 3, backoff_ms: 100 }, requires_review: false };
   database.prepare("INSERT INTO steps(id, workspace_id, run_id, attempt_id, agent_id, status, payload_json, schema_version, created_at, updated_at) VALUES (?, ?, ?, ?, ?, ?, ?, 1, ?, ?)").run(ID.step, ID.workspace, ID.run, ID.attempt, ID.agent, "pending", JSON.stringify(stepPayload), START, START);
   const queue = new DurableQueue(database, { now: () => START });

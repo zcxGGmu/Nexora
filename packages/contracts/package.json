@@ -10,6 +10,7 @@
     "test": "vitest --root ../.. packages/contracts/src"
   },
   "dependencies": {
+    "cron-parser": "^5.10.0",
     "zod": "^3.24.3"
   }
 }

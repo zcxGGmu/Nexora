@@ -20,6 +20,14 @@ export type LeaseRecord = {
 };
 
 export type LeaseToken = Pick<LeaseRecord, "lease_id" | "workspace_id" | "job_id" | "run_id" | "step_id" | "fencing_token">;
+type TerminalQueueStatus = "completed" | "failed" | "cancelled" | "cancel_unknown";
+type CompleteAndWriteInput = {
+  readonly token: LeaseToken;
+  readonly status: TerminalQueueStatus;
+  readonly error_code: string | null;
+  readonly now: string;
+  readonly write: () => void;
+};
 export type ClaimInput = {
   readonly workspace_id: string;
   readonly worker_id: string;
@@ -75,14 +83,19 @@ export class LeaseManager {
     return result;
   }
 
-  complete(token: LeaseToken, status: "completed" | "failed" | "cancelled" | "cancel_unknown", errorCode: string | null = null, now = this.clock.now()): LeaseRecord {
+  complete(token: LeaseToken, status: TerminalQueueStatus, errorCode: string | null = null, now = this.clock.now()): LeaseRecord {
+    return this.completeAndWrite({ token, status, error_code: errorCode, now, write: () => undefined });
+  }
+
+  completeAndWrite(input: CompleteAndWriteInput): LeaseRecord {
     return withTransaction(this.database, () => {
-      this.assertCurrent(token, now);
-      const queueResult = this.database.prepare("UPDATE queue_jobs SET status = ?, lease_id = NULL, last_error_code = ?, updated_at = ? WHERE workspace_id = ? AND id = ? AND lease_id = ? AND fencing_token = ? AND status IN ('leased', 'cancel_requested', 'cancel_unknown')").run(status, errorCode, now, token.workspace_id, token.job_id, token.lease_id, token.fencing_token);
+      this.assertCurrent(input.token, input.now);
+      input.write();
+      const queueResult = this.database.prepare("UPDATE queue_jobs SET status = ?, lease_id = NULL, last_error_code = ?, updated_at = ? WHERE workspace_id = ? AND id = ? AND lease_id = ? AND fencing_token = ? AND status IN ('leased', 'cancel_requested', 'cancel_unknown')").run(input.status, input.error_code, input.now, input.token.workspace_id, input.token.job_id, input.token.lease_id, input.token.fencing_token);
       if (queueResult.changes !== 1 && queueResult.changes !== 1n) throw new OrchestrationError("STALE_LEASE", "Queue completion was rejected by fencing");
-      const leaseResult = this.database.prepare("UPDATE leases SET status = 'released', updated_at = ? WHERE workspace_id = ? AND lease_id = ? AND fencing_token = ? AND status = 'active'").run(now, token.workspace_id, token.lease_id, token.fencing_token);
+      const leaseResult = this.database.prepare("UPDATE leases SET status = 'released', updated_at = ? WHERE workspace_id = ? AND lease_id = ? AND fencing_token = ? AND status = 'active'").run(input.now, input.token.workspace_id, input.token.lease_id, input.token.fencing_token);
       if (leaseResult.changes !== 1 && leaseResult.changes !== 1n) throw new OrchestrationError("STALE_LEASE", "Lease completion was rejected by fencing");
-      return this.get(token.lease_id) ?? (() => { throw new OrchestrationError("LEASE_NOT_FOUND", "Lease was not found"); })();
+      return this.get(input.token.lease_id) ?? (() => { throw new OrchestrationError("LEASE_NOT_FOUND", "Lease was not found"); })();
     });
   }
 
