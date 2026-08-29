@@ -1,4 +1,5 @@
 import { describe, expect, it } from "vitest";
+import { AttemptSchema, RunSchema } from "@nexora/contracts";
 import { migrate, openDatabase } from "@nexora/persistence";
 import { AttemptManager, DurableQueue, LeaseManager } from "@nexora/orchestration";
 import { WorkerLoop, type RetryAttemptFactory } from "./worker-loop.js";
@@ -15,8 +16,10 @@ function createWorkerState(): { readonly database: ReturnType<typeof openDatabas
   database.prepare("INSERT INTO agents(id, workspace_id, payload_json, schema_version, created_at, updated_at) VALUES (?, ?, ?, 1, ?, ?)").run(ID.agent, ID.workspace, "{}", START, START);
   database.prepare("INSERT INTO goals(id, workspace_id, title, objective, definition_of_done_json, payload_json, schema_version, created_at, updated_at) VALUES (?, ?, ?, ?, ?, ?, 1, ?, ?)").run(ID.goal, ID.workspace, "Goal", "Objective", "[]", "{}", START, START);
   database.prepare("INSERT INTO tickets(id, workspace_id, goal_id, status, idempotency_key, payload_json, schema_version, created_at, updated_at) VALUES (?, ?, ?, ?, ?, ?, 1, ?, ?)").run(ID.ticket, ID.workspace, ID.goal, "ready", "ticket:worker", "{}", START, START);
-  database.prepare("INSERT INTO runs(id, workspace_id, ticket_id, status, payload_json, schema_version, created_at, updated_at) VALUES (?, ?, ?, ?, ?, 1, ?, ?)").run(ID.run, ID.workspace, ID.ticket, "queued", "{}", START, START);
-  database.prepare("INSERT INTO attempts(id, workspace_id, run_id, status, payload_json, schema_version, created_at, updated_at) VALUES (?, ?, ?, ?, ?, 1, ?, ?)").run(ID.attempt, ID.workspace, ID.run, "queued", "{}", START, START);
+  const runPayload = RunSchema.parse({ id: ID.run, workspace_id: ID.workspace, schema_version: 1, created_at: START, updated_at: START, ticket_id: ID.ticket, execution_location: "local", status: "queued", budget: { max_tokens: 10_000, max_cost_usd: 10 }, memory_snapshot: { snapshot_id: ID.workspace, version: 1 }, connector_versions: { deterministic: "1.0.0" } });
+  const attemptPayload = AttemptSchema.parse({ id: ID.attempt, workspace_id: ID.workspace, schema_version: 1, created_at: START, updated_at: START, run_id: ID.run, status: "queued", execution_location: "local" });
+  database.prepare("INSERT INTO runs(id, workspace_id, ticket_id, status, payload_json, schema_version, created_at, updated_at) VALUES (?, ?, ?, ?, ?, 1, ?, ?)").run(ID.run, ID.workspace, ID.ticket, runPayload.status, JSON.stringify(runPayload), START, START);
+  database.prepare("INSERT INTO attempts(id, workspace_id, run_id, status, payload_json, schema_version, created_at, updated_at) VALUES (?, ?, ?, ?, ?, 1, ?, ?)").run(ID.attempt, ID.workspace, ID.run, attemptPayload.status, JSON.stringify(attemptPayload), START, START);
   const stepPayload = { id: ID.step, workspace_id: ID.workspace, schema_version: 1, created_at: START, updated_at: START, run_id: ID.run, attempt_id: ID.attempt, agent_id: ID.agent, status: "pending", inputs: ["input://worker"], outputs: ["output://worker"], retry_policy: { max_attempts: 3, backoff_ms: 100 }, requires_review: false };
   database.prepare("INSERT INTO steps(id, workspace_id, run_id, attempt_id, agent_id, status, payload_json, schema_version, created_at, updated_at) VALUES (?, ?, ?, ?, ?, ?, ?, 1, ?, ?)").run(ID.step, ID.workspace, ID.run, ID.attempt, ID.agent, "pending", JSON.stringify(stepPayload), START, START);
   const queue = new DurableQueue(database, { now: () => START });
@@ -43,6 +46,21 @@ describe("worker loop", () => {
     await expect(loop.runOnce()).resolves.toEqual({ kind: "succeeded", job_id: ID.job, fencing_token: 1 });
     expect(state.queue.get(ID.workspace, ID.job)?.status).toBe("completed");
     expect(state.leases.get(ID.leaseA)?.status).toBe("released");
+    expect(state.database.prepare("SELECT status FROM runs WHERE workspace_id = ? AND id = ?").get(ID.workspace, ID.run)?.["status"]).toBe("succeeded");
+    expect(state.database.prepare("SELECT status FROM attempts WHERE workspace_id = ? AND id = ?").get(ID.workspace, ID.attempt)?.["status"]).toBe("succeeded");
+    expect(state.database.prepare("SELECT status FROM steps WHERE workspace_id = ? AND id = ?").get(ID.workspace, ID.step)?.["status"]).toBe("succeeded");
+    state.database.close();
+  });
+
+  it("Given cancellation is unknown When the worker completes Then the queue records unknown and the Run leaves active status", async () => {
+    const state = createWorkerState();
+    const loop = new WorkerLoop({ queue: state.queue, leases: state.leases, workspace_id: ID.workspace, ...retryOptions(state.database), worker_id: "worker-a", lease_id_factory: () => ID.leaseA, handler: async () => ({ kind: "cancel_unknown", error_code: "CANCEL_UNKNOWN" }), clock: { now: () => START }, heartbeat_ms: 100 });
+
+    await expect(loop.runOnce()).resolves.toEqual({ kind: "cancel_unknown", job_id: ID.job });
+    expect(state.queue.get(ID.workspace, ID.job)?.status).toBe("cancel_unknown");
+    expect(state.database.prepare("SELECT status FROM runs WHERE workspace_id = ? AND id = ?").get(ID.workspace, ID.run)?.["status"]).toBe("cancelled");
+    expect(state.database.prepare("SELECT status FROM attempts WHERE workspace_id = ? AND id = ?").get(ID.workspace, ID.attempt)?.["status"]).toBe("cancelled");
+    expect(state.database.prepare("SELECT status FROM steps WHERE workspace_id = ? AND id = ?").get(ID.workspace, ID.step)?.["status"]).toBe("cancelled");
     state.database.close();
   });
 

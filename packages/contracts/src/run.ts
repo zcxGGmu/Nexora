@@ -3,7 +3,7 @@ import { MetadataSchema, NonNegativeInt } from "./common.js";
 import { UlidSchema } from "./ids.js";
 import { ExecutionLocationSchema } from "./policy.js";
 export const RunStatusSchema = z.enum(["queued", "running", "paused", "waiting_review", "succeeded", "partial", "failed", "cancelled"]);
-export const AttemptStatusSchema = z.enum(["queued", "running", "failed", "cancelled"]);
+export const AttemptStatusSchema = z.enum(["queued", "running", "succeeded", "failed", "cancelled"]);
 export const StepStatusSchema = z.enum(["pending", "running", "succeeded", "failed", "skipped", "cancelled"]);
 export const BudgetSchema = z.object({ max_tokens: NonNegativeInt.max(1000000000), max_cost_usd: z.number().finite().nonnegative().max(1000000000) }).strict();
 const ConnectorVersionSchema = z.string().regex(/^\d+\.\d+\.\d+(?:-[0-9A-Za-z.-]+)?$/);

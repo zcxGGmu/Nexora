@@ -5,3 +5,6 @@ export { LeaseManager, type ClaimInput, type LeaseRecord, type LeaseStatus, type
 export { DurableQueue, QUEUE_JOB_STATUSES, type EnqueueInput, type QueueJob, type QueueJobStatus, type QueuePayload } from "./queue.js";
 export { RecoveryManager, createRecoveryManager, type RecoveryCandidate } from "./recovery.js";
 export { decideRetry, RETRYABLE_ERROR_CODES, type RetryDecision, type RetryInput, type RetryableErrorCode } from "./retry-policy.js";
+export { nextFireAfter, resolveTimeResolution } from "./misfire.js";
+export { isActiveScheduleRunStatus, ACTIVE_SCHEDULE_RUN_STATUSES } from "./overlap.js";
+export { DurableScheduler, type SchedulerFireInput, type SchedulerFireResult } from "./scheduler.js";

@@ -57,6 +57,14 @@ describe("event envelope", () => {
     const schema = createEventEnvelopeSchema(z.object({ reason: z.string() }));
     expect(schema.safeParse({ ...event, payload: { reason: "queued", secret: "value" } }).success).toBe(false);
   });
+
+  it("Given Run and schedule events When parsed Then only schedule.fired can omit run_id", () => {
+    const scheduleEvent = { ...event, event_type: "schedule.fired", scope: { kind: "schedule", id: ID }, run_id: null };
+    const runEvent = { ...event, event_type: "run.created", scope: { kind: "run", id: ID }, run_id: null };
+
+    expect(EventEnvelopeSchema.safeParse(scheduleEvent).success).toBe(true);
+    expect(EventEnvelopeSchema.safeParse(runEvent).success).toBe(false);
+  });
 });
 
 describe("runtime envelope", () => {

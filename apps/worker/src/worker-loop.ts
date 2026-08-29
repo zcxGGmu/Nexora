@@ -84,26 +84,42 @@ export class WorkerLoop {
 
   private commitResult(job: QueueJob, lease: LeaseRecord, execution: WorkerExecutionResult): WorkerRunResult {
     switch (execution.kind) {
-      case "succeeded":
-        this.options.leases.complete(lease, "completed");
+      case "succeeded": {
+        const now = this.clock.now();
+        this.options.leases.completeAndWrite({ token: lease, status: "completed", error_code: null, now, write: () => {
+          this.options.attempt_manager.markStepTerminalInTransaction({ workspace_id: job.workspace_id, step_id: job.step_id, now, status: "succeeded" });
+        } });
         return { kind: "succeeded", job_id: job.id, fencing_token: lease.fencing_token };
-      case "cancelled":
-        this.options.leases.complete(lease, "cancelled");
+      }
+      case "cancelled": {
+        const now = this.clock.now();
+        this.options.leases.completeAndWrite({ token: lease, status: "cancelled", error_code: null, now, write: () => {
+          this.options.attempt_manager.markStepTerminalInTransaction({ workspace_id: job.workspace_id, step_id: job.step_id, now, status: "cancelled" });
+        } });
         return { kind: "cancelled", job_id: job.id };
-      case "cancel_unknown":
-        this.options.leases.complete(lease, "cancel_unknown", execution.error_code ?? "CANCEL_UNKNOWN");
+      }
+      case "cancel_unknown": {
+        const now = this.clock.now();
+        this.options.leases.completeAndWrite({ token: lease, status: "cancel_unknown", error_code: execution.error_code ?? "CANCEL_UNKNOWN", now, write: () => {
+          this.options.attempt_manager.markStepTerminalInTransaction({ workspace_id: job.workspace_id, step_id: job.step_id, now, status: "cancelled" });
+        } });
         return { kind: "cancel_unknown", job_id: job.id };
+      }
       case "failed": {
         const decision = decideRetry({ attempt: job.attempts, max_attempts: job.max_attempts, error_code: execution.error_code, base_delay_ms: 100 });
         if (decision.kind === "retry") {
+          const now = this.clock.now();
           const retryRecords = this.options.retry_attempt_factory(job, lease, decision.next_attempt);
-          this.options.leases.reschedule(lease, retryRecords.step.id, addMilliseconds(this.clock.now(), decision.delay_ms), execution.error_code, () => {
-            this.options.attempt_manager.markStepFailedInTransaction(job.workspace_id, job.step_id, this.clock.now());
+          this.options.leases.reschedule(lease, retryRecords.step.id, addMilliseconds(now, decision.delay_ms), execution.error_code, () => {
+            this.options.attempt_manager.markStepFailedInTransaction(job.workspace_id, job.step_id, now);
             this.options.attempt_manager.createRetryAttemptForQueueInTransaction(job.workspace_id, job.step_id, retryRecords.attempt, retryRecords.step);
-          });
+          }, now);
           return { kind: "retry_scheduled", job_id: job.id, delay_ms: decision.delay_ms };
         }
-        this.options.leases.complete(lease, "failed", execution.error_code);
+        const now = this.clock.now();
+        this.options.leases.completeAndWrite({ token: lease, status: "failed", error_code: execution.error_code, now, write: () => {
+          this.options.attempt_manager.markStepTerminalInTransaction({ workspace_id: job.workspace_id, step_id: job.step_id, now, status: "failed" });
+        } });
         return { kind: "failed", job_id: job.id, error_code: execution.error_code };
       }
       default:

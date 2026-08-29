@@ -1,0 +1,266 @@
+# C14 Verification Log
+
+Timestamp: 2026-08-29T04:39:13Z
+Branch: codex/agent-os-implementation
+
+## Environment Note
+
+All pnpm commands emitted the expected engine warning and continued:
+
+```text
+WARN Unsupported engine: wanted: {"node":">=22.13.0 <23.0.0"} (current: {"node":"v25.9.0","pnpm":"10.10.0"})
+```
+
+TypeScript LSP diagnostics were unavailable because the TypeScript LSP server is not installed and the user previously declined installation; `pnpm typecheck` was used as the compiler gate.
+
+## RED Evidence
+
+Command:
+
+```bash
+pnpm vitest run packages/orchestration/src/scheduler.test.ts --reporter=verbose -t "skip_missed"
+```
+
+Result before implementation: failed as expected. The new `skip_missed` regression attempted the existing enqueue path and exhausted the short ID factory, proving the misfire policy was not implemented as a blocked, no-Run occurrence.
+
+```text
+FAIL packages/orchestration/src/scheduler.test.ts > DurableScheduler > Given skip_missed misfire policy When a persisted fire time is stale Then a blocked occurrence advances the schedule
+Error: ID factory exhausted
+```
+
+## GREEN Evidence
+
+Command:
+
+```bash
+pnpm vitest run packages/orchestration/src/scheduler.test.ts --reporter=verbose -t "skip_missed"
+```
+
+Result after implementation: pass.
+
+```text
+Test Files  1 passed (1)
+Tests  1 passed | 5 skipped (6)
+```
+
+Command:
+
+```bash
+pnpm vitest run packages/orchestration/src/scheduler.test.ts --reporter=verbose -t "max catch-up"
+```
+
+Result before implementation: failed as expected. The new regression observed only one enqueued occurrence where two capped catch-up occurrences were required.
+
+```text
+FAIL packages/orchestration/src/scheduler.test.ts > DurableScheduler > Given max catch-up above one When restart finds multiple missed fires Then only the capped occurrences are enqueued
+AssertionError: expected [ 'enqueued' ] to deeply equal [ 'enqueued', 'enqueued' ]
+```
+
+Result after implementation: pass.
+
+```text
+Test Files  1 passed (1)
+Tests  1 passed | 6 skipped (7)
+```
+
+Command:
+
+```bash
+pnpm vitest run packages/contracts/src/schedules.test.ts packages/persistence/src/schedules.test.ts packages/orchestration/src/scheduler.test.ts tests/integration/schedule-recovery.test.ts --reporter=verbose
+```
+
+Result:
+
+```text
+Test Files  4 passed (4)
+Tests  15 passed (15)
+```
+
+## Compiler And Broad Gates
+
+Command:
+
+```bash
+pnpm typecheck
+```
+
+Result: exit 0, `tsc --project tsconfig.base.json --noEmit` completed without diagnostics.
+
+Command:
+
+```bash
+pnpm test:integration
+```
+
+Result:
+
+```text
+Test Files  11 passed (11)
+Tests  29 passed (29)
+```
+
+Command:
+
+```bash
+pnpm --filter @nexora/mission-control build
+```
+
+Result: exit 0. Vite built production assets successfully; it repeated the existing dependency-level `use client` bundle warnings from React Query and lucide-react.
+
+Command:
+
+```bash
+pnpm test --run
+```
+
+Result:
+
+```text
+Test Files  79 passed (79)
+Tests  363 passed (363)
+```
+
+## Demo Smoke
+
+Commands:
+
+```bash
+launchctl print gui/$(id -u)/com.nexora.agent-os-demo 2>/dev/null || true
+lsof -nP -iTCP:5173 -sTCP:LISTEN || true
+curl -fsS -I http://127.0.0.1:5173/ || true
+```
+
+Result: launchd job `com.nexora.agent-os-demo` remained running with PID 96501, `node` was listening on `127.0.0.1:5173`, and the HTTP smoke returned `HTTP/1.1 200 OK`. The demo process was not stopped, replaced, or restarted.
+
+## Hardening Update - Duplicate Occurrence Race
+
+Timestamp: 2026-08-29T05:36:57Z
+
+Root issue: the scheduler prepared Run graph side effects before checking the `ScheduleOccurrenceRepository.create(...)` result. If occurrence creation reported a dedupe duplicate at that boundary, the scheduler could proceed as if it enqueued a fresh occurrence.
+
+RED command:
+
+```bash
+pnpm vitest run packages/orchestration/src/scheduler.test.ts --reporter=verbose -t "dedupe race"
+```
+
+RED result before hardening: failed as expected. The regression received an `enqueued` result instead of duplicate/no-op behavior, proving the duplicate path could leave Run graph side effects.
+
+```text
+FAIL packages/orchestration/src/scheduler.test.ts > DurableScheduler > Given occurrence creation loses a dedupe race When the scheduler fires Then duplicate handling leaves no Run graph side effects
+AssertionError: expected [ { kind: 'enqueued', ... } ] to deeply equal [ { kind: 'duplicate', ... } ]
+```
+
+GREEN command:
+
+```bash
+pnpm vitest run packages/orchestration/src/scheduler.test.ts --reporter=verbose -t "dedupe race"
+```
+
+GREEN result after hardening:
+
+```text
+Test Files  1 passed (1)
+Tests  1 passed | 9 skipped (10)
+```
+
+Affected C14 command:
+
+```bash
+pnpm vitest run packages/contracts/src/envelope.test.ts packages/contracts/src/schemas.test.ts packages/contracts/src/schedules.test.ts apps/worker/src/worker-loop.test.ts packages/orchestration/src/scheduler.test.ts tests/integration/recovery.test.ts tests/integration/schedule-recovery.test.ts --reporter=verbose
+```
+
+Result:
+
+```text
+Test Files  7 passed (7)
+Tests  87 passed (87)
+```
+
+Persistence/schema command:
+
+```bash
+pnpm vitest run packages/persistence/src/schedules.test.ts packages/persistence/src/schema.test.ts packages/persistence/src/orchestration-schema.test.ts --reporter=verbose
+```
+
+Result:
+
+```text
+Test Files  3 passed (3)
+Tests  6 passed (6)
+```
+
+Compiler command:
+
+```bash
+pnpm typecheck
+```
+
+Result: exit 0, `tsc --project tsconfig.base.json --noEmit` completed without diagnostics.
+
+Integration command:
+
+```bash
+pnpm test:integration
+```
+
+Result:
+
+```text
+Test Files  11 passed (11)
+Tests  32 passed (32)
+```
+
+Mission Control build command:
+
+```bash
+pnpm --filter @nexora/mission-control build
+```
+
+Result: exit 0. Vite built production assets successfully; it repeated the existing dependency-level `use client` bundle warnings from React Query and lucide-react.
+
+Full test command:
+
+```bash
+pnpm test --run
+```
+
+Result:
+
+```text
+Test Files  79 passed (79)
+Tests  373 passed (373)
+```
+
+No-excuse audit:
+
+```bash
+bun run /Users/zq/.codex/plugins/cache/sisyphuslabs/omo/4.19.4/skills/programming/scripts/typescript/check-no-excuse-rules.ts apps packages tests
+pnpm exec tsx /Users/zq/.codex/plugins/cache/sisyphuslabs/omo/4.19.4/skills/programming/scripts/typescript/check-no-excuse-rules.ts apps packages tests
+```
+
+Result: unavailable in this repo because the skill script requires `typescript/unstable/*` APIs and the checkout currently has TypeScript 5.9.3. Fallback text scans over `apps`, `packages`, and `tests`, plus the scoped implementation diff, found no added `as any`, `as unknown`, `@ts-ignore`, `@ts-expect-error`, TypeScript `enum` declarations, non-null assertions, or literal throws.
+
+```bash
+rg -n --glob '*.{ts,tsx,mts,cts}' 'as any|as unknown|@ts-ignore|@ts-expect-error|^\s*enum\s|throw\s+[`"0-9]' apps packages tests || true
+rg -n --glob '*.{ts,tsx,mts,cts}' --pcre2 '[A-Za-z0-9_\)\]]!($|[^=])' apps packages tests || true
+git diff -- apps packages tests pnpm-lock.yaml | rg -n 'as any|as unknown|@ts-ignore|@ts-expect-error|^\+\s*enum\s|\+.*throw\s+[`"0-9]' || true
+```
+
+Diff whitespace check:
+
+```bash
+git diff --check
+```
+
+Result: exit 2 only for pre-existing/tracking-file trailing whitespace in `tasks/agent-os-progress.md`; implementation files did not produce whitespace errors.
+
+Final demo smoke commands:
+
+```bash
+launchctl print gui/$(id -u)/com.nexora.agent-os-demo 2>/dev/null || true
+lsof -nP -iTCP:5173 -sTCP:LISTEN || true
+curl -fsS -I http://127.0.0.1:5173/ || true
+```
+
+Result: launchd job `com.nexora.agent-os-demo` remained running with PID 96501, `node` was listening on `127.0.0.1:5173`, and HTTP returned `HTTP/1.1 200 OK` at `2026-08-29T05:36:31Z`. The demo process was not stopped, replaced, or restarted.
