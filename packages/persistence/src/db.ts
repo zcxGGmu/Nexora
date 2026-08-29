@@ -11,6 +11,7 @@ const MIGRATIONS = [
   { version: 4, path: "./migrations/0004_memory_artifacts.sql" },
   { version: 5, path: "./migrations/0005_egress_receipts.sql" },
   { version: 6, path: "./migrations/0006_schedules.sql" },
+  { version: 7, path: "./migrations/0007_observability.sql" },
 ] as const;
 
 export type SqliteDatabase = DatabaseSync;
@@ -57,6 +58,7 @@ export function rollback(database: SqliteDatabase): void {
 
   withTransaction(database, () => {
     database.exec(`DROP TABLE IF EXISTS schedule_occurrences;
+      DROP TABLE IF EXISTS connector_quarantines;
       DROP TABLE IF EXISTS schedules;
       DROP TABLE IF EXISTS artifact_versions;
       DROP TABLE IF EXISTS egress_receipts;

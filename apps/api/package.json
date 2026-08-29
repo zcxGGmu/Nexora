@@ -12,6 +12,7 @@
     "@nexora/contracts": "workspace:*",
     "@nexora/domain": "workspace:*",
     "@nexora/event-store": "workspace:*",
+    "@nexora/observability": "workspace:*",
     "@nexora/orchestration": "workspace:*",
     "@nexora/persistence": "workspace:*",
     "@nexora/policy": "workspace:*",

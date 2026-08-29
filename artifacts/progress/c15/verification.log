@@ -1,0 +1,75 @@
+# C15 Verification Log
+
+Date: 2026-08-29
+Branch: codex/agent-os-implementation
+Implementation slice: Observability, recovery, quarantine, and audit export
+
+Environment note:
+- `pnpm` consistently reported the expected engine warning: repo wants Node `>=22.13.0 <23.0.0`, current runtime is Node `v25.9.0` with pnpm `10.10.0`.
+- TypeScript LSP is not installed in this desktop session; validation used `pnpm typecheck`.
+
+RED evidence:
+- `pnpm vitest run tests/integration/observability.test.ts tests/integration/backup-restore.test.ts tests/security/quarantine.test.ts`
+- Result before implementation: 3 failed suites because `@nexora/observability` did not exist.
+
+Targeted GREEN:
+- `pnpm vitest run tests/integration/observability.test.ts tests/integration/backup-restore.test.ts tests/security/quarantine.test.ts packages/persistence/src/schema.test.ts`
+- Result: 4 files passed, 8 tests passed.
+
+CLI smoke:
+- `env NEXORA_DATA_DIR=/tmp/nexora-c15-cli.gBjuaT/data pnpm --filter @nexora/persistence migrate`
+- Result: exit 0.
+- `env NEXORA_DATA_DIR=/tmp/nexora-c15-cli.gBjuaT/data pnpm tsx scripts/backup-db.ts --output /tmp/nexora-c15-cli.gBjuaT/backup`
+- Result: exit 0, manifest `/tmp/nexora-c15-cli.gBjuaT/backup/manifest.json`, entry count 3.
+- `env NEXORA_DATA_DIR=/tmp/nexora-c15-cli.gBjuaT/data pnpm tsx scripts/restore-db.ts --manifest /tmp/nexora-c15-cli.gBjuaT/backup/manifest.json --restore-dir /tmp/nexora-c15-cli.gBjuaT/restore`
+- Result: exit 0, restored files 3, migration valid.
+- `env NEXORA_DATA_DIR=/tmp/nexora-c15-cli.gBjuaT/data pnpm tsx scripts/verify-audit.ts --workspace 01ARZ3NDEKTSV4RRFFQ69G5FAV --output /tmp/nexora-c15-cli.gBjuaT/audit.json`
+- Result: exit 0, audit valid, 0 failures, 0 entries.
+- `env NEXORA_DATA_DIR=/tmp/nexora-c15-cli.gBjuaT/data pnpm tsx scripts/verify-audit.ts --audit /tmp/nexora-c15-cli.gBjuaT/audit.json`
+- Result: exit 0, audit valid, 0 failures, 0 entries.
+
+Expanded validation:
+- `pnpm typecheck`
+- Result: exit 0.
+- `pnpm test:integration`
+- Result: 13 files passed, 36 tests passed.
+- `pnpm test --run`
+- Result: 82 files passed, 378 tests passed.
+- `pnpm --filter @nexora/mission-control build`
+- Result: exit 0; Vite build completed. Existing dependency warnings about ignored `use client` directives were emitted by React Query/lucide bundles.
+
+Static scan:
+- `rg --line-number "as any|as unknown|@ts-ignore|@ts-expect-error|console\.log\(" ...`
+- Result: only user-facing CLI `console.log()` output in `scripts/backup-db.ts`, `scripts/restore-db.ts`, and `scripts/verify-audit.ts`.
+
+Demo smoke, read-only:
+- `launchctl print gui/$(id -u)/com.nexora.agent-os-demo 2>/dev/null || true`
+- Result: state running, PID 96501, launchd-managed command still points to demo Vite on 127.0.0.1:5173.
+- `lsof -nP -iTCP:5173 -sTCP:LISTEN || true`
+- Result: node PID 96501 listening on 127.0.0.1:5173.
+- `curl -fsS -I http://127.0.0.1:5173/ || true`
+- Result: HTTP/1.1 200 OK.
+
+Scope notes:
+- C15 does not introduce an external metrics backend or OTEL collector. Health and metrics are local JSON facts derived from SQLite state.
+- Backup uses a WAL checkpoint plus file/hash manifest rather than `node:sqlite.backup()` to stay compatible with the repo's Node 22.13 floor.
+- Task tracking files remain outside the implementation commit.
+
+Final rerun evidence after backup manifest hardening:
+- `pnpm typecheck`
+- Result: exit 0; the expected Node `v25.9.0` engine warning was emitted.
+- `pnpm test:integration`
+- Result: 13 files passed, 36 tests passed.
+- `pnpm test --run`
+- Result: 82 files passed, 378 tests passed.
+- `pnpm --filter @nexora/mission-control build`
+- Result: exit 0; the existing third-party `use client` directive warnings were emitted.
+- CLI smoke on a fresh temporary data directory:
+  - migration exit 0;
+  - backup exit 0, manifest entry count 1;
+  - restore exit 0, restored files 1, migration valid;
+  - audit export and independent audit verification both returned `valid: true` with 0 failures.
+- Demo smoke after validation:
+  - launchd service state remained `running`, PID 96501;
+  - `127.0.0.1:5173` remained owned by PID 96501;
+  - `curl -fsS -I http://127.0.0.1:5173/` returned `HTTP/1.1 200 OK`.

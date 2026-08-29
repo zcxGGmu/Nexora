@@ -1,8 +1,10 @@
+import type { OperationalHealthProvider, OperationalHealth } from "@nexora/observability";
 import type { FastifyInstance } from "fastify";
 
 export type HealthRouteOptions = {
   readonly version: string;
   readonly projectionHealth?: ProjectionHealth | ProjectionHealthProvider;
+  readonly operationalHealth?: OperationalHealth | OperationalHealthProvider;
 };
 
 type ProjectionHealth = {
@@ -17,9 +19,12 @@ type HealthResponse = {
   readonly version: string;
   readonly checks: {
     readonly api: "ok";
-    readonly db: "not_configured";
-    readonly queue: "not_configured";
+    readonly db: "not_configured" | OperationalHealth["db"];
+    readonly queue: "not_configured" | OperationalHealth["queue"];
     readonly event_store?: ProjectionHealth;
+    readonly costs?: OperationalHealth["costs"];
+    readonly egress?: OperationalHealth["egress"];
+    readonly runs?: OperationalHealth["runs"];
   };
 };
 
@@ -34,6 +39,7 @@ export async function registerHealthRoute(
       api: "ok",
       db: "not_configured",
       queue: "not_configured",
+      ...resolveOperationalHealth(options.operationalHealth),
       ...resolveProjectionHealth(options.projectionHealth),
     },
   } satisfies HealthResponse));
@@ -42,4 +48,10 @@ export async function registerHealthRoute(
 function resolveProjectionHealth(projectionHealth: ProjectionHealth | ProjectionHealthProvider | undefined): { readonly event_store?: ProjectionHealth } {
   if (projectionHealth === undefined) return {};
   return { event_store: typeof projectionHealth === "function" ? projectionHealth() : projectionHealth };
+}
+
+function resolveOperationalHealth(operationalHealth: OperationalHealth | OperationalHealthProvider | undefined): Partial<HealthResponse["checks"]> {
+  if (operationalHealth === undefined) return {};
+  const health = typeof operationalHealth === "function" ? operationalHealth() : operationalHealth;
+  return { db: health.db, queue: health.queue, costs: health.costs, egress: health.egress, runs: health.runs };
 }

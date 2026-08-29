@@ -21,7 +21,8 @@ export const CORE_TABLES = [
   "egress_receipts",
   "schedules",
   "schedule_occurrences",
+  "connector_quarantines",
 ] as const;
 
 export type CoreTable = (typeof CORE_TABLES)[number];
-export const CORE_MIGRATION_VERSION = 6;
+export const CORE_MIGRATION_VERSION = 7;

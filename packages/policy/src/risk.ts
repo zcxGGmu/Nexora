@@ -1,4 +1,4 @@
-import { PayloadHashSchema, RoleSchema, UlidSchema, z, type DataClassification, type PolicyScope, type RiskLevel } from "@nexora/contracts";
+import { ConnectorQuarantineRecordSchema, PayloadHashSchema, RoleSchema, UlidSchema, z, type ConnectorQuarantineRecord, type DataClassification, type PolicyScope, type RiskLevel } from "@nexora/contracts";
 import { evaluateEgressPolicy, type EgressPolicyInput } from "./egress.js";
 import { canIssueHumanDecision, canRolePerform } from "./rbac.js";
 import { allow, deny, type PolicyActor, type PolicyDecision } from "./decisions.js";
@@ -18,9 +18,14 @@ export type ConnectorPolicyInput = {
   readonly approval: unknown | null;
   readonly egress: EgressPolicyInput;
   readonly payload_hash?: string;
+  readonly quarantine?: ConnectorQuarantineRecord;
 };
 
 export function evaluateConnectorPolicy(input: ConnectorPolicyInput): PolicyDecision {
+  if (input.quarantine !== undefined) {
+    const quarantine = ConnectorQuarantineRecordSchema.parse(input.quarantine);
+    if (quarantine.status === "active") return deny({ code: "CONNECTOR_UNAVAILABLE", event_type: "policy.denied", reason: "Connector is quarantined", required_action: "release_connector_quarantine" });
+  }
   if (!canRolePerform({ role: input.actor.role, action: "connector:execute" })) {
     return deny({ code: "SCOPE_DENIED", event_type: "scope.denied", reason: "Role cannot execute connector", required_action: "use_authorized_role" });
   }
