@@ -1,0 +1,15 @@
+FROM node:22.13.0-bookworm-slim
+
+WORKDIR /app
+ENV COREPACK_ENABLE_DOWNLOAD_PROMPT=0
+RUN corepack enable
+
+COPY . .
+RUN pnpm install --frozen-lockfile
+
+ARG VITE_NEXORA_API_BASE_URL=http://127.0.0.1:4310
+ENV VITE_NEXORA_API_BASE_URL=${VITE_NEXORA_API_BASE_URL}
+RUN pnpm --filter @nexora/mission-control build
+
+EXPOSE 4311
+CMD ["pnpm", "--filter", "@nexora/mission-control", "exec", "vite", "preview", "--host", "0.0.0.0", "--port", "4311"]

@@ -1,0 +1,65 @@
+# C16 Verification Log
+
+Date: 2026-08-29
+Branch: codex/agent-os-implementation
+Implementation slice: Release hardening, reproducible fixtures, CI, and full QA
+
+Environment:
+- Node v25.9.0, pnpm 10.10.0; repository engine warning expects Node >=22.13.0 <23.0.0.
+- launchd demo remained running as PID 96501 on 127.0.0.1:5173 throughout this stage.
+- Docker CLI is installed, but Docker daemon is unavailable at /Users/zq/.orbstack/run/docker.sock; compose build/up was not claimed.
+
+RED/GREEN:
+- RED: `pnpm vitest run tests/c16-release-hardening.test.ts --reporter=verbose` failed with missing `tests/fixtures/seed-workspace.js`.
+- GREEN: same test passed 3/3 after Docker/fixture implementation.
+- Inbox tab RED: `inboxItemsForTab is not a function`.
+- Inbox tab GREEN: `apps/mission-control/src/pages/inbox.test.tsx` passed 3/3 after filter implementation.
+- E2E first pass found inert tab selectors, stale-motion assertion formatting, and a real axe `aria-prohibited-attr` violation; all were fixed and re-run.
+
+Automated verification:
+- `pnpm lint`: PASS, 280 source files checked.
+- `pnpm typecheck`: PASS.
+- `pnpm test --run`: PASS, 83 files / 386 tests, with Vitest fileParallelism disabled to avoid existing subprocess timing starvation under parallel workers.
+- `pnpm test:integration`: PASS, 13 files / 36 tests.
+- `pnpm --filter @nexora/mission-control build`: PASS; existing third-party `use client` warnings only.
+- `pnpm test:e2e`: PASS, 6 tests; includes Operator/Reviewer, mobile Inbox, recovery deep link, and axe accessibility.
+- `docker compose config`: PASS.
+
+Fixture and recovery smoke:
+- `seed-workspace.ts` repeated twice into a fresh data directory; returned one workspace/agent/goal/ticket/memory/artifact/review graph and identical result.
+- Backup/restore CLI: manifest entry count 3, restore migration valid.
+- Independent audit export and verification: `valid: true`, 0 failures.
+- Recovery/remote recovery/observability/backup/quarantine focused suite: 5 files / 9 tests passed.
+
+Browser QA:
+- Fresh PNGs: `artifacts/qa/c16-release/manual/mobile-inbox-390x844-current.png` (390x844) and `desktop-review-1440x900-current.png` (1440x900).
+- Mobile tab switching, pause, receipt deep link, no horizontal overflow, exactly five mobile nav links, keyboard skip link, 44px target check, reduced motion, and axe violations all passed in Playwright.
+- Fresh captures were visually inspected; layout uses existing shared tokens and no clipping was observed.
+
+Service smoke:
+- 4311 independent Mission Control server returned HTTP 200.
+- launchd `com.nexora.agent-os-demo`: state running, PID 96501, command unchanged; 5173 HEAD returned HTTP 200.
+
+Known limitations:
+- Docker daemon unavailable in this desktop session, so image build and Compose runtime health checks remain unexecuted locally; CI workflow pins Node 22.13.0 and installs Chromium.
+- C16 browser fixtures are intentionally local/static and do not claim real external side effects.
+
+Post-review hardening:
+- Inbox ready and permission-filtered modes now keep Hooks stable; route `tab` deep links initialize and sync the selected tab, and tab clicks update the URL for refresh recovery.
+- Seed payloads now conform to Artifact, ArtifactVersion, Receipt, MemoryNote, and MemoryVersion contracts; QueryService, MemoryVault, and ArtifactStore reads all pass against the seeded graph.
+- Seed content refs are stable vault URIs, memory hashes cover the exact written content, and data-dir/vault paths reject symlink escapes. `.dockerignore` excludes `.env` and `.env.*` while retaining `.env.example`.
+- Seed fixture writes the same trusted memory content to the versioned `.nexora/memory/<noteId>/v1.md` source and the user-browsable `vault/release-qa.md` active file.
+- CI now includes Docker Compose build, wait-for-healthy startup, API health curl, web HEAD smoke, and teardown. Local Docker runtime remains unavailable at `/Users/zq/.orbstack/run/docker.sock`.
+- Pre-file-symlink-hardening serial verification: `pnpm lint` PASS (280 files), `pnpm typecheck` PASS, `pnpm test --run` PASS (83 files / 384 tests), `pnpm test:integration` PASS (13 files / 36 tests), Mission Control build PASS, `pnpm test:e2e` PASS (6/6), `docker compose config` PASS, targeted C16 seed/Inbox tests PASS (6/6 and 4/4), mobile Inbox E2E PASS (1/1).
+- Independent code re-audit found no remaining blocking product defects; two visual gates approved fresh mobile and desktop captures. Non-blocking evidence gap: supplied captures contain no CJK copy, so CJK clipping is covered by source/layout review but not glyph-level screenshot evidence.
+
+Closeout rerun after active vault seed hardening (2026-08-29 20:17 Asia/Shanghai):
+- `pnpm vitest run tests/c16-release-hardening.test.ts --reporter=verbose`: PASS, 6/6; covers reproducible graph, active `vault/release-qa.md`, fault scenarios, directory symlink rejection, and file symlink containment.
+- `pnpm lint`: PASS, 280 source files; `pnpm typecheck`: PASS.
+- `pnpm test --run --reporter=dot`: PASS, 83 files / 384 tests; `pnpm test:integration`: PASS, 13 files / 36 tests.
+- `pnpm --filter @nexora/mission-control build`: PASS; `pnpm test:e2e`: PASS, 6/6; `docker compose config`: PASS.
+- Seed CLI smoke created the graph and verified `vault/release-qa.md` contains the trusted fixture content.
+- 5173 launchd smoke remained unchanged: state `running`, PID 96501, listener on `127.0.0.1:5173`, HTTP 200.
+- The two symlink-file regression cases passed; the QA PNG captures remain intentionally untracked local evidence and are excluded from the implementation commit.
+- Final serial verification after file-symlink hardening: `pnpm lint` and `pnpm typecheck` PASS; `pnpm test --run --reporter=dot` PASS (83 files / 386 tests); `pnpm test:integration` PASS (13 files / 36 tests); Mission Control build PASS; `pnpm test:e2e` PASS (6/6); `docker compose config` PASS.
+- Final staged code review: APPROVE, no CRITICAL/HIGH findings. Minor follow-up: worker Compose healthcheck is PID liveness-only until a business heartbeat/readiness endpoint exists.
