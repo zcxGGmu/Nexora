@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { RetryPolicySchema, TimestampSchema } from "./common.js";
+import { MetadataSchema, RetryPolicySchema, TimestampSchema } from "./common.js";
 import { ArtifactIdSchema, RunIdSchema, StepIdSchema, UlidSchema, WorkspaceIdSchema } from "./ids.js";
 import { DataClassificationSchema, EgressPolicySchema, PayloadHashSchema, PolicyScopeSchema, RiskLevelSchema } from "./policy.js";
 
@@ -19,9 +19,29 @@ export const ConnectorReviewRequiredSchema = z.object({ kind: z.literal("review_
 export const ConnectorExecutionReceiptSchema = z
   .object({ schema_version: z.literal(1), connector_id: z.string().min(1), connector_version: SemverSchema, workspace_id: WorkspaceIdSchema, run_id: RunIdSchema, receipt_id: z.string().min(1), idempotency_key: z.string().min(1).max(128), request_hash: PayloadHashSchema, payload_hash: PayloadHashSchema, artifact_id: ArtifactIdSchema, artifact_version: z.number().int().positive(), status: z.enum(["executed", "verified", "side_effect_unknown", "review_required", "reused"]), external_receipt_ref: z.string().min(1).nullable(), side_effects: z.array(z.object({ kind: z.string().min(1), reference: z.string().min(1) }).strict()), verification: z.object({ status: z.enum(["verified", "failed", "unknown"]), checked_at: TimestampSchema, reason: z.string().min(1) }).strict() })
   .strict();
+export const ConnectorQuarantineStatusSchema = z.enum(["active", "released"]);
+export const ConnectorQuarantineRecordSchema = MetadataSchema.extend({
+  connector_id: z.string().min(1),
+  connector_version: SemverSchema,
+  status: ConnectorQuarantineStatusSchema,
+  reason: z.string().min(1).max(1000),
+  quarantined_by: UlidSchema,
+  released_by: UlidSchema.nullable(),
+  release_reason: z.string().min(1).max(1000).nullable(),
+  released_at: TimestampSchema.nullable(),
+}).strict().superRefine((record, context) => {
+  if (record.status === "active" && (record.released_by !== null || record.release_reason !== null || record.released_at !== null)) {
+    context.addIssue({ code: z.ZodIssueCode.custom, message: "Active quarantines cannot include release fields" });
+  }
+  if (record.status === "released" && (record.released_by === null || record.release_reason === null || record.released_at === null)) {
+    context.addIssue({ code: z.ZodIssueCode.custom, message: "Released quarantines must include release fields" });
+  }
+});
 
 export type ConnectorDescriptor = z.infer<typeof ConnectorDescriptorSchema>;
 export type ConnectorRequest = z.infer<typeof ConnectorRequestSchema>;
 export type ConnectorPreview = z.infer<typeof ConnectorPreviewSchema>;
 export type ConnectorReviewRequired = z.infer<typeof ConnectorReviewRequiredSchema>;
 export type ConnectorExecutionReceipt = z.infer<typeof ConnectorExecutionReceiptSchema>;
+export type ConnectorQuarantineStatus = z.infer<typeof ConnectorQuarantineStatusSchema>;
+export type ConnectorQuarantineRecord = z.infer<typeof ConnectorQuarantineRecordSchema>;

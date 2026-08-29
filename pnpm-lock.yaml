@@ -50,6 +50,9 @@ importers:
       '@nexora/event-store':
         specifier: workspace:*
         version: link:../../packages/event-store
+      '@nexora/observability':
+        specifier: workspace:*
+        version: link:../../packages/observability
       '@nexora/orchestration':
         specifier: workspace:*
         version: link:../../packages/orchestration
@@ -200,6 +203,15 @@ importers:
       '@nexora/policy':
         specifier: workspace:*
         version: link:../policy
+
+  packages/observability:
+    dependencies:
+      '@nexora/contracts':
+        specifier: workspace:*
+        version: link:../contracts
+      '@nexora/persistence':
+        specifier: workspace:*
+        version: link:../persistence
 
   packages/orchestration:
     dependencies:

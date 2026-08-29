@@ -9,6 +9,7 @@ import {
 } from "@nexora/config";
 import { migrate, openDatabase, validateMigration, type SqliteDatabase } from "@nexora/persistence";
 import { systemClock, type Clock } from "@nexora/contracts";
+import { createOperationalHealth } from "@nexora/observability";
 
 import { createControlServices, type ControlServicesInput } from "./app.js";
 import type { ControlAuthOptions, LocalAuthOptions } from "./plugins/auth.js";
@@ -24,7 +25,7 @@ export type ApiServerOptions = HealthRouteOptions & {
 
 export function createApiServer(options: ApiServerOptions): FastifyInstance {
   const app = Fastify({ logger: true });
-  void app.register(registerHealthRoute, options);
+  void app.register(registerHealthRoute, healthRouteOptions(options));
   if (options.database !== undefined && options.auth?.mode === "local") {
     const clock = options.clock ?? systemClock;
     const services = options.idFactory === undefined
@@ -33,6 +34,13 @@ export function createApiServer(options: ApiServerOptions): FastifyInstance {
     void app.register(registerControlRoutes, { ...services, auth: options.auth });
   }
   return app;
+}
+
+function healthRouteOptions(options: ApiServerOptions): HealthRouteOptions {
+  const base = options.projectionHealth === undefined ? { version: options.version } : { version: options.version, projectionHealth: options.projectionHealth };
+  if (options.operationalHealth !== undefined) return { ...base, operationalHealth: options.operationalHealth };
+  if (options.database !== undefined) return { ...base, operationalHealth: createOperationalHealth(options.database) };
+  return base;
 }
 
 export async function startServer(): Promise<void> {

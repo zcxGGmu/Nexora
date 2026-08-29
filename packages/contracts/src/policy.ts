@@ -8,7 +8,7 @@ export const DataClassificationSchema = z.enum(["public", "internal", "confident
 export const ExecutionLocationSchema = z.enum(["local", "remote"]);
 export const EnforcementPointSchema = z.enum(["api", "worker", "connector"]);
 export const PolicyEventTypeSchema = z.enum(["scope.denied", "policy.denied", "secret.redacted"]);
-export const PolicyDenialCodeSchema = z.enum(["SCOPE_DENIED", "POLICY_DENIED", "POLICY_REVIEW_REQUIRED"]);
+export const PolicyDenialCodeSchema = z.enum(["SCOPE_DENIED", "POLICY_DENIED", "POLICY_REVIEW_REQUIRED", "CONNECTOR_UNAVAILABLE"]);
 export const PayloadHashSchema = z.string().regex(/^sha256:[0-9a-f]{64}$/);
 export const PolicyScopeSchema = z.discriminatedUnion("kind", [
   z.object({ kind: z.literal("workspace"), id: UlidSchema }).strict(),
