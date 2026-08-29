@@ -16,7 +16,7 @@ export function readText(value: unknown): string {
   return value;
 }
 
-export function readJson<T>(value: unknown, schema: z.ZodType<T>): T {
+export function readJson<TSchema extends z.ZodTypeAny>(value: unknown, schema: TSchema): z.output<TSchema> {
   try {
     return schema.parse(JSON.parse(readText(value)));
   } catch {

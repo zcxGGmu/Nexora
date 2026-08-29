@@ -18,7 +18,8 @@ export const CORE_TABLES = [
   "memory_versions",
   "memory_snapshots",
   "artifact_versions",
+  "egress_receipts",
 ] as const;
 
 export type CoreTable = (typeof CORE_TABLES)[number];
-export const CORE_MIGRATION_VERSION = 4;
+export const CORE_MIGRATION_VERSION = 5;

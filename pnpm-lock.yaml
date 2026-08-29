@@ -116,6 +116,12 @@ importers:
       '@nexora/persistence':
         specifier: workspace:*
         version: link:../../packages/persistence
+      '@nexora/policy':
+        specifier: workspace:*
+        version: link:../../packages/policy
+      '@nexora/runtime-adapters':
+        specifier: workspace:*
+        version: link:../../packages/runtime-adapters
 
   packages/artifacts:
     dependencies:

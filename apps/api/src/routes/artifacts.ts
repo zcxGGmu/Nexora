@@ -21,7 +21,7 @@ export async function registerArtifactRoutes(app: FastifyInstance, options: Cont
     const context = requestContext(request, options.auth);
     const query = WorkspaceQuerySchema.parse(request.query);
     requireQueryScope(context.actor, "artifact:read", query.workspace_id);
-    return { schema_version: 1, receipts: options.queries.listReceipts(query.workspace_id) };
+    return { schema_version: 1, receipts: options.queries.listReceipts(query.workspace_id), egress_receipts: options.queries.listEgressReceipts(query.workspace_id) };
   });
   app.get("/v1/receipts/:id", async (request) => {
     const context = requestContext(request, options.auth);
@@ -29,5 +29,12 @@ export async function registerArtifactRoutes(app: FastifyInstance, options: Cont
     const params = IdParamsSchema.parse(request.params);
     requireQueryScope(context.actor, "artifact:read", query.workspace_id);
     return { schema_version: 1, receipt: options.queries.getReceipt(query.workspace_id, params.id) };
+  });
+  app.get("/v1/egress-receipts/:id", async (request) => {
+    const context = requestContext(request, options.auth);
+    const query = WorkspaceQuerySchema.parse(request.query);
+    const params = IdParamsSchema.parse(request.params);
+    requireQueryScope(context.actor, "artifact:read", query.workspace_id);
+    return { schema_version: 1, egress_receipt: options.queries.getEgressReceipt(query.workspace_id, params.id) };
   });
 }
