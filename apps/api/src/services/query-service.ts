@@ -13,6 +13,14 @@ import {
   StepSchema,
   TicketSchema,
   EgressReceiptSchema,
+  RegistryCatalogSchema,
+  DescriptorIdSchema,
+  type RuntimeDescriptor,
+  type ProviderDescriptor,
+  type ModelDescriptor,
+  type BackendDescriptor,
+  type ToolDescriptor,
+  type RegistryCatalog,
   type AgentProfile,
   type Artifact,
   type Attempt,
@@ -29,7 +37,7 @@ import {
   type Ticket,
 } from "@nexora/contracts";
 import type { QueueJob } from "@nexora/orchestration";
-import type { SqliteDatabase } from "@nexora/persistence";
+import { BackendRepository, ModelRepository, ProviderRepository, RuntimeRepository, ToolRepository, type SqliteDatabase } from "@nexora/persistence";
 import { ApiHttpError } from "./errors.js";
 
 export type QueueJobSummary = Pick<QueueJob, "id" | "workspace_id" | "run_id" | "step_id" | "status" | "available_at" | "attempts" | "max_attempts" | "created_at" | "updated_at">;
@@ -68,6 +76,16 @@ export class QueryService {
   listEgressReceipts(workspaceId: string): readonly EgressReceipt[] { return this.list("egress_receipts", workspaceId, EgressReceiptSchema); }
   listReviews(workspaceId: string): readonly PublicReviewDecision[] { return this.list("review_decisions", workspaceId, ReviewDecisionSchema).map(publicReviewDecision); }
   listMemory(workspaceId: string): readonly PublicMemoryNote[] { return this.list("memory_notes", workspaceId, MemoryNoteSchema).map(publicMemoryNote); }
+
+  getRegistry(workspaceId: string): RegistryCatalog {
+    return RegistryCatalogSchema.parse({ schema_version: 1, workspace_id: workspaceId, runtimes: new RuntimeRepository(this.database).list(workspaceId), providers: new ProviderRepository(this.database).list(workspaceId), models: new ModelRepository(this.database).list(workspaceId), backends: new BackendRepository(this.database).list(workspaceId), tools: new ToolRepository(this.database).list(workspaceId) });
+  }
+
+  getRuntime(workspaceId: string, id: string): RuntimeDescriptor { return requireDescriptor(new RuntimeRepository(this.database).get(workspaceId, DescriptorIdSchema.parse(id))); }
+  getProvider(workspaceId: string, id: string): ProviderDescriptor { return requireDescriptor(new ProviderRepository(this.database).get(workspaceId, DescriptorIdSchema.parse(id))); }
+  getModel(workspaceId: string, id: string): ModelDescriptor { return requireDescriptor(new ModelRepository(this.database).get(workspaceId, DescriptorIdSchema.parse(id))); }
+  getBackend(workspaceId: string, id: string): BackendDescriptor { return requireDescriptor(new BackendRepository(this.database).get(workspaceId, DescriptorIdSchema.parse(id))); }
+  getTool(workspaceId: string, id: string): ToolDescriptor { return requireDescriptor(new ToolRepository(this.database).get(workspaceId, DescriptorIdSchema.parse(id))); }
 
   getRunDetail(workspaceId: string, runId: string): RunDetail {
     const row = this.database.prepare("SELECT payload_json, version FROM runs WHERE workspace_id = ? AND id = ?").get(workspaceId, runId);
@@ -143,6 +161,11 @@ function publicMemoryNote(note: MemoryNote): PublicMemoryNote {
 
 function notFound(): ApiHttpError {
   return new ApiHttpError({ status_code: 404, code: "SCOPE_DENIED", message: "Resource not found", retryable: false, required_action: "check_scope" });
+}
+
+function requireDescriptor<TDescriptor>(descriptor: TDescriptor | undefined): TDescriptor {
+  if (descriptor === undefined) throw notFound();
+  return descriptor;
 }
 
 function readText(value: unknown): string {

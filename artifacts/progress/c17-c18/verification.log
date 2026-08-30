@@ -1,0 +1,34 @@
+C17-C18 Runtime Registry and Provider Catalog verification
+Date: 2026-08-30 (Asia/Shanghai)
+
+Focused RED/GREEN:
+- `pnpm exec vitest run packages/contracts/src/registry.test.ts`: RED before implementation (requested/actual fields rejected), then GREEN, 5 tests.
+- `pnpm exec vitest run packages/persistence/src/repositories/registry.test.ts packages/persistence/src/schedules.test.ts packages/persistence/src/orchestration-schema.test.ts`: GREEN after migration 8 updates; registry repository includes same descriptor id in separate workspaces.
+- `pnpm exec vitest run apps/api/src/routes/registry.test.ts`: RED before PUT routes/provider guard, then GREEN, 7 tests (including idempotent update replay).
+- `pnpm exec vitest run apps/mission-control/src/pages/registry.test.tsx apps/mission-control/src/app/router.test.tsx`: RED before evidence rows, then GREEN, 5 tests.
+
+Full verification:
+- `pnpm lint`: PASS, 289 source files checked.
+- `pnpm typecheck`: PASS.
+- `pnpm test --run --reporter=dot`: PASS, 87 files / 403 tests.
+- `pnpm test:integration`: PASS, 13 files / 36 tests.
+- `pnpm --filter @nexora/mission-control build`: PASS.
+
+API behavior:
+- Registry GET is workspace-scoped and requires `run:read`.
+- Registry POST is owner-only, requires `Idempotency-Key`, returns 202 and a status URL.
+- Registry PUT is owner-only, requires `Idempotency-Key` and `If-Match`; stale versions return `VERSION_CONFLICT` and changed idempotency payloads return `IDEMPOTENCY_KEY_REUSED`.
+- Model registration/update rejects an unregistered provider without exposing storage details.
+- Provider endpoint references require `secret://...`; other endpoint references require a URI scheme, so plaintext secret-like values are rejected at the contract boundary.
+- Registry GET/catalog responses expose a `revision` derived from the SQLite optimistic version; updates bind `revision` to `If-Match` and return the next revision in subsequent reads.
+- No route starts a runtime, calls a provider, installs MCP, or sends external data.
+
+Manual visual QA:
+- Fresh desktop capture: `artifacts/qa/c17-c18-registry-desktop-1440x900.png` (PNG, 1440x900, RGB).
+- Fresh mobile capture: `artifacts/qa/c17-c18-registry-mobile-390x844.png` (PNG, 390x844, RGB).
+- Chromium executable used: cached Playwright Chrome for Testing 151.0.7922.34; package-managed headless shell 1200 was unavailable.
+- DOM smoke: four panel `aria-labelledby` values are slug-safe; status badges expose icon plus `healthy · declared`; mobile `document.documentElement.scrollWidth > clientWidth` is false.
+- Independent visual passes: design-system pass APPROVE; precision pass after fixes has no blocking issues. Independent code review final APPROVE at `.omo/evidence/c17-c18-code-review-final.md`. No CJK copy is present in the fixture, so CJK glyph coverage remains a future localized-content check.
+
+Known environment limitation:
+- Host Node is v25.9.0 while the repository engine range is >=22.13.0 <23.0.0; pnpm emits an engine warning. No test or build failure resulted.

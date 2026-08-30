@@ -22,7 +22,12 @@ export const CORE_TABLES = [
   "schedules",
   "schedule_occurrences",
   "connector_quarantines",
+  "runtime_descriptors",
+  "provider_descriptors",
+  "model_descriptors",
+  "backend_descriptors",
+  "tool_descriptors",
 ] as const;
 
 export type CoreTable = (typeof CORE_TABLES)[number];
-export const CORE_MIGRATION_VERSION = 7;
+export const CORE_MIGRATION_VERSION = 8;

@@ -10,6 +10,7 @@ import { MissionControlPage, MissionControlRail, missionControlFixture } from ".
 import { MissingDetailPage } from "../pages/MissingDetailPage.js";
 import { PlaceholderPage } from "../pages/PlaceholderPage.js";
 import { ReviewPage, reviewFixture, staleReviewFixture } from "../pages/ReviewPage.js";
+import { RegistryPage, registryFixture } from "../pages/RegistryPage.js";
 import { blockedRunDetailFixture, RunDetailPage, runDetailFixture } from "../pages/RunDetailPage.js";
 import { TicketPage, ticketFixture } from "../pages/TicketPage.js";
 import { WorkflowPage, WorkflowRunPage, seoWorkflowRunFixture, seoWorkflowTemplateFixture } from "../pages/WorkflowPage.js";
@@ -36,6 +37,8 @@ export function pageForRoute(route: ParsedRoute): JSX.Element {
       return <MissionControlPage view={missionControlFixture} />;
     case "review":
       return reviewPageForId(detailId(route));
+    case "registry":
+      return <RegistryPage view={registryFixture} />;
     case "runs":
       return runPageForId(detailId(route));
     case "settings":

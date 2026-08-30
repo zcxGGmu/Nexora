@@ -20,6 +20,7 @@ describe("C10 route contract", () => {
       "/artifacts/:id",
       "/memory",
       "/settings",
+      "/registry",
     ]);
   });
 
@@ -49,5 +50,13 @@ describe("C10 route contract", () => {
     });
 
     expect(href).toBe("/inbox?workspace=ws-a&site=site-a&project=proj-a&filter=approvals&tab=handoffs&cursor=after-7");
+  });
+
+  it("preserves workspace and health filter on the registry deep link", () => {
+    const route = parseRouteUrl("http://nexora.local/registry?workspace=ws-a&filter=degraded");
+    expect(route.key).toBe("registry");
+    expect(route.urlState.workspace).toBe("ws-a");
+    expect(route.urlState.filter).toBe("degraded");
+    expect(buildRouteHref("registry", route.urlState)).toBe("/registry?workspace=ws-a&filter=degraded");
   });
 });

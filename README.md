@@ -63,7 +63,7 @@ artifacts/progress/    command and runtime evidence by commit
 
 ## Architecture
 
-The production direction is a single TypeScript monorepo. React/Vite Mission Control calls the Fastify Control API. Later stages will add typed domain commands, SQLite as the state source, an append-only event store, and durable worker orchestration. C00 deliberately leaves database, queue, and external connector checks as `not_configured` until those stages land.
+The production direction is a single TypeScript monorepo. React/Vite Mission Control calls the Fastify Control API. The current release candidate includes typed domain commands, SQLite as the state source, an append-only event store, durable worker orchestration, schedules, recovery, and a workspace-scoped Runtime/Provider Registry. Registry descriptors are declarative facts only: they do not connect Hermes, call a provider, install MCP, or execute a tool.
 
 ## Versioned Contracts
 
@@ -72,6 +72,8 @@ The `@nexora/contracts` package is the C01 wire-contract boundary. Persisted dom
 C02 uses Node 22.13+'s built-in `node:sqlite` module. `pnpm db:migrate` applies the versioned SQLite migration to `NEXORA_DB_PATH` (defaulting to `<NEXORA_DATA_DIR>/nexora.sqlite`); `NEXORA_MIGRATION_MODE=validate` checks that migration 1 is already applied without changing the database.
 
 Commands are asynchronous. An HTTP `202 Accepted` means the command was accepted for processing; it does not mean business work completed. Clients observe completion through versioned run and event contracts.
+
+The C17/C18 registry surface is available at `GET /v1/registry?workspace_id=...` and typed `GET/POST/PUT /v1/registry/{runtimes,providers,models,backends,tools}` routes. Reads require `run:read`; registration and updates require `workspace:admin`, an `Idempotency-Key`, and updates also require `If-Match`. See [docs/runbooks/registry-operations.md](docs/runbooks/registry-operations.md) and [ADR-0013](docs/adr/0013-runtime-provider-registry.md).
 
 Error responses have a stable shape and never echo rejected values or third-party text:
 
