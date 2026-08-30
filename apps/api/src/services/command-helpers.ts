@@ -52,5 +52,10 @@ export function readInteger(value: unknown): number {
 
 function resourcePath(objectType: string, objectId: string): string {
   if (objectType === "memory") return `/v1/memory/${objectId}`;
+  if (objectType === "runtime_descriptor") return `/v1/registry/runtimes/${objectId}`;
+  if (objectType === "provider_descriptor") return `/v1/registry/providers/${objectId}`;
+  if (objectType === "model_descriptor") return `/v1/registry/models/${objectId}`;
+  if (objectType === "backend_descriptor") return `/v1/registry/backends/${objectId}`;
+  if (objectType === "tool_descriptor") return `/v1/registry/tools/${objectId}`;
   return `/v1/${objectType}s/${objectId}`;
 }

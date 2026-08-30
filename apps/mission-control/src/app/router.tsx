@@ -33,6 +33,7 @@ export const routeDefinitions: readonly RouteDefinition[] = [
   { key: "artifacts", path: "/artifacts/:id" },
   { key: "memory", path: "/memory" },
   { key: "settings", path: "/settings" },
+  { key: "registry", path: "/registry" },
 ] as const;
 
 export function AppRouter(): JSX.Element {
@@ -98,7 +99,7 @@ function navigationGroups(state: ScopeUrlState): readonly ShellNavGroup[] {
   return [
     { label: "Workbench", items: [navItem("mission-control", "Mission Control", state), navItem("inbox", "Inbox", state), navItem("review", "Review", state, { id: "rev-r3" })] },
     { label: "Work", items: [navItem("cowork", "Cowork", state), navItem("goals", "Goals", state), navItem("tickets", "Tickets", state), navItem("workflows", "Workflows", state, { workflowId: "seo_draft_v1" }), navItem("runs", "Runs", state, { id: "run-active" }), navItem("artifacts", "Artifacts", state, { id: "artifact-summary" }), navItem("memory", "Memory", state)] },
-    { label: "System", items: [navItem("design-system", "Design System", state), navItem("settings", "Settings", state)] },
+    { label: "System", items: [navItem("registry", "Registry", state), navItem("design-system", "Design System", state), navItem("settings", "Settings", state)] },
   ];
 }
 
@@ -136,6 +137,8 @@ function pathnameForKey(key: ShellRouteKey, params: Readonly<Record<string, stri
       return `/review/${encodeURIComponent(params["id"] ?? "rev-r3")}`;
     case "runs":
       return `/runs/${encodeURIComponent(params["id"] ?? "run-active")}`;
+    case "registry":
+      return "/registry";
     case "settings":
       return "/settings";
     case "tickets":

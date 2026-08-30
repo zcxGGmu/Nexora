@@ -95,6 +95,9 @@ a { color: inherit; text-decoration: none; }
 .fact-grid div { min-inline-size: 0; display: grid; gap: var(--space-1); }
 .fact-grid dt, .field-label { color: var(--text-muted); font-size: 12px; line-height: 16px; }
 .fact-grid dd { margin: 0; color: var(--text-primary); font-size: 14px; line-height: 22px; overflow-wrap: anywhere; }
+.registry-facts { grid-template-columns: repeat(auto-fit, minmax(min(12rem, 100%), 1fr)); padding: var(--space-2) 0 0; gap: var(--space-2) var(--space-3); }
+.registry-facts dt { font-size: 12px; line-height: 16px; }
+.registry-facts dd { font-size: 12px; line-height: 18px; }
 .metric-panel .fact-grid { grid-template-columns: minmax(0, 1fr); }
 .timeline-list { list-style: none; margin: 0; padding: 0; }
 .timeline-event { display: grid; grid-template-columns: 72px minmax(0, 1fr); gap: var(--space-3); padding: var(--space-4); border-block-end: 1px solid var(--border-subtle); }
