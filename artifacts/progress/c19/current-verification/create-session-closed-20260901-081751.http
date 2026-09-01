@@ -1,0 +1,10 @@
+HTTP/1.1 202 Accepted
+access-control-allow-headers: Authorization, Content-Type, Idempotency-Key, If-Match, Traceparent
+access-control-allow-methods: GET, POST, PUT, OPTIONS
+content-type: application/json; charset=utf-8
+content-length: 258
+Date: Tue, 01 Sep 2026 00:17:52 GMT
+Connection: keep-alive
+Keep-Alive: timeout=72
+
+{"schema_version":1,"command_id":"qa:session:closed:create","status":"accepted","object_type":"session","object_id":"01YRZ3NDEKTSV4RRFFQ69Y5FAV","status_url":"/v1/sessions/01YRZ3NDEKTSV4RRFFQ69Y5FAV?workspace_id=01ARZ3NDEKTSV4RRFFQ69G5FAV","events_url":null}

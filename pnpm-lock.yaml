@@ -74,6 +74,9 @@ importers:
 
   apps/mission-control:
     dependencies:
+      '@nexora/contracts':
+        specifier: workspace:*
+        version: link:../../packages/contracts
       '@tanstack/react-query':
         specifier: ^5.102.8
         version: 5.102.8(react@19.2.8)

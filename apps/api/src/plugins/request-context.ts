@@ -17,7 +17,7 @@ const MAX_IDEMPOTENCY_KEY_LENGTH = 128;
 
 export function requestContext(request: FastifyRequest, auth: LocalAuthOptions): RequestContext {
   return {
-    actor: requireActor(request.headers.authorization, auth),
+    actor: requireActor(request.headers.authorization, auth, request.headers.cookie),
     trace_id: requiredTraceId(request.headers["traceparent"]),
     idempotency_key: firstHeader(request.headers["idempotency-key"]) ?? null,
     expected_version: ifMatchVersion(request.headers["if-match"]),

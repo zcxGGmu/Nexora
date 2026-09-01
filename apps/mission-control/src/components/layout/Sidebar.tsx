@@ -1,7 +1,7 @@
-import { Boxes, FileText, Gauge, GitPullRequestArrow, Inbox, MemoryStick, MessageSquareText, Settings, Target, Ticket } from "lucide-react";
+import { Boxes, FileText, Gauge, GitPullRequestArrow, Inbox, MemoryStick, MessageSquareText, RadioTower, Settings, Target, Ticket } from "lucide-react";
 import type { JSX } from "react";
 
-export type ShellRouteKey = "design-system" | "mission-control" | "cowork" | "inbox" | "goals" | "tickets" | "runs" | "review" | "artifacts" | "memory" | "workflows" | "settings" | "registry";
+export type ShellRouteKey = "design-system" | "mission-control" | "cowork" | "inbox" | "goals" | "tickets" | "runs" | "review" | "artifacts" | "memory" | "workflows" | "settings" | "registry" | "gateway";
 
 export type ShellNavItem = {
   readonly key: ShellRouteKey;
@@ -28,6 +28,7 @@ const icons = {
   tickets: Ticket,
   workflows: GitPullRequestArrow,
   registry: Boxes,
+  gateway: RadioTower,
 } as const;
 
 export function Sidebar(props: { readonly currentRoute: ShellRouteKey; readonly groups: readonly ShellNavGroup[] }): JSX.Element {

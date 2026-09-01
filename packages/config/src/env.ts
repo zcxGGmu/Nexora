@@ -14,6 +14,7 @@ const EnvironmentSchema = z.object({
   NEXORA_LOG_LEVEL: z.enum(LOG_LEVELS).default("info"),
   NEXORA_AUTH_MODE: z.enum(AUTH_MODES).default("local"),
   NEXORA_CONTROL_TOKEN_SECRET: z.string().trim().min(32).optional(),
+  NEXORA_ENABLE_LOCAL_SESSION_BOOTSTRAP: z.enum(["true", "false"]).default("false"),
   NEXORA_DB_PATH: z.string().trim().min(1).optional(),
   NEXORA_MIGRATION_MODE: z.enum(["auto", "validate", "disabled"]).default("auto"),
 });
@@ -27,6 +28,7 @@ export type NexoraEnvironment = {
   readonly logLevel: (typeof LOG_LEVELS)[number];
   readonly authMode: (typeof AUTH_MODES)[number];
   readonly controlTokenSecret?: string;
+  readonly enableLocalSessionBootstrap: boolean;
   readonly dbPath: string;
   readonly migrationMode: "auto" | "validate" | "disabled";
 };
@@ -64,6 +66,7 @@ export function parseEnvironment(input: EnvironmentInput): NexoraEnvironment {
     apiPort: result.data.NEXORA_API_PORT,
     logLevel: result.data.NEXORA_LOG_LEVEL,
     authMode: result.data.NEXORA_AUTH_MODE,
+    enableLocalSessionBootstrap: result.data.NEXORA_ENABLE_LOCAL_SESSION_BOOTSTRAP === "true",
     dbPath: result.data.NEXORA_DB_PATH ?? join(result.data.NEXORA_DATA_DIR, "nexora.sqlite"),
     migrationMode: result.data.NEXORA_MIGRATION_MODE,
   };

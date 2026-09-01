@@ -37,6 +37,7 @@ describe("parseEnvironment", () => {
       apiPort: 4310,
       logLevel: "info",
       authMode: "local",
+      enableLocalSessionBootstrap: false,
       dbPath: "/tmp/nexora-data/nexora.sqlite",
       migrationMode: "auto",
     });
@@ -61,6 +62,15 @@ describe("parseEnvironment", () => {
 
     expect(environment.controlTokenSecret).toBe("0123456789abcdef0123456789abcdef");
     expect(environment.migrationMode).toBe("auto");
+  });
+
+  test("Given local session bootstrap opt-in When parsed Then it enables cookie bootstrap explicitly", () => {
+    const environment = parseEnvironment({
+      NEXORA_DATA_DIR: "/tmp/nexora-data",
+      NEXORA_ENABLE_LOCAL_SESSION_BOOTSTRAP: "true",
+    });
+
+    expect(environment.enableLocalSessionBootstrap).toBe(true);
   });
 
   test("Given missing data directory When parsed Then it reports a redacted typed error", () => {

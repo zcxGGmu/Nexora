@@ -1,0 +1,10 @@
+HTTP/1.1 202 Accepted
+access-control-allow-headers: Authorization, Content-Type, Idempotency-Key, If-Match, Traceparent
+access-control-allow-methods: GET, POST, PUT, OPTIONS
+content-type: application/json; charset=utf-8
+content-length: 235
+Date: Tue, 01 Sep 2026 00:17:52 GMT
+Connection: keep-alive
+Keep-Alive: timeout=72
+
+{"schema_version":1,"command_id":"qa:gateway:create","status":"accepted","object_type":"gateway","object_id":"gateway-manual-c19","status_url":"/v1/gateways/gateway-manual-c19?workspace_id=01ARZ3NDEKTSV4RRFFQ69G5FAV","events_url":null}

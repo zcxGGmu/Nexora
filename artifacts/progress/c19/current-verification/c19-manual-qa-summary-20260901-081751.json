@@ -1,0 +1,197 @@
+{
+  "stamp": "20260901-081751",
+  "verdict": "PASS",
+  "apiLog": "/Users/zq/Desktop/ai-projs/posp/Nexora/artifacts/progress/c19/current-verification/c19-manual-qa-api-curl-20260901-081751.log",
+  "uiLog": "/Users/zq/Desktop/ai-projs/posp/Nexora/artifacts/progress/c19/current-verification/c19-manual-qa-ui-browser-20260901-081751.log",
+  "serverLog": "/Users/zq/Desktop/ai-projs/posp/Nexora/artifacts/progress/c19/current-verification/c19-manual-qa-servers-20260901-081751.log",
+  "diffLog": "/Users/zq/Desktop/ai-projs/posp/Nexora/artifacts/progress/c19/current-verification/c19-manual-qa-diff-inspection-20260901-081751.log",
+  "runner": "/Users/zq/Desktop/ai-projs/posp/Nexora/artifacts/progress/c19/current-verification/c19-manual-qa-runner.mjs",
+  "screenshots": [
+    "/Users/zq/Desktop/ai-projs/posp/Nexora/artifacts/progress/c19/current-verification/c19-manual-qa-gateway-desktop-20260901-081751.png",
+    "/Users/zq/Desktop/ai-projs/posp/Nexora/artifacts/progress/c19/current-verification/c19-manual-qa-gateway-post-actions-20260901-081751.png",
+    "/Users/zq/Desktop/ai-projs/posp/Nexora/artifacts/progress/c19/current-verification/c19-manual-qa-gateway-mobile-20260901-081751.png",
+    "/Users/zq/Desktop/ai-projs/posp/Nexora/artifacts/progress/c19/current-verification/c19-manual-qa-gateway-invalid-workspace-20260901-081751.png"
+  ],
+  "message1": "01M1D58PK20M3GQR5TN8Y672AT",
+  "message1Replay": "01M1D58PK20M3GQR5TN8Y672AT",
+  "message2": "01M1D58PKWJCP7ENRRZMDXEB3S",
+  "cursorAfterRestart": {
+    "workspace_id": "01ARZ3NDEKTSV4RRFFQ69G5FAV",
+    "session_id": "01SRZ3NDEKTSV4RRFFQ69G5FAV",
+    "cursor": "cursor:2",
+    "message_id": "01M1D58PKWJCP7ENRRZMDXEB3S",
+    "updated_at": "2026-09-01T00:17:52.764Z"
+  },
+  "messagesAfterRestart": 2,
+  "deliveriesFinal": [
+    {
+      "receipt_id": "01DMV3NDEKTSV4RRFFQ69G5FAV",
+      "session_id": "01SRZ3NDEKTSV4RRFFQ69G5FAV",
+      "message_id": "01M1D58PK20M3GQR5TN8Y672AT",
+      "status": "delivered",
+      "provider_receipt_ref": "mission-control:manual-ack"
+    },
+    {
+      "receipt_id": "01M1D58PK320NKM1T1BGY1NGV8",
+      "session_id": "01SRZ3NDEKTSV4RRFFQ69G5FAV",
+      "message_id": "01M1D58PK20M3GQR5TN8Y672AT",
+      "status": "queued",
+      "provider_receipt_ref": null
+    },
+    {
+      "receipt_id": "01M1D58PKWA4QW54X1ZVK144J1",
+      "session_id": "01SRZ3NDEKTSV4RRFFQ69G5FAV",
+      "message_id": "01M1D58PKWJCP7ENRRZMDXEB3S",
+      "status": "queued",
+      "provider_receipt_ref": null
+    }
+  ],
+  "deliveriesAfterUi": [
+    {
+      "receipt_id": "01DMV3NDEKTSV4RRFFQ69G5FAV",
+      "message_id": "01M1D58PK20M3GQR5TN8Y672AT",
+      "status": "delivered",
+      "provider_receipt_ref": "mission-control:manual-ack"
+    },
+    {
+      "receipt_id": "01M1D58PK320NKM1T1BGY1NGV8",
+      "message_id": "01M1D58PK20M3GQR5TN8Y672AT",
+      "status": "queued",
+      "provider_receipt_ref": null
+    },
+    {
+      "receipt_id": "01M1D58PKWA4QW54X1ZVK144J1",
+      "message_id": "01M1D58PKWJCP7ENRRZMDXEB3S",
+      "status": "queued",
+      "provider_receipt_ref": null
+    },
+    {
+      "receipt_id": "01M1D58Z2M0J0SQW75XD6GWY5R",
+      "message_id": "01M1D58PKWJCP7ENRRZMDXEB3S",
+      "status": "delivered",
+      "provider_receipt_ref": "mission-control:acknowledged"
+    }
+  ],
+  "sessionAfterControls": {
+    "id": "01SRZ3NDEKTSV4RRFFQ69G5FAV",
+    "workspace_id": "01ARZ3NDEKTSV4RRFFQ69G5FAV",
+    "schema_version": 1,
+    "created_at": "2026-08-31T00:00:00.000Z",
+    "updated_at": "2026-09-01T00:17:52.866Z",
+    "gateway_id": "gateway-manual-c19",
+    "channel_id": "channel-manual-api",
+    "agent_id": null,
+    "run_id": null,
+    "external_session_ref": null,
+    "mode": "foreground",
+    "status": "active",
+    "cursor": "cursor:2",
+    "last_message_id": "01M1D58PKWJCP7ENRRZMDXEB3S",
+    "last_event_at": "2026-09-01T00:17:52.764Z",
+    "revision": 6
+  },
+  "sessionAfterUi": {
+    "id": "01SRZ3NDEKTSV4RRFFQ69G5FAV",
+    "workspace_id": "01ARZ3NDEKTSV4RRFFQ69G5FAV",
+    "schema_version": 1,
+    "created_at": "2026-08-31T00:00:00.000Z",
+    "updated_at": "2026-09-01T00:18:01.364Z",
+    "gateway_id": "gateway-manual-c19",
+    "channel_id": "channel-manual-api",
+    "agent_id": null,
+    "run_id": null,
+    "external_session_ref": null,
+    "mode": "foreground",
+    "status": "active",
+    "cursor": "cursor:2",
+    "last_message_id": "01M1D58PKWJCP7ENRRZMDXEB3S",
+    "last_event_at": "2026-09-01T00:17:52.764Z",
+    "revision": 8
+  },
+  "closedMessages": 0,
+  "errorMessages": 0,
+  "uiExternalRequests": [],
+  "uiActions": [
+    {
+      "action": "pause",
+      "status": 202,
+      "path": "/v1/sessions/01SRZ3NDEKTSV4RRFFQ69G5FAV/pause"
+    },
+    {
+      "action": "resume",
+      "status": 202,
+      "path": "/v1/sessions/01SRZ3NDEKTSV4RRFFQ69G5FAV/resume"
+    },
+    {
+      "action": "acknowledge",
+      "status": 202,
+      "path": "/v1/deliveries"
+    }
+  ],
+  "uiDesktopLayout": {
+    "label": "desktop",
+    "scrollWidth": 1440,
+    "clientWidth": 1440,
+    "tableCount": 0,
+    "cjkTextPresent": false,
+    "invalidAriaReferences": [],
+    "overflowing": []
+  },
+  "uiMobileLayout": {
+    "label": "mobile",
+    "scrollWidth": 390,
+    "clientWidth": 390,
+    "tableCount": 0,
+    "cjkTextPresent": false,
+    "invalidAriaReferences": [],
+    "overflowing": []
+  },
+  "invalidWorkspaceApiRequests": 0,
+  "httpArtifacts": {
+    "api-health": "/Users/zq/Desktop/ai-projs/posp/Nexora/artifacts/progress/c19/current-verification/api-health-20260901-081751.http",
+    "cors-preflight": "/Users/zq/Desktop/ai-projs/posp/Nexora/artifacts/progress/c19/current-verification/cors-preflight-20260901-081751.http",
+    "create-gateway-owner": "/Users/zq/Desktop/ai-projs/posp/Nexora/artifacts/progress/c19/current-verification/create-gateway-owner-20260901-081751.http",
+    "create-channel-owner": "/Users/zq/Desktop/ai-projs/posp/Nexora/artifacts/progress/c19/current-verification/create-channel-owner-20260901-081751.http",
+    "create-session-foreground": "/Users/zq/Desktop/ai-projs/posp/Nexora/artifacts/progress/c19/current-verification/create-session-foreground-20260901-081751.http",
+    "create-session-background": "/Users/zq/Desktop/ai-projs/posp/Nexora/artifacts/progress/c19/current-verification/create-session-background-20260901-081751.http",
+    "create-session-closed": "/Users/zq/Desktop/ai-projs/posp/Nexora/artifacts/progress/c19/current-verification/create-session-closed-20260901-081751.http",
+    "create-session-error": "/Users/zq/Desktop/ai-projs/posp/Nexora/artifacts/progress/c19/current-verification/create-session-error-20260901-081751.http",
+    "create-allowlist-active": "/Users/zq/Desktop/ai-projs/posp/Nexora/artifacts/progress/c19/current-verification/create-allowlist-active-20260901-081751.http",
+    "create-allowlist-expired": "/Users/zq/Desktop/ai-projs/posp/Nexora/artifacts/progress/c19/current-verification/create-allowlist-expired-20260901-081751.http",
+    "viewer-read-gateways": "/Users/zq/Desktop/ai-projs/posp/Nexora/artifacts/progress/c19/current-verification/viewer-read-gateways-20260901-081751.http",
+    "viewer-write-denied": "/Users/zq/Desktop/ai-projs/posp/Nexora/artifacts/progress/c19/current-verification/viewer-write-denied-20260901-081751.http",
+    "other-workspace-read-denied": "/Users/zq/Desktop/ai-projs/posp/Nexora/artifacts/progress/c19/current-verification/other-workspace-read-denied-20260901-081751.http",
+    "send-default-deny-no-entry": "/Users/zq/Desktop/ai-projs/posp/Nexora/artifacts/progress/c19/current-verification/send-default-deny-no-entry-20260901-081751.http",
+    "send-expired-allowlist-denied": "/Users/zq/Desktop/ai-projs/posp/Nexora/artifacts/progress/c19/current-verification/send-expired-allowlist-denied-20260901-081751.http",
+    "deliveries-after-deny": "/Users/zq/Desktop/ai-projs/posp/Nexora/artifacts/progress/c19/current-verification/deliveries-after-deny-20260901-081751.http",
+    "send-allowlisted-message-1": "/Users/zq/Desktop/ai-projs/posp/Nexora/artifacts/progress/c19/current-verification/send-allowlisted-message-1-20260901-081751.http",
+    "send-allowlisted-message-1-replay": "/Users/zq/Desktop/ai-projs/posp/Nexora/artifacts/progress/c19/current-verification/send-allowlisted-message-1-replay-20260901-081751.http",
+    "send-allowlisted-message-1-key-reuse-different": "/Users/zq/Desktop/ai-projs/posp/Nexora/artifacts/progress/c19/current-verification/send-allowlisted-message-1-key-reuse-different-20260901-081751.http",
+    "send-allowlisted-message-2": "/Users/zq/Desktop/ai-projs/posp/Nexora/artifacts/progress/c19/current-verification/send-allowlisted-message-2-20260901-081751.http",
+    "messages-limit-page1": "/Users/zq/Desktop/ai-projs/posp/Nexora/artifacts/progress/c19/current-verification/messages-limit-page1-20260901-081751.http",
+    "messages-page2-after-next-cursor": "/Users/zq/Desktop/ai-projs/posp/Nexora/artifacts/progress/c19/current-verification/messages-page2-after-next-cursor-20260901-081751.http",
+    "messages-page-after-literal-cursor": "/Users/zq/Desktop/ai-projs/posp/Nexora/artifacts/progress/c19/current-verification/messages-page-after-literal-cursor-20260901-081751.http",
+    "cursor-checkpoint": "/Users/zq/Desktop/ai-projs/posp/Nexora/artifacts/progress/c19/current-verification/cursor-checkpoint-20260901-081751.http",
+    "send-closed-session-rejected": "/Users/zq/Desktop/ai-projs/posp/Nexora/artifacts/progress/c19/current-verification/send-closed-session-rejected-20260901-081751.http",
+    "send-error-session-rejected": "/Users/zq/Desktop/ai-projs/posp/Nexora/artifacts/progress/c19/current-verification/send-error-session-rejected-20260901-081751.http",
+    "session-before-controls": "/Users/zq/Desktop/ai-projs/posp/Nexora/artifacts/progress/c19/current-verification/session-before-controls-20260901-081751.http",
+    "session-pause": "/Users/zq/Desktop/ai-projs/posp/Nexora/artifacts/progress/c19/current-verification/session-pause-20260901-081751.http",
+    "session-pause-exact-replay-after-revision-change": "/Users/zq/Desktop/ai-projs/posp/Nexora/artifacts/progress/c19/current-verification/session-pause-exact-replay-after-revision-change-20260901-081751.http",
+    "session-resume-stale-if-match": "/Users/zq/Desktop/ai-projs/posp/Nexora/artifacts/progress/c19/current-verification/session-resume-stale-if-match-20260901-081751.http",
+    "session-resume": "/Users/zq/Desktop/ai-projs/posp/Nexora/artifacts/progress/c19/current-verification/session-resume-20260901-081751.http",
+    "session-steer": "/Users/zq/Desktop/ai-projs/posp/Nexora/artifacts/progress/c19/current-verification/session-steer-20260901-081751.http",
+    "session-active-resume-invalid-state": "/Users/zq/Desktop/ai-projs/posp/Nexora/artifacts/progress/c19/current-verification/session-active-resume-invalid-state-20260901-081751.http",
+    "session-after-controls": "/Users/zq/Desktop/ai-projs/posp/Nexora/artifacts/progress/c19/current-verification/session-after-controls-20260901-081751.http",
+    "delivery-ack-append": "/Users/zq/Desktop/ai-projs/posp/Nexora/artifacts/progress/c19/current-verification/delivery-ack-append-20260901-081751.http",
+    "delivery-ack-exact-replay": "/Users/zq/Desktop/ai-projs/posp/Nexora/artifacts/progress/c19/current-verification/delivery-ack-exact-replay-20260901-081751.http",
+    "delivery-mismatched-session-rejected": "/Users/zq/Desktop/ai-projs/posp/Nexora/artifacts/progress/c19/current-verification/delivery-mismatched-session-rejected-20260901-081751.http",
+    "deliveries-final": "/Users/zq/Desktop/ai-projs/posp/Nexora/artifacts/progress/c19/current-verification/deliveries-final-20260901-081751.http",
+    "closed-messages-final": "/Users/zq/Desktop/ai-projs/posp/Nexora/artifacts/progress/c19/current-verification/closed-messages-final-20260901-081751.http",
+    "error-messages-final": "/Users/zq/Desktop/ai-projs/posp/Nexora/artifacts/progress/c19/current-verification/error-messages-final-20260901-081751.http",
+    "post-restart-cursor-recovery": "/Users/zq/Desktop/ai-projs/posp/Nexora/artifacts/progress/c19/current-verification/post-restart-cursor-recovery-20260901-081751.http",
+    "post-restart-messages-recovery": "/Users/zq/Desktop/ai-projs/posp/Nexora/artifacts/progress/c19/current-verification/post-restart-messages-recovery-20260901-081751.http",
+    "post-restart-deliveries-recovery": "/Users/zq/Desktop/ai-projs/posp/Nexora/artifacts/progress/c19/current-verification/post-restart-deliveries-recovery-20260901-081751.http",
+    "post-ui-session-state": "/Users/zq/Desktop/ai-projs/posp/Nexora/artifacts/progress/c19/current-verification/post-ui-session-state-20260901-081751.http",
+    "post-ui-deliveries": "/Users/zq/Desktop/ai-projs/posp/Nexora/artifacts/progress/c19/current-verification/post-ui-deliveries-20260901-081751.http"
+  }
+}

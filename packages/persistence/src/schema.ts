@@ -27,7 +27,14 @@ export const CORE_TABLES = [
   "model_descriptors",
   "backend_descriptors",
   "tool_descriptors",
+  "gateways",
+  "channels",
+  "sessions",
+  "session_messages",
+  "delivery_receipts",
+  "channel_allowlist",
+  "session_cursor_checkpoints",
 ] as const;
 
 export type CoreTable = (typeof CORE_TABLES)[number];
-export const CORE_MIGRATION_VERSION = 8;
+export const CORE_MIGRATION_VERSION = 10;

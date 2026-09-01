@@ -1,0 +1,29 @@
+== pnpm-lint ==
+command: pnpm lint
+exit: 0
+log: artifacts/progress/c19/current-verification/pnpm-lint-resume-20260901-081657.log
+
+== pnpm-typecheck ==
+command: pnpm typecheck
+exit: 0
+log: artifacts/progress/c19/current-verification/pnpm-typecheck-resume-20260901-081657.log
+
+== pnpm-test ==
+command: pnpm test --run --reporter=dot --silent
+exit: 0
+log: artifacts/progress/c19/current-verification/pnpm-test-resume-20260901-081657.log
+
+== pnpm-test-integration ==
+command: pnpm test:integration
+exit: 0
+log: artifacts/progress/c19/current-verification/pnpm-test-integration-resume-20260901-081657.log
+
+== pnpm-test-e2e ==
+command: pnpm test:e2e
+exit: 0
+log: artifacts/progress/c19/current-verification/pnpm-test-e2e-resume-20260901-081657.log
+
+== pnpm-mission-control-build ==
+command: pnpm --filter @nexora/mission-control build
+exit: 0
+log: artifacts/progress/c19/current-verification/pnpm-mission-control-build-resume-20260901-081657.log

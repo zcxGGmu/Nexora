@@ -1,0 +1,50 @@
+C19 Gateway / Channels / Sessions verification
+Date: 2026-09-01 (Asia/Shanghai)
+
+Scope
+- Descriptor/control-plane only: no Telegram, Discord, Slack, WhatsApp, Signal, Web/API provider, MCP, credential read, external message send, or external side effect was connected or invoked.
+- C17/C18 baseline is committed at `58b80300e4fce98bfeeac75998d2f5d503df3961` (`feat: add runtime registry and provider catalog`). C19 had no existing scoped commit at this closeout and remains the pending scoped commit until this verification log is staged with the implementation.
+- Host Node is `v25.9.0` while the repository engine range is `>=22.13.0 <23.0.0`; pnpm emitted only the expected engine warning. Project engine constraints were not changed.
+
+Focused C19 verification
+- RED oracle regression: `pnpm exec vitest run apps/api/src/routes/gateway.test.ts --reporter=dot` reproduced the cross-workspace session existence oracle before the authorization-order fix. Exit 1 as expected; log `artifacts/progress/c19/current-verification/c19-cross-workspace-oracle-red-20260901.log`.
+- GREEN oracle fix: same API route suite passed after moving `requireAdmin()` before session lookup in `sendMessage()` and `commandSession()`. Exit 0, 1 file / 25 tests; log `artifacts/progress/c19/current-verification/c19-cross-workspace-oracle-green-20260901.log`.
+- Required focused suite after the oracle fix: `pnpm exec vitest run packages/contracts/src/gateway.test.ts packages/persistence/src/c19-repositories.test.ts apps/api/src/routes/gateway.test.ts apps/mission-control/src/pages/gateway.test.tsx --reporter=dot`: PASS, exit 0, 4 files / 49 tests; log `artifacts/progress/c19/current-verification/c19-focused-post-oracle-fix-20260901.log`.
+- Fresh resume focused suite: same required 4-file command: PASS, exit 0, 4 files / 49 tests; log `artifacts/progress/c19/current-verification/c19-focused-resume-20260901-081622.log`, exit file `artifacts/progress/c19/current-verification/c19-focused-resume-20260901-081622.exit`.
+
+Full verification matrix
+- `pnpm lint`: PASS, exit 0, 309 source files checked; log `artifacts/progress/c19/current-verification/pnpm-lint-resume-20260901-081657.log`.
+- `pnpm typecheck`: PASS, exit 0; log `artifacts/progress/c19/current-verification/pnpm-typecheck-resume-20260901-081657.log`.
+- `pnpm test --run --reporter=dot --silent`: PASS, exit 0, 92 files / 464 tests; log `artifacts/progress/c19/current-verification/pnpm-test-resume-20260901-081657.log`.
+- `pnpm test:integration`: PASS, exit 0, 13 files / 36 tests; log `artifacts/progress/c19/current-verification/pnpm-test-integration-resume-20260901-081657.log`.
+- `pnpm test:e2e`: PASS, exit 0, 6 tests; log `artifacts/progress/c19/current-verification/pnpm-test-e2e-resume-20260901-081657.log`.
+- `pnpm --filter @nexora/mission-control build`: PASS, exit 0, 1,994 modules transformed; existing third-party `use client` and chunk-size warnings only; log `artifacts/progress/c19/current-verification/pnpm-mission-control-build-resume-20260901-081657.log`.
+- Matrix summary: `artifacts/progress/c19/current-verification/c19-full-matrix-resume-20260901-081657.summary`; final exit 0.
+
+Live local API and browser QA
+- Manual QA runner: `node artifacts/progress/c19/current-verification/c19-manual-qa-runner.mjs`: PASS, exit 0; log `artifacts/progress/c19/current-verification/c19-manual-qa-runner-resume-20260901-081750.log`; summary `artifacts/progress/c19/current-verification/c19-manual-qa-summary-20260901-081751.json`.
+- Real browser URL: `http://127.0.0.1:4313/gateway?workspace=ws-demo` against a local authenticated API fixture.
+- Fresh PNG captures verified with `file`:
+  - `artifacts/progress/c19/current-verification/c19-manual-qa-gateway-desktop-20260901-081751.png`: PNG image data, 1440 x 900, 8-bit/color RGB, non-interlaced.
+  - `artifacts/progress/c19/current-verification/c19-manual-qa-gateway-post-actions-20260901-081751.png`: PNG image data, 1440 x 900, 8-bit/color RGB, non-interlaced.
+  - `artifacts/progress/c19/current-verification/c19-manual-qa-gateway-mobile-20260901-081751.png`: PNG image data, 390 x 844, 8-bit/color RGB, non-interlaced.
+  - `artifacts/progress/c19/current-verification/c19-manual-qa-gateway-invalid-workspace-20260901-081751.png`: PNG image data, 390 x 844, 8-bit/color RGB, non-interlaced.
+- DOM observations: Gateway health, Channels, Session queue, cursor, Delivery receipts, Allowlist/default-deny policy, and descriptor-only/no-external-connection boundary were visible.
+- Interaction observations: Pause, Resume, Steer, and Acknowledge had real DOM controls and observable state changes; local API writes returned 202 and post-action reads reflected updated session/delivery facts.
+- Layout observations: desktop scroll width 1440/1440; mobile scroll width 390/390; no wide tables; no invalid ARIA references; mobile nav preserved Inbox, Runs, Goals, Review, More.
+- Browser request audit: UI external requests were empty; only the local control API was contacted.
+
+Independent code and security review
+- Independent C19 code review completed with no blocking findings. The reviewer confirmed authorization-before-lookup on write paths, `run:read` read gates, workspace compound SQL topology, 0010 hardening triggers, live Mission Control API projection, and no static-fixture-only Gateway page.
+- Independent C19 security review completed with no blocking findings. The reviewer confirmed cross-workspace existence-oracle coverage, RBAC/scope exact matching, SQL parameterization, service/repository/DB allowlist default-deny, append-only message/delivery triggers, HttpOnly local-session bootstrap, explicit workspace alias handling, and no real external provider/MCP side effects.
+- Residual non-blocking risks recorded for later stages: DB-level `secret://` checks are looser than contract schemas, loopback detection is syntactic, local bearer claims have no embedded expiry/audience beyond cookie lifetime/secret rotation, the Gateway UI currently picks the first gateway descriptor, and future real provider receipt refs/error messages must be sanitized before storage.
+
+Code and security spot checks
+- C19 inputs parse through Zod strict schemas; reads require `run:read`; writes require owner/admin scope; update/session commands require `If-Match`; idempotency conflicts return 409; exact idempotent replays return the original accepted object.
+- Gateway/channel/session/message/delivery/allowlist facts are workspace scoped; delivery receipts and messages are append-only; cursor checkpoints reject stale progress and allow fully identical replays.
+- Outbound message send defaults to deny without an active allowlist entry; denied sends create no delivery receipt and do not perform network calls.
+- Client-facing schema errors are generic and do not echo synthetic secret/token/internal-path values used by tests.
+
+Environment limitations
+- TypeScript/YAML LSP servers are not installed in this workspace; verification relied on `pnpm lint`, `pnpm typecheck`, focused/full tests, smoke checks, browser screenshots, and source review.
+- Browser QA used the locally available Playwright/browser setup through the manual runner. Fresh PNG dimensions and DOM observations were recorded in the summary JSON and verified with `file`.
