@@ -1,0 +1,29 @@
+
+ RUN  v3.2.7 /Users/zq/Desktop/ai-projs/posp/Nexora
+
+·x·······
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  packages/persistence/src/c20-goal-loop.test.ts > C20 goal loop persistence > Given continuation checkpoints When the same idempotency key is replayed Then exact replay is idempotent and conflicting cursors are rejected
+PersistenceError: Goal continuation idempotency key conflict
+ ❯ packages/persistence/src/repositories/goal-loop.ts:113:72
+    111|       const existing = this.getByIdempotency(parsed.workspace_id, pars…
+    112|       if (existing !== undefined) {
+    113|         if (JSON.stringify(existing) !== JSON.stringify(parsed)) throw…
+       |                                                                        ^
+    114|         return existing;
+    115|       }
+ ❯ withTransaction packages/persistence/src/db.ts:109:20
+ ❯ GoalContinuationRepository.record packages/persistence/src/repositories/goal-loop.ts:110:12
+ ❯ packages/persistence/src/c20-goal-loop.test.ts:53:36
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 8 passed (9)
+   Start at  19:03:57
+   Duration  1.21s (transform 323ms, setup 0ms, collect 522ms, tests 178ms, environment 0ms, prepare 121ms)
+
+EXIT: 1

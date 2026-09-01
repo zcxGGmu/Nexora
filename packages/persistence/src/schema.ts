@@ -34,7 +34,10 @@ export const CORE_TABLES = [
   "delivery_receipts",
   "channel_allowlist",
   "session_cursor_checkpoints",
+  "goal_loops",
+  "goal_continuations",
+  "goal_loop_commands",
 ] as const;
 
 export type CoreTable = (typeof CORE_TABLES)[number];
-export const CORE_MIGRATION_VERSION = 10;
+export const CORE_MIGRATION_VERSION = 11;

@@ -60,7 +60,7 @@
 - [x] C19.6 实现 contracts、migration、typed repositories、service、routes 与 session command helpers；所有事实写入带 workspace/session scope 与 revision。
 - [x] C19.7 实现 Mission Control 页面，复用现有 DESIGN.md 状态原语与五项移动导航；移动端不呈现不可读的宽表格。
 - [x] C19.8 完成 targeted RED/GREEN、全量 lint/typecheck/test/integration/e2e/build、API HTTP smoke、视觉 QA 与安全审查；保存 `artifacts/progress/c19/verification.log` 和 ADR/runbook。
-- [ ] C19.9 更新 `tasks/agent-os-progress.md` 交接，记录真实外部连接未授权的边界，并创建只含 C19 实现与证据的 scoped commit。
+- [x] C19.9 更新 `tasks/agent-os-progress.md` 交接，记录真实外部连接未授权的边界，并创建只含 C19 实现与证据的 scoped commit `174c288f6365eeab879d08e6cad9f04c28029a78`。
 
 ### C19 Revalidation / Continue 2026-08-30
 
@@ -72,8 +72,8 @@
 - [x] 启动/复用 API 与 Mission Control，使用真实浏览器访问 `/gateway?workspace=ws-demo`，完成 1440x900 与 390x844 DOM/交互/溢出 QA，生成新鲜 PNG 并验证签名、尺寸；若工具不可用记录限制。
 - [x] 完成独立代码/安全复核；若独立审查工具不可用，记录限制并以本地审查清单和验证证据替代，不伪造独立通过。
 - [x] 更新 `tasks/agent-os-progress.md`、本清单末尾 Review、`artifacts/progress/c19/verification.log` 及必要文档；仅在所有门通过后将 C19 标记为 `[x]`。
-- [ ] 仅暂存 C19 implementation/tests/ADR/runbook/verification 文件，运行 `git diff --cached --check`，创建单一 C19 scoped commit 并记录完整 SHA。
-- [ ] C19 收口后，建立 C20 追踪项并先写/运行跨轮 continuation、Judge JSON、max turns、`/goal resume`、`/subgoal`、pause/resume、deadline/budget、Judge failure、restart/orphan recovery 和 scope 的 RED 测试；不实现真实外部连接。
+- [x] 仅暂存 C19 implementation/tests/ADR/runbook/verification 文件，运行 `git diff --cached --check`，创建单一 C19 scoped commit `174c288f6365eeab879d08e6cad9f04c28029a78` 并记录完整 SHA。
+- [~] C19 收口后，建立 C20 追踪项并先写/运行跨轮 continuation、Judge JSON、max turns、`/goal resume`、`/subgoal`、pause/resume、deadline/budget、Judge failure、restart/orphan recovery 和 scope 的 RED 测试；不实现真实外部连接。
 
 ### C19 Final Revalidation / Current Continuation 2026-08-31
 
@@ -82,8 +82,8 @@
 - [x] Produce fresh 1440x900 and 390x844 Gateway browser QA screenshots from the current source and verify PNG dimensions: `c19-manual-qa-summary-20260901-081751.json`, desktop 1440x900, post-actions 1440x900, mobile 390x844, invalid workspace 390x844.
 - [x] Dispatch fresh independent visual, code-quality, and security reviews against the current diff and screenshots: independent code and security reviews found no blocking findings; residual risks recorded for later stages.
 - [x] Update C19 fact sources only after automation, visual QA, and independent review all pass.
-- [ ] Create the scoped C19 commit with only implementation, tests, docs, and verification evidence, then record the full SHA.
-- [ ] Begin C20 with RED tests only after C19 is committed.
+- [x] Create the scoped C19 commit with only implementation, tests, docs, and verification evidence, then record the full SHA: `174c288f6365eeab879d08e6cad9f04c28029a78`.
+- [~] Begin C20 with RED tests only after C19 is committed.
 
 ### C19 Execution Check-in / 2026-08-30
 
@@ -109,6 +109,29 @@ Ownership review: focused contracts/persistence/API gateway tests pass (13 tests
 - [x] Independent visual QA: fresh browser summary `c19-manual-qa-summary-20260901-081751.json` PASS; no overflow, no invalid ARIA IDs, no external UI requests.
 - [x] Code/security review: independent code and independent security reviewers found no blocking findings after the cross-workspace authorization-order fix; residual non-blocking risks are tracked for future hardening.
 - [x] Boundary: C19 remains descriptor/control-plane only; no real Telegram, Discord, Slack, WhatsApp, Signal, Web/API provider, MCP, credential read, outbound message, or external side effect was attempted.
+
+## C20 / Goal Mode、Loop、Judge（收口阶段）
+
+范围：实现 Goal Mode control-plane semantics 的测试优先切片，覆盖跨轮 continuation、auxiliary Judge JSON、max turns、`/goal resume`、`/subgoal`、pause/resume、deadline/budget、Judge failure、restart/orphan recovery、run/session scope，以及 CLI、API、Mission Control 的一致控制面语义。C20 不扩大到真实外部连接器、NotebookLM、浏览器控制、语音或业务 SaaS。
+
+- [x] C20.1 写 contracts/domain RED：GoalLoopDescriptor、GoalContinuation、JudgeDecision `{ done, reason }`、turn limits、budget/deadline、subgoal 和 pause/resume 状态约束。
+- [x] C20.2 写 persistence/orchestration RED：跨重启恢复 continuation、orphan recovery、run/session scope 和 Judge failure 不得宣称成功。
+- [x] C20.3 写 CLI/API RED：`/goal resume`、`/subgoal`、pause/resume/max-turns/budget/deadline 控制命令必须保持 descriptor-only 语义。
+- [x] C20.4 写 Mission Control RED：Goal Mode 页面/控制面语义可见，不执行真实外部 side effect。
+- [x] C20.5 运行 C20 RED suite，确认失败原因是缺失 C20 实现而非测试装配错误。
+- [x] C20.6 实现 contracts、SQLite migration 11、typed repositories、orchestration controller、API route、CLI parser 和 Mission Control Goal Mode 页面。
+- [x] C20.7 修复审查阻塞项：Judge `done=false` 生成 continuation 并恢复 running；continuation/command payload 与列一致性由 SQL trigger 强制；secret guard 覆盖裸 `token=abcd1234`。
+- [x] C20.8 完成 focused 验证、全量 lint/typecheck/test/integration/e2e/build、真实浏览器 1440x900 与 390x844 视觉 QA、独立代码/安全复核和本地安全扫描。
+- [x] C20.9 更新 `artifacts/progress/c20/verification.log`、ADR-0015、Goal Mode runbook、任务事实源和 lessons；真实外部连接、NotebookLM、浏览器控制、语音和业务 SaaS 仍保持禁止。
+- [ ] C20.10 创建单一 scoped C20 commit，记录完整 SHA 后再进入 C21。
+
+### C20 Review
+
+- [x] Focused C20 validation PASS：`pnpm exec vitest run packages/contracts/src/goal-loop.test.ts packages/persistence/src/c20-goal-loop.test.ts apps/api/src/routes/goal-mode.test.ts apps/mission-control/src/app/goal-mode-api.test.ts apps/mission-control/src/pages/goal-mode.test.tsx apps/mission-control/src/app/router.test.tsx apps/cli/src/goal-mode.test.ts packages/orchestration/src/goal-loop.test.ts tests/integration/goal-loop-recovery.test.ts --reporter=dot`，exit 0，9 files / 74 tests。
+- [x] Full verification PASS：`pnpm lint` 322 source files、`pnpm typecheck`、full Vitest 100 files / 534 tests、integration 14 files / 37 tests、E2E 6 tests、Mission Control build 全部 exit 0。
+- [x] Visual QA PASS：`/goal-mode?workspace=ws-demo` fresh PNGs at 1440x900、post-Judge 1440x900、390x844 mobile、390x844 mobile controls；无横向溢出，无非法 ARIA refs，五项移动导航和 descriptor-only/no external boundary 可见。
+- [x] Independent review PASS：scope/RBAC/idempotency/optimistic concurrency/SQL trigger/append-only continuation facts/cursor replay/secret redaction/no real external calls 均无 blocking finding。
+- [x] Evidence paths：`artifacts/progress/c20/verification.log`、`artifacts/progress/c20/current-verification/`、`docs/adr/0015-goal-mode-loop-judge.md`、`docs/runbooks/goal-mode-operations.md`。
 
 ## Review
 

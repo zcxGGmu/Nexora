@@ -1,0 +1,120 @@
+# C20 Goal Mode / Loop / Judge Verification Log
+
+Date: 2026-09-01
+Branch: codex/agent-os-implementation
+Baseline: C19 `174c288f6365eeab879d08e6cad9f04c28029a78`
+Stage commit: pending scoped commit
+Host Node: `v25.9.0` (project engine is `>=22.13.0 <23.0.0`; pnpm engine warning recorded only)
+Scope: descriptor/control-plane only. No real providers, external connectors, MCP, credentials, browser control, voice, NotebookLM, or outbound side effects.
+
+## Focused C20 Validation
+
+Command:
+
+```bash
+pnpm exec vitest run \
+  packages/contracts/src/goal-loop.test.ts \
+  packages/persistence/src/c20-goal-loop.test.ts \
+  apps/api/src/routes/goal-mode.test.ts \
+  apps/mission-control/src/app/goal-mode-api.test.ts \
+  apps/mission-control/src/pages/goal-mode.test.tsx \
+  apps/mission-control/src/app/router.test.tsx \
+  apps/cli/src/goal-mode.test.ts \
+  packages/orchestration/src/goal-loop.test.ts \
+  tests/integration/goal-loop-recovery.test.ts \
+  --reporter=dot
+```
+
+Result: PASS, exit 0, 9 test files / 74 tests.
+Evidence:
+
+- `artifacts/progress/c20/current-verification/c20-focused-rerun-20260901-213843.log`
+- `artifacts/progress/c20/current-verification/c20-focused-rerun-20260901-213843.exit`
+
+Covered behaviors:
+
+- Goal loop descriptor strict schema and unknown field rejection.
+- ULID-backed loop, run, session, continuation, and command identifiers.
+- Judge JSON `{ done, reason }`, including `done=false` continuation replay and `done=true` terminal success.
+- Max turns, deadline, and budget stop conditions.
+- `/goal resume`, `/subgoal`, pause, steer, and resume legal/illegal transitions.
+- Idempotency replay and conflict handling for create/control commands.
+- `If-Match` optimistic concurrency conflicts.
+- Workspace, run, and session scope isolation.
+- Restart recovery and orphan continuation recovery from persisted facts.
+- Judge failure does not mark the goal loop as successful.
+- Secret-shaped input rejection and redacted error responses.
+
+## Full Verification Matrix
+
+Summary: `artifacts/progress/c20/current-verification/c20-full-matrix-rerun-20260901-213911.summary`
+
+| Command | Exit | Count / Notes | Evidence |
+|---|---:|---|---|
+| `pnpm lint` | 0 | 322 source files checked | `artifacts/progress/c20/current-verification/pnpm-lint-rerun-20260901-213911.log` |
+| `pnpm typecheck` | 0 | TypeScript project check passed | `artifacts/progress/c20/current-verification/pnpm-typecheck-rerun-20260901-213911.log` |
+| `pnpm test --run --reporter=dot --silent` | 0 | 100 test files / 534 tests | `artifacts/progress/c20/current-verification/pnpm-test-rerun-20260901-213911.log` |
+| `pnpm test:integration` | 0 | 14 test files / 37 tests | `artifacts/progress/c20/current-verification/pnpm-test-integration-rerun-20260901-213911.log` |
+| `pnpm test:e2e` | 0 | 6 Playwright tests | `artifacts/progress/c20/current-verification/pnpm-test-e2e-rerun-20260901-213911.log` |
+| `pnpm --filter @nexora/mission-control build` | 0 | Build passed; third-party `use client` bundler warnings recorded | `artifacts/progress/c20/current-verification/mission-control-build-rerun-20260901-213911.log` |
+
+Full matrix result: PASS, aggregate exit 0.
+
+## Visual QA
+
+URL: `http://127.0.0.1:4313/goal-mode?workspace=ws-demo`
+Summary: `artifacts/progress/c20/current-verification/c20-visual-qa-summary-rerun-20260901-215259.json`
+
+Fresh screenshots verified with `file`:
+
+- `artifacts/progress/c20/current-verification/c20-goal-mode-desktop-1440x900-rerun-20260901-215259.png`: PNG, 1440 x 900.
+- `artifacts/progress/c20/current-verification/c20-goal-mode-post-judge-1440x900-rerun-20260901-215259.png`: PNG, 1440 x 900.
+- `artifacts/progress/c20/current-verification/c20-goal-mode-mobile-390x844-rerun-20260901-215259.png`: PNG, 390 x 844.
+- `artifacts/progress/c20/current-verification/c20-goal-mode-mobile-controls-390x844-rerun-20260901-215259.png`: PNG, 390 x 844.
+
+Observed browser requirements:
+
+- Desktop 1440x900 and mobile 390x844 render without horizontal overflow.
+- Goal health, loop state, continuation cursor, Judge result, budget/deadline, subgoals, command queue, and descriptor-only/no external boundary are visible.
+- Pause, Resume, Steer, Judge, `/goal resume`, and `/subgoal` controls have real DOM nodes and observable state changes.
+- Mobile five-item navigation remains visible.
+- No invalid ARIA references were reported by the visual QA script.
+- Judge `done=false` action advanced the cursor to `turn-3` and kept status `running`.
+
+## Code And Security Review
+
+Independent C20 re-review agent result: No Blocking Findings.
+
+Review focus:
+
+- Workspace, run, and session scope isolation.
+- RBAC: Owner/admin writes; scoped read semantics preserved.
+- Idempotency replay versus conflict behavior.
+- `If-Match` optimistic concurrency.
+- SQL parameterization, foreign keys, and payload/column consistency triggers.
+- Append-only continuation and command facts.
+- Cursor replay and restart/orphan recovery.
+- Secret redaction and rejection of bearer/token/password-shaped text.
+- No real external network/provider/MCP calls.
+- API and Mission Control are connected through the local control API, not static-only fixtures for production route wiring.
+
+Local scans:
+
+- No C20 core `any`, `@ts-ignore`, `@ts-expect-error`, or obvious non-null assertions found.
+- No C20 focused `.skip` / `.only` tests found.
+- Secret scan hits are intentional guard/test strings only.
+
+## RED/GREEN Evidence
+
+- C20 initial RED evidence: `artifacts/progress/c20/current-verification/c20-red-20260901-085504.log` and `.exit`.
+- Judge terminal consistency RED/GREEN: `c20-terminal-judge-consistency-red-20260901-191537.log`, `c20-terminal-judge-consistency-green-20260901-191758.log`.
+- Judge failure gate RED/GREEN: `c20-judge-failure-gate-red-20260901-190820.log`, `c20-judge-failure-gate-green-20260901-190856.log`.
+- Continuation semantic idempotency RED/GREEN: `c20-continuation-semantic-idempotency-red-20260901-190355.log`, `c20-continuation-semantic-idempotency-green-20260901-190519.log`.
+- Review blocker RED/GREEN: `c20-review-blockers-red-20260901-205551.log`, `c20-review-blockers-green-20260901-205701.log`.
+
+## Known Limitations
+
+- Host Node is `v25.9.0`; project requires Node `>=22.13.0 <23.0.0`. The warning is recorded and not hidden by changing project constraints.
+- Mission Control build emits third-party `use client` module directive warnings from React Query and lucide packages; build still exits 0.
+- C20 does not execute an auxiliary model/provider Judge; it stores and validates Judge decision facts for later provider-backed stages.
+- C20 does not connect NotebookLM, browser/computer use, voice, business SaaS, MCP, Telegram, Discord, Slack, WhatsApp, Signal, Web, or external API providers.

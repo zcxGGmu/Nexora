@@ -4,6 +4,9 @@ import {
   ArtifactSchema,
   AttemptSchema,
   GoalSchema,
+  GoalContinuationSchema,
+  GoalLoopCommandSchema,
+  GoalLoopDescriptorSchema,
   MemoryNoteSchema,
   ReceiptSchema,
   ReviewDecisionSchema,
@@ -26,6 +29,9 @@ import {
   type Attempt,
   type EgressReceipt,
   type Goal,
+  type GoalContinuation,
+  type GoalLoopCommand,
+  type GoalLoopDescriptor,
   type MemoryProvenance,
   type MemoryNote,
   type Receipt,
@@ -54,6 +60,13 @@ export type RunDetail = {
   readonly queue_jobs: readonly QueueJobSummary[];
 };
 
+export type GoalLoopDetail = {
+  readonly goal_loop: GoalLoopDescriptor;
+  readonly version: number;
+  readonly continuations: readonly GoalContinuation[];
+  readonly commands: readonly GoalLoopCommand[];
+};
+
 export class QueryService {
   constructor(private readonly database: SqliteDatabase) {}
 
@@ -61,6 +74,17 @@ export class QueryService {
   getAgent(workspaceId: string, id: string): AgentProfile { return this.get("agents", workspaceId, id, AgentProfileSchema); }
   listGoals(workspaceId: string): readonly Goal[] { return this.list("goals", workspaceId, GoalSchema); }
   getGoal(workspaceId: string, id: string): Goal { return this.get("goals", workspaceId, id, GoalSchema); }
+  listGoalLoops(workspaceId: string): readonly GoalLoopDescriptor[] { return this.list("goal_loops", workspaceId, GoalLoopDescriptorSchema); }
+  getGoalLoopDetail(workspaceId: string, id: string): GoalLoopDetail {
+    const row = this.database.prepare("SELECT payload_json, version FROM goal_loops WHERE workspace_id = ? AND id = ?").get(workspaceId, id);
+    if (row === undefined) throw notFound();
+    return {
+      goal_loop: GoalLoopDescriptorSchema.parse(JSON.parse(readText(row["payload_json"]))),
+      version: readInteger(row["version"]),
+      continuations: this.listByGoalLoop(workspaceId, id),
+      commands: this.listCommandsByGoalLoop(workspaceId, id),
+    };
+  }
   listTickets(workspaceId: string): readonly PublicTicket[] { return this.list("tickets", workspaceId, TicketSchema).map(publicTicket); }
   getTicket(workspaceId: string, id: string): PublicTicket { return publicTicket(this.get("tickets", workspaceId, id, TicketSchema)); }
   listRuns(workspaceId: string): readonly Run[] { return this.list("runs", workspaceId, RunSchema); }
@@ -144,6 +168,16 @@ export class QueryService {
       created_at: readText(row["created_at"]),
       updated_at: readText(row["updated_at"]),
     }));
+  }
+
+  private listByGoalLoop(workspaceId: string, goalLoopId: string): readonly GoalContinuation[] {
+    const rows = this.database.prepare("SELECT payload_json FROM goal_continuations WHERE workspace_id = ? AND goal_loop_id = ? ORDER BY turn ASC, created_at ASC, id ASC").all(workspaceId, goalLoopId);
+    return rows.map((row) => GoalContinuationSchema.parse(JSON.parse(readText(row["payload_json"]))));
+  }
+
+  private listCommandsByGoalLoop(workspaceId: string, goalLoopId: string): readonly GoalLoopCommand[] {
+    const rows = this.database.prepare("SELECT payload_json FROM goal_loop_commands WHERE workspace_id = ? AND goal_loop_id = ? ORDER BY created_at ASC, rowid ASC").all(workspaceId, goalLoopId);
+    return rows.map((row) => GoalLoopCommandSchema.parse(JSON.parse(readText(row["payload_json"]))));
   }
 }
 

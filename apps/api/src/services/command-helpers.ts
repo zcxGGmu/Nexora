@@ -54,6 +54,8 @@ function resourcePath(objectType: string, objectId: string): string {
   switch (objectType) {
     case "delivery":
       return `/v1/deliveries/${objectId}`;
+    case "goal_loop":
+      return `/v1/goal-loops/${objectId}`;
     case "memory":
       return `/v1/memory/${objectId}`;
     case "runtime_descriptor":

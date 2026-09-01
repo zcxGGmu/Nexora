@@ -1,0 +1,120 @@
+{
+  "url": "http://127.0.0.1:4313/goal-mode?workspace=ws-demo",
+  "timestamp": "20260901-215259",
+  "desktop": {
+    "viewport": "1440x900",
+    "overflow": {
+      "htmlScrollWidth": 1440,
+      "htmlClientWidth": 1440,
+      "bodyScrollWidth": 1440,
+      "bodyClientWidth": 1440,
+      "overflow": false
+    },
+    "aria": {
+      "missingRefs": [],
+      "invalidIds": []
+    },
+    "controls": [
+      {
+        "kind": "pause",
+        "disabled": false,
+        "text": "Pause"
+      },
+      {
+        "kind": "resume",
+        "disabled": false,
+        "text": "Resume"
+      },
+      {
+        "kind": "steer",
+        "disabled": false,
+        "text": "Steer"
+      },
+      {
+        "kind": "judge",
+        "disabled": false,
+        "text": "Judge"
+      },
+      {
+        "kind": "resume-command",
+        "disabled": false,
+        "text": "/goal resume"
+      },
+      {
+        "kind": "subgoal",
+        "disabled": false,
+        "text": "/subgoal"
+      }
+    ],
+    "descriptorOnlyVisible": true
+  },
+  "actions": {
+    "pauseFeedback": "pause accepted; rereading Goal Mode projection.",
+    "resumeFeedback": "resume accepted; rereading Goal Mode projection.",
+    "steerFeedback": "steer accepted; rereading Goal Mode projection.",
+    "judgeFeedback": "judge accepted; rereading Goal Mode projection.",
+    "afterJudgeCursor": "turn-3",
+    "descriptorOnly": true
+  },
+  "mobile": {
+    "viewport": "390x844",
+    "overflow": {
+      "htmlScrollWidth": 390,
+      "htmlClientWidth": 390,
+      "bodyScrollWidth": 390,
+      "bodyClientWidth": 390,
+      "overflow": false
+    },
+    "aria": {
+      "missingRefs": [],
+      "invalidIds": []
+    },
+    "navText": "Inbox\n2\nRuns\n1\nGoals\n2\nReview\n3\nMore",
+    "navCount": 5,
+    "controls": [
+      {
+        "kind": "pause",
+        "disabled": false,
+        "text": "Pause"
+      },
+      {
+        "kind": "resume",
+        "disabled": false,
+        "text": "Resume"
+      },
+      {
+        "kind": "steer",
+        "disabled": false,
+        "text": "Steer"
+      },
+      {
+        "kind": "judge",
+        "disabled": false,
+        "text": "Judge"
+      },
+      {
+        "kind": "resume-command",
+        "disabled": false,
+        "text": "/goal resume"
+      },
+      {
+        "kind": "subgoal",
+        "disabled": false,
+        "text": "/subgoal"
+      }
+    ],
+    "descriptorOnlyVisible": true,
+    "cjkPresent": false
+  },
+  "screenshots": [
+    "/Users/zq/Desktop/ai-projs/posp/Nexora/artifacts/progress/c20/current-verification/c20-goal-mode-desktop-1440x900-rerun-20260901-215259.png",
+    "/Users/zq/Desktop/ai-projs/posp/Nexora/artifacts/progress/c20/current-verification/c20-goal-mode-post-judge-1440x900-rerun-20260901-215259.png",
+    "/Users/zq/Desktop/ai-projs/posp/Nexora/artifacts/progress/c20/current-verification/c20-goal-mode-mobile-390x844-rerun-20260901-215259.png",
+    "/Users/zq/Desktop/ai-projs/posp/Nexora/artifacts/progress/c20/current-verification/c20-goal-mode-mobile-controls-390x844-rerun-20260901-215259.png"
+  ],
+  "logs": {
+    "apiLog": "/Users/zq/Desktop/ai-projs/posp/Nexora/artifacts/progress/c20/current-verification/c20-visual-api-rerun-20260901-215259.log",
+    "webLog": "/Users/zq/Desktop/ai-projs/posp/Nexora/artifacts/progress/c20/current-verification/c20-visual-web-rerun-20260901-215259.log",
+    "qaLog": "/Users/zq/Desktop/ai-projs/posp/Nexora/artifacts/progress/c20/current-verification/c20-visual-qa-rerun-20260901-215259.log"
+  }
+}

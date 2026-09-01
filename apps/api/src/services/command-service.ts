@@ -1,8 +1,12 @@
 import { z } from "zod";
 import {
   AgentProfileSchema,
+  BudgetSchema,
   EventEnvelopeSchema,
   GoalSchema,
+  GoalLoopCommandSchema,
+  GoalLoopDescriptorSchema,
+  JudgeDecisionSchema,
   MemoryNoteSchema,
   MemoryVersionSchema,
   PayloadHashSchema,
@@ -21,16 +25,20 @@ import {
   TicketSchema,
   UlidSchema,
   WorkspaceIdSchema,
+  canTransitionGoalLoop,
+  containsSecretLikeText,
   type EventEnvelope,
+  type GoalLoopDescriptor,
   type MemoryTrustState,
   type ReviewDecision,
   type ReviewRequestedEvent,
   type Run,
+  type GoalLoopCommandKind,
 } from "@nexora/contracts";
 import { applyRunStatus, createRunAggregate } from "@nexora/domain";
 import { EventStore } from "@nexora/event-store";
-import { DurableQueue } from "@nexora/orchestration";
-import { AgentRepository, ArtifactRepository, GoalRepository, IdempotencyRepository, ReviewRepository, RunRepository, StepRepository, TicketRepository, withTransaction, type SqliteDatabase } from "@nexora/persistence";
+import { DurableQueue, GoalLoopController } from "@nexora/orchestration";
+import { AgentRepository, ArtifactRepository, GoalContinuationRepository, GoalLoopCommandRepository, GoalLoopRepository, GoalRepository, IdempotencyRepository, ReviewRepository, RunRepository, StepRepository, TicketRepository, withTransaction, type SqliteDatabase } from "@nexora/persistence";
 import { assertScope, type PolicyActor } from "@nexora/policy";
 import { accepted, acceptedRun, currentSequence, isReviewApproval, notFound, readInteger, readText, requestHash, reviewStale, runEventType, scopesEqual } from "./command-helpers.js";
 import { ApiHttpError } from "./errors.js";
@@ -50,9 +58,14 @@ export type AcceptedCommand = {
 
 const CreateAgentBodySchema = AgentProfileSchema.omit({ id: true, created_at: true, updated_at: true }).strict();
 const CreateGoalBodySchema = GoalSchema.omit({ id: true, created_at: true, updated_at: true }).strict();
+const CreateGoalLoopBodySchema = z.object({ schema_version: z.literal(1), workspace_id: WorkspaceIdSchema, goal_id: UlidSchema, run_id: UlidSchema, session_id: UlidSchema, objective: z.string().min(1).max(4000), definition_of_done: z.array(z.string().min(1).max(1000)).min(1).max(50), max_turns: z.number().int().positive().max(1000), budget: BudgetSchema, deadline_at: TimestampSchema }).strict();
 const CreateTicketBodySchema = TicketSchema.omit({ id: true, created_at: true, updated_at: true }).strict();
 const CreateRunBodySchema = z.object({ schema_version: z.literal(1), workspace_id: WorkspaceIdSchema, ticket_id: TicketIdSchema, agent_id: AgentIdSchema, execution_location: z.enum(["local", "remote"]).default("local") }).strict();
 const TransitionBodySchema = z.object({ schema_version: z.literal(1), workspace_id: WorkspaceIdSchema }).strict();
+const GoalLoopResumeBodySchema = z.object({ schema_version: z.literal(1), workspace_id: WorkspaceIdSchema, cursor: z.string().min(1).max(512).optional() }).strict();
+const GoalLoopSteerBodySchema = z.object({ schema_version: z.literal(1), workspace_id: WorkspaceIdSchema, instruction: z.string().min(1).max(4000) }).strict();
+const GoalLoopSubgoalBodySchema = z.object({ schema_version: z.literal(1), workspace_id: WorkspaceIdSchema, objective: z.string().min(1).max(4000), max_turns: z.number().int().positive().max(1000), deadline_at: TimestampSchema, budget: BudgetSchema.optional() }).strict();
+const GoalLoopJudgeBodySchema = z.object({ schema_version: z.literal(1), workspace_id: WorkspaceIdSchema, done: z.boolean(), reason: z.string().min(1).max(2000) }).strict();
 const ReviewDecisionBodySchema = z.object({
   schema_version: z.literal(1),
   workspace_id: WorkspaceIdSchema,
@@ -100,6 +113,120 @@ export class CommandService {
       const id = this.reserve({ workspace_id: body.workspace_id, key: idempotencyKey, hash: requestHash(body), resource_type: "goal" });
       if (id.kind === "new") new GoalRepository(this.options.database).create(GoalSchema.parse({ ...body, id: id.resource_id, created_at: this.now(), updated_at: this.now() }));
       return accepted({ command_id: idempotencyKey, object_type: "goal", object_id: id.resource_id, workspace_id: body.workspace_id });
+    });
+  }
+
+  createGoalLoop(input: unknown, actor: PolicyActor, idempotencyKey: string): AcceptedCommand {
+    const body = CreateGoalLoopBodySchema.parse(input);
+    requireNoSecretLikeText([body.objective, ...body.definition_of_done]);
+    return withTransaction(this.options.database, () => {
+      this.requireScope(actor, "run:write", body.workspace_id);
+      const existing = this.idempotency.get(body.workspace_id, idempotencyKey);
+      if (existing !== undefined) {
+        const replay = this.reserve({ workspace_id: body.workspace_id, key: idempotencyKey, hash: requestHash(body), resource_type: "goal_loop", resource_id: existing.resource_id });
+        return accepted({ command_id: idempotencyKey, object_type: "goal_loop", object_id: replay.resource_id, workspace_id: body.workspace_id });
+      }
+      this.requireGoalLoopGraph(body.workspace_id, body.goal_id, body.run_id, body.session_id);
+      requireGoalLoopLimits({ max_turns: body.max_turns, turn_count: 0, budget: body.budget, deadline_at: body.deadline_at }, this.now());
+      const id = this.reserve({ workspace_id: body.workspace_id, key: idempotencyKey, hash: requestHash(body), resource_type: "goal_loop" });
+      if (id.kind === "new") {
+        new GoalLoopRepository(this.options.database).create(GoalLoopDescriptorSchema.parse({
+          ...body,
+          id: id.resource_id,
+          created_at: this.now(),
+          updated_at: this.now(),
+          parent_loop_id: null,
+          root_loop_id: id.resource_id,
+          status: "running",
+          turn_count: 0,
+          continuation_cursor: null,
+          judge: null,
+          descriptor_only: true,
+        }));
+      }
+      return accepted({ command_id: idempotencyKey, object_type: "goal_loop", object_id: id.resource_id, workspace_id: body.workspace_id });
+    });
+  }
+
+  pauseGoalLoop(input: unknown, loopId: string, actor: PolicyActor, idempotencyKey: string, expectedVersion: number): AcceptedCommand {
+    const body = TransitionBodySchema.parse(input);
+    return this.updateGoalLoop({ workspace_id: body.workspace_id, loop_id: loopId, actor, idempotency_key: idempotencyKey, expected_version: expectedVersion, resource_type: "goal_loop.pause", to_status: "paused", command_kind: "pause", cursor: null, instruction: null });
+  }
+
+  resumeGoalLoop(input: unknown, loopId: string, actor: PolicyActor, idempotencyKey: string, expectedVersion: number): AcceptedCommand {
+    const body = GoalLoopResumeBodySchema.parse(input);
+    return this.updateGoalLoop({ workspace_id: body.workspace_id, loop_id: loopId, actor, idempotency_key: idempotencyKey, expected_version: expectedVersion, resource_type: "goal_loop.resume", to_status: "running", command_kind: "resume", cursor: body.cursor ?? null, instruction: null });
+  }
+
+  steerGoalLoop(input: unknown, loopId: string, actor: PolicyActor, idempotencyKey: string, expectedVersion: number): AcceptedCommand {
+    const body = GoalLoopSteerBodySchema.parse(input);
+    requireNoSecretLikeText([body.instruction]);
+    return this.updateGoalLoop({ workspace_id: body.workspace_id, loop_id: loopId, actor, idempotency_key: idempotencyKey, expected_version: expectedVersion, resource_type: "goal_loop.steer", to_status: "running", command_kind: "steer", cursor: null, instruction: body.instruction });
+  }
+
+  createSubgoalLoop(input: unknown, parentLoopId: string, actor: PolicyActor, idempotencyKey: string, expectedVersion: number): AcceptedCommand {
+    const body = GoalLoopSubgoalBodySchema.parse(input);
+    requireNoSecretLikeText([body.objective]);
+    return withTransaction(this.options.database, () => {
+      this.requireScope(actor, "run:write", body.workspace_id);
+      const reserved = this.reserve({ workspace_id: body.workspace_id, key: idempotencyKey, hash: requestHash({ body, parentLoopId, expectedVersion }), resource_type: "goal_loop" });
+      if (reserved.kind === "existing") return accepted({ command_id: idempotencyKey, object_type: "goal_loop", object_id: reserved.resource_id, workspace_id: body.workspace_id });
+      const parent = this.goalLoopWithVersion(body.workspace_id, parentLoopId);
+      requireExpectedGoalLoopVersion(parent.version, expectedVersion);
+      if (isTerminalGoalLoopStatus(parent.loop.status)) throw invalidGoalLoopTransition(parent.loop.status, "running");
+      this.requireActiveRunSessionForLoop(parent.loop);
+      requireGoalLoopLimits(parent.loop, this.now());
+      requireGoalLoopLimits({ max_turns: body.max_turns, turn_count: 0, budget: body.budget ?? parent.loop.budget, deadline_at: body.deadline_at }, this.now());
+      this.recordGoalLoopCommand({ loop: parent.loop, kind: "subgoal", idempotency_key: idempotencyKey, expected_revision: expectedVersion, cursor: null, instruction: body.objective, subgoal: { objective: body.objective, max_turns: body.max_turns, deadline_at: body.deadline_at }, judge: null });
+      const child = GoalLoopDescriptorSchema.parse({
+        id: reserved.resource_id,
+        workspace_id: body.workspace_id,
+        schema_version: 1,
+        created_at: this.now(),
+        updated_at: this.now(),
+        goal_id: parent.loop.goal_id,
+        run_id: parent.loop.run_id,
+        session_id: parent.loop.session_id,
+        parent_loop_id: parent.loop.id,
+        root_loop_id: parent.loop.root_loop_id,
+        status: "running",
+        objective: body.objective,
+        definition_of_done: parent.loop.definition_of_done,
+        max_turns: body.max_turns,
+        turn_count: 0,
+        budget: body.budget ?? parent.loop.budget,
+        deadline_at: body.deadline_at,
+        continuation_cursor: null,
+        judge: null,
+        descriptor_only: true,
+      });
+      const repository = new GoalLoopRepository(this.options.database);
+      repository.create(child);
+      repository.update(GoalLoopDescriptorSchema.parse({ ...parent.loop, updated_at: this.now() }), expectedVersion);
+      return accepted({ command_id: idempotencyKey, object_type: "goal_loop", object_id: child.id, workspace_id: body.workspace_id });
+    });
+  }
+
+  recordGoalLoopJudge(input: unknown, loopId: string, actor: PolicyActor, idempotencyKey: string, expectedVersion: number): AcceptedCommand {
+    const body = GoalLoopJudgeBodySchema.parse(input);
+    requireNoSecretLikeText([body.reason]);
+    return withTransaction(this.options.database, () => {
+      this.requireScope(actor, "review:decide", body.workspace_id);
+      const row = this.goalLoopWithVersion(body.workspace_id, loopId);
+      const judge = JudgeDecisionSchema.parse({ done: body.done, reason: body.reason });
+      const reserved = this.reserve({ workspace_id: body.workspace_id, key: idempotencyKey, hash: requestHash({ body, loopId, expectedVersion }), resource_type: "goal_loop.judge", resource_id: loopId });
+      if (reserved.kind === "existing") return accepted({ command_id: idempotencyKey, object_type: "goal_loop", object_id: loopId, workspace_id: body.workspace_id });
+      requireExpectedGoalLoopVersion(row.version, expectedVersion);
+      this.requireActiveRunSessionForLoop(row.loop);
+      if (row.loop.status !== "waiting_judge") throw invalidGoalLoopTransition(row.loop.status, body.done ? "succeeded" : "running");
+      const planned = new GoalLoopController({ now: () => this.now(), continuationIdFactory: () => this.options.idFactory() }).planNextTurn({ workspace_id: body.workspace_id, loop: row.loop, judge, next_cursor: nextGoalLoopCursor(row.loop), idempotency_key: idempotencyKey });
+      this.recordGoalLoopCommand({ loop: row.loop, kind: "judge", idempotency_key: idempotencyKey, expected_revision: expectedVersion, cursor: row.loop.continuation_cursor, instruction: null, subgoal: null, judge });
+      if (planned.continuation === null) {
+        if (planned.loop !== row.loop) new GoalLoopRepository(this.options.database).update(planned.loop, expectedVersion);
+      } else {
+        new GoalContinuationRepository(this.options.database).record(planned.continuation);
+      }
+      return accepted({ command_id: idempotencyKey, object_type: "goal_loop", object_id: loopId, workspace_id: body.workspace_id });
     });
   }
 
@@ -209,6 +336,69 @@ export class CommandService {
     return { kind: existing === undefined ? "new" : "existing", resource_id: record.resource_id };
   }
 
+  private updateGoalLoop(input: { readonly workspace_id: string; readonly loop_id: string; readonly actor: PolicyActor; readonly idempotency_key: string; readonly expected_version: number; readonly resource_type: string; readonly to_status: "paused" | "running"; readonly command_kind: "pause" | "resume" | "steer"; readonly cursor: string | null; readonly instruction: string | null }): AcceptedCommand {
+    return withTransaction(this.options.database, () => {
+      this.requireScope(input.actor, "run:write", input.workspace_id);
+      const reserved = this.reserve({ workspace_id: input.workspace_id, key: input.idempotency_key, hash: requestHash({ workspace_id: input.workspace_id, loop_id: input.loop_id, expected_version: input.expected_version, to_status: input.to_status, command_kind: input.command_kind, cursor: input.cursor, instruction: input.instruction }), resource_type: input.resource_type, resource_id: input.loop_id });
+      if (reserved.kind === "existing") return accepted({ command_id: input.idempotency_key, object_type: "goal_loop", object_id: input.loop_id, workspace_id: input.workspace_id });
+      const row = this.goalLoopWithVersion(input.workspace_id, input.loop_id);
+      requireExpectedGoalLoopVersion(row.version, input.expected_version);
+      if (input.command_kind === "steer" && isTerminalGoalLoopStatus(row.loop.status)) throw invalidGoalLoopTransition(row.loop.status, input.to_status);
+      if (input.command_kind !== "steer" && !canTransitionGoalLoop(row.loop.status, input.to_status, row.loop.judge)) throw invalidGoalLoopTransition(row.loop.status, input.to_status);
+      if (input.command_kind !== "pause") {
+        this.requireActiveRunSessionForLoop(row.loop);
+        requireGoalLoopLimits(row.loop, this.now());
+      }
+      const nextStatus = input.command_kind === "steer" ? row.loop.status : input.to_status;
+      const continuationCursor = input.command_kind === "resume" ? resumeCursor(row.loop.continuation_cursor, input.cursor) : row.loop.continuation_cursor;
+      this.recordGoalLoopCommand({ loop: row.loop, kind: input.command_kind, idempotency_key: input.idempotency_key, expected_revision: input.expected_version, cursor: input.cursor, instruction: input.instruction, subgoal: null, judge: null });
+      const updated = GoalLoopDescriptorSchema.parse({ ...row.loop, status: nextStatus, continuation_cursor: continuationCursor, updated_at: this.now() });
+      new GoalLoopRepository(this.options.database).update(updated, input.expected_version);
+      return accepted({ command_id: input.idempotency_key, object_type: "goal_loop", object_id: input.loop_id, workspace_id: input.workspace_id });
+    });
+  }
+
+  private goalLoopWithVersion(workspaceId: string, loopId: string): { readonly loop: GoalLoopDescriptor; readonly version: number } {
+    const row = new GoalLoopRepository(this.options.database).getWithVersion(workspaceId, loopId);
+    if (row === undefined) throw notFound();
+    return row;
+  }
+
+  private requireGoalLoopGraph(workspaceId: string, goalId: string, runId: string, sessionId: string): void {
+    const goal = this.options.database.prepare("SELECT 1 AS present FROM goals WHERE workspace_id = ? AND id = ?").get(workspaceId, goalId);
+    if (goal === undefined) throw notFound();
+    const run = this.options.database.prepare("SELECT runs.status AS status FROM runs JOIN tickets ON tickets.workspace_id = runs.workspace_id AND tickets.id = runs.ticket_id WHERE runs.workspace_id = ? AND runs.id = ? AND tickets.goal_id = ?").get(workspaceId, runId, goalId);
+    if (run === undefined) throw notFound();
+    const session = this.options.database.prepare("SELECT status FROM sessions WHERE workspace_id = ? AND id = ? AND run_id = ?").get(workspaceId, sessionId, runId);
+    if (session === undefined) throw notFound();
+    if (readText(run["status"]) !== "running" || readText(session["status"]) !== "active") throw invalidActiveRunSession();
+  }
+
+  private requireActiveRunSessionForLoop(loop: GoalLoopDescriptor): void {
+    const row = this.options.database.prepare("SELECT runs.status AS run_status, sessions.status AS session_status FROM runs JOIN sessions ON sessions.workspace_id = runs.workspace_id AND sessions.run_id = runs.id WHERE runs.workspace_id = ? AND runs.id = ? AND sessions.id = ?").get(loop.workspace_id, loop.run_id, loop.session_id);
+    if (row === undefined) throw notFound();
+    if (readText(row["run_status"]) !== "running" || readText(row["session_status"]) !== "active") throw invalidActiveRunSession();
+  }
+
+  private recordGoalLoopCommand(input: { readonly loop: GoalLoopDescriptor; readonly kind: GoalLoopCommandKind; readonly idempotency_key: string; readonly expected_revision: number; readonly cursor: string | null; readonly instruction: string | null; readonly subgoal: { readonly objective: string; readonly max_turns: number; readonly deadline_at: string } | null; readonly judge: { readonly done: boolean; readonly reason: string } | null }): void {
+    new GoalLoopCommandRepository(this.options.database).record(GoalLoopCommandSchema.parse({
+      schema_version: 1,
+      command_id: this.options.idFactory(),
+      workspace_id: input.loop.workspace_id,
+      goal_loop_id: input.loop.id,
+      run_id: input.loop.run_id,
+      session_id: input.loop.session_id,
+      kind: input.kind,
+      idempotency_key: input.idempotency_key,
+      expected_revision: input.expected_revision,
+      cursor: input.cursor,
+      instruction: input.instruction,
+      subgoal: input.subgoal,
+      judge: input.judge,
+      created_at: this.now(),
+    }));
+  }
+
   private requireScope(actor: PolicyActor, action: Parameters<typeof assertScope>[0]["action"], workspaceId: string): void {
     const decision = assertScope({ actor, action, enforcement_point: "api", requested_scope: { kind: "workspace", id: workspaceId } });
     if (!decision.allowed) throw new ApiHttpError({ status_code: 403, code: decision.code, message: decision.reason, retryable: false, required_action: decision.required_action });
@@ -270,4 +460,44 @@ export class CommandService {
 
 function resolvedTrustState(sourceRefs: readonly { readonly verified: boolean }[]): MemoryTrustState {
   return sourceRefs.some((source) => source.verified) ? "trusted" : "unverified";
+}
+
+function invalidGoalLoopTransition(from: string, to: string): ApiHttpError {
+  return new ApiHttpError({ status_code: 409, code: "INVALID_STATE_TRANSITION", message: `Goal loop cannot transition from ${from} to ${to}`, retryable: false, required_action: "refresh_state" });
+}
+
+function invalidActiveRunSession(): ApiHttpError {
+  return new ApiHttpError({ status_code: 409, code: "INVALID_STATE_TRANSITION", message: "Goal loop requires an active run and session", retryable: false, required_action: "select_active_run_session" });
+}
+
+function requireExpectedGoalLoopVersion(actual: number, expected: number): void {
+  if (actual !== expected) throw new ApiHttpError({ status_code: 409, code: "VERSION_CONFLICT", message: "Goal loop version conflict", retryable: true, required_action: "refresh_state" });
+}
+
+function requireGoalLoopLimits(loop: Pick<GoalLoopDescriptor, "max_turns" | "turn_count" | "budget" | "deadline_at">, now: string): void {
+  if (loop.turn_count >= loop.max_turns) throw goalLoopLimitExceeded("Goal loop max turns are exhausted");
+  if (loop.budget.max_tokens === 0 || loop.budget.max_cost_usd === 0) throw goalLoopLimitExceeded("Goal loop budget is exhausted");
+  if (Date.parse(now) >= Date.parse(loop.deadline_at)) throw goalLoopLimitExceeded("Goal loop deadline has passed");
+}
+
+function goalLoopLimitExceeded(message: string): ApiHttpError {
+  return new ApiHttpError({ status_code: 409, code: "GOAL_LOOP_LIMIT_EXCEEDED", message, retryable: false, required_action: "refresh_state" });
+}
+
+function requireNoSecretLikeText(values: readonly string[]): void {
+  if (values.some(containsSecretLikeText)) throw new ApiHttpError({ status_code: 400, code: "SCHEMA_INVALID", message: "Goal loop text contains forbidden secret-shaped content", retryable: false, required_action: "correct_request" });
+}
+
+function isTerminalGoalLoopStatus(status: GoalLoopDescriptor["status"]): boolean {
+  return status === "succeeded" || status === "failed" || status === "cancelled";
+}
+
+function resumeCursor(current: string | null, requested: string | null): string | null {
+  if (requested === null) return current;
+  if (requested !== current) throw new ApiHttpError({ status_code: 409, code: "VERSION_CONFLICT", message: "Goal loop resume cursor must match current checkpoint", retryable: true, required_action: "refresh_state" });
+  return current;
+}
+
+function nextGoalLoopCursor(loop: Pick<GoalLoopDescriptor, "turn_count">): string {
+  return `turn-${String(loop.turn_count + 1)}`;
 }
