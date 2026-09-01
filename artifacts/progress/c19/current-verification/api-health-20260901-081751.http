@@ -1,0 +1,10 @@
+HTTP/1.1 200 OK
+access-control-allow-headers: Authorization, Content-Type, Idempotency-Key, If-Match, Traceparent
+access-control-allow-methods: GET, POST, PUT, OPTIONS
+content-type: application/json; charset=utf-8
+content-length: 283
+Date: Tue, 01 Sep 2026 00:17:52 GMT
+Connection: keep-alive
+Keep-Alive: timeout=72
+
+{"status":"ok","version":"0.1.0","checks":{"api":"ok","db":{"status":"ok","migration_version":10},"queue":{"status":"ok","backlog":0,"by_status":{}},"costs":{"budgeted_runs":0,"max_tokens":0,"max_cost_usd":0},"egress":{"receipts":0,"latest_created_at":null},"runs":{"by_status":{}}}}

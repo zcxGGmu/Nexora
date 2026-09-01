@@ -29,12 +29,16 @@ export type ControlFixture = {
   readonly database: SqliteDatabase;
 };
 
-export function createControlFixture(ids: readonly string[] = []): ControlFixture {
+export type ControlFixtureOptions = {
+  readonly localSessionBootstrap?: boolean;
+};
+
+export function createControlFixture(ids: readonly string[] = [], options: ControlFixtureOptions = {}): ControlFixture {
   const database = openDatabase(":memory:");
   migrate(database, { now: () => TIME });
   seedWorkspaceGraph(database);
   const nextId = createIdFactory(ids);
-  const api = createApiServer({ version: "0.1.0", database, clock: { now: () => TIME }, idFactory: nextId, auth: { mode: "local", tokenSecret: TOKEN_SECRET } });
+  const api = createApiServer({ version: "0.1.0", database, clock: { now: () => TIME }, idFactory: nextId, auth: { mode: "local", tokenSecret: TOKEN_SECRET }, localSessionBootstrap: { enabled: options.localSessionBootstrap === true } });
   return { api, database };
 }
 

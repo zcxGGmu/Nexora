@@ -15,4 +15,7 @@ export * from "./connectors.js";
 export * from "./policy.js";
 export * from "./schedules.js";
 export * from "./registry.js";
+export * from "./gateway.js";
+export * from "./channels.js";
+export * from "./sessions.js";
 export { z } from "zod";

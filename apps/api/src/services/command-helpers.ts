@@ -51,11 +51,22 @@ export function readInteger(value: unknown): number {
 }
 
 function resourcePath(objectType: string, objectId: string): string {
-  if (objectType === "memory") return `/v1/memory/${objectId}`;
-  if (objectType === "runtime_descriptor") return `/v1/registry/runtimes/${objectId}`;
-  if (objectType === "provider_descriptor") return `/v1/registry/providers/${objectId}`;
-  if (objectType === "model_descriptor") return `/v1/registry/models/${objectId}`;
-  if (objectType === "backend_descriptor") return `/v1/registry/backends/${objectId}`;
-  if (objectType === "tool_descriptor") return `/v1/registry/tools/${objectId}`;
-  return `/v1/${objectType}s/${objectId}`;
+  switch (objectType) {
+    case "delivery":
+      return `/v1/deliveries/${objectId}`;
+    case "memory":
+      return `/v1/memory/${objectId}`;
+    case "runtime_descriptor":
+      return `/v1/registry/runtimes/${objectId}`;
+    case "provider_descriptor":
+      return `/v1/registry/providers/${objectId}`;
+    case "model_descriptor":
+      return `/v1/registry/models/${objectId}`;
+    case "backend_descriptor":
+      return `/v1/registry/backends/${objectId}`;
+    case "tool_descriptor":
+      return `/v1/registry/tools/${objectId}`;
+    default:
+      return `/v1/${objectType}s/${objectId}`;
+  }
 }

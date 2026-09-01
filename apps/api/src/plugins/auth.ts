@@ -5,6 +5,7 @@ import type { PolicyActor } from "@nexora/policy";
 import { ApiHttpError } from "../services/errors.js";
 
 const TOKEN_PREFIX = "nexora-local-v1";
+export const LOCAL_SESSION_COOKIE_NAME = "nexora_control_session";
 
 const ActorTokenClaimsSchema = z.object({
   schema_version: z.literal(1),
@@ -33,8 +34,8 @@ export function createLocalBearerToken(input: LocalBearerTokenInput): string {
   return `Bearer ${TOKEN_PREFIX}.${payload}.${signature(payload, input.tokenSecret)}`;
 }
 
-export function requireActor(authorization: string | string[] | undefined, options: LocalAuthOptions): PolicyActor {
-  const header = firstHeader(authorization);
+export function requireActor(authorization: string | string[] | undefined, options: LocalAuthOptions, cookie: string | string[] | undefined = undefined): PolicyActor {
+  const header = firstHeader(authorization) ?? bearerFromCookie(firstHeader(cookie));
   if (header === undefined || !header.startsWith("Bearer ")) throw unauthorized("Authorization bearer token is required");
   const [prefix, payload, mac, extra] = header.slice("Bearer ".length).split(".");
   if (prefix !== TOKEN_PREFIX || payload === undefined || mac === undefined || extra !== undefined) throw unauthorized("Authorization bearer token is invalid");
@@ -73,4 +74,24 @@ function unauthorized(message: string): ApiHttpError {
 function firstHeader(value: string | string[] | undefined): string | undefined {
   if (Array.isArray(value)) return value[0];
   return value;
+}
+
+function bearerFromCookie(cookie: string | undefined): string | undefined {
+  if (cookie === undefined) return undefined;
+  for (const entry of cookie.split(";")) {
+    const [name, ...valueParts] = entry.trim().split("=");
+    if (name !== LOCAL_SESSION_COOKIE_NAME) continue;
+    const value = valueParts.join("=");
+    if (value === "") return undefined;
+    return `Bearer ${decodeCookieValue(value)}`;
+  }
+  return undefined;
+}
+
+function decodeCookieValue(value: string): string {
+  try {
+    return decodeURIComponent(value);
+  } catch {
+    return value;
+  }
 }

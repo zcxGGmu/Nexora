@@ -1,0 +1,9 @@
+HTTP/1.1 204 No Content
+access-control-allow-origin: http://127.0.0.1:4313
+access-control-allow-credentials: true
+vary: Origin
+access-control-allow-headers: Authorization, Content-Type, Idempotency-Key, If-Match, Traceparent
+access-control-allow-methods: GET, POST, PUT, OPTIONS
+Date: Tue, 01 Sep 2026 00:17:52 GMT
+Connection: keep-alive
+Keep-Alive: timeout=72

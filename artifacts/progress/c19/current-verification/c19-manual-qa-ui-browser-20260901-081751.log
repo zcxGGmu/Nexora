@@ -1,0 +1,759 @@
+{
+  "surface": "Browser UI localhost /gateway",
+  "invocation": "Playwright chromium.goto(http://127.0.0.1:4313/gateway?workspace=ws-demo); API base http://127.0.0.1:45219; external http(s)/ws hosts logged and aborted",
+  "observations": [
+    {
+      "viewport": "desktop",
+      "titleVisible": true,
+      "hasBoundaryCopy": true,
+      "hasDefaultDenyCopy": true,
+      "visibleSections": {
+        "visible": {
+          "Gateway health": true,
+          "Channels": true,
+          "Session queue": true,
+          "cursor": true,
+          "Delivery receipts": true,
+          "Allowlist": true,
+          "Pause": true,
+          "Steer": true,
+          "Acknowledge": true,
+          "No external connection": true
+        },
+        "enabledButtons": [
+          {
+            "text": "Pause",
+            "disabled": false
+          },
+          {
+            "text": "Steer",
+            "disabled": false
+          },
+          {
+            "text": "Acknowledge",
+            "disabled": false
+          },
+          {
+            "text": "Resume",
+            "disabled": false
+          },
+          {
+            "text": "Steer",
+            "disabled": false
+          }
+        ],
+        "buttonLabels": [
+          "Pause",
+          "Steer",
+          "Acknowledge",
+          "Resume",
+          "Steer",
+          "Acknowledge",
+          "Pause",
+          "Steer",
+          "Acknowledge",
+          "Pause",
+          "Steer",
+          "Acknowledge"
+        ],
+        "allRequiredLabelsVisible": true
+      },
+      "buttonsBefore": [
+        {
+          "text": "Pause",
+          "disabled": false
+        },
+        {
+          "text": "Steer",
+          "disabled": false
+        },
+        {
+          "text": "Acknowledge",
+          "disabled": false
+        },
+        {
+          "text": "Resume",
+          "disabled": false
+        },
+        {
+          "text": "Steer",
+          "disabled": false
+        },
+        {
+          "text": "Acknowledge",
+          "disabled": true
+        },
+        {
+          "text": "Pause",
+          "disabled": true
+        },
+        {
+          "text": "Steer",
+          "disabled": true
+        },
+        {
+          "text": "Acknowledge",
+          "disabled": true
+        },
+        {
+          "text": "Pause",
+          "disabled": true
+        },
+        {
+          "text": "Steer",
+          "disabled": true
+        },
+        {
+          "text": "Acknowledge",
+          "disabled": true
+        }
+      ],
+      "layout": {
+        "label": "desktop",
+        "scrollWidth": 1440,
+        "clientWidth": 1440,
+        "tableCount": 0,
+        "cjkTextPresent": false,
+        "invalidAriaReferences": [],
+        "overflowing": []
+      }
+    },
+    {
+      "actions": [
+        {
+          "action": "pause",
+          "status": 202,
+          "path": "/v1/sessions/01SRZ3NDEKTSV4RRFFQ69G5FAV/pause"
+        },
+        {
+          "action": "resume",
+          "status": 202,
+          "path": "/v1/sessions/01SRZ3NDEKTSV4RRFFQ69G5FAV/resume"
+        },
+        {
+          "action": "acknowledge",
+          "status": 202,
+          "path": "/v1/deliveries"
+        }
+      ],
+      "feedback": "Acknowledgement accepted; rereading delivery receipts.",
+      "apiResponsesAfterActions": [
+        {
+          "method": "GET",
+          "status": 401,
+          "path": "/v1/gateways"
+        },
+        {
+          "method": "GET",
+          "status": 401,
+          "path": "/v1/channels"
+        },
+        {
+          "method": "GET",
+          "status": 401,
+          "path": "/v1/sessions"
+        },
+        {
+          "method": "GET",
+          "status": 401,
+          "path": "/v1/deliveries"
+        },
+        {
+          "method": "GET",
+          "status": 401,
+          "path": "/v1/allowlist"
+        },
+        {
+          "method": "POST",
+          "status": 204,
+          "path": "/v1/auth/local-session"
+        },
+        {
+          "method": "POST",
+          "status": 204,
+          "path": "/v1/auth/local-session"
+        },
+        {
+          "method": "POST",
+          "status": 204,
+          "path": "/v1/auth/local-session"
+        },
+        {
+          "method": "POST",
+          "status": 204,
+          "path": "/v1/auth/local-session"
+        },
+        {
+          "method": "POST",
+          "status": 204,
+          "path": "/v1/auth/local-session"
+        },
+        {
+          "method": "GET",
+          "status": 200,
+          "path": "/v1/gateways"
+        },
+        {
+          "method": "GET",
+          "status": 200,
+          "path": "/v1/channels"
+        },
+        {
+          "method": "GET",
+          "status": 200,
+          "path": "/v1/sessions"
+        },
+        {
+          "method": "GET",
+          "status": 200,
+          "path": "/v1/deliveries"
+        },
+        {
+          "method": "GET",
+          "status": 200,
+          "path": "/v1/allowlist"
+        },
+        {
+          "method": "GET",
+          "status": 200,
+          "path": "/v1/sessions/01SRZ3NDEKTSV4RRFFQ69G5FAV/cursor"
+        },
+        {
+          "method": "GET",
+          "status": 200,
+          "path": "/v1/sessions/01TRZ3NDEKTSV4RRFFQ69G5FAV/cursor"
+        },
+        {
+          "method": "GET",
+          "status": 200,
+          "path": "/v1/sessions/01WRZ3NDEKTSV4RRFFQ69Y5FAV/cursor"
+        },
+        {
+          "method": "GET",
+          "status": 200,
+          "path": "/v1/sessions/01YRZ3NDEKTSV4RRFFQ69Y5FAV/cursor"
+        },
+        {
+          "method": "POST",
+          "status": 202,
+          "path": "/v1/sessions/01SRZ3NDEKTSV4RRFFQ69G5FAV/pause"
+        },
+        {
+          "method": "GET",
+          "status": 200,
+          "path": "/v1/gateways"
+        },
+        {
+          "method": "GET",
+          "status": 200,
+          "path": "/v1/channels"
+        },
+        {
+          "method": "GET",
+          "status": 200,
+          "path": "/v1/sessions"
+        },
+        {
+          "method": "GET",
+          "status": 200,
+          "path": "/v1/deliveries"
+        },
+        {
+          "method": "GET",
+          "status": 200,
+          "path": "/v1/allowlist"
+        },
+        {
+          "method": "GET",
+          "status": 200,
+          "path": "/v1/sessions/01SRZ3NDEKTSV4RRFFQ69G5FAV/cursor"
+        },
+        {
+          "method": "GET",
+          "status": 200,
+          "path": "/v1/sessions/01TRZ3NDEKTSV4RRFFQ69G5FAV/cursor"
+        },
+        {
+          "method": "GET",
+          "status": 200,
+          "path": "/v1/sessions/01WRZ3NDEKTSV4RRFFQ69Y5FAV/cursor"
+        },
+        {
+          "method": "GET",
+          "status": 200,
+          "path": "/v1/sessions/01YRZ3NDEKTSV4RRFFQ69Y5FAV/cursor"
+        },
+        {
+          "method": "POST",
+          "status": 202,
+          "path": "/v1/sessions/01SRZ3NDEKTSV4RRFFQ69G5FAV/resume"
+        },
+        {
+          "method": "GET",
+          "status": 200,
+          "path": "/v1/gateways"
+        },
+        {
+          "method": "GET",
+          "status": 200,
+          "path": "/v1/channels"
+        },
+        {
+          "method": "GET",
+          "status": 200,
+          "path": "/v1/sessions"
+        },
+        {
+          "method": "GET",
+          "status": 200,
+          "path": "/v1/deliveries"
+        },
+        {
+          "method": "GET",
+          "status": 200,
+          "path": "/v1/allowlist"
+        },
+        {
+          "method": "GET",
+          "status": 200,
+          "path": "/v1/sessions/01SRZ3NDEKTSV4RRFFQ69G5FAV/cursor"
+        },
+        {
+          "method": "GET",
+          "status": 200,
+          "path": "/v1/sessions/01TRZ3NDEKTSV4RRFFQ69G5FAV/cursor"
+        },
+        {
+          "method": "GET",
+          "status": 200,
+          "path": "/v1/sessions/01WRZ3NDEKTSV4RRFFQ69Y5FAV/cursor"
+        },
+        {
+          "method": "GET",
+          "status": 200,
+          "path": "/v1/sessions/01YRZ3NDEKTSV4RRFFQ69Y5FAV/cursor"
+        },
+        {
+          "method": "POST",
+          "status": 202,
+          "path": "/v1/deliveries"
+        },
+        {
+          "method": "GET",
+          "status": 200,
+          "path": "/v1/gateways"
+        },
+        {
+          "method": "GET",
+          "status": 200,
+          "path": "/v1/channels"
+        },
+        {
+          "method": "GET",
+          "status": 200,
+          "path": "/v1/sessions"
+        },
+        {
+          "method": "GET",
+          "status": 200,
+          "path": "/v1/deliveries"
+        },
+        {
+          "method": "GET",
+          "status": 200,
+          "path": "/v1/allowlist"
+        },
+        {
+          "method": "GET",
+          "status": 200,
+          "path": "/v1/sessions/01SRZ3NDEKTSV4RRFFQ69G5FAV/cursor"
+        },
+        {
+          "method": "GET",
+          "status": 200,
+          "path": "/v1/sessions/01TRZ3NDEKTSV4RRFFQ69G5FAV/cursor"
+        },
+        {
+          "method": "GET",
+          "status": 200,
+          "path": "/v1/sessions/01WRZ3NDEKTSV4RRFFQ69Y5FAV/cursor"
+        },
+        {
+          "method": "GET",
+          "status": 200,
+          "path": "/v1/sessions/01YRZ3NDEKTSV4RRFFQ69Y5FAV/cursor"
+        }
+      ]
+    },
+    {
+      "viewport": "mobile",
+      "titleVisible": true,
+      "mobileNavCount": 5,
+      "hasBoundaryCopy": true,
+      "visibleSections": {
+        "visible": {
+          "Gateway health": true,
+          "Channels": true,
+          "Session queue": true,
+          "cursor": true,
+          "Delivery receipts": true,
+          "Allowlist": true,
+          "Pause": true,
+          "Steer": true,
+          "Acknowledge": true,
+          "No external connection": true
+        },
+        "enabledButtons": [
+          {
+            "text": "Pause",
+            "disabled": false
+          },
+          {
+            "text": "Steer",
+            "disabled": false
+          },
+          {
+            "text": "Acknowledge",
+            "disabled": false
+          },
+          {
+            "text": "Resume",
+            "disabled": false
+          },
+          {
+            "text": "Steer",
+            "disabled": false
+          }
+        ],
+        "buttonLabels": [
+          "Pause",
+          "Steer",
+          "Acknowledge",
+          "Resume",
+          "Steer",
+          "Acknowledge",
+          "Pause",
+          "Steer",
+          "Acknowledge",
+          "Pause",
+          "Steer",
+          "Acknowledge"
+        ],
+        "allRequiredLabelsVisible": true
+      },
+      "layout": {
+        "label": "mobile",
+        "scrollWidth": 390,
+        "clientWidth": 390,
+        "tableCount": 0,
+        "cjkTextPresent": false,
+        "invalidAriaReferences": [],
+        "overflowing": []
+      }
+    },
+    {
+      "invalidWorkspace": true,
+      "apiRequestsDuringInvalidWorkspace": 0,
+      "message": "Skip to route title\nnot-a-workspace\nStart\n\nGateway Control\n\nGateway, Channels & Sessions\nInvalid Gateway workspace scope\n\nGateway control data requires a canonical workspace ULID or the explicit local demo alias. No API request or external connection was attempted.\n\nInbox\n2\nRuns\n1\nGoals\n2\nReview\n3\nMore"
+    }
+  ],
+  "apiResponses": [
+    {
+      "method": "GET",
+      "status": 401,
+      "path": "/v1/gateways"
+    },
+    {
+      "method": "GET",
+      "status": 401,
+      "path": "/v1/channels"
+    },
+    {
+      "method": "GET",
+      "status": 401,
+      "path": "/v1/sessions"
+    },
+    {
+      "method": "GET",
+      "status": 401,
+      "path": "/v1/deliveries"
+    },
+    {
+      "method": "GET",
+      "status": 401,
+      "path": "/v1/allowlist"
+    },
+    {
+      "method": "POST",
+      "status": 204,
+      "path": "/v1/auth/local-session"
+    },
+    {
+      "method": "POST",
+      "status": 204,
+      "path": "/v1/auth/local-session"
+    },
+    {
+      "method": "POST",
+      "status": 204,
+      "path": "/v1/auth/local-session"
+    },
+    {
+      "method": "POST",
+      "status": 204,
+      "path": "/v1/auth/local-session"
+    },
+    {
+      "method": "POST",
+      "status": 204,
+      "path": "/v1/auth/local-session"
+    },
+    {
+      "method": "GET",
+      "status": 200,
+      "path": "/v1/gateways"
+    },
+    {
+      "method": "GET",
+      "status": 200,
+      "path": "/v1/channels"
+    },
+    {
+      "method": "GET",
+      "status": 200,
+      "path": "/v1/sessions"
+    },
+    {
+      "method": "GET",
+      "status": 200,
+      "path": "/v1/deliveries"
+    },
+    {
+      "method": "GET",
+      "status": 200,
+      "path": "/v1/allowlist"
+    },
+    {
+      "method": "GET",
+      "status": 200,
+      "path": "/v1/sessions/01SRZ3NDEKTSV4RRFFQ69G5FAV/cursor"
+    },
+    {
+      "method": "GET",
+      "status": 200,
+      "path": "/v1/sessions/01TRZ3NDEKTSV4RRFFQ69G5FAV/cursor"
+    },
+    {
+      "method": "GET",
+      "status": 200,
+      "path": "/v1/sessions/01WRZ3NDEKTSV4RRFFQ69Y5FAV/cursor"
+    },
+    {
+      "method": "GET",
+      "status": 200,
+      "path": "/v1/sessions/01YRZ3NDEKTSV4RRFFQ69Y5FAV/cursor"
+    },
+    {
+      "method": "POST",
+      "status": 202,
+      "path": "/v1/sessions/01SRZ3NDEKTSV4RRFFQ69G5FAV/pause"
+    },
+    {
+      "method": "GET",
+      "status": 200,
+      "path": "/v1/gateways"
+    },
+    {
+      "method": "GET",
+      "status": 200,
+      "path": "/v1/channels"
+    },
+    {
+      "method": "GET",
+      "status": 200,
+      "path": "/v1/sessions"
+    },
+    {
+      "method": "GET",
+      "status": 200,
+      "path": "/v1/deliveries"
+    },
+    {
+      "method": "GET",
+      "status": 200,
+      "path": "/v1/allowlist"
+    },
+    {
+      "method": "GET",
+      "status": 200,
+      "path": "/v1/sessions/01SRZ3NDEKTSV4RRFFQ69G5FAV/cursor"
+    },
+    {
+      "method": "GET",
+      "status": 200,
+      "path": "/v1/sessions/01TRZ3NDEKTSV4RRFFQ69G5FAV/cursor"
+    },
+    {
+      "method": "GET",
+      "status": 200,
+      "path": "/v1/sessions/01WRZ3NDEKTSV4RRFFQ69Y5FAV/cursor"
+    },
+    {
+      "method": "GET",
+      "status": 200,
+      "path": "/v1/sessions/01YRZ3NDEKTSV4RRFFQ69Y5FAV/cursor"
+    },
+    {
+      "method": "POST",
+      "status": 202,
+      "path": "/v1/sessions/01SRZ3NDEKTSV4RRFFQ69G5FAV/resume"
+    },
+    {
+      "method": "GET",
+      "status": 200,
+      "path": "/v1/gateways"
+    },
+    {
+      "method": "GET",
+      "status": 200,
+      "path": "/v1/channels"
+    },
+    {
+      "method": "GET",
+      "status": 200,
+      "path": "/v1/sessions"
+    },
+    {
+      "method": "GET",
+      "status": 200,
+      "path": "/v1/deliveries"
+    },
+    {
+      "method": "GET",
+      "status": 200,
+      "path": "/v1/allowlist"
+    },
+    {
+      "method": "GET",
+      "status": 200,
+      "path": "/v1/sessions/01SRZ3NDEKTSV4RRFFQ69G5FAV/cursor"
+    },
+    {
+      "method": "GET",
+      "status": 200,
+      "path": "/v1/sessions/01TRZ3NDEKTSV4RRFFQ69G5FAV/cursor"
+    },
+    {
+      "method": "GET",
+      "status": 200,
+      "path": "/v1/sessions/01WRZ3NDEKTSV4RRFFQ69Y5FAV/cursor"
+    },
+    {
+      "method": "GET",
+      "status": 200,
+      "path": "/v1/sessions/01YRZ3NDEKTSV4RRFFQ69Y5FAV/cursor"
+    },
+    {
+      "method": "POST",
+      "status": 202,
+      "path": "/v1/deliveries"
+    },
+    {
+      "method": "GET",
+      "status": 200,
+      "path": "/v1/gateways"
+    },
+    {
+      "method": "GET",
+      "status": 200,
+      "path": "/v1/channels"
+    },
+    {
+      "method": "GET",
+      "status": 200,
+      "path": "/v1/sessions"
+    },
+    {
+      "method": "GET",
+      "status": 200,
+      "path": "/v1/deliveries"
+    },
+    {
+      "method": "GET",
+      "status": 200,
+      "path": "/v1/allowlist"
+    },
+    {
+      "method": "GET",
+      "status": 200,
+      "path": "/v1/sessions/01SRZ3NDEKTSV4RRFFQ69G5FAV/cursor"
+    },
+    {
+      "method": "GET",
+      "status": 200,
+      "path": "/v1/sessions/01TRZ3NDEKTSV4RRFFQ69G5FAV/cursor"
+    },
+    {
+      "method": "GET",
+      "status": 200,
+      "path": "/v1/sessions/01WRZ3NDEKTSV4RRFFQ69Y5FAV/cursor"
+    },
+    {
+      "method": "GET",
+      "status": 200,
+      "path": "/v1/sessions/01YRZ3NDEKTSV4RRFFQ69Y5FAV/cursor"
+    },
+    {
+      "method": "GET",
+      "status": 200,
+      "path": "/v1/gateways"
+    },
+    {
+      "method": "GET",
+      "status": 200,
+      "path": "/v1/channels"
+    },
+    {
+      "method": "GET",
+      "status": 200,
+      "path": "/v1/sessions"
+    },
+    {
+      "method": "GET",
+      "status": 200,
+      "path": "/v1/deliveries"
+    },
+    {
+      "method": "GET",
+      "status": 200,
+      "path": "/v1/allowlist"
+    },
+    {
+      "method": "GET",
+      "status": 200,
+      "path": "/v1/sessions/01SRZ3NDEKTSV4RRFFQ69G5FAV/cursor"
+    },
+    {
+      "method": "GET",
+      "status": 200,
+      "path": "/v1/sessions/01TRZ3NDEKTSV4RRFFQ69G5FAV/cursor"
+    },
+    {
+      "method": "GET",
+      "status": 200,
+      "path": "/v1/sessions/01WRZ3NDEKTSV4RRFFQ69Y5FAV/cursor"
+    },
+    {
+      "method": "GET",
+      "status": 200,
+      "path": "/v1/sessions/01YRZ3NDEKTSV4RRFFQ69Y5FAV/cursor"
+    }
+  ],
+  "externalRequests": [],
+  "screenshots": [
+    "/Users/zq/Desktop/ai-projs/posp/Nexora/artifacts/progress/c19/current-verification/c19-manual-qa-gateway-desktop-20260901-081751.png",
+    "/Users/zq/Desktop/ai-projs/posp/Nexora/artifacts/progress/c19/current-verification/c19-manual-qa-gateway-post-actions-20260901-081751.png",
+    "/Users/zq/Desktop/ai-projs/posp/Nexora/artifacts/progress/c19/current-verification/c19-manual-qa-gateway-mobile-20260901-081751.png",
+    "/Users/zq/Desktop/ai-projs/posp/Nexora/artifacts/progress/c19/current-verification/c19-manual-qa-gateway-invalid-workspace-20260901-081751.png"
+  ]
+}

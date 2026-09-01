@@ -8,7 +8,9 @@ services:
       NEXORA_DB_PATH: /var/lib/nexora/nexora.sqlite
       NEXORA_API_HOST: 0.0.0.0
       NEXORA_API_PORT: "4310"
-      NEXORA_AUTH_MODE: disabled
+      NEXORA_AUTH_MODE: local
+      NEXORA_CONTROL_TOKEN_SECRET: ${NEXORA_CONTROL_TOKEN_SECRET:?set a local control token secret for Mission Control}
+      NEXORA_ENABLE_LOCAL_SESSION_BOOTSTRAP: "true"
       NEXORA_MIGRATION_MODE: auto
     ports:
       - "127.0.0.1:4310:4310"

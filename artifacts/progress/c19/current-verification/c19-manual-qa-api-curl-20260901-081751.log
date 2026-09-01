@@ -1,0 +1,679 @@
+C19 manual QA live API run 20260901-081751
+Temporary DB: /var/folders/w0/kv_hbdx54fz_d8c55qtlk0h00000gn/T/nexora-c19-manual-qa.xRt47O/nexora.sqlite
+API base: http://127.0.0.1:45219
+
+## api-health
+surface: HTTP localhost API
+invocation: curl -i http://127.0.0.1:45219/v1/health
+HTTP/1.1 200 OK
+access-control-allow-headers: Authorization, Content-Type, Idempotency-Key, If-Match, Traceparent
+access-control-allow-methods: GET, POST, PUT, OPTIONS
+content-type: application/json; charset=utf-8
+content-length: 283
+Date: Tue, 01 Sep 2026 00:17:52 GMT
+Connection: keep-alive
+Keep-Alive: timeout=72
+
+{"status":"ok","version":"0.1.0","checks":{"api":"ok","db":{"status":"ok","migration_version":10},"queue":{"status":"ok","backlog":0,"by_status":{}},"costs":{"budgeted_runs":0,"max_tokens":0,"max_cost_usd":0},"egress":{"receipts":0,"latest_created_at":null},"runs":{"by_status":{}}}}
+observed_status: 200 expected_status: 200 artifact: /Users/zq/Desktop/ai-projs/posp/Nexora/artifacts/progress/c19/current-verification/api-health-20260901-081751.http
+
+## cors-preflight
+surface: HTTP localhost API
+invocation: curl -i -X OPTIONS http://127.0.0.1:45219/v1/gateways?workspace_id=01ARZ3NDEKTSV4RRFFQ69G5FAV -H 'Origin: http://127.0.0.1:4313' -H 'Access-Control-Request-Method: GET' -H 'Access-Control-Request-Headers: authorization,content-type,idempotency-key,if-match'
+HTTP/1.1 204 No Content
+access-control-allow-origin: http://127.0.0.1:4313
+access-control-allow-credentials: true
+vary: Origin
+access-control-allow-headers: Authorization, Content-Type, Idempotency-Key, If-Match, Traceparent
+access-control-allow-methods: GET, POST, PUT, OPTIONS
+Date: Tue, 01 Sep 2026 00:17:52 GMT
+Connection: keep-alive
+Keep-Alive: timeout=72
+
+
+observed_status: 204 expected_status: 204 artifact: /Users/zq/Desktop/ai-projs/posp/Nexora/artifacts/progress/c19/current-verification/cors-preflight-20260901-081751.http
+
+## create-gateway-owner
+surface: HTTP localhost API
+invocation: curl -i -X POST http://127.0.0.1:45219/v1/gateways -H 'Authorization: Bearer [REDACTED]' -H 'Content-Type: application/json' -H 'Idempotency-Key: qa:gateway:create' --data-binary '{"schema_version":1,"id":"gateway-manual-c19","workspace_id":"01ARZ3NDEKTSV4RRFFQ69G5FAV","created_at":"2026-08-31T00:00:00.000Z","updated_at":"2026-08-31T00:00:00.000Z","name":"Manual QA Gateway","kind":"custom","version":"1.0.0","requested_version":null,"actual_version":null,"protocol_version":1,"capabilities":["messaging","sessions","cursor-resume"],"health":"healthy","status":"connected","enabled":true,"execution_location":"local","endpoint_ref":null,"data_classification":"internal","last_heartbeat_at":null,"revision":1}'
+HTTP/1.1 202 Accepted
+access-control-allow-headers: Authorization, Content-Type, Idempotency-Key, If-Match, Traceparent
+access-control-allow-methods: GET, POST, PUT, OPTIONS
+content-type: application/json; charset=utf-8
+content-length: 235
+Date: Tue, 01 Sep 2026 00:17:52 GMT
+Connection: keep-alive
+Keep-Alive: timeout=72
+
+{"schema_version":1,"command_id":"qa:gateway:create","status":"accepted","object_type":"gateway","object_id":"gateway-manual-c19","status_url":"/v1/gateways/gateway-manual-c19?workspace_id=01ARZ3NDEKTSV4RRFFQ69G5FAV","events_url":null}
+observed_status: 202 expected_status: 202 artifact: /Users/zq/Desktop/ai-projs/posp/Nexora/artifacts/progress/c19/current-verification/create-gateway-owner-20260901-081751.http
+
+## create-channel-owner
+surface: HTTP localhost API
+invocation: curl -i -X POST http://127.0.0.1:45219/v1/channels -H 'Authorization: Bearer [REDACTED]' -H 'Content-Type: application/json' -H 'Idempotency-Key: qa:channel:create' --data-binary '{"schema_version":1,"id":"channel-manual-api","workspace_id":"01ARZ3NDEKTSV4RRFFQ69G5FAV","created_at":"2026-08-31T00:00:00.000Z","updated_at":"2026-08-31T00:00:00.000Z","gateway_id":"gateway-manual-c19","name":"Manual API Channel","kind":"api","version":"1.0.0","status":"connected","enabled":true,"capabilities":["messages","receipts"],"credential_ref":null,"endpoint_ref":null,"allowlist_mode":"deny_by_default","data_classification":"internal","revision":1}'
+HTTP/1.1 202 Accepted
+access-control-allow-headers: Authorization, Content-Type, Idempotency-Key, If-Match, Traceparent
+access-control-allow-methods: GET, POST, PUT, OPTIONS
+content-type: application/json; charset=utf-8
+content-length: 235
+Date: Tue, 01 Sep 2026 00:17:52 GMT
+Connection: keep-alive
+Keep-Alive: timeout=72
+
+{"schema_version":1,"command_id":"qa:channel:create","status":"accepted","object_type":"channel","object_id":"channel-manual-api","status_url":"/v1/channels/channel-manual-api?workspace_id=01ARZ3NDEKTSV4RRFFQ69G5FAV","events_url":null}
+observed_status: 202 expected_status: 202 artifact: /Users/zq/Desktop/ai-projs/posp/Nexora/artifacts/progress/c19/current-verification/create-channel-owner-20260901-081751.http
+
+## create-session-foreground
+surface: HTTP localhost API
+invocation: curl -i -X POST http://127.0.0.1:45219/v1/sessions -H 'Authorization: Bearer [REDACTED]' -H 'Content-Type: application/json' -H 'Idempotency-Key: qa:session:fg:create' --data-binary '{"schema_version":1,"id":"01SRZ3NDEKTSV4RRFFQ69G5FAV","workspace_id":"01ARZ3NDEKTSV4RRFFQ69G5FAV","created_at":"2026-08-31T00:00:00.000Z","updated_at":"2026-08-31T00:00:00.000Z","gateway_id":"gateway-manual-c19","channel_id":"channel-manual-api","agent_id":null,"run_id":null,"external_session_ref":null,"mode":"foreground","status":"active","cursor":null,"last_message_id":null,"last_event_at":null,"revision":1}'
+HTTP/1.1 202 Accepted
+access-control-allow-headers: Authorization, Content-Type, Idempotency-Key, If-Match, Traceparent
+access-control-allow-methods: GET, POST, PUT, OPTIONS
+content-type: application/json; charset=utf-8
+content-length: 254
+Date: Tue, 01 Sep 2026 00:17:52 GMT
+Connection: keep-alive
+Keep-Alive: timeout=72
+
+{"schema_version":1,"command_id":"qa:session:fg:create","status":"accepted","object_type":"session","object_id":"01SRZ3NDEKTSV4RRFFQ69G5FAV","status_url":"/v1/sessions/01SRZ3NDEKTSV4RRFFQ69G5FAV?workspace_id=01ARZ3NDEKTSV4RRFFQ69G5FAV","events_url":null}
+observed_status: 202 expected_status: 202 artifact: /Users/zq/Desktop/ai-projs/posp/Nexora/artifacts/progress/c19/current-verification/create-session-foreground-20260901-081751.http
+
+## create-session-background
+surface: HTTP localhost API
+invocation: curl -i -X POST http://127.0.0.1:45219/v1/sessions -H 'Authorization: Bearer [REDACTED]' -H 'Content-Type: application/json' -H 'Idempotency-Key: qa:session:bg:create' --data-binary '{"schema_version":1,"id":"01TRZ3NDEKTSV4RRFFQ69G5FAV","workspace_id":"01ARZ3NDEKTSV4RRFFQ69G5FAV","created_at":"2026-08-31T00:00:00.000Z","updated_at":"2026-08-31T00:00:00.000Z","gateway_id":"gateway-manual-c19","channel_id":"channel-manual-api","agent_id":null,"run_id":null,"external_session_ref":null,"mode":"background","status":"paused","cursor":"bg:0","last_message_id":null,"last_event_at":null,"revision":1}'
+HTTP/1.1 202 Accepted
+access-control-allow-headers: Authorization, Content-Type, Idempotency-Key, If-Match, Traceparent
+access-control-allow-methods: GET, POST, PUT, OPTIONS
+content-type: application/json; charset=utf-8
+content-length: 254
+Date: Tue, 01 Sep 2026 00:17:52 GMT
+Connection: keep-alive
+Keep-Alive: timeout=72
+
+{"schema_version":1,"command_id":"qa:session:bg:create","status":"accepted","object_type":"session","object_id":"01TRZ3NDEKTSV4RRFFQ69G5FAV","status_url":"/v1/sessions/01TRZ3NDEKTSV4RRFFQ69G5FAV?workspace_id=01ARZ3NDEKTSV4RRFFQ69G5FAV","events_url":null}
+observed_status: 202 expected_status: 202 artifact: /Users/zq/Desktop/ai-projs/posp/Nexora/artifacts/progress/c19/current-verification/create-session-background-20260901-081751.http
+
+## create-session-closed
+surface: HTTP localhost API
+invocation: curl -i -X POST http://127.0.0.1:45219/v1/sessions -H 'Authorization: Bearer [REDACTED]' -H 'Content-Type: application/json' -H 'Idempotency-Key: qa:session:closed:create' --data-binary '{"schema_version":1,"id":"01YRZ3NDEKTSV4RRFFQ69Y5FAV","workspace_id":"01ARZ3NDEKTSV4RRFFQ69G5FAV","created_at":"2026-08-31T00:00:00.000Z","updated_at":"2026-08-31T00:00:00.000Z","gateway_id":"gateway-manual-c19","channel_id":"channel-manual-api","agent_id":null,"run_id":null,"external_session_ref":null,"mode":"foreground","status":"closed","cursor":null,"last_message_id":null,"last_event_at":null,"revision":1}'
+HTTP/1.1 202 Accepted
+access-control-allow-headers: Authorization, Content-Type, Idempotency-Key, If-Match, Traceparent
+access-control-allow-methods: GET, POST, PUT, OPTIONS
+content-type: application/json; charset=utf-8
+content-length: 258
+Date: Tue, 01 Sep 2026 00:17:52 GMT
+Connection: keep-alive
+Keep-Alive: timeout=72
+
+{"schema_version":1,"command_id":"qa:session:closed:create","status":"accepted","object_type":"session","object_id":"01YRZ3NDEKTSV4RRFFQ69Y5FAV","status_url":"/v1/sessions/01YRZ3NDEKTSV4RRFFQ69Y5FAV?workspace_id=01ARZ3NDEKTSV4RRFFQ69G5FAV","events_url":null}
+observed_status: 202 expected_status: 202 artifact: /Users/zq/Desktop/ai-projs/posp/Nexora/artifacts/progress/c19/current-verification/create-session-closed-20260901-081751.http
+
+## create-session-error
+surface: HTTP localhost API
+invocation: curl -i -X POST http://127.0.0.1:45219/v1/sessions -H 'Authorization: Bearer [REDACTED]' -H 'Content-Type: application/json' -H 'Idempotency-Key: qa:session:error:create' --data-binary '{"schema_version":1,"id":"01WRZ3NDEKTSV4RRFFQ69Y5FAV","workspace_id":"01ARZ3NDEKTSV4RRFFQ69G5FAV","created_at":"2026-08-31T00:00:00.000Z","updated_at":"2026-08-31T00:00:00.000Z","gateway_id":"gateway-manual-c19","channel_id":"channel-manual-api","agent_id":null,"run_id":null,"external_session_ref":null,"mode":"foreground","status":"error","cursor":null,"last_message_id":null,"last_event_at":null,"revision":1}'
+HTTP/1.1 202 Accepted
+access-control-allow-headers: Authorization, Content-Type, Idempotency-Key, If-Match, Traceparent
+access-control-allow-methods: GET, POST, PUT, OPTIONS
+content-type: application/json; charset=utf-8
+content-length: 257
+Date: Tue, 01 Sep 2026 00:17:52 GMT
+Connection: keep-alive
+Keep-Alive: timeout=72
+
+{"schema_version":1,"command_id":"qa:session:error:create","status":"accepted","object_type":"session","object_id":"01WRZ3NDEKTSV4RRFFQ69Y5FAV","status_url":"/v1/sessions/01WRZ3NDEKTSV4RRFFQ69Y5FAV?workspace_id=01ARZ3NDEKTSV4RRFFQ69G5FAV","events_url":null}
+observed_status: 202 expected_status: 202 artifact: /Users/zq/Desktop/ai-projs/posp/Nexora/artifacts/progress/c19/current-verification/create-session-error-20260901-081751.http
+
+## create-allowlist-active
+surface: HTTP localhost API
+invocation: curl -i -X POST http://127.0.0.1:45219/v1/allowlist -H 'Authorization: Bearer [REDACTED]' -H 'Content-Type: application/json' -H 'Idempotency-Key: qa:allow:active' --data-binary '{"schema_version":1,"id":"01AMZ3NDEKTSV4RRFFQ69G5FAV","workspace_id":"01ARZ3NDEKTSV4RRFFQ69G5FAV","created_at":"2026-08-31T00:00:00.000Z","updated_at":"2026-08-31T00:00:00.000Z","channel_id":"channel-manual-api","subject_type":"user","subject_ref":"qa-allowed","decision":"allow","reason":"manual qa fixture","expires_at":"2027-01-01T00:00:00.000Z","created_by":"01CRZ3NDEKTSV4RRFFQ69G5FAV","revision":1}'
+HTTP/1.1 202 Accepted
+access-control-allow-headers: Authorization, Content-Type, Idempotency-Key, If-Match, Traceparent
+access-control-allow-methods: GET, POST, PUT, OPTIONS
+content-type: application/json; charset=utf-8
+content-length: 253
+Date: Tue, 01 Sep 2026 00:17:52 GMT
+Connection: keep-alive
+Keep-Alive: timeout=72
+
+{"schema_version":1,"command_id":"qa:allow:active","status":"accepted","object_type":"allowlist","object_id":"01AMZ3NDEKTSV4RRFFQ69G5FAV","status_url":"/v1/allowlists/01AMZ3NDEKTSV4RRFFQ69G5FAV?workspace_id=01ARZ3NDEKTSV4RRFFQ69G5FAV","events_url":null}
+observed_status: 202 expected_status: 202 artifact: /Users/zq/Desktop/ai-projs/posp/Nexora/artifacts/progress/c19/current-verification/create-allowlist-active-20260901-081751.http
+
+## create-allowlist-expired
+surface: HTTP localhost API
+invocation: curl -i -X POST http://127.0.0.1:45219/v1/allowlist -H 'Authorization: Bearer [REDACTED]' -H 'Content-Type: application/json' -H 'Idempotency-Key: qa:allow:expired' --data-binary '{"schema_version":1,"id":"01BNZ3NDEKTSV4RRFFQ69G5FAV","workspace_id":"01ARZ3NDEKTSV4RRFFQ69G5FAV","created_at":"2026-08-31T00:00:00.000Z","updated_at":"2026-08-31T00:00:00.000Z","channel_id":"channel-manual-api","subject_type":"user","subject_ref":"qa-expired","decision":"allow","reason":"manual qa fixture","expires_at":"2026-01-01T00:00:00.000Z","created_by":"01CRZ3NDEKTSV4RRFFQ69G5FAV","revision":1}'
+HTTP/1.1 202 Accepted
+access-control-allow-headers: Authorization, Content-Type, Idempotency-Key, If-Match, Traceparent
+access-control-allow-methods: GET, POST, PUT, OPTIONS
+content-type: application/json; charset=utf-8
+content-length: 254
+Date: Tue, 01 Sep 2026 00:17:52 GMT
+Connection: keep-alive
+Keep-Alive: timeout=72
+
+{"schema_version":1,"command_id":"qa:allow:expired","status":"accepted","object_type":"allowlist","object_id":"01BNZ3NDEKTSV4RRFFQ69G5FAV","status_url":"/v1/allowlists/01BNZ3NDEKTSV4RRFFQ69G5FAV?workspace_id=01ARZ3NDEKTSV4RRFFQ69G5FAV","events_url":null}
+observed_status: 202 expected_status: 202 artifact: /Users/zq/Desktop/ai-projs/posp/Nexora/artifacts/progress/c19/current-verification/create-allowlist-expired-20260901-081751.http
+
+## viewer-read-gateways
+surface: HTTP localhost API
+invocation: curl -i http://127.0.0.1:45219/v1/gateways?workspace_id=01ARZ3NDEKTSV4RRFFQ69G5FAV -H 'Authorization: Bearer [REDACTED]'
+HTTP/1.1 200 OK
+access-control-allow-headers: Authorization, Content-Type, Idempotency-Key, If-Match, Traceparent
+access-control-allow-methods: GET, POST, PUT, OPTIONS
+content-type: application/json; charset=utf-8
+content-length: 564
+Date: Tue, 01 Sep 2026 00:17:52 GMT
+Connection: keep-alive
+Keep-Alive: timeout=72
+
+{"schema_version":1,"gateways":[{"id":"gateway-manual-c19","workspace_id":"01ARZ3NDEKTSV4RRFFQ69G5FAV","schema_version":1,"created_at":"2026-08-31T00:00:00.000Z","updated_at":"2026-08-31T00:00:00.000Z","name":"Manual QA Gateway","kind":"custom","version":"1.0.0","requested_version":null,"actual_version":null,"protocol_version":1,"capabilities":["messaging","sessions","cursor-resume"],"health":"healthy","status":"connected","enabled":true,"execution_location":"local","endpoint_ref":null,"data_classification":"internal","last_heartbeat_at":null,"revision":1}]}
+observed_status: 200 expected_status: 200 artifact: /Users/zq/Desktop/ai-projs/posp/Nexora/artifacts/progress/c19/current-verification/viewer-read-gateways-20260901-081751.http
+
+## viewer-write-denied
+surface: HTTP localhost API
+invocation: curl -i -X POST http://127.0.0.1:45219/v1/channels -H 'Authorization: Bearer [REDACTED]' -H 'Content-Type: application/json' -H 'Idempotency-Key: qa:viewer:write' --data-binary '{"schema_version":1,"id":"channel-manual-api","workspace_id":"01ARZ3NDEKTSV4RRFFQ69G5FAV","created_at":"2026-08-31T00:00:00.000Z","updated_at":"2026-08-31T00:00:00.000Z","gateway_id":"gateway-manual-c19","name":"Manual API Channel","kind":"api","version":"1.0.0","status":"connected","enabled":true,"capabilities":["messages","receipts"],"credential_ref":null,"endpoint_ref":null,"allowlist_mode":"deny_by_default","data_classification":"internal","revision":1}'
+HTTP/1.1 403 Forbidden
+access-control-allow-headers: Authorization, Content-Type, Idempotency-Key, If-Match, Traceparent
+access-control-allow-methods: GET, POST, PUT, OPTIONS
+content-type: application/json; charset=utf-8
+content-length: 192
+Date: Tue, 01 Sep 2026 00:17:52 GMT
+Connection: keep-alive
+Keep-Alive: timeout=72
+
+{"schema_version":1,"code":"SCOPE_DENIED","message":"api denied action for role","retryable":false,"required_action":"use_authorized_role","trace_id":"00000000000000000000000000","details":[]}
+observed_status: 403 expected_status: 403 artifact: /Users/zq/Desktop/ai-projs/posp/Nexora/artifacts/progress/c19/current-verification/viewer-write-denied-20260901-081751.http
+
+## other-workspace-read-denied
+surface: HTTP localhost API
+invocation: curl -i http://127.0.0.1:45219/v1/gateways?workspace_id=01ARZ3NDEKTSV4RRFFQ69G5FAV -H 'Authorization: Bearer [REDACTED]'
+HTTP/1.1 403 Forbidden
+access-control-allow-headers: Authorization, Content-Type, Idempotency-Key, If-Match, Traceparent
+access-control-allow-methods: GET, POST, PUT, OPTIONS
+content-type: application/json; charset=utf-8
+content-length: 197
+Date: Tue, 01 Sep 2026 00:17:52 GMT
+Connection: keep-alive
+Keep-Alive: timeout=72
+
+{"schema_version":1,"code":"SCOPE_DENIED","message":"api denied requested scope","retryable":false,"required_action":"request_authorized_scope","trace_id":"00000000000000000000000000","details":[]}
+observed_status: 403 expected_status: 403 artifact: /Users/zq/Desktop/ai-projs/posp/Nexora/artifacts/progress/c19/current-verification/other-workspace-read-denied-20260901-081751.http
+
+## send-default-deny-no-entry
+surface: HTTP localhost API
+invocation: curl -i -X POST http://127.0.0.1:45219/v1/sessions/01SRZ3NDEKTSV4RRFFQ69G5FAV/messages -H 'Authorization: Bearer [REDACTED]' -H 'Content-Type: application/json' -H 'Idempotency-Key: qa:msg:deny:noentry' --data-binary '{"schema_version":1,"workspace_id":"01ARZ3NDEKTSV4RRFFQ69G5FAV","channel_id":"channel-manual-api","direction":"outbound","status":"queued","sequence":1,"cursor":"cursor:deny","trace_id":"01DRZ3NDEKTSV4RRFFQ69D5FAV","sender_ref":"owner","recipient_ref":"qa-denied","content":"blocked no entry","content_type":"text","content_hash":"sha256:1:qa-denied"}'
+HTTP/1.1 403 Forbidden
+access-control-allow-headers: Authorization, Content-Type, Idempotency-Key, If-Match, Traceparent
+access-control-allow-methods: GET, POST, PUT, OPTIONS
+content-type: application/json; charset=utf-8
+content-length: 201
+Date: Tue, 01 Sep 2026 00:17:52 GMT
+Connection: keep-alive
+Keep-Alive: timeout=72
+
+{"schema_version":1,"code":"POLICY_DENIED","message":"Channel recipient is not allowlisted","retryable":false,"required_action":"approve_recipient","trace_id":"00000000000000000000000000","details":[]}
+observed_status: 403 expected_status: 403 artifact: /Users/zq/Desktop/ai-projs/posp/Nexora/artifacts/progress/c19/current-verification/send-default-deny-no-entry-20260901-081751.http
+
+## send-expired-allowlist-denied
+surface: HTTP localhost API
+invocation: curl -i -X POST http://127.0.0.1:45219/v1/sessions/01SRZ3NDEKTSV4RRFFQ69G5FAV/messages -H 'Authorization: Bearer [REDACTED]' -H 'Content-Type: application/json' -H 'Idempotency-Key: qa:msg:deny:expired' --data-binary '{"schema_version":1,"workspace_id":"01ARZ3NDEKTSV4RRFFQ69G5FAV","channel_id":"channel-manual-api","direction":"outbound","status":"queued","sequence":1,"cursor":"cursor:expired","trace_id":"01ERZ3NDEKTSV4RRFFQ69E5FAV","sender_ref":"owner","recipient_ref":"qa-expired","content":"blocked expired","content_type":"text","content_hash":"sha256:1:qa-expired"}'
+HTTP/1.1 403 Forbidden
+access-control-allow-headers: Authorization, Content-Type, Idempotency-Key, If-Match, Traceparent
+access-control-allow-methods: GET, POST, PUT, OPTIONS
+content-type: application/json; charset=utf-8
+content-length: 201
+Date: Tue, 01 Sep 2026 00:17:52 GMT
+Connection: keep-alive
+Keep-Alive: timeout=72
+
+{"schema_version":1,"code":"POLICY_DENIED","message":"Channel recipient is not allowlisted","retryable":false,"required_action":"approve_recipient","trace_id":"00000000000000000000000000","details":[]}
+observed_status: 403 expected_status: 403 artifact: /Users/zq/Desktop/ai-projs/posp/Nexora/artifacts/progress/c19/current-verification/send-expired-allowlist-denied-20260901-081751.http
+
+## deliveries-after-deny
+surface: HTTP localhost API
+invocation: curl -i http://127.0.0.1:45219/v1/deliveries?workspace_id=01ARZ3NDEKTSV4RRFFQ69G5FAV -H 'Authorization: Bearer [REDACTED]'
+HTTP/1.1 200 OK
+access-control-allow-headers: Authorization, Content-Type, Idempotency-Key, If-Match, Traceparent
+access-control-allow-methods: GET, POST, PUT, OPTIONS
+content-type: application/json; charset=utf-8
+content-length: 36
+Date: Tue, 01 Sep 2026 00:17:52 GMT
+Connection: keep-alive
+Keep-Alive: timeout=72
+
+{"schema_version":1,"deliveries":[]}
+observed_status: 200 expected_status: 200 artifact: /Users/zq/Desktop/ai-projs/posp/Nexora/artifacts/progress/c19/current-verification/deliveries-after-deny-20260901-081751.http
+
+## send-allowlisted-message-1
+surface: HTTP localhost API
+invocation: curl -i -X POST http://127.0.0.1:45219/v1/sessions/01SRZ3NDEKTSV4RRFFQ69G5FAV/messages -H 'Authorization: Bearer [REDACTED]' -H 'Content-Type: application/json' -H 'Idempotency-Key: qa:msg:allow:1' --data-binary '{"schema_version":1,"workspace_id":"01ARZ3NDEKTSV4RRFFQ69G5FAV","channel_id":"channel-manual-api","direction":"outbound","status":"queued","sequence":1,"cursor":"cursor:1","trace_id":"01FRZ3NDEKTSV4RRFFQ69F5FAV","sender_ref":"owner","recipient_ref":"qa-allowed","content":"allowed one","content_type":"text","content_hash":"sha256:1:qa-allowed"}'
+HTTP/1.1 202 Accepted
+access-control-allow-headers: Authorization, Content-Type, Idempotency-Key, If-Match, Traceparent
+access-control-allow-methods: GET, POST, PUT, OPTIONS
+content-type: application/json; charset=utf-8
+content-length: 248
+Date: Tue, 01 Sep 2026 00:17:52 GMT
+Connection: keep-alive
+Keep-Alive: timeout=72
+
+{"schema_version":1,"command_id":"qa:msg:allow:1","status":"accepted","object_type":"message","object_id":"01M1D58PK20M3GQR5TN8Y672AT","status_url":"/v1/messages/01M1D58PK20M3GQR5TN8Y672AT?workspace_id=01ARZ3NDEKTSV4RRFFQ69G5FAV","events_url":null}
+observed_status: 202 expected_status: 202 artifact: /Users/zq/Desktop/ai-projs/posp/Nexora/artifacts/progress/c19/current-verification/send-allowlisted-message-1-20260901-081751.http
+
+## send-allowlisted-message-1-replay
+surface: HTTP localhost API
+invocation: curl -i -X POST http://127.0.0.1:45219/v1/sessions/01SRZ3NDEKTSV4RRFFQ69G5FAV/messages -H 'Authorization: Bearer [REDACTED]' -H 'Content-Type: application/json' -H 'Idempotency-Key: qa:msg:allow:1' --data-binary '{"schema_version":1,"workspace_id":"01ARZ3NDEKTSV4RRFFQ69G5FAV","channel_id":"channel-manual-api","direction":"outbound","status":"queued","sequence":1,"cursor":"cursor:1","trace_id":"01FRZ3NDEKTSV4RRFFQ69F5FAV","sender_ref":"owner","recipient_ref":"qa-allowed","content":"allowed one","content_type":"text","content_hash":"sha256:1:qa-allowed"}'
+HTTP/1.1 202 Accepted
+access-control-allow-headers: Authorization, Content-Type, Idempotency-Key, If-Match, Traceparent
+access-control-allow-methods: GET, POST, PUT, OPTIONS
+content-type: application/json; charset=utf-8
+content-length: 248
+Date: Tue, 01 Sep 2026 00:17:52 GMT
+Connection: keep-alive
+Keep-Alive: timeout=72
+
+{"schema_version":1,"command_id":"qa:msg:allow:1","status":"accepted","object_type":"message","object_id":"01M1D58PK20M3GQR5TN8Y672AT","status_url":"/v1/messages/01M1D58PK20M3GQR5TN8Y672AT?workspace_id=01ARZ3NDEKTSV4RRFFQ69G5FAV","events_url":null}
+observed_status: 202 expected_status: 202 artifact: /Users/zq/Desktop/ai-projs/posp/Nexora/artifacts/progress/c19/current-verification/send-allowlisted-message-1-replay-20260901-081751.http
+
+## send-allowlisted-message-1-key-reuse-different
+surface: HTTP localhost API
+invocation: curl -i -X POST http://127.0.0.1:45219/v1/sessions/01SRZ3NDEKTSV4RRFFQ69G5FAV/messages -H 'Authorization: Bearer [REDACTED]' -H 'Content-Type: application/json' -H 'Idempotency-Key: qa:msg:allow:1' --data-binary '{"schema_version":1,"workspace_id":"01ARZ3NDEKTSV4RRFFQ69G5FAV","channel_id":"channel-manual-api","direction":"outbound","status":"queued","sequence":1,"cursor":"cursor:1","trace_id":"01GRZ3NDEKTSV4RRFFQ69G5FAV","sender_ref":"owner","recipient_ref":"qa-allowed","content":"different payload","content_type":"text","content_hash":"sha256:1:qa-allowed"}'
+HTTP/1.1 409 Conflict
+access-control-allow-headers: Authorization, Content-Type, Idempotency-Key, If-Match, Traceparent
+access-control-allow-methods: GET, POST, PUT, OPTIONS
+content-type: application/json; charset=utf-8
+content-length: 231
+Date: Tue, 01 Sep 2026 00:17:52 GMT
+Connection: keep-alive
+Keep-Alive: timeout=72
+
+{"schema_version":1,"code":"IDEMPOTENCY_KEY_REUSED","message":"Idempotency key was reused with a different request","retryable":false,"required_action":"use_new_idempotency_key","trace_id":"00000000000000000000000000","details":[]}
+observed_status: 409 expected_status: 409 artifact: /Users/zq/Desktop/ai-projs/posp/Nexora/artifacts/progress/c19/current-verification/send-allowlisted-message-1-key-reuse-different-20260901-081751.http
+
+## send-allowlisted-message-2
+surface: HTTP localhost API
+invocation: curl -i -X POST http://127.0.0.1:45219/v1/sessions/01SRZ3NDEKTSV4RRFFQ69G5FAV/messages -H 'Authorization: Bearer [REDACTED]' -H 'Content-Type: application/json' -H 'Idempotency-Key: qa:msg:allow:2' --data-binary '{"schema_version":1,"workspace_id":"01ARZ3NDEKTSV4RRFFQ69G5FAV","channel_id":"channel-manual-api","direction":"outbound","status":"queued","sequence":2,"cursor":"cursor:2","trace_id":"01HRZ3NDEKTSV4RRFFQ69H5FAV","sender_ref":"owner","recipient_ref":"qa-allowed","content":"allowed two","content_type":"text","content_hash":"sha256:2:qa-allowed"}'
+HTTP/1.1 202 Accepted
+access-control-allow-headers: Authorization, Content-Type, Idempotency-Key, If-Match, Traceparent
+access-control-allow-methods: GET, POST, PUT, OPTIONS
+content-type: application/json; charset=utf-8
+content-length: 248
+Date: Tue, 01 Sep 2026 00:17:52 GMT
+Connection: keep-alive
+Keep-Alive: timeout=72
+
+{"schema_version":1,"command_id":"qa:msg:allow:2","status":"accepted","object_type":"message","object_id":"01M1D58PKWJCP7ENRRZMDXEB3S","status_url":"/v1/messages/01M1D58PKWJCP7ENRRZMDXEB3S?workspace_id=01ARZ3NDEKTSV4RRFFQ69G5FAV","events_url":null}
+observed_status: 202 expected_status: 202 artifact: /Users/zq/Desktop/ai-projs/posp/Nexora/artifacts/progress/c19/current-verification/send-allowlisted-message-2-20260901-081751.http
+
+## messages-limit-page1
+surface: HTTP localhost API
+invocation: curl -i http://127.0.0.1:45219/v1/sessions/01SRZ3NDEKTSV4RRFFQ69G5FAV/messages?workspace_id=01ARZ3NDEKTSV4RRFFQ69G5FAV&limit=1 -H 'Authorization: Bearer [REDACTED]'
+HTTP/1.1 200 OK
+access-control-allow-headers: Authorization, Content-Type, Idempotency-Key, If-Match, Traceparent
+access-control-allow-methods: GET, POST, PUT, OPTIONS
+content-type: application/json; charset=utf-8
+content-length: 628
+Date: Tue, 01 Sep 2026 00:17:52 GMT
+Connection: keep-alive
+Keep-Alive: timeout=72
+
+{"schema_version":1,"messages":[{"schema_version":1,"message_id":"01M1D58PK20M3GQR5TN8Y672AT","workspace_id":"01ARZ3NDEKTSV4RRFFQ69G5FAV","session_id":"01SRZ3NDEKTSV4RRFFQ69G5FAV","channel_id":"channel-manual-api","direction":"outbound","status":"queued","idempotency_key":"qa:msg:allow:1","sequence":1,"cursor":"cursor:1","occurred_at":"2026-09-01T00:17:52.738Z","trace_id":"01FRZ3NDEKTSV4RRFFQ69F5FAV","sender_ref":"owner","recipient_ref":"qa-allowed","content":"allowed one","content_type":"text","content_hash":"sha256:1:qa-allowed"}],"next_cursor":"nexora:message-sequence:1","last_message_id":"01M1D58PK20M3GQR5TN8Y672AT"}
+observed_status: 200 expected_status: 200 artifact: /Users/zq/Desktop/ai-projs/posp/Nexora/artifacts/progress/c19/current-verification/messages-limit-page1-20260901-081751.http
+
+## messages-page2-after-next-cursor
+surface: HTTP localhost API
+invocation: curl -i http://127.0.0.1:45219/v1/sessions/01SRZ3NDEKTSV4RRFFQ69G5FAV/messages?workspace_id=01ARZ3NDEKTSV4RRFFQ69G5FAV&after=nexora%3Amessage-sequence%3A1&limit=1 -H 'Authorization: Bearer [REDACTED]'
+HTTP/1.1 200 OK
+access-control-allow-headers: Authorization, Content-Type, Idempotency-Key, If-Match, Traceparent
+access-control-allow-methods: GET, POST, PUT, OPTIONS
+content-type: application/json; charset=utf-8
+content-length: 605
+Date: Tue, 01 Sep 2026 00:17:52 GMT
+Connection: keep-alive
+Keep-Alive: timeout=72
+
+{"schema_version":1,"messages":[{"schema_version":1,"message_id":"01M1D58PKWJCP7ENRRZMDXEB3S","workspace_id":"01ARZ3NDEKTSV4RRFFQ69G5FAV","session_id":"01SRZ3NDEKTSV4RRFFQ69G5FAV","channel_id":"channel-manual-api","direction":"outbound","status":"queued","idempotency_key":"qa:msg:allow:2","sequence":2,"cursor":"cursor:2","occurred_at":"2026-09-01T00:17:52.764Z","trace_id":"01HRZ3NDEKTSV4RRFFQ69H5FAV","sender_ref":"owner","recipient_ref":"qa-allowed","content":"allowed two","content_type":"text","content_hash":"sha256:2:qa-allowed"}],"next_cursor":null,"last_message_id":"01M1D58PKWJCP7ENRRZMDXEB3S"}
+observed_status: 200 expected_status: 200 artifact: /Users/zq/Desktop/ai-projs/posp/Nexora/artifacts/progress/c19/current-verification/messages-page2-after-next-cursor-20260901-081751.http
+
+## messages-page-after-literal-cursor
+surface: HTTP localhost API
+invocation: curl -i http://127.0.0.1:45219/v1/sessions/01SRZ3NDEKTSV4RRFFQ69G5FAV/messages?workspace_id=01ARZ3NDEKTSV4RRFFQ69G5FAV&after=cursor%3A1&limit=10 -H 'Authorization: Bearer [REDACTED]'
+HTTP/1.1 200 OK
+access-control-allow-headers: Authorization, Content-Type, Idempotency-Key, If-Match, Traceparent
+access-control-allow-methods: GET, POST, PUT, OPTIONS
+content-type: application/json; charset=utf-8
+content-length: 605
+Date: Tue, 01 Sep 2026 00:17:52 GMT
+Connection: keep-alive
+Keep-Alive: timeout=72
+
+{"schema_version":1,"messages":[{"schema_version":1,"message_id":"01M1D58PKWJCP7ENRRZMDXEB3S","workspace_id":"01ARZ3NDEKTSV4RRFFQ69G5FAV","session_id":"01SRZ3NDEKTSV4RRFFQ69G5FAV","channel_id":"channel-manual-api","direction":"outbound","status":"queued","idempotency_key":"qa:msg:allow:2","sequence":2,"cursor":"cursor:2","occurred_at":"2026-09-01T00:17:52.764Z","trace_id":"01HRZ3NDEKTSV4RRFFQ69H5FAV","sender_ref":"owner","recipient_ref":"qa-allowed","content":"allowed two","content_type":"text","content_hash":"sha256:2:qa-allowed"}],"next_cursor":null,"last_message_id":"01M1D58PKWJCP7ENRRZMDXEB3S"}
+observed_status: 200 expected_status: 200 artifact: /Users/zq/Desktop/ai-projs/posp/Nexora/artifacts/progress/c19/current-verification/messages-page-after-literal-cursor-20260901-081751.http
+
+## cursor-checkpoint
+surface: HTTP localhost API
+invocation: curl -i http://127.0.0.1:45219/v1/sessions/01SRZ3NDEKTSV4RRFFQ69G5FAV/cursor?workspace_id=01ARZ3NDEKTSV4RRFFQ69G5FAV -H 'Authorization: Bearer [REDACTED]'
+HTTP/1.1 200 OK
+access-control-allow-headers: Authorization, Content-Type, Idempotency-Key, If-Match, Traceparent
+access-control-allow-methods: GET, POST, PUT, OPTIONS
+content-type: application/json; charset=utf-8
+content-length: 223
+Date: Tue, 01 Sep 2026 00:17:52 GMT
+Connection: keep-alive
+Keep-Alive: timeout=72
+
+{"schema_version":1,"checkpoint":{"workspace_id":"01ARZ3NDEKTSV4RRFFQ69G5FAV","session_id":"01SRZ3NDEKTSV4RRFFQ69G5FAV","cursor":"cursor:2","message_id":"01M1D58PKWJCP7ENRRZMDXEB3S","updated_at":"2026-09-01T00:17:52.764Z"}}
+observed_status: 200 expected_status: 200 artifact: /Users/zq/Desktop/ai-projs/posp/Nexora/artifacts/progress/c19/current-verification/cursor-checkpoint-20260901-081751.http
+
+## send-closed-session-rejected
+surface: HTTP localhost API
+invocation: curl -i -X POST http://127.0.0.1:45219/v1/sessions/01YRZ3NDEKTSV4RRFFQ69Y5FAV/messages -H 'Authorization: Bearer [REDACTED]' -H 'Content-Type: application/json' -H 'Idempotency-Key: qa:msg:closed' --data-binary '{"schema_version":1,"workspace_id":"01ARZ3NDEKTSV4RRFFQ69G5FAV","channel_id":"channel-manual-api","direction":"outbound","status":"queued","sequence":1,"cursor":"cursor:closed","trace_id":"01JRZ3NDEKTSV4RRFFQ69J5FAV","sender_ref":"owner","recipient_ref":"qa-allowed","content":"closed reject","content_type":"text","content_hash":"sha256:1:qa-allowed"}'
+HTTP/1.1 409 Conflict
+access-control-allow-headers: Authorization, Content-Type, Idempotency-Key, If-Match, Traceparent
+access-control-allow-methods: GET, POST, PUT, OPTIONS
+content-type: application/json; charset=utf-8
+content-length: 213
+Date: Tue, 01 Sep 2026 00:17:52 GMT
+Connection: keep-alive
+Keep-Alive: timeout=72
+
+{"schema_version":1,"code":"INVALID_STATE_TRANSITION","message":"Session state does not allow this command","retryable":false,"required_action":"refresh_state","trace_id":"00000000000000000000000000","details":[]}
+observed_status: 409 expected_status: 409 artifact: /Users/zq/Desktop/ai-projs/posp/Nexora/artifacts/progress/c19/current-verification/send-closed-session-rejected-20260901-081751.http
+
+## send-error-session-rejected
+surface: HTTP localhost API
+invocation: curl -i -X POST http://127.0.0.1:45219/v1/sessions/01WRZ3NDEKTSV4RRFFQ69Y5FAV/messages -H 'Authorization: Bearer [REDACTED]' -H 'Content-Type: application/json' -H 'Idempotency-Key: qa:msg:error' --data-binary '{"schema_version":1,"workspace_id":"01ARZ3NDEKTSV4RRFFQ69G5FAV","channel_id":"channel-manual-api","direction":"outbound","status":"queued","sequence":1,"cursor":"cursor:error","trace_id":"01KRZ3NDEKTSV4RRFFQ69K5FAV","sender_ref":"owner","recipient_ref":"qa-allowed","content":"error reject","content_type":"text","content_hash":"sha256:1:qa-allowed"}'
+HTTP/1.1 409 Conflict
+access-control-allow-headers: Authorization, Content-Type, Idempotency-Key, If-Match, Traceparent
+access-control-allow-methods: GET, POST, PUT, OPTIONS
+content-type: application/json; charset=utf-8
+content-length: 213
+Date: Tue, 01 Sep 2026 00:17:52 GMT
+Connection: keep-alive
+Keep-Alive: timeout=72
+
+{"schema_version":1,"code":"INVALID_STATE_TRANSITION","message":"Session state does not allow this command","retryable":false,"required_action":"refresh_state","trace_id":"00000000000000000000000000","details":[]}
+observed_status: 409 expected_status: 409 artifact: /Users/zq/Desktop/ai-projs/posp/Nexora/artifacts/progress/c19/current-verification/send-error-session-rejected-20260901-081751.http
+
+## session-before-controls
+surface: HTTP localhost API
+invocation: curl -i http://127.0.0.1:45219/v1/sessions/01SRZ3NDEKTSV4RRFFQ69G5FAV?workspace_id=01ARZ3NDEKTSV4RRFFQ69G5FAV -H 'Authorization: Bearer [REDACTED]'
+HTTP/1.1 200 OK
+access-control-allow-headers: Authorization, Content-Type, Idempotency-Key, If-Match, Traceparent
+access-control-allow-methods: GET, POST, PUT, OPTIONS
+content-type: application/json; charset=utf-8
+content-length: 496
+Date: Tue, 01 Sep 2026 00:17:52 GMT
+Connection: keep-alive
+Keep-Alive: timeout=72
+
+{"schema_version":1,"session":{"id":"01SRZ3NDEKTSV4RRFFQ69G5FAV","workspace_id":"01ARZ3NDEKTSV4RRFFQ69G5FAV","schema_version":1,"created_at":"2026-08-31T00:00:00.000Z","updated_at":"2026-09-01T00:17:52.764Z","gateway_id":"gateway-manual-c19","channel_id":"channel-manual-api","agent_id":null,"run_id":null,"external_session_ref":null,"mode":"foreground","status":"active","cursor":"cursor:2","last_message_id":"01M1D58PKWJCP7ENRRZMDXEB3S","last_event_at":"2026-09-01T00:17:52.764Z","revision":3}}
+observed_status: 200 expected_status: 200 artifact: /Users/zq/Desktop/ai-projs/posp/Nexora/artifacts/progress/c19/current-verification/session-before-controls-20260901-081751.http
+
+## session-pause
+surface: HTTP localhost API
+invocation: curl -i -X POST http://127.0.0.1:45219/v1/sessions/01SRZ3NDEKTSV4RRFFQ69G5FAV/pause -H 'Authorization: Bearer [REDACTED]' -H 'Content-Type: application/json' -H 'Idempotency-Key: qa:session:pause' -H 'If-Match: 3' --data-binary '{"schema_version":1,"command_id":"01PMZ3NDEKTSV4RRFFQ69G5FAV","workspace_id":"01ARZ3NDEKTSV4RRFFQ69G5FAV","session_id":"01SRZ3NDEKTSV4RRFFQ69G5FAV","kind":"pause","idempotency_key":"qa:session:pause","expected_revision":3,"cursor":"cursor:2","instruction":null,"created_at":"2026-08-31T00:00:00.000Z"}'
+HTTP/1.1 202 Accepted
+access-control-allow-headers: Authorization, Content-Type, Idempotency-Key, If-Match, Traceparent
+access-control-allow-methods: GET, POST, PUT, OPTIONS
+content-type: application/json; charset=utf-8
+content-length: 250
+Date: Tue, 01 Sep 2026 00:17:52 GMT
+Connection: keep-alive
+Keep-Alive: timeout=72
+
+{"schema_version":1,"command_id":"qa:session:pause","status":"accepted","object_type":"session","object_id":"01SRZ3NDEKTSV4RRFFQ69G5FAV","status_url":"/v1/sessions/01SRZ3NDEKTSV4RRFFQ69G5FAV?workspace_id=01ARZ3NDEKTSV4RRFFQ69G5FAV","events_url":null}
+observed_status: 202 expected_status: 202 artifact: /Users/zq/Desktop/ai-projs/posp/Nexora/artifacts/progress/c19/current-verification/session-pause-20260901-081751.http
+
+## session-pause-exact-replay-after-revision-change
+surface: HTTP localhost API
+invocation: curl -i -X POST http://127.0.0.1:45219/v1/sessions/01SRZ3NDEKTSV4RRFFQ69G5FAV/pause -H 'Authorization: Bearer [REDACTED]' -H 'Content-Type: application/json' -H 'Idempotency-Key: qa:session:pause' -H 'If-Match: 3' --data-binary '{"schema_version":1,"command_id":"01PMZ3NDEKTSV4RRFFQ69G5FAV","workspace_id":"01ARZ3NDEKTSV4RRFFQ69G5FAV","session_id":"01SRZ3NDEKTSV4RRFFQ69G5FAV","kind":"pause","idempotency_key":"qa:session:pause","expected_revision":3,"cursor":"cursor:2","instruction":null,"created_at":"2026-08-31T00:00:00.000Z"}'
+HTTP/1.1 202 Accepted
+access-control-allow-headers: Authorization, Content-Type, Idempotency-Key, If-Match, Traceparent
+access-control-allow-methods: GET, POST, PUT, OPTIONS
+content-type: application/json; charset=utf-8
+content-length: 250
+Date: Tue, 01 Sep 2026 00:17:52 GMT
+Connection: keep-alive
+Keep-Alive: timeout=72
+
+{"schema_version":1,"command_id":"qa:session:pause","status":"accepted","object_type":"session","object_id":"01SRZ3NDEKTSV4RRFFQ69G5FAV","status_url":"/v1/sessions/01SRZ3NDEKTSV4RRFFQ69G5FAV?workspace_id=01ARZ3NDEKTSV4RRFFQ69G5FAV","events_url":null}
+observed_status: 202 expected_status: 202 artifact: /Users/zq/Desktop/ai-projs/posp/Nexora/artifacts/progress/c19/current-verification/session-pause-exact-replay-after-revision-change-20260901-081751.http
+
+## session-resume-stale-if-match
+surface: HTTP localhost API
+invocation: curl -i -X POST http://127.0.0.1:45219/v1/sessions/01SRZ3NDEKTSV4RRFFQ69G5FAV/resume -H 'Authorization: Bearer [REDACTED]' -H 'Content-Type: application/json' -H 'Idempotency-Key: qa:session:resume:stale' -H 'If-Match: 3' --data-binary '{"schema_version":1,"command_id":"01RMZ3NDEKTSV4RRFFQ69G5FAV","workspace_id":"01ARZ3NDEKTSV4RRFFQ69G5FAV","session_id":"01SRZ3NDEKTSV4RRFFQ69G5FAV","kind":"resume","idempotency_key":"qa:session:resume:stale","expected_revision":3,"cursor":"cursor:2","instruction":null,"created_at":"2026-08-31T00:00:00.000Z"}'
+HTTP/1.1 409 Conflict
+access-control-allow-headers: Authorization, Content-Type, Idempotency-Key, If-Match, Traceparent
+access-control-allow-methods: GET, POST, PUT, OPTIONS
+content-type: application/json; charset=utf-8
+content-length: 188
+Date: Tue, 01 Sep 2026 00:17:52 GMT
+Connection: keep-alive
+Keep-Alive: timeout=72
+
+{"schema_version":1,"code":"VERSION_CONFLICT","message":"Session revision is stale","retryable":true,"required_action":"refresh_state","trace_id":"00000000000000000000000000","details":[]}
+observed_status: 409 expected_status: 409 artifact: /Users/zq/Desktop/ai-projs/posp/Nexora/artifacts/progress/c19/current-verification/session-resume-stale-if-match-20260901-081751.http
+
+## session-resume
+surface: HTTP localhost API
+invocation: curl -i -X POST http://127.0.0.1:45219/v1/sessions/01SRZ3NDEKTSV4RRFFQ69G5FAV/resume -H 'Authorization: Bearer [REDACTED]' -H 'Content-Type: application/json' -H 'Idempotency-Key: qa:session:resume' -H 'If-Match: 4' --data-binary '{"schema_version":1,"command_id":"01RMZ3NDEKTSV4RRFFQ69H5FAV","workspace_id":"01ARZ3NDEKTSV4RRFFQ69G5FAV","session_id":"01SRZ3NDEKTSV4RRFFQ69G5FAV","kind":"resume","idempotency_key":"qa:session:resume","expected_revision":4,"cursor":"cursor:2","instruction":null,"created_at":"2026-08-31T00:00:00.000Z"}'
+HTTP/1.1 202 Accepted
+access-control-allow-headers: Authorization, Content-Type, Idempotency-Key, If-Match, Traceparent
+access-control-allow-methods: GET, POST, PUT, OPTIONS
+content-type: application/json; charset=utf-8
+content-length: 251
+Date: Tue, 01 Sep 2026 00:17:52 GMT
+Connection: keep-alive
+Keep-Alive: timeout=72
+
+{"schema_version":1,"command_id":"qa:session:resume","status":"accepted","object_type":"session","object_id":"01SRZ3NDEKTSV4RRFFQ69G5FAV","status_url":"/v1/sessions/01SRZ3NDEKTSV4RRFFQ69G5FAV?workspace_id=01ARZ3NDEKTSV4RRFFQ69G5FAV","events_url":null}
+observed_status: 202 expected_status: 202 artifact: /Users/zq/Desktop/ai-projs/posp/Nexora/artifacts/progress/c19/current-verification/session-resume-20260901-081751.http
+
+## session-steer
+surface: HTTP localhost API
+invocation: curl -i -X POST http://127.0.0.1:45219/v1/sessions/01SRZ3NDEKTSV4RRFFQ69G5FAV/steer -H 'Authorization: Bearer [REDACTED]' -H 'Content-Type: application/json' -H 'Idempotency-Key: qa:session:steer' -H 'If-Match: 5' --data-binary '{"schema_version":1,"command_id":"01SMZ3NDEKTSV4RRFFQ69G5FAV","workspace_id":"01ARZ3NDEKTSV4RRFFQ69G5FAV","session_id":"01SRZ3NDEKTSV4RRFFQ69G5FAV","kind":"steer","idempotency_key":"qa:session:steer","expected_revision":5,"cursor":"cursor:2","instruction":"Continue from cursor 2","created_at":"2026-08-31T00:00:00.000Z"}'
+HTTP/1.1 202 Accepted
+access-control-allow-headers: Authorization, Content-Type, Idempotency-Key, If-Match, Traceparent
+access-control-allow-methods: GET, POST, PUT, OPTIONS
+content-type: application/json; charset=utf-8
+content-length: 250
+Date: Tue, 01 Sep 2026 00:17:52 GMT
+Connection: keep-alive
+Keep-Alive: timeout=72
+
+{"schema_version":1,"command_id":"qa:session:steer","status":"accepted","object_type":"session","object_id":"01SRZ3NDEKTSV4RRFFQ69G5FAV","status_url":"/v1/sessions/01SRZ3NDEKTSV4RRFFQ69G5FAV?workspace_id=01ARZ3NDEKTSV4RRFFQ69G5FAV","events_url":null}
+observed_status: 202 expected_status: 202 artifact: /Users/zq/Desktop/ai-projs/posp/Nexora/artifacts/progress/c19/current-verification/session-steer-20260901-081751.http
+
+## session-active-resume-invalid-state
+surface: HTTP localhost API
+invocation: curl -i -X POST http://127.0.0.1:45219/v1/sessions/01SRZ3NDEKTSV4RRFFQ69G5FAV/resume -H 'Authorization: Bearer [REDACTED]' -H 'Content-Type: application/json' -H 'Idempotency-Key: qa:session:resume:active' -H 'If-Match: 6' --data-binary '{"schema_version":1,"command_id":"01RMZ3NDEKTSV4RRFFQ69J5FAV","workspace_id":"01ARZ3NDEKTSV4RRFFQ69G5FAV","session_id":"01SRZ3NDEKTSV4RRFFQ69G5FAV","kind":"resume","idempotency_key":"qa:session:resume:active","expected_revision":6,"cursor":"cursor:2","instruction":null,"created_at":"2026-08-31T00:00:00.000Z"}'
+HTTP/1.1 409 Conflict
+access-control-allow-headers: Authorization, Content-Type, Idempotency-Key, If-Match, Traceparent
+access-control-allow-methods: GET, POST, PUT, OPTIONS
+content-type: application/json; charset=utf-8
+content-length: 213
+Date: Tue, 01 Sep 2026 00:17:52 GMT
+Connection: keep-alive
+Keep-Alive: timeout=72
+
+{"schema_version":1,"code":"INVALID_STATE_TRANSITION","message":"Session state does not allow this command","retryable":false,"required_action":"refresh_state","trace_id":"00000000000000000000000000","details":[]}
+observed_status: 409 expected_status: 409 artifact: /Users/zq/Desktop/ai-projs/posp/Nexora/artifacts/progress/c19/current-verification/session-active-resume-invalid-state-20260901-081751.http
+
+## session-after-controls
+surface: HTTP localhost API
+invocation: curl -i http://127.0.0.1:45219/v1/sessions/01SRZ3NDEKTSV4RRFFQ69G5FAV?workspace_id=01ARZ3NDEKTSV4RRFFQ69G5FAV -H 'Authorization: Bearer [REDACTED]'
+HTTP/1.1 200 OK
+access-control-allow-headers: Authorization, Content-Type, Idempotency-Key, If-Match, Traceparent
+access-control-allow-methods: GET, POST, PUT, OPTIONS
+content-type: application/json; charset=utf-8
+content-length: 496
+Date: Tue, 01 Sep 2026 00:17:52 GMT
+Connection: keep-alive
+Keep-Alive: timeout=72
+
+{"schema_version":1,"session":{"id":"01SRZ3NDEKTSV4RRFFQ69G5FAV","workspace_id":"01ARZ3NDEKTSV4RRFFQ69G5FAV","schema_version":1,"created_at":"2026-08-31T00:00:00.000Z","updated_at":"2026-09-01T00:17:52.866Z","gateway_id":"gateway-manual-c19","channel_id":"channel-manual-api","agent_id":null,"run_id":null,"external_session_ref":null,"mode":"foreground","status":"active","cursor":"cursor:2","last_message_id":"01M1D58PKWJCP7ENRRZMDXEB3S","last_event_at":"2026-09-01T00:17:52.764Z","revision":6}}
+observed_status: 200 expected_status: 200 artifact: /Users/zq/Desktop/ai-projs/posp/Nexora/artifacts/progress/c19/current-verification/session-after-controls-20260901-081751.http
+
+## delivery-ack-append
+surface: HTTP localhost API
+invocation: curl -i -X POST http://127.0.0.1:45219/v1/deliveries -H 'Authorization: Bearer [REDACTED]' -H 'Content-Type: application/json' -H 'Idempotency-Key: qa:delivery:ack:1' --data-binary '{"schema_version":1,"receipt_id":"01DMV3NDEKTSV4RRFFQ69G5FAV","workspace_id":"01ARZ3NDEKTSV4RRFFQ69G5FAV","session_id":"01SRZ3NDEKTSV4RRFFQ69G5FAV","message_id":"01M1D58PK20M3GQR5TN8Y672AT","idempotency_key":"qa:delivery:ack:1","status":"delivered","provider_receipt_ref":"mission-control:manual-ack","delivered_at":"2026-08-31T00:00:00.000Z","error_code":null,"error_message":null,"created_at":"2026-08-31T00:00:00.000Z","trace_id":"01MRZ3NDEKTSV4RRFFQ69M5FAV"}'
+HTTP/1.1 202 Accepted
+access-control-allow-headers: Authorization, Content-Type, Idempotency-Key, If-Match, Traceparent
+access-control-allow-methods: GET, POST, PUT, OPTIONS
+content-type: application/json; charset=utf-8
+content-length: 254
+Date: Tue, 01 Sep 2026 00:17:52 GMT
+Connection: keep-alive
+Keep-Alive: timeout=72
+
+{"schema_version":1,"command_id":"qa:delivery:ack:1","status":"accepted","object_type":"delivery","object_id":"01DMV3NDEKTSV4RRFFQ69G5FAV","status_url":"/v1/deliveries/01DMV3NDEKTSV4RRFFQ69G5FAV?workspace_id=01ARZ3NDEKTSV4RRFFQ69G5FAV","events_url":null}
+observed_status: 202 expected_status: 202 artifact: /Users/zq/Desktop/ai-projs/posp/Nexora/artifacts/progress/c19/current-verification/delivery-ack-append-20260901-081751.http
+
+## delivery-ack-exact-replay
+surface: HTTP localhost API
+invocation: curl -i -X POST http://127.0.0.1:45219/v1/deliveries -H 'Authorization: Bearer [REDACTED]' -H 'Content-Type: application/json' -H 'Idempotency-Key: qa:delivery:ack:1' --data-binary '{"schema_version":1,"receipt_id":"01DMV3NDEKTSV4RRFFQ69G5FAV","workspace_id":"01ARZ3NDEKTSV4RRFFQ69G5FAV","session_id":"01SRZ3NDEKTSV4RRFFQ69G5FAV","message_id":"01M1D58PK20M3GQR5TN8Y672AT","idempotency_key":"qa:delivery:ack:1","status":"delivered","provider_receipt_ref":"mission-control:manual-ack","delivered_at":"2026-08-31T00:00:00.000Z","error_code":null,"error_message":null,"created_at":"2026-08-31T00:00:00.000Z","trace_id":"01MRZ3NDEKTSV4RRFFQ69M5FAV"}'
+HTTP/1.1 202 Accepted
+access-control-allow-headers: Authorization, Content-Type, Idempotency-Key, If-Match, Traceparent
+access-control-allow-methods: GET, POST, PUT, OPTIONS
+content-type: application/json; charset=utf-8
+content-length: 254
+Date: Tue, 01 Sep 2026 00:17:52 GMT
+Connection: keep-alive
+Keep-Alive: timeout=72
+
+{"schema_version":1,"command_id":"qa:delivery:ack:1","status":"accepted","object_type":"delivery","object_id":"01DMV3NDEKTSV4RRFFQ69G5FAV","status_url":"/v1/deliveries/01DMV3NDEKTSV4RRFFQ69G5FAV?workspace_id=01ARZ3NDEKTSV4RRFFQ69G5FAV","events_url":null}
+observed_status: 202 expected_status: 202 artifact: /Users/zq/Desktop/ai-projs/posp/Nexora/artifacts/progress/c19/current-verification/delivery-ack-exact-replay-20260901-081751.http
+
+## delivery-mismatched-session-rejected
+surface: HTTP localhost API
+invocation: curl -i -X POST http://127.0.0.1:45219/v1/deliveries -H 'Authorization: Bearer [REDACTED]' -H 'Content-Type: application/json' -H 'Idempotency-Key: qa:delivery:mismatch' --data-binary '{"schema_version":1,"receipt_id":"01ENV3NDEKTSV4RRFFQ69G5FAV","workspace_id":"01ARZ3NDEKTSV4RRFFQ69G5FAV","session_id":"01TRZ3NDEKTSV4RRFFQ69G5FAV","message_id":"01M1D58PK20M3GQR5TN8Y672AT","idempotency_key":"qa:delivery:mismatch","status":"delivered","provider_receipt_ref":"mission-control:manual-ack","delivered_at":"2026-08-31T00:00:00.000Z","error_code":null,"error_message":null,"created_at":"2026-08-31T00:00:00.000Z","trace_id":"01NRZ3NDEKTSV4RRFFQ69N5FAV"}'
+HTTP/1.1 404 Not Found
+access-control-allow-headers: Authorization, Content-Type, Idempotency-Key, If-Match, Traceparent
+access-control-allow-methods: GET, POST, PUT, OPTIONS
+content-type: application/json; charset=utf-8
+content-length: 176
+Date: Tue, 01 Sep 2026 00:17:52 GMT
+Connection: keep-alive
+Keep-Alive: timeout=72
+
+{"schema_version":1,"code":"SCOPE_DENIED","message":"Resource not found","retryable":false,"required_action":"check_scope","trace_id":"00000000000000000000000000","details":[]}
+observed_status: 404 expected_status: 404 artifact: /Users/zq/Desktop/ai-projs/posp/Nexora/artifacts/progress/c19/current-verification/delivery-mismatched-session-rejected-20260901-081751.http
+
+## deliveries-final
+surface: HTTP localhost API
+invocation: curl -i http://127.0.0.1:45219/v1/deliveries?workspace_id=01ARZ3NDEKTSV4RRFFQ69G5FAV -H 'Authorization: Bearer [REDACTED]'
+HTTP/1.1 200 OK
+access-control-allow-headers: Authorization, Content-Type, Idempotency-Key, If-Match, Traceparent
+access-control-allow-methods: GET, POST, PUT, OPTIONS
+content-type: application/json; charset=utf-8
+content-length: 1320
+Date: Tue, 01 Sep 2026 00:17:52 GMT
+Connection: keep-alive
+Keep-Alive: timeout=72
+
+{"schema_version":1,"deliveries":[{"schema_version":1,"receipt_id":"01DMV3NDEKTSV4RRFFQ69G5FAV","workspace_id":"01ARZ3NDEKTSV4RRFFQ69G5FAV","session_id":"01SRZ3NDEKTSV4RRFFQ69G5FAV","message_id":"01M1D58PK20M3GQR5TN8Y672AT","idempotency_key":"qa:delivery:ack:1","status":"delivered","provider_receipt_ref":"mission-control:manual-ack","delivered_at":"2026-08-31T00:00:00.000Z","error_code":null,"error_message":null,"created_at":"2026-08-31T00:00:00.000Z","trace_id":"01MRZ3NDEKTSV4RRFFQ69M5FAV"},{"schema_version":1,"receipt_id":"01M1D58PK320NKM1T1BGY1NGV8","workspace_id":"01ARZ3NDEKTSV4RRFFQ69G5FAV","session_id":"01SRZ3NDEKTSV4RRFFQ69G5FAV","message_id":"01M1D58PK20M3GQR5TN8Y672AT","idempotency_key":"qa:msg:allow:1","status":"queued","provider_receipt_ref":null,"delivered_at":null,"error_code":null,"error_message":null,"created_at":"2026-09-01T00:17:52.739Z","trace_id":"01FRZ3NDEKTSV4RRFFQ69F5FAV"},{"schema_version":1,"receipt_id":"01M1D58PKWA4QW54X1ZVK144J1","workspace_id":"01ARZ3NDEKTSV4RRFFQ69G5FAV","session_id":"01SRZ3NDEKTSV4RRFFQ69G5FAV","message_id":"01M1D58PKWJCP7ENRRZMDXEB3S","idempotency_key":"qa:msg:allow:2","status":"queued","provider_receipt_ref":null,"delivered_at":null,"error_code":null,"error_message":null,"created_at":"2026-09-01T00:17:52.764Z","trace_id":"01HRZ3NDEKTSV4RRFFQ69H5FAV"}]}
+observed_status: 200 expected_status: 200 artifact: /Users/zq/Desktop/ai-projs/posp/Nexora/artifacts/progress/c19/current-verification/deliveries-final-20260901-081751.http
+
+## closed-messages-final
+surface: HTTP localhost API
+invocation: curl -i http://127.0.0.1:45219/v1/sessions/01YRZ3NDEKTSV4RRFFQ69Y5FAV/messages?workspace_id=01ARZ3NDEKTSV4RRFFQ69G5FAV -H 'Authorization: Bearer [REDACTED]'
+HTTP/1.1 200 OK
+access-control-allow-headers: Authorization, Content-Type, Idempotency-Key, If-Match, Traceparent
+access-control-allow-methods: GET, POST, PUT, OPTIONS
+content-type: application/json; charset=utf-8
+content-length: 76
+Date: Tue, 01 Sep 2026 00:17:52 GMT
+Connection: keep-alive
+Keep-Alive: timeout=72
+
+{"schema_version":1,"messages":[],"next_cursor":null,"last_message_id":null}
+observed_status: 200 expected_status: 200 artifact: /Users/zq/Desktop/ai-projs/posp/Nexora/artifacts/progress/c19/current-verification/closed-messages-final-20260901-081751.http
+
+## error-messages-final
+surface: HTTP localhost API
+invocation: curl -i http://127.0.0.1:45219/v1/sessions/01WRZ3NDEKTSV4RRFFQ69Y5FAV/messages?workspace_id=01ARZ3NDEKTSV4RRFFQ69G5FAV -H 'Authorization: Bearer [REDACTED]'
+HTTP/1.1 200 OK
+access-control-allow-headers: Authorization, Content-Type, Idempotency-Key, If-Match, Traceparent
+access-control-allow-methods: GET, POST, PUT, OPTIONS
+content-type: application/json; charset=utf-8
+content-length: 76
+Date: Tue, 01 Sep 2026 00:17:52 GMT
+Connection: keep-alive
+Keep-Alive: timeout=72
+
+{"schema_version":1,"messages":[],"next_cursor":null,"last_message_id":null}
+observed_status: 200 expected_status: 200 artifact: /Users/zq/Desktop/ai-projs/posp/Nexora/artifacts/progress/c19/current-verification/error-messages-final-20260901-081751.http
+
+## post-restart-cursor-recovery
+surface: HTTP localhost API
+invocation: curl -i http://127.0.0.1:45219/v1/sessions/01SRZ3NDEKTSV4RRFFQ69G5FAV/cursor?workspace_id=01ARZ3NDEKTSV4RRFFQ69G5FAV -H 'Authorization: Bearer [REDACTED]'
+HTTP/1.1 200 OK
+access-control-allow-headers: Authorization, Content-Type, Idempotency-Key, If-Match, Traceparent
+access-control-allow-methods: GET, POST, PUT, OPTIONS
+content-type: application/json; charset=utf-8
+content-length: 223
+Date: Tue, 01 Sep 2026 00:17:58 GMT
+Connection: keep-alive
+Keep-Alive: timeout=72
+
+{"schema_version":1,"checkpoint":{"workspace_id":"01ARZ3NDEKTSV4RRFFQ69G5FAV","session_id":"01SRZ3NDEKTSV4RRFFQ69G5FAV","cursor":"cursor:2","message_id":"01M1D58PKWJCP7ENRRZMDXEB3S","updated_at":"2026-09-01T00:17:52.764Z"}}
+observed_status: 200 expected_status: 200 artifact: /Users/zq/Desktop/ai-projs/posp/Nexora/artifacts/progress/c19/current-verification/post-restart-cursor-recovery-20260901-081751.http
+
+## post-restart-messages-recovery
+surface: HTTP localhost API
+invocation: curl -i http://127.0.0.1:45219/v1/sessions/01SRZ3NDEKTSV4RRFFQ69G5FAV/messages?workspace_id=01ARZ3NDEKTSV4RRFFQ69G5FAV&limit=10 -H 'Authorization: Bearer [REDACTED]'
+HTTP/1.1 200 OK
+access-control-allow-headers: Authorization, Content-Type, Idempotency-Key, If-Match, Traceparent
+access-control-allow-methods: GET, POST, PUT, OPTIONS
+content-type: application/json; charset=utf-8
+content-length: 1111
+Date: Tue, 01 Sep 2026 00:17:58 GMT
+Connection: keep-alive
+Keep-Alive: timeout=72
+
+{"schema_version":1,"messages":[{"schema_version":1,"message_id":"01M1D58PK20M3GQR5TN8Y672AT","workspace_id":"01ARZ3NDEKTSV4RRFFQ69G5FAV","session_id":"01SRZ3NDEKTSV4RRFFQ69G5FAV","channel_id":"channel-manual-api","direction":"outbound","status":"queued","idempotency_key":"qa:msg:allow:1","sequence":1,"cursor":"cursor:1","occurred_at":"2026-09-01T00:17:52.738Z","trace_id":"01FRZ3NDEKTSV4RRFFQ69F5FAV","sender_ref":"owner","recipient_ref":"qa-allowed","content":"allowed one","content_type":"text","content_hash":"sha256:1:qa-allowed"},{"schema_version":1,"message_id":"01M1D58PKWJCP7ENRRZMDXEB3S","workspace_id":"01ARZ3NDEKTSV4RRFFQ69G5FAV","session_id":"01SRZ3NDEKTSV4RRFFQ69G5FAV","channel_id":"channel-manual-api","direction":"outbound","status":"queued","idempotency_key":"qa:msg:allow:2","sequence":2,"cursor":"cursor:2","occurred_at":"2026-09-01T00:17:52.764Z","trace_id":"01HRZ3NDEKTSV4RRFFQ69H5FAV","sender_ref":"owner","recipient_ref":"qa-allowed","content":"allowed two","content_type":"text","content_hash":"sha256:2:qa-allowed"}],"next_cursor":null,"last_message_id":"01M1D58PKWJCP7ENRRZMDXEB3S"}
+observed_status: 200 expected_status: 200 artifact: /Users/zq/Desktop/ai-projs/posp/Nexora/artifacts/progress/c19/current-verification/post-restart-messages-recovery-20260901-081751.http
+
+## post-restart-deliveries-recovery
+surface: HTTP localhost API
+invocation: curl -i http://127.0.0.1:45219/v1/deliveries?workspace_id=01ARZ3NDEKTSV4RRFFQ69G5FAV -H 'Authorization: Bearer [REDACTED]'
+HTTP/1.1 200 OK
+access-control-allow-headers: Authorization, Content-Type, Idempotency-Key, If-Match, Traceparent
+access-control-allow-methods: GET, POST, PUT, OPTIONS
+content-type: application/json; charset=utf-8
+content-length: 1320
+Date: Tue, 01 Sep 2026 00:17:58 GMT
+Connection: keep-alive
+Keep-Alive: timeout=72
+
+{"schema_version":1,"deliveries":[{"schema_version":1,"receipt_id":"01DMV3NDEKTSV4RRFFQ69G5FAV","workspace_id":"01ARZ3NDEKTSV4RRFFQ69G5FAV","session_id":"01SRZ3NDEKTSV4RRFFQ69G5FAV","message_id":"01M1D58PK20M3GQR5TN8Y672AT","idempotency_key":"qa:delivery:ack:1","status":"delivered","provider_receipt_ref":"mission-control:manual-ack","delivered_at":"2026-08-31T00:00:00.000Z","error_code":null,"error_message":null,"created_at":"2026-08-31T00:00:00.000Z","trace_id":"01MRZ3NDEKTSV4RRFFQ69M5FAV"},{"schema_version":1,"receipt_id":"01M1D58PK320NKM1T1BGY1NGV8","workspace_id":"01ARZ3NDEKTSV4RRFFQ69G5FAV","session_id":"01SRZ3NDEKTSV4RRFFQ69G5FAV","message_id":"01M1D58PK20M3GQR5TN8Y672AT","idempotency_key":"qa:msg:allow:1","status":"queued","provider_receipt_ref":null,"delivered_at":null,"error_code":null,"error_message":null,"created_at":"2026-09-01T00:17:52.739Z","trace_id":"01FRZ3NDEKTSV4RRFFQ69F5FAV"},{"schema_version":1,"receipt_id":"01M1D58PKWA4QW54X1ZVK144J1","workspace_id":"01ARZ3NDEKTSV4RRFFQ69G5FAV","session_id":"01SRZ3NDEKTSV4RRFFQ69G5FAV","message_id":"01M1D58PKWJCP7ENRRZMDXEB3S","idempotency_key":"qa:msg:allow:2","status":"queued","provider_receipt_ref":null,"delivered_at":null,"error_code":null,"error_message":null,"created_at":"2026-09-01T00:17:52.764Z","trace_id":"01HRZ3NDEKTSV4RRFFQ69H5FAV"}]}
+observed_status: 200 expected_status: 200 artifact: /Users/zq/Desktop/ai-projs/posp/Nexora/artifacts/progress/c19/current-verification/post-restart-deliveries-recovery-20260901-081751.http
+
+## post-ui-session-state
+surface: HTTP localhost API
+invocation: curl -i http://127.0.0.1:45219/v1/sessions/01SRZ3NDEKTSV4RRFFQ69G5FAV?workspace_id=01ARZ3NDEKTSV4RRFFQ69G5FAV -H 'Authorization: Bearer [REDACTED]'
+HTTP/1.1 200 OK
+access-control-allow-headers: Authorization, Content-Type, Idempotency-Key, If-Match, Traceparent
+access-control-allow-methods: GET, POST, PUT, OPTIONS
+content-type: application/json; charset=utf-8
+content-length: 496
+Date: Tue, 01 Sep 2026 00:18:02 GMT
+Connection: keep-alive
+Keep-Alive: timeout=72
+
+{"schema_version":1,"session":{"id":"01SRZ3NDEKTSV4RRFFQ69G5FAV","workspace_id":"01ARZ3NDEKTSV4RRFFQ69G5FAV","schema_version":1,"created_at":"2026-08-31T00:00:00.000Z","updated_at":"2026-09-01T00:18:01.364Z","gateway_id":"gateway-manual-c19","channel_id":"channel-manual-api","agent_id":null,"run_id":null,"external_session_ref":null,"mode":"foreground","status":"active","cursor":"cursor:2","last_message_id":"01M1D58PKWJCP7ENRRZMDXEB3S","last_event_at":"2026-09-01T00:17:52.764Z","revision":8}}
+observed_status: 200 expected_status: 200 artifact: /Users/zq/Desktop/ai-projs/posp/Nexora/artifacts/progress/c19/current-verification/post-ui-session-state-20260901-081751.http
+
+## post-ui-deliveries
+surface: HTTP localhost API
+invocation: curl -i http://127.0.0.1:45219/v1/deliveries?workspace_id=01ARZ3NDEKTSV4RRFFQ69G5FAV&session_id=01SRZ3NDEKTSV4RRFFQ69G5FAV -H 'Authorization: Bearer [REDACTED]'
+HTTP/1.1 200 OK
+access-control-allow-headers: Authorization, Content-Type, Idempotency-Key, If-Match, Traceparent
+access-control-allow-methods: GET, POST, PUT, OPTIONS
+content-type: application/json; charset=utf-8
+content-length: 1862
+Date: Tue, 01 Sep 2026 00:18:02 GMT
+Connection: keep-alive
+Keep-Alive: timeout=72
+
+{"schema_version":1,"deliveries":[{"schema_version":1,"receipt_id":"01DMV3NDEKTSV4RRFFQ69G5FAV","workspace_id":"01ARZ3NDEKTSV4RRFFQ69G5FAV","session_id":"01SRZ3NDEKTSV4RRFFQ69G5FAV","message_id":"01M1D58PK20M3GQR5TN8Y672AT","idempotency_key":"qa:delivery:ack:1","status":"delivered","provider_receipt_ref":"mission-control:manual-ack","delivered_at":"2026-08-31T00:00:00.000Z","error_code":null,"error_message":null,"created_at":"2026-08-31T00:00:00.000Z","trace_id":"01MRZ3NDEKTSV4RRFFQ69M5FAV"},{"schema_version":1,"receipt_id":"01M1D58PK320NKM1T1BGY1NGV8","workspace_id":"01ARZ3NDEKTSV4RRFFQ69G5FAV","session_id":"01SRZ3NDEKTSV4RRFFQ69G5FAV","message_id":"01M1D58PK20M3GQR5TN8Y672AT","idempotency_key":"qa:msg:allow:1","status":"queued","provider_receipt_ref":null,"delivered_at":null,"error_code":null,"error_message":null,"created_at":"2026-09-01T00:17:52.739Z","trace_id":"01FRZ3NDEKTSV4RRFFQ69F5FAV"},{"schema_version":1,"receipt_id":"01M1D58PKWA4QW54X1ZVK144J1","workspace_id":"01ARZ3NDEKTSV4RRFFQ69G5FAV","session_id":"01SRZ3NDEKTSV4RRFFQ69G5FAV","message_id":"01M1D58PKWJCP7ENRRZMDXEB3S","idempotency_key":"qa:msg:allow:2","status":"queued","provider_receipt_ref":null,"delivered_at":null,"error_code":null,"error_message":null,"created_at":"2026-09-01T00:17:52.764Z","trace_id":"01HRZ3NDEKTSV4RRFFQ69H5FAV"},{"schema_version":1,"receipt_id":"01M1D58Z2M0J0SQW75XD6GWY5R","workspace_id":"01ARZ3NDEKTSV4RRFFQ69G5FAV","session_id":"01SRZ3NDEKTSV4RRFFQ69G5FAV","message_id":"01M1D58PKWJCP7ENRRZMDXEB3S","idempotency_key":"ack:01SRZ3NDEKTSV4RRFFQ69G5FAV:01M1D58PKWJCP7ENRRZMDXEB3S:3a9de638-4011-41e4-80f3-6852190d44ec","status":"delivered","provider_receipt_ref":"mission-control:acknowledged","delivered_at":"2026-09-01T00:18:01.428Z","error_code":null,"error_message":null,"created_at":"2026-09-01T00:18:01.428Z","trace_id":"01M1D58Z2M0J0SQW75XD6GWY5R"}]}
+observed_status: 200 expected_status: 200 artifact: /Users/zq/Desktop/ai-projs/posp/Nexora/artifacts/progress/c19/current-verification/post-ui-deliveries-20260901-081751.http

@@ -4,6 +4,7 @@ import { QueryService } from "./services/query-service.js";
 import { ScheduleCommandService } from "./services/schedule-service.js";
 import { RegistryCommandService } from "./services/registry-service.js";
 import { SseService } from "./services/sse-service.js";
+import { GatewayService } from "./services/gateway-service.js";
 import type { SqliteDatabase } from "@nexora/persistence";
 
 const CROCKFORD = "0123456789ABCDEFGHJKMNPQRSTVWXYZ";
@@ -20,6 +21,7 @@ export function createControlServices(input: ControlServicesInput): {
   readonly scheduleCommands: ScheduleCommandService;
   readonly registryCommands: RegistryCommandService;
   readonly sse: SseService;
+  readonly gateway: GatewayService;
 } {
   const idFactory = input.idFactory ?? createUlidFactory();
   return {
@@ -28,6 +30,7 @@ export function createControlServices(input: ControlServicesInput): {
     scheduleCommands: new ScheduleCommandService({ database: input.database, clock: input.clock, idFactory }),
     registryCommands: new RegistryCommandService({ database: input.database, clock: input.clock }),
     sse: new SseService(input.database),
+    gateway: new GatewayService({ database: input.database, clock: input.clock, idFactory }),
   };
 }
 

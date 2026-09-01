@@ -20,9 +20,14 @@ describe("C16 release hardening", () => {
     expect(compose).toContain("web:");
     expect(compose).toContain("healthcheck:");
     expect(compose).toContain("nexora-data:");
+    expect(compose).toContain("NEXORA_AUTH_MODE: local");
+    expect(compose).toContain("NEXORA_CONTROL_TOKEN_SECRET:");
+    expect(compose).toContain("NEXORA_ENABLE_LOCAL_SESSION_BOOTSTRAP:");
+    expect(compose).not.toContain("VITE_NEXORA_CONTROL_TOKEN:");
     expect(existsSync(join(ROOT, "Dockerfile.api"))).toBe(true);
     expect(existsSync(join(ROOT, "Dockerfile.worker"))).toBe(true);
     expect(existsSync(join(ROOT, "Dockerfile.web"))).toBe(true);
+    expect(readFileSync(join(ROOT, "Dockerfile.web"), "utf8")).not.toContain("VITE_NEXORA_CONTROL_TOKEN");
     expect(readFileSync(join(ROOT, "package.json"), "utf8")).toContain('"lint": "node scripts/lint.mjs"');
     expect(existsSync(join(ROOT, "scripts/lint.mjs"))).toBe(true);
   });

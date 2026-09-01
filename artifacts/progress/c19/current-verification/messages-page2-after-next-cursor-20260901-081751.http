@@ -1,0 +1,10 @@
+HTTP/1.1 200 OK
+access-control-allow-headers: Authorization, Content-Type, Idempotency-Key, If-Match, Traceparent
+access-control-allow-methods: GET, POST, PUT, OPTIONS
+content-type: application/json; charset=utf-8
+content-length: 605
+Date: Tue, 01 Sep 2026 00:17:52 GMT
+Connection: keep-alive
+Keep-Alive: timeout=72
+
+{"schema_version":1,"messages":[{"schema_version":1,"message_id":"01M1D58PKWJCP7ENRRZMDXEB3S","workspace_id":"01ARZ3NDEKTSV4RRFFQ69G5FAV","session_id":"01SRZ3NDEKTSV4RRFFQ69G5FAV","channel_id":"channel-manual-api","direction":"outbound","status":"queued","idempotency_key":"qa:msg:allow:2","sequence":2,"cursor":"cursor:2","occurred_at":"2026-09-01T00:17:52.764Z","trace_id":"01HRZ3NDEKTSV4RRFFQ69H5FAV","sender_ref":"owner","recipient_ref":"qa-allowed","content":"allowed two","content_type":"text","content_hash":"sha256:2:qa-allowed"}],"next_cursor":null,"last_message_id":"01M1D58PKWJCP7ENRRZMDXEB3S"}

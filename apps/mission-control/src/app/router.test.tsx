@@ -21,6 +21,7 @@ describe("C10 route contract", () => {
       "/memory",
       "/settings",
       "/registry",
+      "/gateway",
     ]);
   });
 

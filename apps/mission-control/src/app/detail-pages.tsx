@@ -11,6 +11,7 @@ import { MissingDetailPage } from "../pages/MissingDetailPage.js";
 import { PlaceholderPage } from "../pages/PlaceholderPage.js";
 import { ReviewPage, reviewFixture, staleReviewFixture } from "../pages/ReviewPage.js";
 import { RegistryPage, registryFixture } from "../pages/RegistryPage.js";
+import { GatewayPage } from "../pages/GatewayPage.js";
 import { blockedRunDetailFixture, RunDetailPage, runDetailFixture } from "../pages/RunDetailPage.js";
 import { TicketPage, ticketFixture } from "../pages/TicketPage.js";
 import { WorkflowPage, WorkflowRunPage, seoWorkflowRunFixture, seoWorkflowTemplateFixture } from "../pages/WorkflowPage.js";
@@ -29,6 +30,8 @@ export function pageForRoute(route: ParsedRoute): JSX.Element {
       return <DesignSystemPage />;
     case "goals":
       return <GoalPage view={goalWorkspaceFixture} />;
+    case "gateway":
+      return <GatewayPage workspaceId={route.urlState.workspace ?? "ws-demo"} />;
     case "inbox":
       return <InboxPage selectedTab={route.urlState.tab} view={inboxFixture} />;
     case "memory":

@@ -1,0 +1,127 @@
+# C19 manual QA diff inspection 20260901-081751
+Base HEAD: 58b80300e4fce98bfeeac75998d2f5d503df3961
+M	apps/api/src/app.ts
+M	apps/api/src/plugins/auth.ts
+M	apps/api/src/plugins/request-context.ts
+A	apps/api/src/routes/gateway.test.ts
+A	apps/api/src/routes/gateway.ts
+M	apps/api/src/routes/index.ts
+M	apps/api/src/routes/test-fixtures.ts
+M	apps/api/src/server.ts
+M	apps/api/src/services/command-helpers.ts
+A	apps/api/src/services/gateway-service.ts
+M	apps/mission-control/package.json
+M	apps/mission-control/src/app/detail-pages.tsx
+A	apps/mission-control/src/app/gateway-api.test.ts
+A	apps/mission-control/src/app/gateway-api.ts
+M	apps/mission-control/src/app/query-client.test.ts
+M	apps/mission-control/src/app/query-client.ts
+M	apps/mission-control/src/app/router.test.tsx
+M	apps/mission-control/src/app/router.tsx
+M	apps/mission-control/src/components/layout/Sidebar.tsx
+A	apps/mission-control/src/pages/GatewayPage.tsx
+A	apps/mission-control/src/pages/gateway.test.tsx
+M	artifacts/progress/c16/verification.log
+A	artifacts/progress/c19/focused-verification/c19-focused.exit
+A	artifacts/progress/c19/focused-verification/c19-focused.log
+A	artifacts/progress/c19/focused-verification/c19-post-redaction-focused.exit
+A	artifacts/progress/c19/focused-verification/c19-post-redaction-focused.log
+A	artifacts/progress/c19/focused-verification/c19-post-split-focused.exit
+A	artifacts/progress/c19/focused-verification/c19-post-split-focused.log
+A	artifacts/progress/c19/focused-verification/c19-postfix-focused.exit
+A	artifacts/progress/c19/focused-verification/c19-postfix-focused.log
+A	artifacts/progress/c19/focused-verification/c19-resume-focused.exit
+A	artifacts/progress/c19/focused-verification/c19-resume-focused.log
+A	artifacts/progress/c19/full-verification/docker-compose-config-post-split.exit
+A	artifacts/progress/c19/full-verification/docker-compose-config-post-split.log
+A	artifacts/progress/c19/full-verification/docker-compose-config.exit
+A	artifacts/progress/c19/full-verification/docker-compose-config.log
+A	artifacts/progress/c19/full-verification/pnpm-audit-prod-high-post-split.exit
+A	artifacts/progress/c19/full-verification/pnpm-audit-prod-high-post-split.log
+A	artifacts/progress/c19/full-verification/pnpm-audit-prod-high.exit
+A	artifacts/progress/c19/full-verification/pnpm-audit-prod-high.log
+A	artifacts/progress/c19/full-verification/pnpm-lint-post-split.exit
+A	artifacts/progress/c19/full-verification/pnpm-lint-post-split.log
+A	artifacts/progress/c19/full-verification/pnpm-lint.exit
+A	artifacts/progress/c19/full-verification/pnpm-lint.log
+A	artifacts/progress/c19/full-verification/pnpm-mission-control-build-post-split.exit
+A	artifacts/progress/c19/full-verification/pnpm-mission-control-build-post-split.log
+A	artifacts/progress/c19/full-verification/pnpm-mission-control-build.exit
+A	artifacts/progress/c19/full-verification/pnpm-mission-control-build.log
+A	artifacts/progress/c19/full-verification/pnpm-test-e2e-post-split.exit
+A	artifacts/progress/c19/full-verification/pnpm-test-e2e-post-split.log
+A	artifacts/progress/c19/full-verification/pnpm-test-e2e.exit
+A	artifacts/progress/c19/full-verification/pnpm-test-e2e.log
+A	artifacts/progress/c19/full-verification/pnpm-test-integration-post-split.exit
+A	artifacts/progress/c19/full-verification/pnpm-test-integration-post-split.log
+A	artifacts/progress/c19/full-verification/pnpm-test-integration.exit
+A	artifacts/progress/c19/full-verification/pnpm-test-integration.log
+A	artifacts/progress/c19/full-verification/pnpm-test-post-split.exit
+A	artifacts/progress/c19/full-verification/pnpm-test-post-split.log
+A	artifacts/progress/c19/full-verification/pnpm-test.exit
+A	artifacts/progress/c19/full-verification/pnpm-test.log
+A	artifacts/progress/c19/full-verification/pnpm-typecheck-post-split.exit
+A	artifacts/progress/c19/full-verification/pnpm-typecheck-post-split.log
+A	artifacts/progress/c19/full-verification/pnpm-typecheck.exit
+A	artifacts/progress/c19/full-verification/pnpm-typecheck.log
+A	artifacts/progress/c19/verification.log
+M	docker-compose.yml
+A	docs/adr/0014-gateway-channels-sessions.md
+A	docs/runbooks/gateway-operations.md
+M	packages/config/src/env.test.ts
+M	packages/config/src/env.ts
+A	packages/contracts/src/channels.ts
+A	packages/contracts/src/gateway.test.ts
+A	packages/contracts/src/gateway.ts
+M	packages/contracts/src/index.ts
+A	packages/contracts/src/sessions.ts
+A	packages/persistence/src/c19-repositories.test.ts
+M	packages/persistence/src/db.ts
+A	packages/persistence/src/migrations/0009_gateway_channels_sessions.sql
+M	packages/persistence/src/orchestration-schema.test.ts
+A	packages/persistence/src/repositories/allowlist.ts
+A	packages/persistence/src/repositories/channels.ts
+A	packages/persistence/src/repositories/deliveries.ts
+A	packages/persistence/src/repositories/gateway.ts
+A	packages/persistence/src/repositories/gateways.ts
+M	packages/persistence/src/repositories/index.ts
+A	packages/persistence/src/repositories/messages.ts
+A	packages/persistence/src/repositories/sessions.ts
+M	packages/persistence/src/schedules.test.ts
+M	packages/persistence/src/schema.test.ts
+M	packages/persistence/src/schema.ts
+M	pnpm-lock.yaml
+M	tasks/agent-os-progress.md
+M	tasks/todo.md
+M	tests/c16-release-hardening.test.ts
+
+# Targeted implementation anchors
+apps/api/src/routes/gateway.ts:21:    requireQueryScope(context.actor, "run:read", query.workspace_id);
+apps/api/src/routes/gateway.ts:28:    requireQueryScope(context.actor, "run:read", query.workspace_id);
+apps/api/src/routes/gateway.ts:44:    requireQueryScope(context.actor, "run:read", query.workspace_id);
+apps/api/src/routes/gateway.ts:51:    requireQueryScope(context.actor, "run:read", query.workspace_id);
+apps/api/src/routes/gateway.ts:67:    requireQueryScope(context.actor, "run:read", query.workspace_id);
+apps/api/src/routes/gateway.ts:74:    requireQueryScope(context.actor, "run:read", query.workspace_id);
+apps/api/src/routes/gateway.ts:91:      return reply.status(202).send(options.gateway.commandSession(request.body, params.id, context.actor, requiredIdempotencyKey(context), requiredExpectedVersion(context), kind));
+apps/api/src/routes/gateway.ts:99:    requireQueryScope(context.actor, "run:read", query.workspace_id);
+apps/api/src/routes/gateway.ts:107:    requireQueryScope(context.actor, "run:read", query.workspace_id);
+apps/api/src/routes/gateway.ts:114:    return reply.status(202).send(options.gateway.sendMessage(request.body, params.id, context.actor, requiredIdempotencyKey(context)));
+apps/api/src/routes/gateway.ts:120:    requireQueryScope(context.actor, "run:read", query.workspace_id);
+apps/api/src/routes/gateway.ts:127:    requireQueryScope(context.actor, "run:read", query.workspace_id);
+apps/api/src/routes/gateway.ts:132:    return reply.status(202).send(options.gateway.recordDelivery(request.body, context.actor, requiredIdempotencyKey(context)));
+apps/api/src/routes/gateway.ts:137:    requireQueryScope(context.actor, "run:read", query.workspace_id);
+apps/api/src/routes/gateway.ts:142:    return reply.status(202).send(options.gateway.createAllowlist(request.body, context.actor, requiredIdempotencyKey(context)));
+apps/mission-control/src/pages/GatewayPage.tsx:22:    { id: "channel-web", name: "Web API", kind: "api", status: "connected", allowlist: "deny_by_default", queue: 0 },
+apps/mission-control/src/pages/GatewayPage.tsx:89:  if (query.isError) return <GatewayState title="Gateway control data unavailable" message="The local control API did not return a usable projection. No external connection was attempted." alert onRetry={() => void query.refetch()} />;
+apps/mission-control/src/pages/GatewayPage.tsx:96:        commandSessionId={command.isPending ? (command.variables?.sessionId ?? null) : acknowledgement.isPending ? (acknowledgement.variables?.sessionId ?? null) : null}
+apps/mission-control/src/pages/GatewayPage.tsx:107:  readonly commandSessionId?: string | null;
+apps/mission-control/src/pages/GatewayPage.tsx:121:        <div className="state-plane__title"><Radio aria-hidden="true" size={18} /><span>Descriptor and control-plane state only</span><span className="status-badge status-badge--info">No external connection</span></div>
+apps/mission-control/src/pages/GatewayPage.tsx:136:        <div className="row-list">{props.view.sessions.length === 0 ? <div className="padded-row meta">No foreground or background sessions are registered for this Gateway.</div> : props.view.sessions.map((session) => <article className="work-row" key={session.id}><div><h3>{session.channel} <span className="row-meta">{session.mode}</span></h3><div className="row-meta mono">{session.id} · revision {session.revision} · last cursor {session.cursor ?? "none"}</div><p>Delivery: {session.lastDelivery} · {session.acknowledgement === null ? "no acknowledgement pending" : `acknowledge ${session.acknowledgement.message_id}`} · command receipts remain auditable.</p></div><div className="button-row"><StatusBadge tone={session.status === "active" ? "success" : session.status === "paused" ? "warning" : session.status === "error" ? "danger" : "info"} label={session.status} /><button className="row-action" type="button" disabled={props.commandSessionId === session.id || session.status !== "paused" && session.status !== "active"} onClick={() => props.onSessionCommand?.(session.id, session.status === "paused" ? "resume" : "pause")}><span aria-hidden="true">{session.status === "paused" ? <Play size={15} /> : <Pause size={15} />}</span>{session.status === "paused" ? "Resume" : "Pause"}</button><button className="row-action" type="button" disabled={props.commandSessionId === session.id || session.status === "closed" || session.status === "error"} onClick={() => props.onSessionCommand?.(session.id, "steer")}><SlidersHorizontal aria-hidden="true" size={15} />Steer</button><button className="row-action" type="button" disabled={props.onAcknowledge === undefined || session.acknowledgement === null || queryBusy(props.commandSessionId, session.id)} onClick={() => { if (session.acknowledgement !== null) props.onAcknowledge?.(session.id, session.acknowledgement.message_id); }}><Send aria-hidden="true" size={15} />Acknowledge</button></div></article>)}</div>
+apps/mission-control/src/pages/GatewayPage.tsx:173:function queryBusy(commandSessionId: string | null | undefined, sessionId: string): boolean {
+apps/mission-control/src/pages/GatewayPage.tsx:174:  return commandSessionId === sessionId;
+apps/api/src/services/gateway-service.ts:136:  createAllowlist(input: unknown, actor: PolicyActor, idempotencyKey: string): AcceptedCommand {
+apps/api/src/services/gateway-service.ts:143:  recordDelivery(input: unknown, actor: PolicyActor, idempotencyKey: string): AcceptedCommand {
+apps/api/src/services/gateway-service.ts:164:  sendMessage(input: unknown, sessionId: string, actor: PolicyActor, idempotencyKey: string): AcceptedCommand {
+apps/api/src/services/gateway-service.ts:197:  commandSession(input: unknown, sessionId: string, actor: PolicyActor, idempotencyKey: string, expectedVersion: number, kind: SessionCommand["kind"]): AcceptedCommand {
+apps/api/src/services/gateway-service.ts:253:    const decision = assertScope({ actor, action: "workspace:admin", enforcement_point: "api", requested_scope: { kind: "workspace", id: WorkspaceIdSchema.parse(workspaceId) } });
+apps/mission-control/src/app/gateway-api.ts:76:    allowlist: { total: allowlist.length, active: allowlist.filter((entry) => entry.decision === "allow" && (entry.expires_at === null || entry.expires_at > now)).length, defaultDeny: channels.every((channel) => channel.allowlist_mode === "deny_by_default" || channel.allowlist_mode === "allowlist_only") },

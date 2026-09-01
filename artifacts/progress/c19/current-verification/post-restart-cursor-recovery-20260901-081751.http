@@ -1,0 +1,10 @@
+HTTP/1.1 200 OK
+access-control-allow-headers: Authorization, Content-Type, Idempotency-Key, If-Match, Traceparent
+access-control-allow-methods: GET, POST, PUT, OPTIONS
+content-type: application/json; charset=utf-8
+content-length: 223
+Date: Tue, 01 Sep 2026 00:17:58 GMT
+Connection: keep-alive
+Keep-Alive: timeout=72
+
+{"schema_version":1,"checkpoint":{"workspace_id":"01ARZ3NDEKTSV4RRFFQ69G5FAV","session_id":"01SRZ3NDEKTSV4RRFFQ69G5FAV","cursor":"cursor:2","message_id":"01M1D58PKWJCP7ENRRZMDXEB3S","updated_at":"2026-09-01T00:17:52.764Z"}}
