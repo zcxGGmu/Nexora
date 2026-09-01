@@ -72,6 +72,12 @@ importers:
         specifier: ^3.24.3
         version: 3.25.76
 
+  apps/cli:
+    dependencies:
+      '@nexora/contracts':
+        specifier: workspace:*
+        version: link:../../packages/contracts
+
   apps/mission-control:
     dependencies:
       '@nexora/contracts':

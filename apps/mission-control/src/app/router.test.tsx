@@ -12,6 +12,7 @@ describe("C10 route contract", () => {
       "/cowork/:conversationId?",
       "/inbox",
       "/goals",
+      "/goal-mode",
       "/tickets",
       "/runs/:id",
       "/workflows/:workflowId/runs/:runId",
@@ -51,6 +52,14 @@ describe("C10 route contract", () => {
     });
 
     expect(href).toBe("/inbox?workspace=ws-a&site=site-a&project=proj-a&filter=approvals&tab=handoffs&cursor=after-7");
+  });
+
+  it("Given the C20 Goal Mode alias When parsed Then it resolves to the live goals surface", () => {
+    const route = parseRouteUrl("http://nexora.local/goal-mode?workspace=ws-demo");
+
+    expect(route.key).toBe("goals");
+    expect(route.path).toBe("/goal-mode");
+    expect(route.urlState.workspace).toBe("ws-demo");
   });
 
   it("preserves workspace and health filter on the registry deep link", () => {

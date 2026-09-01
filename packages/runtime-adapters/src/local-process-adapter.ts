@@ -176,6 +176,8 @@ export class LocalProcessAdapter implements RuntimeAdapter {
           session.closed_by_envelope = true;
           session.process.stdin.end();
           if (!session.ended) session.process.kill();
+          await this.waitForClose(session);
+          if (session.process_error instanceof RuntimeAdapterError) throw session.process_error;
           return;
         case "hello_ack":
         case "cancel_ack":
@@ -239,6 +241,11 @@ export class LocalProcessAdapter implements RuntimeAdapter {
     if (session.ended) return;
     const maxDelayMs = 2_147_483_647;
     session.deadline_timer = setTimeout(() => remainingMs > maxDelayMs ? this.armDeadline(session, remainingMs - maxDelayMs) : expireSession(session), Math.min(remainingMs, maxDelayMs));
+  }
+
+  private waitForClose(session: ProcessSession): Promise<void> {
+    if (session.ended) return Promise.resolve();
+    return new Promise((resolve) => session.process.once("close", () => resolve()));
   }
 
   private session(handle: AttemptHandle): ProcessSession {

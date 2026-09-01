@@ -1,0 +1,377 @@
+
+ RUN  v3.2.7 /Users/zq/Desktop/ai-projs/posp/Nexora
+
+{"level":30,"time":1788224107424,"pid":1241,"hostname":"zqdeMacBook-Air.local","reqId":"req-1","req":{"method":"POST","url":"/v1/goal-loops","host":"localhost:80","remoteAddress":"127.0.0.1"},"msg":"incoming request"}
+{"level":30,"time":1788224107426,"pid":1241,"hostname":"zqdeMacBook-Air.local","reqId":"req-1","msg":"Route POST:/v1/goal-loops not found"}
+{"level":30,"time":1788224107428,"pid":1241,"hostname":"zqdeMacBook-Air.local","reqId":"req-1","res":{"statusCode":404},"responseTime":3.4695840000000544,"msg":"request completed"}
+{"level":30,"time":1788224107428,"pid":1241,"hostname":"zqdeMacBook-Air.local","reqId":"req-2","req":{"method":"POST","url":"/v1/goal-loops","host":"localhost:80","remoteAddress":"127.0.0.1"},"msg":"incoming request"}
+{"level":30,"time":1788224107446,"pid":1241,"hostname":"zqdeMacBook-Air.local","reqId":"req-1","req":{"method":"POST","url":"/v1/goal-loops","host":"localhost:80","remoteAddress":"127.0.0.1"},"msg":"incoming request"}
+{"level":30,"time":1788224107429,"pid":1241,"hostname":"zqdeMacBook-Air.local","reqId":"req-2","msg":"Route POST:/v1/goal-loops not found"}
+{"level":30,"time":1788224107429,"pid":1241,"hostname":"zqdeMacBook-Air.local","reqId":"req-2","res":{"statusCode":404},"responseTime":1.0027499999999918,"msg":"request completed"}
+{"level":30,"time":1788224107447,"pid":1241,"hostname":"zqdeMacBook-Air.local","reqId":"req-1","msg":"Route POST:/v1/goal-loops not found"}
+{"level":30,"time":1788224107460,"pid":1241,"hostname":"zqdeMacBook-Air.local","reqId":"req-1","req":{"method":"POST","url":"/v1/goal-loops","host":"localhost:80","remoteAddress":"127.0.0.1"},"msg":"incoming request"}
+{"level":30,"time":1788224107447,"pid":1241,"hostname":"zqdeMacBook-Air.local","reqId":"req-1","res":{"statusCode":404},"responseTime":0.4014589999999316,"msg":"request completed"}
+{"level":30,"time":1788224107464,"pid":1241,"hostname":"zqdeMacBook-Air.local","reqId":"req-1","msg":"Route POST:/v1/goal-loops not found"}
+{"level":30,"time":1788224107478,"pid":1241,"hostname":"zqdeMacBook-Air.local","reqId":"req-1","req":{"method":"POST","url":"/v1/goal-loops","host":"localhost:80","remoteAddress":"127.0.0.1"},"msg":"incoming request"}
+{"level":30,"time":1788224107464,"pid":1241,"hostname":"zqdeMacBook-Air.local","reqId":"req-1","res":{"statusCode":404},"responseTime":4.3604159999999865,"msg":"request completed"}
+{"level":30,"time":1788224107478,"pid":1241,"hostname":"zqdeMacBook-Air.local","reqId":"req-1","msg":"Route POST:/v1/goal-loops not found"}
+{"level":30,"time":1788224107478,"pid":1241,"hostname":"zqdeMacBook-Air.local","reqId":"req-1","res":{"statusCode":404},"responseTime":0.3687079999999696,"msg":"request completed"}
+xxxxxxxxxxxxxx
+
+⎯⎯⎯⎯⎯⎯ Failed Suites 2 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  apps/cli/src/goal-mode.test.ts [ apps/cli/src/goal-mode.test.ts ]
+Error: Cannot find module './goal-mode.js' imported from '/Users/zq/Desktop/ai-projs/posp/Nexora/apps/cli/src/goal-mode.test.ts'
+ ❯ apps/cli/src/goal-mode.test.ts:2:1
+      1| import { describe, expect, it } from "vitest";
+      2| import { parseGoalModeCommand } from "./goal-mode.js";
+       | ^
+      3|
+      4| const IDS = {
+
+Caused by: Error: Failed to load url ./goal-mode.js (resolved id: ./goal-mode.js) in /Users/zq/Desktop/ai-projs/posp/Nexora/apps/cli/src/goal-mode.test.ts. Does the file exist?
+ ❯ loadAndTransform node_modules/.pnpm/vite@6.4.3_@types+node@22.20.1_tsx@4.23.12/node_modules/vite/dist/node/chunks/dep-Dm0c1Wj2.js:35835:17
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/16]⎯
+
+ FAIL  packages/orchestration/src/goal-loop.test.ts [ packages/orchestration/src/goal-loop.test.ts ]
+Error: Cannot find module './goal-loop.js' imported from '/Users/zq/Desktop/ai-projs/posp/Nexora/packages/orchestration/src/goal-loop.test.ts'
+ ❯ packages/orchestration/src/goal-loop.test.ts:2:1
+      1| import { describe, expect, it } from "vitest";
+      2| import { GoalLoopController } from "./goal-loop.js";
+       | ^
+      3|
+      4| const IDS = {
+
+Caused by: Error: Failed to load url ./goal-loop.js (resolved id: ./goal-loop.js) in /Users/zq/Desktop/ai-projs/posp/Nexora/packages/orchestration/src/goal-loop.test.ts. Does the file exist?
+ ❯ loadAndTransform node_modules/.pnpm/vite@6.4.3_@types+node@22.20.1_tsx@4.23.12/node_modules/vite/dist/node/chunks/dep-Dm0c1Wj2.js:35835:17
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/16]⎯
+
+
+⎯⎯⎯⎯⎯⎯ Failed Tests 14 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  packages/contracts/src/goal-loop.test.ts > C20 Goal Mode contracts > Given a goal loop descriptor When parsed Then continuation judge budget deadline and scope are explicit
+TypeError: Cannot read properties of undefined (reading 'parse')
+ ❯ packages/contracts/src/goal-loop.test.ts:49:45
+     47| describe("C20 Goal Mode contracts", () => {
+     48|   it("Given a goal loop descriptor When parsed Then continuation judge…
+     49|     const parsed = GoalLoopDescriptorSchema.parse(loopDescriptor);
+       |                                             ^
+     50|
+     51|     expect(parsed).toMatchObject({
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/16]⎯
+
+ FAIL  packages/contracts/src/goal-loop.test.ts > C20 Goal Mode contracts > Given malformed loop and judge payloads When parsed Then unknown fields and invalid turn limits are rejected
+TypeError: Cannot read properties of undefined (reading 'safeParse')
+ ❯ packages/contracts/src/goal-loop.test.ts:66:37
+     64|
+     65|   it("Given malformed loop and judge payloads When parsed Then unknown…
+     66|     expect(GoalLoopDescriptorSchema.safeParse({ ...loopDescriptor, pro…
+       |                                     ^
+     67|     expect(GoalLoopDescriptorSchema.safeParse({ ...loopDescriptor, tur…
+     68|     expect(GoalLoopDescriptorSchema.safeParse({ ...loopDescriptor, des…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[4/16]⎯
+
+ FAIL  packages/contracts/src/goal-loop.test.ts > C20 Goal Mode contracts > Given a subgoal loop When parsed Then it remains inside the same workspace run and root loop
+TypeError: Cannot read properties of undefined (reading 'parse')
+ ❯ packages/contracts/src/goal-loop.test.ts:74:44
+     72|
+     73|   it("Given a subgoal loop When parsed Then it remains inside the same…
+     74|     const child = GoalLoopDescriptorSchema.parse({
+       |                                            ^
+     75|       ...loopDescriptor,
+     76|       id: IDS.childLoop,
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[5/16]⎯
+
+ FAIL  packages/contracts/src/goal-loop.test.ts > C20 Goal Mode contracts > Given goal loop control commands When parsed Then pause resume steer and subgoal are descriptor-only commands
+TypeError: Cannot read properties of undefined (reading 'parse')
+ ❯ packages/contracts/src/goal-loop.test.ts:93:42
+     91|
+     92|   it("Given goal loop control commands When parsed Then pause resume s…
+     93|     const resume = GoalLoopCommandSchema.parse({
+       |                                          ^
+     94|       schema_version: 1,
+     95|       command_id: IDS.command,
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[6/16]⎯
+
+ FAIL  packages/contracts/src/goal-loop.test.ts > C20 Goal Mode contracts > Given continuation checkpoints When parsed Then exact replay is allowed but older cursors are not valid forward progress
+TypeError: Cannot read properties of undefined (reading 'parse')
+ ❯ packages/contracts/src/goal-loop.test.ts:118:47
+    116|
+    117|   it("Given continuation checkpoints When parsed Then exact replay is …
+    118|     const checkpoint = GoalContinuationSchema.parse({
+       |                                               ^
+    119|       id: IDS.continuation,
+    120|       workspace_id: IDS.workspace,
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[7/16]⎯
+
+ FAIL  packages/contracts/src/goal-loop.test.ts > C20 Goal Mode contracts > Given loop states When transitioning Then success only follows a done judge and pause resume stay reversible
+TypeError: (0 , canTransitionGoalLoop) is not a function
+ ❯ packages/contracts/src/goal-loop.test.ts:141:12
+    139|
+    140|   it("Given loop states When transitioning Then success only follows a…
+    141|     expect(canTransitionGoalLoop("running", "paused", null)).toBe(true…
+       |            ^
+    142|     expect(canTransitionGoalLoop("paused", "running", null)).toBe(true…
+    143|     expect(canTransitionGoalLoop("waiting_judge", "succeeded", { done:…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[8/16]⎯
+
+ FAIL  packages/persistence/src/c20-goal-loop.test.ts > C20 goal loop persistence > Given a scoped run and session When a goal loop is created Then it stores only descriptor facts for the same workspace
+TypeError: GoalLoopRepository is not a constructor
+ ❯ packages/persistence/src/c20-goal-loop.test.ts:28:23
+     26|     const database = createDatabase();
+     27|     try {
+     28|       const created = new GoalLoopRepository(database).create(goalLoop…
+       |                       ^
+     29|
+     30|       expect(created).toMatchObject({ workspace_id: IDS.workspace, run…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[9/16]⎯
+
+ FAIL  packages/persistence/src/c20-goal-loop.test.ts > C20 goal loop persistence > Given continuation checkpoints When the same idempotency key is replayed Then exact replay is idempotent and conflicting cursors are rejected
+TypeError: GoalLoopRepository is not a constructor
+ ❯ packages/persistence/src/c20-goal-loop.test.ts:41:21
+     39|     const database = createDatabase();
+     40|     try {
+     41|       const loops = new GoalLoopRepository(database);
+       |                     ^
+     42|       const continuations = new GoalContinuationRepository(database);
+     43|       loops.create(goalLoop());
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[10/16]⎯
+
+ FAIL  packages/persistence/src/c20-goal-loop.test.ts > C20 goal loop persistence > Given an active loop after restart When orphans are recovered Then only stale same-workspace loops become recovery continuations
+TypeError: GoalLoopRepository is not a constructor
+ ❯ packages/persistence/src/c20-goal-loop.test.ts:59:21
+     57|     const database = createDatabase();
+     58|     try {
+     59|       const loops = new GoalLoopRepository(database);
+       |                     ^
+     60|       const continuations = new GoalContinuationRepository(database);
+     61|       loops.create({ ...goalLoop(), status: "running", updated_at: TIM…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[11/16]⎯
+
+ FAIL  apps/api/src/routes/goal-mode.test.ts > C20 Goal Mode API > Given a run and session When a goal loop is created Then the API accepts a descriptor-only loop with idempotent replay
+AssertionError: expected 404 to be 202 // Object.is equality
+
+- Expected
++ Received
+
+- 202
++ 404
+
+ ❯ apps/api/src/routes/goal-mode.test.ts:42:32
+
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[12/16]⎯
+
+ FAIL  apps/api/src/routes/goal-mode.test.ts > C20 Goal Mode API > Given unknown fields When creating a goal loop Then the API rejects the request before persistence
+AssertionError: expected 404 to be 400 // Object.is equality
+
+- Expected
++ Received
+
+- 400
++ 404
+
+ ❯ apps/api/src/routes/goal-mode.test.ts:68:35
+     66|       });
+     67|
+     68|       expect(response.statusCode).toBe(400);
+       |                                   ^
+     69|       expect(ErrorSchema.parse(response.json())).toMatchObject({ code:…
+     70|     } finally {
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[13/16]⎯
+
+ FAIL  apps/api/src/routes/goal-mode.test.ts > C20 Goal Mode API > Given a loop in another workspace When an owner resumes it Then existing and missing IDs are denied the same way
+ZodError: [
+  {
+    "code": "invalid_literal",
+    "expected": 1,
+    "path": [
+      "schema_version"
+    ],
+    "message": "Invalid literal value, expected 1"
+  },
+  {
+    "code": "invalid_type",
+    "expected": "string",
+    "received": "undefined",
+    "path": [
+      "command_id"
+    ],
+    "message": "Required"
+  },
+  {
+    "code": "invalid_literal",
+    "expected": "accepted",
+    "path": [
+      "status"
+    ],
+    "message": "Invalid literal value, expected \"accepted\""
+  },
+  {
+    "code": "invalid_type",
+    "expected": "string",
+    "received": "undefined",
+    "path": [
+      "object_type"
+    ],
+    "message": "Required"
+  },
+  {
+    "code": "invalid_type",
+    "expected": "string",
+    "received": "undefined",
+    "path": [
+      "object_id"
+    ],
+    "message": "Required"
+  },
+  {
+    "code": "invalid_type",
+    "expected": "string",
+    "received": "undefined",
+    "path": [
+      "status_url"
+    ],
+    "message": "Required"
+  },
+  {
+    "code": "invalid_type",
+    "expected": "string",
+    "received": "undefined",
+    "path": [
+      "events_url"
+    ],
+    "message": "Required"
+  },
+  {
+    "code": "unrecognized_keys",
+    "keys": [
+      "message",
+      "error",
+      "statusCode"
+    ],
+    "path": [],
+    "message": "Unrecognized key(s) in object: 'message', 'error', 'statusCode'"
+  }
+]
+ ❯ Object.get error [as error] node_modules/.pnpm/zod@3.25.76/node_modules/zod/v3/types.js:39:31
+ ❯ ZodObject.parse node_modules/.pnpm/zod@3.25.76/node_modules/zod/v3/types.js:114:22
+ ❯ apps/api/src/routes/goal-mode.test.ts:83:44
+
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[14/16]⎯
+
+ FAIL  apps/api/src/routes/goal-mode.test.ts > C20 Goal Mode API > Given pause resume subgoal and judge commands When accepted Then If-Match and idempotency preserve descriptor-only semantics
+ZodError: [
+  {
+    "code": "invalid_literal",
+    "expected": 1,
+    "path": [
+      "schema_version"
+    ],
+    "message": "Invalid literal value, expected 1"
+  },
+  {
+    "code": "invalid_type",
+    "expected": "string",
+    "received": "undefined",
+    "path": [
+      "command_id"
+    ],
+    "message": "Required"
+  },
+  {
+    "code": "invalid_literal",
+    "expected": "accepted",
+    "path": [
+      "status"
+    ],
+    "message": "Invalid literal value, expected \"accepted\""
+  },
+  {
+    "code": "invalid_type",
+    "expected": "string",
+    "received": "undefined",
+    "path": [
+      "object_type"
+    ],
+    "message": "Required"
+  },
+  {
+    "code": "invalid_type",
+    "expected": "string",
+    "received": "undefined",
+    "path": [
+      "object_id"
+    ],
+    "message": "Required"
+  },
+  {
+    "code": "invalid_type",
+    "expected": "string",
+    "received": "undefined",
+    "path": [
+      "status_url"
+    ],
+    "message": "Required"
+  },
+  {
+    "code": "invalid_type",
+    "expected": "string",
+    "received": "undefined",
+    "path": [
+      "events_url"
+    ],
+    "message": "Required"
+  },
+  {
+    "code": "unrecognized_keys",
+    "keys": [
+      "message",
+      "error",
+      "statusCode"
+    ],
+    "path": [],
+    "message": "Unrecognized key(s) in object: 'message', 'error', 'statusCode'"
+  }
+]
+ ❯ Object.get error [as error] node_modules/.pnpm/zod@3.25.76/node_modules/zod/v3/types.js:39:31
+ ❯ ZodObject.parse node_modules/.pnpm/zod@3.25.76/node_modules/zod/v3/types.js:114:22
+ ❯ apps/api/src/routes/goal-mode.test.ts:103:44
+
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[15/16]⎯
+
+ FAIL  apps/mission-control/src/pages/goal-mode.test.tsx > C20 Mission Control Goal Mode surface > Given the Goal page When rendered Then loop judge continuation and descriptor-only controls are visible
+AssertionError: expected '<div class="page-stack"><header class…' to contain 'Goal Mode'
+
+Expected: "Goal Mode"
+Received: "<div class="page-stack"><header class="page-header"><p class="section-kicker">Goal Portfolio</p><h1 id="route-title">Goal Portfolio</h1><p>Planning hierarchy and Kanban status are separate from explicit Agent execution commands.</p></header><section class="list-detail"><section class="panel" aria-labelledby="goal-tree-title"><div class="panel-header"><h2 id="goal-tree-title">Goal Tree</h2></div><div class="tree-list" role="tree"><div role="treeitem" aria-expanded="true">Goal: Ship verified SEO workflow</div><section class="tree-branch"><div role="treeitem" aria-expanded="true">Milestone: Source-backed launch draft</div><article class="tree-leaf"><div role="treeitem" aria-expanded="true">Ticket SEO-147</div><p>Publish source-backed update summary</p><a class="row-action" href="/runs/run-active?workspace=ws-demo&amp;tab=events">Run run-active | Waiting for R2 review</a></article></section></div></section><section class="panel" aria-labelledby="kanban-title"><div class="panel-header"><h2 id="kanban-title">Kanban Board</h2><span class="status-badge status-badge--info">Drag updates planning only</span></div><p class="interaction-note">Status changes do not start an Agent; Start Agent requires explicit command.</p><div class="kanban-board"><section class="kanban-lane" aria-label="Backlog lane"><div class="panel-header lane-header"><h3>Backlog</h3><span class="mono meta">0</span></div></section><section class="kanban-lane" aria-label="Ready lane"><div class="panel-header lane-header"><h3>Ready</h3><span class="mono meta">0</span></div></section><section class="kanban-lane" aria-label="Running lane"><div class="panel-header lane-header"><h3>Running</h3><span class="mono meta">1</span></div><article class="ticket-card" draggable="true" aria-describedby="SEO-147-drag-note"><h3>Ticket SEO-147</h3><p>Publish source-backed update summary</p><div class="row-meta">Owner Operator | Run run-active</div><span class="status-badge status-badge--info">Running</span><label class="field-label" for="SEO-147-status">Keyboard status menu</label><select id="SEO-147-status" aria-label="Change ticket status"><option>Backlog</option><option>Ready</option><option selected="">Running</option><option>Review</option><option>Done</option><option>Blocked</option><option>Paused</option><option>Failed</option></select><p class="state-plane__action">Planned status Running</p><p class="meta">Status change queued as planning update only; no Agent started.</p><p class="meta" id="SEO-147-drag-note">Drag updates planning only and does not start an Agent.</p></article></section><section class="kanban-lane" aria-label="Review lane"><div class="panel-header lane-header"><h3>Review</h3><span class="mono meta">0</span></div></section><section class="kanban-lane" aria-label="Done lane"><div class="panel-header lane-header"><h3>Done</h3><span class="mono meta">0</span></div></section><section class="kanban-lane" aria-label="Blocked lane"><div class="panel-header lane-header"><h3>Blocked</h3><span class="mono meta">1</span></div><article class="ticket-card" draggable="true" aria-describedby="SEO-188-drag-note"><h3>Ticket SEO-188</h3><p>Refresh connector auth receipt</p><div class="row-meta">Owner Reviewer | Run run-blocked</div><span class="status-badge status-badge--warning">Blocked</span><label class="field-label" for="SEO-188-status">Keyboard status menu</label><select id="SEO-188-status" aria-label="Change ticket status"><option>Backlog</option><option>Ready</option><option>Running</option><option>Review</option><option>Done</option><option selected="">Blocked</option><option>Paused</option><option>Failed</option></select><p class="state-plane__action">Planned status Blocked</p><p class="meta">Status change queued as planning update only; no Agent started.</p><p class="meta" id="SEO-188-drag-note">Drag updates planning only and does not start an Agent.</p></article></section><section class="kanban-lane" aria-label="Paused lane"><div class="panel-header lane-header"><h3>Paused</h3><span class="mono meta">0</span></div></section><section class="kanban-lane" aria-label="Failed lane"><div class="panel-header lane-header"><h3>Failed</h3><span class="mono meta">0</span></div></section></div></section></section></div>"
+
+ ❯ apps/mission-control/src/pages/goal-mode.test.tsx:29:22
+     27|       "Steer",
+     28|     ]) {
+     29|       expect(markup).toContain(expected);
+       |                      ^
+     30|     }
+     31|
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[16/16]⎯
+
+
+ Test Files  6 failed (6)
+      Tests  14 failed (14)
+   Start at  08:55:06
+   Duration  2.12s (transform 398ms, setup 0ms, collect 722ms, tests 204ms, environment 1ms, prepare 251ms)

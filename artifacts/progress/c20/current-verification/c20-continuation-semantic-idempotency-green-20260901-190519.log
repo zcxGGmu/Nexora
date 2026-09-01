@@ -1,0 +1,11 @@
+
+ RUN  v3.2.7 /Users/zq/Desktop/ai-projs/posp/Nexora
+
+·········
+
+ Test Files  1 passed (1)
+      Tests  9 passed (9)
+   Start at  19:05:21
+   Duration  1.47s (transform 402ms, setup 0ms, collect 735ms, tests 200ms, environment 0ms, prepare 116ms)
+
+EXIT: 0

@@ -60,3 +60,9 @@
 - Pattern: A cross-workspace write path can leak resource existence when it looks up the target session before checking whether the actor has admin scope for the request workspace.
 - Correction: Move the admin scope check before session lookup in message enqueue and session command paths, then add a RED/GREEN regression that compares existing and missing other-workspace session IDs.
 - Rule: For scoped API writes, parse only enough request data to identify the requested workspace, authorize that scope first, and only then load workspace-owned resources; tests must assert unauthorized existing and missing foreign resources return the same client-visible status/code.
+
+## 2026-09-01 — Resume interrupted stage work from evidence, not memory
+
+- Pattern: After repeated continuation prompts, it is easy to restart broad discovery or stop at a prior handoff summary instead of finishing the remaining commit-stage work.
+- Correction: Re-read the local fact sources, verification artifacts, and Git state first, then continue from the smallest incomplete gate without assuming the previous report is sufficient.
+- Rule: On Nexora continuation turns, identify the current Cxx stage, last scoped commit, dirty/untracked boundary, freshest verification logs, and next unchecked gate before editing or reporting completion.

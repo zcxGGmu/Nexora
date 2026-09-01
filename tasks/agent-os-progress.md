@@ -9,14 +9,14 @@
 | 字段 | 当前值 |
 |---|---|
 | 项目 | Nexora Agent OS |
-| 进度状态 | `c19_closeout` |
-| 当前阶段 | `C19` Gateway / Channels / Sessions 已重新验证，正在创建 scoped commit；C20 尚未开始。 |
-| 当前工作 | C19 自动化验证、浏览器 QA、独立代码审查和安全复核均已完成；下一步只暂存 C19 scoped 文件并提交，然后进入 C20 RED tests。 |
+| 进度状态 | `c20_commit_pending` |
+| 当前阶段 | `C20` Goal Mode / Loop / Judge 已完成实现、自动化验证、视觉 QA 和独立审查；正在创建 scoped commit。 |
+| 当前工作 | C20 只剩 scoped staging、`git diff --cached --check`、commit 和 SHA 回写；C21 尚未开始，真实外部连接继续禁止。 |
 | 当前分支 | `codex/agent-os-implementation` |
 | 计划版本 | `2026-08-23-agent-os-implementation` |
 | 前端设计版本 | `nexora-agent-os-ui-design.zh-CN` + `DESIGN.zh-CN.md` + `nexora-agent-os-ui-diagrams.zh-CN.md`；C10-C16 的必读契约 |
 | 最后更新 | 2026-09-01 |
-| 已完成 commit | C17/C18 `58b80300e4fce98bfeeac75998d2f5d503df3961`（runtime registry and provider catalog）；C16 `bcda211cb7c0954f7cace82aceac5fe89f74a25a`（release hardening/full QA）；`ca8f256544d789afcf37c4070e09f674df92a111`（C15 observability/recovery/security operations）；`0fe5eb3004404946f1c9a7251ac657830eb25acc`（C14 durable schedules）；`fad5c6cf45f9d36d3c2570078aa0bd0343c74c1e`（C13 hardening）；C13 base 为 `240e7f1deea5ce0cfe8ae8973faf66922658aa84`、C12 为 `b3dd32e03371eaf5f609fd4e942c0f2fe5f84d1b` |
+| 已完成 commit | C19 `174c288f6365eeab879d08e6cad9f04c28029a78`（gateway channels sessions control plane）；C17/C18 `58b80300e4fce98bfeeac75998d2f5d503df3961`（runtime registry and provider catalog）；C16 `bcda211cb7c0954f7cace82aceac5fe89f74a25a`（release hardening/full QA）；`ca8f256544d789afcf37c4070e09f674df92a111`（C15 observability/recovery/security operations）；`0fe5eb3004404946f1c9a7251ac657830eb25acc`（C14 durable schedules）；`fad5c6cf45f9d36d3c2570078aa0bd0343c74c1e`（C13 hardening）；C13 base 为 `240e7f1deea5ce0cfe8ae8973faf66922658aa84`、C12 为 `b3dd32e03371eaf5f609fd4e942c0f2fe5f84d1b` |
 | 事实源 | SQLite：运行域和事件；Markdown vault：Memory、SOP、receipt 摘要和 Artifact 文件 |
 | 首版范围 | 本地 Web Mission Control、deterministic adapter、本地 subprocess adapter、SEO draft workflow；不自动发布 |
 
@@ -928,7 +928,7 @@ Known limitations: Host Node is still `v25.9.0` while project engines require `>
 | `[x]` | C17 Runtime Registry | Hermes、OpenClaw、Claude、Codex、Antigravity、Deterministic、Local、Remote 的 descriptor、capability、health、requested/actual runtime | C16；descriptor-only registry、workspace scope、optimistic updates and UI evidence complete |
 | `[x]` | C18 Provider/Backend/Tool Catalog | Provider/model/backend/MCP/tool registry、secret reference、egress policy、actual provider/model/cost/region | C17；descriptor catalog and owner-only idempotent updates complete; execution remains disabled |
 | `[x]` | C19 Gateway/Channels/Sessions | Telegram、Discord、Slack、WhatsApp、Signal、Web/API 的 session、cursor、delivery、pause/steer/resume | C17+C18；workspace-scoped control plane、断线恢复、消息幂等、allowlist、delivery receipt complete；真实连接器仍未授权 |
-| `[ ]` | C20 Goal Mode/Loop/Judge | 跨轮 continuation、Judge JSON、max turns、subgoal、pause/resume、预算和 deadline | C17-C19；重启恢复，Judge 故障不得宣称成功 |
+| `[~]` | C20 Goal Mode/Loop/Judge | 跨轮 continuation、Judge JSON、max turns、subgoal、pause/resume、预算和 deadline | C17-C19；自动化验证、视觉 QA 和独立审查通过；等待 scoped commit SHA 回写 |
 | `[ ]` | C21 Skills/Learning | Skill entity/version/install/quarantine/scan/approve/revoke、`/learn` | C18+C20；只运行 approved snapshot，source hash/diff/rollback 完整 |
 | `[ ]` | C22 Obsidian/OMI/Journal | Vault bridge、MCP 只读优先、graph/FTS、daily journal、memory candidate | C18+C21；scope/secret scan，冲突可见，写回需批准 |
 | `[ ]` | C23 Browser/Computer Use | 沙箱、域名/应用 allowlist、截图/action receipt、人工批准、stop/takeover | C18+C20；Mac/Windows/Linux 分平台验证，禁止 SSRF/越权 |
@@ -954,8 +954,8 @@ Known limitations: Host Node is still `v25.9.0` while project engines require `>
 
 ### Handoff 2026-09-01 / C19 Gateway, Channels, and Sessions
 
-- 当前状态：`[x]` C19 control-plane 实现、RED/GREEN、全量自动化验证、浏览器 QA、独立代码审查和独立安全复核已完成；scoped commit 正在创建中，不宣称已连接 Hermes Gateway 或任何真实外部渠道。
-- Commit：待创建；C17/C18 基线为 `58b80300e4fce98bfeeac75998d2f5d503df3961`。
+- 当前状态：`[x]` C19 control-plane 实现、RED/GREEN、全量自动化验证、浏览器 QA、独立代码审查和独立安全复核已完成；不宣称已连接 Hermes Gateway 或任何真实外部渠道。
+- Commit：`174c288f6365eeab879d08e6cad9f04c28029a78`（`feat: add gateway channels sessions control plane`）；C17/C18 基线为 `58b80300e4fce98bfeeac75998d2f5d503df3961`。
 - 本次完成：Gateway/Channel descriptor、foreground/background Session、cursor checkpoint、消息幂等、append-only DeliveryReceipt、workspace allowlist 默认拒绝、pause/steer/resume 命令、Owner 写权限、`run:read` 读权限、`Idempotency-Key`、`If-Match`、Gateway API routes 和 Mission Control Gateway 页面。
 - 持久化：SQLite migration 9 新增 `gateways`、`channels`、`sessions`、`session_messages`、`delivery_receipts`、`channel_allowlist`、`session_cursor_checkpoints`；migration 10 增加拓扑、allowlist、cursor 和 append-only hardening triggers。
 - 自动化验证：required C19 focused PASS（4 files / 49 tests）；oracle RED/GREEN PASS；`pnpm lint` PASS（309 source files）；`pnpm typecheck` PASS；full Vitest PASS（92 files / 464 tests）；integration PASS（13 files / 36 tests）；E2E PASS（6 tests）；Mission Control build PASS。
@@ -965,6 +965,20 @@ Known limitations: Host Node is still `v25.9.0` while project engines require `>
 - 环境限制：主机 Node `v25.9.0` 超出项目 `<23` engine range，pnpm 仅发出 warning；TypeScript/YAML LSP 未安装；真实外部连接器、凭据读取和外部 side effect 仍未授权。
 - 证据路径：`artifacts/progress/c19/verification.log`、`artifacts/progress/c19/current-verification/`、`docs/adr/0014-gateway-channels-sessions.md`、`docs/runbooks/gateway-operations.md`、`apps/api/src/routes/gateway.test.ts`、`packages/persistence/src/c19-repositories.test.ts`。
 - 下一步唯一动作：创建 C19 scoped commit 后进入 C20 Goal Mode/Loop/Judge，先写跨轮 continuation、Judge JSON、max turns、subgoal、pause/resume、budget/deadline、Judge failure、restart/orphan recovery 和 scope 的 RED 测试；真实 Telegram/Discord/Slack/WhatsApp/Signal 连接继续保持显式授权门禁。
+
+### Handoff 2026-09-01 / C20 Goal Mode, Loop, and Judge
+
+- 当前状态：`[~]` C20 control-plane 实现、RED/GREEN、全量自动化验证、浏览器 QA、独立代码审查和安全复核已完成；scoped commit 正在创建中，不宣称已接入真实外部执行器或辅助 Judge provider。
+- Commit：待 scoped commit 生成后回写；C19 基线为 `174c288f6365eeab879d08e6cad9f04c28029a78`。
+- 本次完成：GoalLoopDescriptor、GoalContinuation、JudgeDecision `{ done, reason }`、turn/budget/deadline 限制、subgoal、pause/resume/steer、`/goal resume`、orphan recovery、run/session scope、CLI/API/Mission Control 一致控制面语义。
+- 持久化：SQLite migration 11 新增 `goal_loops`、`goal_continuations`、`goal_loop_commands`；continuation 和 command payload/column 一致性由 triggers 强制，跨重启恢复只读取本地事实。
+- 自动化验证：C20 focused PASS（9 files / 74 tests）；`pnpm lint` PASS（322 source files）；`pnpm typecheck` PASS；full Vitest PASS（100 files / 534 tests）；integration PASS（14 files / 37 tests）；E2E PASS（6 tests）；Mission Control build PASS。
+- 视觉 QA：真实浏览器访问 `http://127.0.0.1:4313/goal-mode?workspace=ws-demo`；fresh PNGs `c20-goal-mode-desktop-1440x900-20260901-212327.png`、`c20-goal-mode-post-judge-20260901-212327.png`、`c20-goal-mode-mobile-390x844-20260901-212327.png`、`c20-goal-mode-mobile-controls-390x844-20260901-212327.png` 均经 `file` 验证尺寸。
+- 审查结果：独立 C20 复核无 blocking finding；本地扫描未发现 C20 核心文件中的 `any`、`@ts-ignore`、`@ts-expect-error`、测试 `.skip/.only`、真实 Telegram/Discord/Slack/WhatsApp/Signal/Web/API/MCP 调用或明文 secret 泄露。
+- 安全边界：C20 只记录 descriptor 和控制命令；Judge fixture 仅接受 JSON 决策事实，Judge failure 不会宣称成功；所有外部连接器、NotebookLM、浏览器控制、语音和业务 SaaS 仍未授权。
+- 环境限制：主机 Node `v25.9.0` 超出项目 `<23` engine range，pnpm 仅发出 warning；Mission Control build 仍有第三方 `use client` bundler warning；浏览器 QA 使用本地 127.0.0.1 control-plane fixture。
+- 证据路径：`artifacts/progress/c20/verification.log`、`artifacts/progress/c20/current-verification/`、`docs/adr/0015-goal-mode-loop-judge.md`、`docs/runbooks/goal-mode-operations.md`、`packages/orchestration/src/goal-loop.test.ts`、`apps/api/src/routes/goal-mode.test.ts`、`tests/integration/goal-loop-recovery.test.ts`。
+- 下一步唯一动作：创建 C20 scoped commit 并回写完整 SHA；之后 C21 Skills/Learning 才能开始，且继续保持 approved snapshot、source hash/diff/rollback 和 quarantine 边界。
 
 ## 9. 完成判定
 

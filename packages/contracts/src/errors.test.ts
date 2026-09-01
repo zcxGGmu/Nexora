@@ -21,6 +21,7 @@ describe("error semantics", () => {
       "SCHEMA_INVALID",
       "PROTOCOL_MISMATCH",
       "BUDGET_EXCEEDED",
+      "GOAL_LOOP_LIMIT_EXCEEDED",
       "DUPLICATE_SIDE_EFFECT",
       "RUNTIME_CRASHED",
       "STALE_LEASE",

@@ -19,6 +19,7 @@ import { registerScheduleRoutes } from "./schedules.js";
 import { registerTicketRoutes } from "./tickets.js";
 import { registerRegistryRoutes } from "./registry.js";
 import { registerGatewayRoutes } from "./gateway.js";
+import { registerGoalModeRoutes } from "./goal-mode.js";
 
 export type ControlRouteOptions = {
   readonly commands: CommandService;
@@ -46,4 +47,5 @@ export async function registerControlRoutes(app: FastifyInstance, options: Contr
   await app.register(registerEventRoutes, options);
   await app.register(registerRegistryRoutes, options);
   await app.register(registerGatewayRoutes, options);
+  await app.register(registerGoalModeRoutes, options);
 }

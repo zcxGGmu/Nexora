@@ -3,7 +3,7 @@ import type { JSX } from "react";
 import { EmptyState } from "../components/states/EmptyState.js";
 import { ArtifactPage, artifactFixture } from "../pages/ArtifactPage.js";
 import { DesignSystemPage } from "../pages/DesignSystemPage.js";
-import { GoalPage, goalWorkspaceFixture } from "../pages/GoalPage.js";
+import { GoalPage } from "../pages/GoalPage.js";
 import { InboxPage, inboxFixture } from "../pages/InboxPage.js";
 import { MemoryPage, memoryFixture } from "../pages/MemoryPage.js";
 import { MissionControlPage, MissionControlRail, missionControlFixture } from "../pages/MissionControlPage.js";
@@ -29,7 +29,7 @@ export function pageForRoute(route: ParsedRoute): JSX.Element {
     case "design-system":
       return <DesignSystemPage />;
     case "goals":
-      return <GoalPage view={goalWorkspaceFixture} />;
+      return <GoalPage workspaceId={route.urlState.workspace ?? "ws-demo"} />;
     case "gateway":
       return <GatewayPage workspaceId={route.urlState.workspace ?? "ws-demo"} />;
     case "inbox":

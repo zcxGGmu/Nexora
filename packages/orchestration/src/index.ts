@@ -8,3 +8,4 @@ export { decideRetry, RETRYABLE_ERROR_CODES, type RetryDecision, type RetryInput
 export { nextFireAfter, resolveTimeResolution } from "./misfire.js";
 export { isActiveScheduleRunStatus, ACTIVE_SCHEDULE_RUN_STATUSES } from "./overlap.js";
 export { DurableScheduler, type SchedulerFireInput, type SchedulerFireResult } from "./scheduler.js";
+export { GoalLoopController, type GoalLoopControllerOptions, type PlanNextTurnInput, type PlanNextTurnResult } from "./goal-loop.js";

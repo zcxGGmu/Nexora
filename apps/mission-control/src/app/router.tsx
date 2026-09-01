@@ -25,6 +25,7 @@ export const routeDefinitions: readonly RouteDefinition[] = [
   { key: "cowork", path: "/cowork/:conversationId?" },
   { key: "inbox", path: "/inbox" },
   { key: "goals", path: "/goals" },
+  { key: "goals", path: "/goal-mode" },
   { key: "tickets", path: "/tickets" },
   { key: "runs", path: "/runs/:id" },
   { key: "workflows", path: "/workflows/:workflowId/runs/:runId" },

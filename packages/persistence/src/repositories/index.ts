@@ -9,4 +9,5 @@ export { TicketRepository } from "./tickets.js";
 export { WorkspaceRepository, type WorkspaceRecord } from "./workspaces.js";
 export { BackendRepository, ModelRepository, ProviderRepository, RuntimeRepository, ToolRepository } from "./registry.js";
 export { AllowlistRepository, ChannelRepository, DeliveryReceiptRepository, GatewayRepository, MessageRepository, SessionCursorRepository, SessionRepository, type MessageCreateResult, type SessionCursorCheckpoint } from "./gateway.js";
+export { GoalContinuationRepository, GoalLoopCommandRepository, GoalLoopRepository, type OrphanRecoveryInput } from "./goal-loop.js";
 export { PersistenceError } from "./utils.js";
