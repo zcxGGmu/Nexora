@@ -1,0 +1,51 @@
+# C21 local code and security review
+timestamp: 2026-09-02 10:53:44 CST
+workdir: /Users/zq/Desktop/ai-projs/posp/Nexora
+head: 05c4a51baec221f83db821b83ed14fe5626cbc7a
+
+## Diff scope
+apps/api/src/app.ts
+apps/api/src/routes/index.ts
+apps/api/src/services/query-service.ts
+apps/mission-control/src/app/detail-pages.tsx
+apps/mission-control/src/app/router.test.tsx
+apps/mission-control/src/app/router.tsx
+apps/mission-control/src/components/layout/Sidebar.tsx
+artifacts/progress/c16/verification.log
+artifacts/progress/c20/verification.log
+packages/contracts/src/envelope.test.ts
+packages/contracts/src/envelope.ts
+packages/contracts/src/goal.ts
+packages/contracts/src/index.ts
+packages/event-store/src/event-store.test.ts
+packages/persistence/src/db.ts
+packages/persistence/src/orchestration-schema.test.ts
+packages/persistence/src/repositories/index.ts
+packages/persistence/src/schedules.test.ts
+packages/persistence/src/schema.test.ts
+packages/persistence/src/schema.ts
+tasks/agent-os-progress.md
+tasks/lessons.md
+tasks/todo.md
+
+## Strict TypeScript forbidden constructs
+none
+
+## External execution/network indicators in C21 runtime files
+apps/mission-control/src/pages/SkillsLearningPage.tsx:199:    if (shouldUseSkillsLearningFallback(query.error)) return <SkillsLearningUnavailableFallback onRetry={() => void query.refetch()} />;
+apps/mission-control/src/pages/SkillsLearningPage.tsx:200:    return <SkillsLearningState title="Skills/Learning control data denied" message="The control API rejected this workspace-scoped Skills/Learning projection. Local fixtures are not shown for authorization, scope, or revision errors." alert onRetry={() => void query.refetch()} />;
+
+## Security checklist
+PASS scope isolation: repository queries and SQL triggers bind workspace_id across skills, versions, scans, reviews, installations, invocations, candidates, source events.
+PASS RBAC: GET routes require run:read; lifecycle and /learn writes require workspace admin through SkillsService.
+PASS idempotency: learning_commands compare semantic payload fields and /learn compares persisted candidate semantics.
+PASS optimistic concurrency: lifecycle writes require If-Match skill revision; revoke/quarantine/rollback also require installation_revision.
+PASS SQL safety: C21 repositories use parameterized node:sqlite statements; raw SQL constraints are in migrations only.
+PASS append-only facts: learning_commands and skill_invocation_facts have no repository update/delete path and migration update triggers block mutation.
+PASS approved snapshot chain: install/invoke require approved version, matching snapshot hash, approve review, clean passed scan, and no secret findings.
+PASS proposed skill scope: /learn candidate checks proposed_skill_id exists in the same workspace at API, repository, FK, and trigger layers.
+PASS rollback semantics: rollback target must be same skill, approved/clean snapshot, and different from current version at API, repository, and SQL trigger layers.
+PASS descriptor-only boundary: no real external connector/provider/MCP call, credential read, URL/PDF/file fetch, external install, or outbound message path is implemented.
+
+## Independent review limitation
+Independent code reviewer found P1 no-op rollback persistence gap; fixed with RED/GREEN evidence. Post-fix retry agent errored before completion: stream disconnected before completion against external model endpoint. Independent security reviewer spawn hit agent thread limit earlier. This local review records the substitute checklist; automated and browser evidence are fresh after fixes.

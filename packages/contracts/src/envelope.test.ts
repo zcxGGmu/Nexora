@@ -2,6 +2,7 @@ import { describe, expect, it } from "vitest";
 import {
   EVENT_TYPES,
   EventEnvelopeSchema,
+  LearningSourceEventSchema,
   RUNTIME_MESSAGE_TYPES,
   RuntimeEnvelopeSchema,
   createEventEnvelopeSchema,
@@ -64,6 +65,27 @@ describe("event envelope", () => {
 
     expect(EventEnvelopeSchema.safeParse(scheduleEvent).success).toBe(true);
     expect(EventEnvelopeSchema.safeParse(runEvent).success).toBe(false);
+  });
+
+  it("Given a learning source event When parsed Then provenance stays inside the typed event envelope", () => {
+    const learningEvent = {
+      ...event,
+      event_type: "learning.source",
+      scope: { kind: "run", id: ID },
+      payload: {
+        descriptor_only: true,
+        proposed_skill_id: "skill-visual-qa",
+        goal_loop_id: ID,
+        continuation_cursor: "turn-1",
+      },
+    } as const;
+
+    expect(EVENT_TYPES).toContain("learning.source");
+    expect(LearningSourceEventSchema.parse(learningEvent)).toEqual(learningEvent);
+    expect(EventEnvelopeSchema.parse(learningEvent)).toEqual(learningEvent);
+    expect(LearningSourceEventSchema.safeParse({ ...learningEvent, event_type: "run.started" }).success).toBe(false);
+    expect(LearningSourceEventSchema.safeParse({ ...learningEvent, scope: { kind: "workspace", id: ID } }).success).toBe(false);
+    expect(LearningSourceEventSchema.safeParse({ ...learningEvent, payload: { ...learningEvent.payload, extra: true } }).success).toBe(false);
   });
 });
 

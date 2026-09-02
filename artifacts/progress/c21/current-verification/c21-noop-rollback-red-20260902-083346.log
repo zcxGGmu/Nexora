@@ -1,0 +1,50 @@
+
+ RUN  v3.2.7 /Users/zq/Desktop/ai-projs/posp/Nexora
+
+····x·x
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 2 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  packages/persistence/src/c21-skills-learning.test.ts > C21 skills and learning persistence > Given learning candidates and commands When replayed Then exact idempotency replays and conflicts are rejected
+AssertionError: expected [Function] to throw an error
+
+- Expected:
+null
+
++ Received:
+undefined
+
+ ❯ packages/persistence/src/c21-skills-learning.test.ts:223:95
+    221|       expect(commands.list(IDS.workspace)).toHaveLength(1);
+    222|       expect(() => insertRawNonRollbackCommandWithRollbackTarget(datab…
+    223|       expect(() => insertRawNoOpRollbackInstallation(database, "01YWZ3…
+       |                                                                                               ^
+    224|       expect(() => updateRawNoOpRollbackInstallation(database, "01ZWZ3…
+    225|       expect(() => insertRawCommandWithUnsafeReason(database, "01VZZ3N…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/2]⎯
+
+ FAIL  packages/persistence/src/c21-skills-learning.test.ts > C21 skills and learning persistence > Given an installed skill When revoked quarantined and rolled back Then illegal reinstalls remain blocked
+AssertionError: expected [Function] to throw an error
+
+- Expected:
+null
+
++ Received:
+undefined
+
+ ❯ packages/persistence/src/c21-skills-learning.test.ts:266:158
+    264|       const installed = installations.install(installation(IDS.version…
+    265|       const quarantined = installations.update({ ...installed, status:…
+    266|       expect(() => installations.update({ ...quarantined, status: "rol…
+       |                                                                                                                                                              ^
+    267|       expect(() => installations.update({ ...quarantined, status: "rol…
+    268|       const rolledBack = installations.update({ ...quarantined, status…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/2]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  2 failed | 5 passed (7)
+   Start at  08:33:49
+   Duration  2.02s (transform 530ms, setup 0ms, collect 801ms, tests 627ms, environment 0ms, prepare 199ms)

@@ -1,0 +1,320 @@
+{
+  "observations": [
+    {
+      "viewport": "desktop",
+      "labels": {
+        "visible": {
+          "Skills & Learning": true,
+          "Descriptor-only learning": true,
+          "No external connection": true,
+          "Approved snapshot": true,
+          "Source hash": true,
+          "Scan": true,
+          "Review": true,
+          "Approve": true,
+          "Install": true,
+          "Revoke": true,
+          "Quarantine": true,
+          "Rollback": true,
+          "/learn": true,
+          "Learning lesson": true,
+          "Learning diff summary": true,
+          "Learning evidence refs": true,
+          "No real MCP execution": true,
+          "No URL/PDF/credential reads": true,
+          "Learning queue": true
+        },
+        "controls": [
+          {
+            "text": "Approve",
+            "disabled": false,
+            "controlKind": "approve"
+          },
+          {
+            "text": "Install",
+            "disabled": false,
+            "controlKind": "install"
+          },
+          {
+            "text": "Revoke",
+            "disabled": false,
+            "controlKind": "revoke"
+          },
+          {
+            "text": "Quarantine",
+            "disabled": false,
+            "controlKind": "quarantine"
+          },
+          {
+            "text": "Rollback",
+            "disabled": true,
+            "controlKind": "rollback"
+          },
+          {
+            "text": "/learn",
+            "disabled": true,
+            "controlKind": "learn"
+          }
+        ],
+        "allRequiredLabelsVisible": true
+      },
+      "layout": {
+        "label": "desktop",
+        "scrollWidth": 1440,
+        "clientWidth": 1440,
+        "tableCount": 0,
+        "cjkTextPresent": false,
+        "invalidAriaReferences": [],
+        "overflowing": []
+      }
+    },
+    {
+      "actions": [
+        {
+          "action": "learn",
+          "status": 202,
+          "path": "/v1/learning/candidates",
+          "lesson": "Require current browser screenshots before Skills/Learning signoff.",
+          "proposed_diff_summary": "Add operator-provided visual evidence guidance to the skill.",
+          "evidence_refs": [
+            "artifact://progress/c21/operator-visual-qa.json",
+            "workspace://Skills/visual-qa/review.md"
+          ]
+        },
+        {
+          "action": "approve",
+          "status": 202,
+          "path": "/v1/skills/skill-visual-qa/approve"
+        },
+        {
+          "action": "quarantine",
+          "status": 202,
+          "path": "/v1/skills/skill-visual-qa/quarantine"
+        }
+      ],
+      "feedback": "quarantine accepted; rereading Skills/Learning projection.",
+      "labelsAfterActions": {
+        "visible": {
+          "Skills & Learning": true,
+          "Descriptor-only learning": true,
+          "No external connection": true,
+          "Approved snapshot": true,
+          "Source hash": true,
+          "Scan": true,
+          "Review": true,
+          "Approve": true,
+          "Install": true,
+          "Revoke": true,
+          "Quarantine": true,
+          "Rollback": true,
+          "/learn": true,
+          "Learning lesson": true,
+          "Learning diff summary": true,
+          "Learning evidence refs": true,
+          "No real MCP execution": true,
+          "No URL/PDF/credential reads": true,
+          "Learning queue": true
+        },
+        "controls": [
+          {
+            "text": "Approve",
+            "disabled": false,
+            "controlKind": "approve"
+          },
+          {
+            "text": "Install",
+            "disabled": false,
+            "controlKind": "install"
+          },
+          {
+            "text": "Revoke",
+            "disabled": false,
+            "controlKind": "revoke"
+          },
+          {
+            "text": "Quarantine",
+            "disabled": false,
+            "controlKind": "quarantine"
+          },
+          {
+            "text": "Rollback",
+            "disabled": true,
+            "controlKind": "rollback"
+          },
+          {
+            "text": "/learn",
+            "disabled": false,
+            "controlKind": "learn"
+          }
+        ],
+        "allRequiredLabelsVisible": true
+      }
+    },
+    {
+      "viewport": "mobile",
+      "mobileNavCount": 5,
+      "labels": {
+        "visible": {
+          "Skills & Learning": true,
+          "Descriptor-only learning": true,
+          "No external connection": true,
+          "Approved snapshot": true,
+          "Source hash": true,
+          "Scan": true,
+          "Review": true,
+          "Approve": true,
+          "Install": true,
+          "Revoke": true,
+          "Quarantine": true,
+          "Rollback": true,
+          "/learn": true,
+          "Learning lesson": true,
+          "Learning diff summary": true,
+          "Learning evidence refs": true,
+          "No real MCP execution": true,
+          "No URL/PDF/credential reads": true,
+          "Learning queue": true
+        },
+        "controls": [
+          {
+            "text": "Approve",
+            "disabled": false,
+            "controlKind": "approve"
+          },
+          {
+            "text": "Install",
+            "disabled": false,
+            "controlKind": "install"
+          },
+          {
+            "text": "Revoke",
+            "disabled": false,
+            "controlKind": "revoke"
+          },
+          {
+            "text": "Quarantine",
+            "disabled": false,
+            "controlKind": "quarantine"
+          },
+          {
+            "text": "Rollback",
+            "disabled": true,
+            "controlKind": "rollback"
+          },
+          {
+            "text": "/learn",
+            "disabled": true,
+            "controlKind": "learn"
+          }
+        ],
+        "allRequiredLabelsVisible": true
+      },
+      "layout": {
+        "label": "mobile",
+        "scrollWidth": 390,
+        "clientWidth": 390,
+        "tableCount": 0,
+        "cjkTextPresent": false,
+        "invalidAriaReferences": [],
+        "overflowing": []
+      }
+    },
+    {
+      "invalidWorkspace": true,
+      "apiRequestsDuringInvalidWorkspace": 0,
+      "layout": {
+        "label": "invalid-mobile",
+        "scrollWidth": 390,
+        "clientWidth": 390,
+        "tableCount": 0,
+        "cjkTextPresent": false,
+        "invalidAriaReferences": [],
+        "overflowing": []
+      }
+    }
+  ],
+  "apiResponses": [
+    {
+      "method": "GET",
+      "status": 401,
+      "path": "/v1/skills"
+    },
+    {
+      "method": "POST",
+      "status": 204,
+      "path": "/v1/auth/local-session"
+    },
+    {
+      "method": "GET",
+      "status": 200,
+      "path": "/v1/skills"
+    },
+    {
+      "method": "GET",
+      "status": 200,
+      "path": "/v1/skills/skill-visual-qa"
+    },
+    {
+      "method": "POST",
+      "status": 202,
+      "path": "/v1/learning/candidates"
+    },
+    {
+      "method": "GET",
+      "status": 200,
+      "path": "/v1/skills"
+    },
+    {
+      "method": "GET",
+      "status": 200,
+      "path": "/v1/skills/skill-visual-qa"
+    },
+    {
+      "method": "POST",
+      "status": 202,
+      "path": "/v1/skills/skill-visual-qa/approve"
+    },
+    {
+      "method": "GET",
+      "status": 200,
+      "path": "/v1/skills"
+    },
+    {
+      "method": "GET",
+      "status": 200,
+      "path": "/v1/skills/skill-visual-qa"
+    },
+    {
+      "method": "POST",
+      "status": 202,
+      "path": "/v1/skills/skill-visual-qa/quarantine"
+    },
+    {
+      "method": "GET",
+      "status": 200,
+      "path": "/v1/skills"
+    },
+    {
+      "method": "GET",
+      "status": 200,
+      "path": "/v1/skills/skill-visual-qa"
+    },
+    {
+      "method": "GET",
+      "status": 200,
+      "path": "/v1/skills"
+    },
+    {
+      "method": "GET",
+      "status": 200,
+      "path": "/v1/skills/skill-visual-qa"
+    }
+  ],
+  "externalRequests": [],
+  "screenshots": [
+    "/Users/zq/Desktop/ai-projs/posp/Nexora/artifacts/progress/c21/current-verification/c21-skills-learning-desktop-1440x900-20260902-104618.png",
+    "/Users/zq/Desktop/ai-projs/posp/Nexora/artifacts/progress/c21/current-verification/c21-skills-learning-post-actions-1440x900-20260902-104618.png",
+    "/Users/zq/Desktop/ai-projs/posp/Nexora/artifacts/progress/c21/current-verification/c21-skills-learning-mobile-390x844-20260902-104618.png",
+    "/Users/zq/Desktop/ai-projs/posp/Nexora/artifacts/progress/c21/current-verification/c21-skills-learning-invalid-workspace-390x844-20260902-104618.png"
+  ]
+}

@@ -37,7 +37,16 @@ export const CORE_TABLES = [
   "goal_loops",
   "goal_continuations",
   "goal_loop_commands",
+  "skills",
+  "skill_versions",
+  "skill_sources",
+  "skill_scans",
+  "skill_reviews",
+  "skill_installations",
+  "skill_invocation_facts",
+  "learning_candidates",
+  "learning_commands",
 ] as const;
 
 export type CoreTable = (typeof CORE_TABLES)[number];
-export const CORE_MIGRATION_VERSION = 11;
+export const CORE_MIGRATION_VERSION = 12;

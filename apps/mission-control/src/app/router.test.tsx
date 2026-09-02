@@ -23,6 +23,7 @@ describe("C10 route contract", () => {
       "/settings",
       "/registry",
       "/gateway",
+      "/skills",
     ]);
   });
 
@@ -68,5 +69,12 @@ describe("C10 route contract", () => {
     expect(route.urlState.workspace).toBe("ws-a");
     expect(route.urlState.filter).toBe("degraded");
     expect(buildRouteHref("registry", route.urlState)).toBe("/registry?workspace=ws-a&filter=degraded");
+  });
+
+  it("preserves workspace on the Skills/Learning deep link", () => {
+    const route = parseRouteUrl("http://nexora.local/skills?workspace=ws-demo");
+    expect(route.key).toBe("skills");
+    expect(route.urlState.workspace).toBe("ws-demo");
+    expect(buildRouteHref("skills", route.urlState)).toBe("/skills?workspace=ws-demo");
   });
 });

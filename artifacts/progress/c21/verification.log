@@ -1,0 +1,67 @@
+# C21 Skills/Learning Approved Snapshot Verification Log
+
+Date: 2026-09-02
+Branch: codex/agent-os-implementation
+Baseline: C20 `05c4a51baec221f83db821b83ed14fe5626cbc7a`
+Stage commit: pending scoped commit
+Host Node: `v25.9.0` (project engine is `>=22.13.0 <23.0.0`; pnpm engine warning recorded only)
+Scope: descriptor/control-plane only. No real MCP execution, provider/SaaS connector execution, URL/PDF/local file fetch, credential read, external skill install, outbound message, NotebookLM, browser control, voice, or business SaaS side effect.
+
+## RED/GREEN Evidence
+
+- Initial C21 contract/API/CLI/UI RED logs are retained under `artifacts/progress/c21/current-verification/` and failed because the C21 descriptors, routes, parser, repositories, and UI were not yet implemented.
+- Review blocker remediation RED/GREEN covered traversal-shaped internal refs, CLI `/learn` caller-supplied status, missing `source_event_id` binding, duplicate active installation, orphan proposed skill references, and no-op rollback repository/SQL parity.
+- Orphan proposed skill fix: migration FK/triggers, repository scope check, and API precheck now reject learning candidates that reference nonexistent or foreign proposed skills.
+- No-op rollback RED: `artifacts/progress/c21/current-verification/c21-noop-rollback-red-20260902-083346.log`, expected failing run against repository/raw SQL rollback parity gap.
+- No-op rollback GREEN: `artifacts/progress/c21/current-verification/c21-noop-rollback-green-20260902-083443.log`, exit 0, 1 file / 7 tests; repository and SQL triggers reject rollback to the current installed version.
+
+## Focused Verification
+
+- Command: `pnpm exec vitest run packages/contracts/src/skills.test.ts packages/contracts/src/envelope.test.ts packages/persistence/src/c21-skills-learning.test.ts packages/event-store/src/event-store.test.ts apps/api/src/routes/skills-learning.test.ts apps/cli/src/skills-learning.test.ts apps/mission-control/src/app/skills-learning-api.test.ts apps/mission-control/src/pages/skills-learning.test.tsx --reporter=dot`
+- Result: PASS, exit 0, 8 files / 75 tests.
+- Evidence: `artifacts/progress/c21/current-verification/c21-focused-precommit-20260902-111213.log`.
+
+## Full Verification Matrix
+
+- `pnpm lint`: PASS, exit 0, 335 source files checked. Evidence: `artifacts/progress/c21/current-verification/c21-lint-precommit-zsh-20260902-111539.log`.
+- `pnpm typecheck`: PASS, exit 0. Evidence: `artifacts/progress/c21/current-verification/c21-typecheck-precommit-zsh-20260902-111539.log`.
+- `pnpm test --run --reporter=dot --silent`: PASS, exit 0, 106 files / 584 tests. Evidence: `artifacts/progress/c21/current-verification/c21-unit-precommit-zsh-20260902-111539.log`.
+- `pnpm test:integration`: PASS, exit 0, 14 files / 37 tests. Evidence: `artifacts/progress/c21/current-verification/c21-integration-precommit-zsh-20260902-111539.log`.
+- `pnpm test:e2e`: PASS, exit 0, 6 tests. Evidence: `artifacts/progress/c21/current-verification/c21-e2e-precommit-zsh-20260902-111539.log`.
+- `pnpm --filter @nexora/mission-control build`: PASS, exit 0; existing third-party `use client` and chunk-size warnings only. Evidence: `artifacts/progress/c21/current-verification/c21-mission-control-build-precommit-zsh-20260902-111539.log`.
+- Production audit: PASS, exit 0, `No known vulnerabilities found`. Evidence: `artifacts/progress/c21/current-verification/c21-audit-precommit-zsh-20260902-111539.log`.
+
+## Visual QA
+
+- Runner: `node artifacts/progress/c21/current-verification/c21-manual-qa-runner.mjs`.
+- URL: `http://127.0.0.1:4313/skills?workspace=ws-demo`.
+- Result: PASS. Summary: `artifacts/progress/c21/current-verification/c21-manual-qa-summary-20260902-104618.json`.
+- Screenshots verified with `file`:
+  - `c21-skills-learning-desktop-1440x900-20260902-104618.png`: PNG 1440x900.
+  - `c21-skills-learning-post-actions-1440x900-20260902-104618.png`: PNG 1440x900.
+  - `c21-skills-learning-mobile-390x844-20260902-104618.png`: PNG 390x844.
+  - `c21-skills-learning-invalid-workspace-390x844-20260902-104618.png`: PNG 390x844.
+- Observed: desktop/mobile scroll width equals client width, no horizontal overflow, no invalid ARIA references, mobile nav count is 5, invalid workspace makes 0 API requests, externalRequests is `[]`.
+- Visible control-plane state: Skills & Learning, descriptor-only learning, no external connection, approved snapshot, source hash, scan, review, approve, install, revoke, quarantine, rollback, `/learn`, learning lesson/diff/evidence refs, no real MCP execution, no URL/PDF/credential reads, and learning queue.
+- Action checks: `/learn`, approve, and quarantine controls returned `202` and projection rereads showed observable local state changes.
+
+## Code Review and Security Review
+
+- Independent code review found a P1 no-op rollback persistence parity gap: the API rejected rollback to the current version, but repository/raw SQL writes could still persist it. Fixed with repository validation, migration insert/update triggers, and RED/GREEN tests including raw SQL bypass attempts.
+- Post-fix independent code review retry failed before completion with external model stream disconnect; independent security reviewer spawn failed because the agent thread limit was reached. This limitation is recorded and not treated as an independent security pass.
+- Local code/security review evidence: `artifacts/progress/c21/current-verification/c21-local-code-security-review-20260902-105344.log`.
+- Local checklist PASS: workspace/run/goal/source-event scope isolation, RBAC, semantic idempotency, dual optimistic concurrency, SQL parameterization/FKs/triggers, append-only source/scan/review/invocation/learning facts, approved snapshot chain, proposed skill scope, rollback semantics, secret/path redaction, and descriptor-only no-external-call boundary.
+- Strict TypeScript scan over C21 core files found no `any`, `@ts-ignore`, `@ts-expect-error`, or non-null assertion usage.
+
+## Environment Notes
+
+- Node version remains outside the project engine range: wanted `>=22.13.0 <23.0.0`, current `v25.9.0`; this was recorded as a warning only and no engine constraints were changed.
+- A precommit full-matrix attempt launched through `bash -lc` selected an older Node `v14.17.0` shell and failed before running project checks; the matrix was immediately rerun through the project zsh environment and passed. The Node 14 attempt is not counted as green evidence.
+- Dependency/browser setup was repaired locally using `pnpm install --frozen-lockfile` and `pnpm exec playwright install chromium`; lockfile constraints were not changed to mask setup issues.
+- Mission Control build still emits third-party Vite warnings for module-level `use client` directives and a large chunk; these are existing warnings and did not fail the build.
+
+## Stage Closeout
+
+- Tasks updated: `tasks/todo.md`, `tasks/agent-os-progress.md`, and `tasks/lessons.md`.
+- Docs updated: `docs/adr/0016-skills-learning-approved-snapshot.md` and `docs/runbooks/skills-learning-operations.md`.
+- Boundary confirmed: C21 remains descriptor/control-plane only and does not connect, fetch, execute, install, send, or read real external resources.

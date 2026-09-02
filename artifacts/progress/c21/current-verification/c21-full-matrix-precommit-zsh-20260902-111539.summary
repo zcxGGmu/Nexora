@@ -1,0 +1,34 @@
+## lint
+COMMAND: pnpm lint
+EXIT: 0
+LOG: artifacts/progress/c21/current-verification/c21-lint-precommit-zsh-20260902-111539.log
+
+## typecheck
+COMMAND: pnpm typecheck
+EXIT: 0
+LOG: artifacts/progress/c21/current-verification/c21-typecheck-precommit-zsh-20260902-111539.log
+
+## unit
+COMMAND: pnpm test --run --reporter=dot --silent
+EXIT: 0
+LOG: artifacts/progress/c21/current-verification/c21-unit-precommit-zsh-20260902-111539.log
+
+## integration
+COMMAND: pnpm test:integration
+EXIT: 0
+LOG: artifacts/progress/c21/current-verification/c21-integration-precommit-zsh-20260902-111539.log
+
+## e2e
+COMMAND: pnpm test:e2e
+EXIT: 0
+LOG: artifacts/progress/c21/current-verification/c21-e2e-precommit-zsh-20260902-111539.log
+
+## mission-control-build
+COMMAND: pnpm --filter @nexora/mission-control build
+EXIT: 0
+LOG: artifacts/progress/c21/current-verification/c21-mission-control-build-precommit-zsh-20260902-111539.log
+
+## audit
+COMMAND: pnpm audit --prod --audit-level=high
+EXIT: 0
+LOG: artifacts/progress/c21/current-verification/c21-audit-precommit-zsh-20260902-111539.log
