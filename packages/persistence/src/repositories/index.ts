@@ -11,4 +11,5 @@ export { BackendRepository, ModelRepository, ProviderRepository, RuntimeReposito
 export { AllowlistRepository, ChannelRepository, DeliveryReceiptRepository, GatewayRepository, MessageRepository, SessionCursorRepository, SessionRepository, type MessageCreateResult, type SessionCursorCheckpoint } from "./gateway.js";
 export { GoalContinuationRepository, GoalLoopCommandRepository, GoalLoopRepository, type OrphanRecoveryInput } from "./goal-loop.js";
 export { LearningCandidateRepository, LearningCommandRepository, SkillInstallationRepository, SkillInvocationFactRepository, SkillRepository, SkillReviewRepository, SkillScanRepository, SkillSourceRepository, SkillVersionRepository } from "./skills.js";
+export { GraphIndexSnapshotRepository, JournalEntryRepository, JournalMemoryCandidateRepository, JournalSourceRepository, VaultBridgeRepository, WritebackDecisionRepository, WritebackRequestRepository } from "./journal.js";
 export { PersistenceError } from "./utils.js";

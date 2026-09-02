@@ -56,8 +56,20 @@ function resourcePath(objectType: string, objectId: string): string {
       return `/v1/deliveries/${objectId}`;
     case "goal_loop":
       return `/v1/goal-loops/${objectId}`;
+    case "journal_entry":
+      return `/v1/journal/entries/${objectId}`;
+    case "journal_graph_index":
+      return `/v1/journal/graph-indexes/${objectId}`;
+    case "journal_memory_candidate":
+      return `/v1/journal/memory-candidates/${objectId}`;
+    case "journal_source":
+      return `/v1/journal/sources/${objectId}`;
+    case "journal_writeback":
+      return `/v1/journal/writebacks/${objectId}`;
     case "memory":
       return `/v1/memory/${objectId}`;
+    case "vault":
+      return `/v1/vaults/${objectId}`;
     case "runtime_descriptor":
       return `/v1/registry/runtimes/${objectId}`;
     case "provider_descriptor":

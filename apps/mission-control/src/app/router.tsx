@@ -37,6 +37,7 @@ export const routeDefinitions: readonly RouteDefinition[] = [
   { key: "registry", path: "/registry" },
   { key: "gateway", path: "/gateway" },
   { key: "skills", path: "/skills" },
+  { key: "journal", path: "/journal" },
 ] as const;
 
 export function AppRouter(): JSX.Element {
@@ -102,7 +103,7 @@ function navigationGroups(state: ScopeUrlState): readonly ShellNavGroup[] {
   return [
     { label: "Workbench", items: [navItem("mission-control", "Mission Control", state), navItem("inbox", "Inbox", state), navItem("review", "Review", state, { id: "rev-r3" })] },
     { label: "Work", items: [navItem("cowork", "Cowork", state), navItem("goals", "Goals", state), navItem("tickets", "Tickets", state), navItem("workflows", "Workflows", state, { workflowId: "seo_draft_v1" }), navItem("runs", "Runs", state, { id: "run-active" }), navItem("artifacts", "Artifacts", state, { id: "artifact-summary" }), navItem("memory", "Memory", state)] },
-    { label: "System", items: [navItem("gateway", "Gateway", state), navItem("skills", "Skills", state), navItem("registry", "Registry", state), navItem("design-system", "Design System", state), navItem("settings", "Settings", state)] },
+    { label: "System", items: [navItem("gateway", "Gateway", state), navItem("skills", "Skills", state), navItem("journal", "Journal", state), navItem("registry", "Registry", state), navItem("design-system", "Design System", state), navItem("settings", "Settings", state)] },
   ];
 }
 
@@ -134,6 +135,8 @@ function pathnameForKey(key: ShellRouteKey, params: Readonly<Record<string, stri
       return "/gateway";
     case "inbox":
       return "/inbox";
+    case "journal":
+      return "/journal";
     case "memory":
       return "/memory";
     case "mission-control":

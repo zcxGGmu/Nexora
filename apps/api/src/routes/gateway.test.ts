@@ -239,7 +239,7 @@ describe("C19 Gateway, Channel, and Session API", () => {
       const response = await fixture.api.inject({
         method: "POST",
         url: "/v1/gateways",
-        headers: commandHeaders("gateway:secret-leak"),
+        headers: commandHeaders("gateway:redaction-leak"),
         payload: {
           ...gateway,
           endpoint_ref: "https://example.invalid/token/sk-live-secret",

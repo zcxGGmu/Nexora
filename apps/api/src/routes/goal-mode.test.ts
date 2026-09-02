@@ -104,12 +104,12 @@ describe("C20 Goal Mode API", () => {
     seedSession(fixture.database);
 
     try {
-      const createSecret = await fixture.api.inject({ method: "POST", url: "/v1/goal-loops", headers: { authorization: ownerHeader(), "idempotency-key": "goal:create:secret-text", traceparent: IDS.owner }, payload: { ...createGoalLoopPayload(), objective: "Continue with Bearer live-token-123" } });
-      const create = await fixture.api.inject({ method: "POST", url: "/v1/goal-loops", headers: { authorization: ownerHeader(), "idempotency-key": "goal:create:secret-boundary", traceparent: IDS.owner }, payload: createGoalLoopPayload() });
+      const createSecret = await fixture.api.inject({ method: "POST", url: "/v1/goal-loops", headers: { authorization: ownerHeader(), "idempotency-key": "goal:create:redaction-text", traceparent: IDS.owner }, payload: { ...createGoalLoopPayload(), objective: "Continue with Bearer live-token-123" } });
+      const create = await fixture.api.inject({ method: "POST", url: "/v1/goal-loops", headers: { authorization: ownerHeader(), "idempotency-key": "goal:create:redaction-boundary", traceparent: IDS.owner }, payload: createGoalLoopPayload() });
       const loopId = AcceptedCommandSchema.parse(create.json()).object_id;
       markLoopWaitingJudge(fixture.database, loopId);
-      const judgeSecret = await fixture.api.inject({ method: "POST", url: `/v1/goal-loops/${loopId}/judge`, headers: { authorization: ownerHeader(), "idempotency-key": "goal:judge:secret-text", "if-match": "1", traceparent: IDS.owner }, payload: { schema_version: 1, workspace_id: IDS.workspace, done: false, reason: "secret://providers/live-token" } });
-      const steerSecret = await fixture.api.inject({ method: "POST", url: `/v1/goal-loops/${loopId}/steer`, headers: { authorization: ownerHeader(), "idempotency-key": "goal:steer:secret-text", "if-match": "1", traceparent: IDS.owner }, payload: { schema_version: 1, workspace_id: IDS.workspace, instruction: "Use Bearer live-token-123" } });
+      const judgeSecret = await fixture.api.inject({ method: "POST", url: `/v1/goal-loops/${loopId}/judge`, headers: { authorization: ownerHeader(), "idempotency-key": "goal:judge:redaction-text", "if-match": "1", traceparent: IDS.owner }, payload: { schema_version: 1, workspace_id: IDS.workspace, done: false, reason: "secret://providers/live-token" } });
+      const steerSecret = await fixture.api.inject({ method: "POST", url: `/v1/goal-loops/${loopId}/steer`, headers: { authorization: ownerHeader(), "idempotency-key": "goal:steer:redaction-text", "if-match": "1", traceparent: IDS.owner }, payload: { schema_version: 1, workspace_id: IDS.workspace, instruction: "Use Bearer live-token-123" } });
 
       expect(createSecret.statusCode).toBe(400);
       expect(judgeSecret.statusCode).toBe(400);
@@ -133,7 +133,7 @@ describe("C20 Goal Mode API", () => {
         objective: "Continue with token=abcd1234",
         definition_of_done: ["Do not leak xoxb-123-456-secret"],
       };
-      const response = await fixture.api.inject({ method: "POST", url: "/v1/goal-loops", headers: { authorization: ownerHeader(), "idempotency-key": "goal:create:broad-secret-text", traceparent: IDS.owner }, payload });
+      const response = await fixture.api.inject({ method: "POST", url: "/v1/goal-loops", headers: { authorization: ownerHeader(), "idempotency-key": "goal:create:broad-redaction-text", traceparent: IDS.owner }, payload });
       const responseText = JSON.stringify(response.json());
 
       expect(response.statusCode).toBe(400);

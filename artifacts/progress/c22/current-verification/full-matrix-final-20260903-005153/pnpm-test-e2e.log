@@ -1,0 +1,30 @@
+### pnpm-test-e2e
+$ pnpm test:e2e
+ WARN  Unsupported engine: wanted: {"node":">=22.13.0 <23.0.0"} (current: {"node":"v25.9.0","pnpm":"10.10.0"})
+
+> nexora@0.1.0 test:e2e /Users/zq/Desktop/ai-projs/posp/Nexora
+> playwright test
+
+[WebServer] (node:37246) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] (node:37260) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 6 tests using 4 workers
+
+(node:37270) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:37272) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:37273) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:37271) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  1 tests/e2e/recovery.spec.ts:4:3 › C16 recovery and deep-link journey › preserves safe recovery actions and does not repeat a command on refresh (2.9s)
+  ✓  4 tests/e2e/accessibility.spec.ts:7:3 › C16 accessibility and responsive smoke › has a keyboard skip path, named navigation, no horizontal overflow, and no axe violations (3.4s)
+  ✓  3 tests/e2e/mobile-inbox.spec.ts:6:3 › C16 mobile Inbox and receipt journey › operator can inspect attention, intervene in a run, and open its receipt (3.4s)
+  ✓  2 tests/e2e/operator-reviewer.spec.ts:4:3 › C11 Operator and Reviewer workspaces › Operator can deep-link from goal to run and artifact without starting duplicate commands (4.0s)
+  ✓  5 tests/e2e/seo-draft-review.spec.ts:4:3 › C12 SEO draft workflow › Operator starts from workflow and reaches pending review without publish side effects (1.2s)
+  ✓  6 tests/e2e/operator-reviewer.spec.ts:44:3 › C11 Operator and Reviewer workspaces › Reviewer records reasoned decisions and sees stale approval blocked before deciding (1.5s)
+
+  6 passed (8.0s)

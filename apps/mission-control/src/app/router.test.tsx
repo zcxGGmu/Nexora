@@ -24,6 +24,7 @@ describe("C10 route contract", () => {
       "/registry",
       "/gateway",
       "/skills",
+      "/journal",
     ]);
   });
 
@@ -76,5 +77,12 @@ describe("C10 route contract", () => {
     expect(route.key).toBe("skills");
     expect(route.urlState.workspace).toBe("ws-demo");
     expect(buildRouteHref("skills", route.urlState)).toBe("/skills?workspace=ws-demo");
+  });
+
+  it("preserves workspace on the Journal deep link", () => {
+    const route = parseRouteUrl("http://nexora.local/journal?workspace=ws-demo");
+    expect(route.key).toBe("journal");
+    expect(route.urlState.workspace).toBe("ws-demo");
+    expect(buildRouteHref("journal", route.urlState)).toBe("/journal?workspace=ws-demo");
   });
 });

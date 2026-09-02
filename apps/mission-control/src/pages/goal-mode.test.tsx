@@ -64,4 +64,11 @@ describe("C20 Mission Control Goal Mode surface", () => {
     expect(page).toMatchObject({ props: { workspaceId: "ws-demo" } });
     expect(page).not.toMatchObject({ props: { view: expect.anything() } });
   });
+
+  it("Given the legacy Goals route When routed Then Mission Control keeps the planning fixture", () => {
+    const markup = renderToStaticMarkup(pageForRoute(parseRouteUrl("http://nexora.local/goals?workspace=ws-demo&filter=running")));
+
+    expect(markup).toContain("Drag updates planning only");
+    expect(markup).toContain("Status change queued as planning update only; no Agent started.");
+  });
 });
