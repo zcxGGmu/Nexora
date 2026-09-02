@@ -12,6 +12,7 @@ import { PlaceholderPage } from "../pages/PlaceholderPage.js";
 import { ReviewPage, reviewFixture, staleReviewFixture } from "../pages/ReviewPage.js";
 import { RegistryPage, registryFixture } from "../pages/RegistryPage.js";
 import { GatewayPage } from "../pages/GatewayPage.js";
+import { SkillsLearningPage } from "../pages/SkillsLearningPage.js";
 import { blockedRunDetailFixture, RunDetailPage, runDetailFixture } from "../pages/RunDetailPage.js";
 import { TicketPage, ticketFixture } from "../pages/TicketPage.js";
 import { WorkflowPage, WorkflowRunPage, seoWorkflowRunFixture, seoWorkflowTemplateFixture } from "../pages/WorkflowPage.js";
@@ -46,6 +47,8 @@ export function pageForRoute(route: ParsedRoute): JSX.Element {
       return runPageForId(detailId(route));
     case "settings":
       return <PlaceholderPage title="Settings" scope={route.urlState.workspace ?? "current workspace"} nextStage="C10 shell" />;
+    case "skills":
+      return <SkillsLearningPage workspaceId={route.urlState.workspace ?? "ws-demo"} />;
     case "tickets":
       return <TicketPage view={ticketFixture} />;
     case "workflows":

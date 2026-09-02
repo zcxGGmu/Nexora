@@ -7,6 +7,7 @@ import type { ScheduleCommandService } from "../services/schedule-service.js";
 import type { RegistryCommandService } from "../services/registry-service.js";
 import type { SseService } from "../services/sse-service.js";
 import type { GatewayService } from "../services/gateway-service.js";
+import type { SkillsService } from "../services/skills-service.js";
 import { traceId } from "../plugins/request-context.js";
 import { registerAgentRoutes } from "./agents.js";
 import { registerArtifactRoutes } from "./artifacts.js";
@@ -20,6 +21,7 @@ import { registerTicketRoutes } from "./tickets.js";
 import { registerRegistryRoutes } from "./registry.js";
 import { registerGatewayRoutes } from "./gateway.js";
 import { registerGoalModeRoutes } from "./goal-mode.js";
+import { registerSkillsLearningRoutes } from "./skills-learning.js";
 
 export type ControlRouteOptions = {
   readonly commands: CommandService;
@@ -29,6 +31,7 @@ export type ControlRouteOptions = {
   readonly sse: SseService;
   readonly auth: LocalAuthOptions;
   readonly gateway: GatewayService;
+  readonly skills: SkillsService;
 };
 
 export async function registerControlRoutes(app: FastifyInstance, options: ControlRouteOptions): Promise<void> {
@@ -48,4 +51,5 @@ export async function registerControlRoutes(app: FastifyInstance, options: Contr
   await app.register(registerRegistryRoutes, options);
   await app.register(registerGatewayRoutes, options);
   await app.register(registerGoalModeRoutes, options);
+  await app.register(registerSkillsLearningRoutes, options);
 }

@@ -1,0 +1,6 @@
+ WARN  Unsupported engine: wanted: {"node":">=22.13.0 <23.0.0"} (current: {"node":"v25.9.0","pnpm":"10.10.0"})
+
+> nexora@0.1.0 lint /Users/zq/Desktop/ai-projs/posp/Nexora
+> node scripts/lint.mjs
+
+lint: 335 source files checked

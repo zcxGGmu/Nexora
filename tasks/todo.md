@@ -73,7 +73,7 @@
 - [x] 完成独立代码/安全复核；若独立审查工具不可用，记录限制并以本地审查清单和验证证据替代，不伪造独立通过。
 - [x] 更新 `tasks/agent-os-progress.md`、本清单末尾 Review、`artifacts/progress/c19/verification.log` 及必要文档；仅在所有门通过后将 C19 标记为 `[x]`。
 - [x] 仅暂存 C19 implementation/tests/ADR/runbook/verification 文件，运行 `git diff --cached --check`，创建单一 C19 scoped commit `174c288f6365eeab879d08e6cad9f04c28029a78` 并记录完整 SHA。
-- [~] C19 收口后，建立 C20 追踪项并先写/运行跨轮 continuation、Judge JSON、max turns、`/goal resume`、`/subgoal`、pause/resume、deadline/budget、Judge failure、restart/orphan recovery 和 scope 的 RED 测试；不实现真实外部连接。
+- [x] C19 收口后，建立 C20 追踪项并先写/运行跨轮 continuation、Judge JSON、max turns、`/goal resume`、`/subgoal`、pause/resume、deadline/budget、Judge failure、restart/orphan recovery 和 scope 的 RED 测试；不实现真实外部连接。
 
 ### C19 Final Revalidation / Current Continuation 2026-08-31
 
@@ -83,7 +83,7 @@
 - [x] Dispatch fresh independent visual, code-quality, and security reviews against the current diff and screenshots: independent code and security reviews found no blocking findings; residual risks recorded for later stages.
 - [x] Update C19 fact sources only after automation, visual QA, and independent review all pass.
 - [x] Create the scoped C19 commit with only implementation, tests, docs, and verification evidence, then record the full SHA: `174c288f6365eeab879d08e6cad9f04c28029a78`.
-- [~] Begin C20 with RED tests only after C19 is committed.
+- [x] Begin C20 with RED tests only after C19 is committed.
 
 ### C19 Execution Check-in / 2026-08-30
 
@@ -123,7 +123,7 @@ Ownership review: focused contracts/persistence/API gateway tests pass (13 tests
 - [x] C20.7 修复审查阻塞项：Judge `done=false` 生成 continuation 并恢复 running；continuation/command payload 与列一致性由 SQL trigger 强制；secret guard 覆盖裸 `token=abcd1234`。
 - [x] C20.8 完成 focused 验证、全量 lint/typecheck/test/integration/e2e/build、真实浏览器 1440x900 与 390x844 视觉 QA、独立代码/安全复核和本地安全扫描。
 - [x] C20.9 更新 `artifacts/progress/c20/verification.log`、ADR-0015、Goal Mode runbook、任务事实源和 lessons；真实外部连接、NotebookLM、浏览器控制、语音和业务 SaaS 仍保持禁止。
-- [ ] C20.10 创建单一 scoped C20 commit，记录完整 SHA 后再进入 C21。
+- [x] C20.10 创建单一 scoped C20 commit `05c4a51baec221f83db821b83ed14fe5626cbc7a`，记录完整 SHA 后再进入 C21。
 
 ### C20 Review
 
@@ -132,6 +132,42 @@ Ownership review: focused contracts/persistence/API gateway tests pass (13 tests
 - [x] Visual QA PASS：`/goal-mode?workspace=ws-demo` fresh PNGs at 1440x900、post-Judge 1440x900、390x844 mobile、390x844 mobile controls；无横向溢出，无非法 ARIA refs，五项移动导航和 descriptor-only/no external boundary 可见。
 - [x] Independent review PASS：scope/RBAC/idempotency/optimistic concurrency/SQL trigger/append-only continuation facts/cursor replay/secret redaction/no real external calls 均无 blocking finding。
 - [x] Evidence paths：`artifacts/progress/c20/verification.log`、`artifacts/progress/c20/current-verification/`、`docs/adr/0015-goal-mode-loop-judge.md`、`docs/runbooks/goal-mode-operations.md`。
+- [x] Scoped commit：`05c4a51baec221f83db821b83ed14fe5626cbc7a`（`feat: add goal mode loop and judge control plane`）。
+
+## C21 / Skills、Learning、Approved Snapshot（当前阶段）
+
+范围：实现 Skills/Learning control-plane descriptor，覆盖 skill entity、version、source hash、scan、review、approve/install/revoke/quarantine、rollback、`/learn` 控制命令和 Mission Control 可见状态。C21 只记录和审批 descriptor/snapshot，不执行真实 MCP、不读取真实 URL/PDF/凭据、不安装外部 skill、不产生外部副作用。
+
+- [x] C21.1 写 contracts RED：SkillDescriptor、SkillVersion、SkillSource、SkillScan、SkillReview、SkillInstallation、SkillInvocationFact、LearningCandidate、LearningCommand；严格 schema、workspace scope、source hash、approved snapshot、quarantine 与 secret-safe diff。
+- [x] C21.2 写 persistence RED：migration 12、skills/versions/sources/scans/reviews/installations/invocation facts/learning candidates 表约束，唯一键、外键、append-only 审计、workspace scope、revoke/quarantine 和 rollback 语义。
+- [x] C21.3 写 API RED/GREEN：Skills/Learning 查询与控制路由，Owner 写权限、`run:read` 读权限、`Idempotency-Key`、`If-Match`、scope-safe error、secret/path redaction。
+- [x] C21.4 写 CLI RED/GREEN：`/learn`、approve/install/revoke/quarantine/rollback 命令解析为 descriptor-only 请求，不执行本地文件或外部读取。
+- [x] C21.5 写 Mission Control RED/GREEN：Skills/Learning 页面、导航、scan/review/install/quarantine/rollback 状态、approved snapshot 边界和移动端响应式布局。
+- [x] C21.6 运行 C21 RED suite，确认失败原因是缺失 C21 实现而非测试装配错误。
+- [x] C21.7 实现 contracts、SQLite migration 12、typed repositories、service/routes、CLI parser 和 Mission Control 页面。
+- [x] C21.8 完成 focused 验证、全量 lint/typecheck/test/integration/e2e/build、真实浏览器 1440x900 与 390x844 视觉 QA、本地安全扫描和代码/安全复核。
+  - [x] C21.8a 修复独立安全复核 blocker：run/goal scope、重复安装、rollback 目标、`/learn` 完整幂等、凭据/path-like ref、caller-supplied status、installation revision 和 approve/revoke UI 控件。
+  - [x] C21.8b 重新运行 C21 focused 与全量验证矩阵，并保存 fresh exit code、测试文件数和测试数量。
+  - [x] C21.8c 重新生成 Skills/Learning 1440x900、390x844 和交互后截图，验证 PNG 格式/尺寸与移动端无溢出。
+  - [x] C21.8d 独立代码审查发现 P1 no-op rollback persistence parity，已用 RED/GREEN 修复；后续独立复核和安全 reviewer 因平台线程上限/连接中断未完成，限制已记录，本地安全清单无 blocking finding。
+- [x] C21.9 更新 `artifacts/progress/c21/verification.log`、ADR/runbook、任务事实源和 lessons；C21 保持 descriptor/control-plane 边界。
+- [~] C21.10 创建单一 scoped C21 commit，提交后记录完整 SHA 再进入 C22。
+
+### C21 Review Blocker Remediation / 2026-09-02
+
+- [x] C21.R1 用 RED 测试复现 traversal-shaped internal refs、CLI `/learn` status 外泄、未绑定 `source_event_id` 和同 skill 多 active install。
+- [x] C21.R2 最小修复 contracts、CLI、migration、repository/service 和 Mission Control visual seed，不扩大到真实 MCP、URL/PDF、凭据读取或外部副作用。
+- [x] C21.R3 重跑 C21 focused 与全量验证矩阵，保存 fresh exit code、测试文件数和测试数量。
+- [x] C21.R4 重做 Skills/Learning 真实浏览器视觉 QA，验证 PNG 格式/尺寸、移动端无溢出和真实 DOM/API 控件。
+- [x] C21.R5 独立代码审查 P1 已修复；复核/安全子代理因平台限制未完成，本地代码与安全复核清单 PASS，限制写入验证日志。
+
+### C21 Review
+
+- [x] Focused C21 validation PASS：`pnpm exec vitest run packages/contracts/src/skills.test.ts packages/contracts/src/envelope.test.ts packages/persistence/src/c21-skills-learning.test.ts packages/event-store/src/event-store.test.ts apps/api/src/routes/skills-learning.test.ts apps/cli/src/skills-learning.test.ts apps/mission-control/src/app/skills-learning-api.test.ts apps/mission-control/src/pages/skills-learning.test.tsx --reporter=dot`，exit 0，8 files / 75 tests。
+- [x] Full verification PASS：`pnpm lint` 335 source files、`pnpm typecheck`、full Vitest 106 files / 584 tests、integration 14 files / 37 tests、E2E 6 tests、Mission Control build、production audit 全部 exit 0。
+- [x] Visual QA PASS：`/skills?workspace=ws-demo` fresh PNGs at 1440x900、post-actions 1440x900、390x844 mobile、390x844 invalid workspace；无横向溢出，无非法 ARIA refs，五项移动导航、real DOM controls 和 no-external-connection boundary 可见。
+- [x] Code/security review：独立审查发现的 no-op rollback P1 已修复；本地 scope/RBAC/idempotency/optimistic concurrency/SQL trigger/append-only/approved snapshot/secret redaction/no external call 清单 PASS；独立安全 reviewer 受线程上限限制未完成。
+- [x] Evidence paths：`artifacts/progress/c21/verification.log`、`artifacts/progress/c21/current-verification/`、`docs/adr/0016-skills-learning-approved-snapshot.md`、`docs/runbooks/skills-learning-operations.md`。
 
 ## Review
 

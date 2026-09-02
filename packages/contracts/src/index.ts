@@ -18,4 +18,5 @@ export * from "./registry.js";
 export * from "./gateway.js";
 export * from "./channels.js";
 export * from "./sessions.js";
+export * from "./skills.js";
 export { z } from "zod";

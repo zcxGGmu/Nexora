@@ -16,6 +16,7 @@ const MIGRATIONS = [
   { version: 9, path: "./migrations/0009_gateway_channels_sessions.sql" },
   { version: 10, path: "./migrations/0010_gateway_hardening.sql" },
   { version: 11, path: "./migrations/0011_goal_mode.sql" },
+  { version: 12, path: "./migrations/0012_skills_learning.sql" },
 ] as const;
 
 export type SqliteDatabase = DatabaseSync;
@@ -61,7 +62,16 @@ export function rollback(database: SqliteDatabase): void {
   if (migrationTable === undefined) return;
 
   withTransaction(database, () => {
-    database.exec(`DROP TABLE IF EXISTS goal_loop_commands;
+    database.exec(`DROP TABLE IF EXISTS learning_commands;
+      DROP TABLE IF EXISTS learning_candidates;
+      DROP TABLE IF EXISTS skill_invocation_facts;
+      DROP TABLE IF EXISTS skill_installations;
+      DROP TABLE IF EXISTS skill_reviews;
+      DROP TABLE IF EXISTS skill_scans;
+      DROP TABLE IF EXISTS skill_sources;
+      DROP TABLE IF EXISTS skill_versions;
+      DROP TABLE IF EXISTS skills;
+      DROP TABLE IF EXISTS goal_loop_commands;
       DROP TABLE IF EXISTS goal_continuations;
       DROP TABLE IF EXISTS goal_loops;
       DROP TABLE IF EXISTS schedule_occurrences;

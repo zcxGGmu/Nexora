@@ -135,6 +135,7 @@ function trailingNumber(value: string): number | undefined {
 const SECRET_LIKE_PATTERNS: readonly RegExp[] = [
   /\b(?:Bearer|Basic)\s+[A-Za-z0-9._~+/-]+=*/i,
   /secret:\/\/[^\s]+/i,
+  /\b(?:secret|vault|credential):(?:\/\/)?[^\s"']+/i,
   /\b(?:api[_-]?key|access[_-]?token|authorization|private[_-]?key|client[_-]?secret|refresh[_-]?token|session[_-]?token|token|password|passwd|pwd|secret)\s*[:=]\s*["']?[^\s"']{4,}/i,
   /\bxox[abprs]-[A-Za-z0-9-]{8,}\b/i,
   /\bgh[pousr]_[A-Za-z0-9_]{8,}\b/,

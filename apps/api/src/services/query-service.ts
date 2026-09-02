@@ -18,6 +18,15 @@ import {
   EgressReceiptSchema,
   RegistryCatalogSchema,
   DescriptorIdSchema,
+  SkillDescriptorSchema,
+  type LearningCandidate,
+  type SkillDescriptor,
+  type SkillInstallation,
+  type SkillInvocationFact,
+  type SkillReview,
+  type SkillScan,
+  type SkillSource,
+  type SkillVersion,
   type RuntimeDescriptor,
   type ProviderDescriptor,
   type ModelDescriptor,
@@ -43,7 +52,7 @@ import {
   type Ticket,
 } from "@nexora/contracts";
 import type { QueueJob } from "@nexora/orchestration";
-import { BackendRepository, ModelRepository, ProviderRepository, RuntimeRepository, ToolRepository, type SqliteDatabase } from "@nexora/persistence";
+import { BackendRepository, LearningCandidateRepository, ModelRepository, ProviderRepository, RuntimeRepository, SkillInstallationRepository, SkillInvocationFactRepository, SkillRepository, SkillReviewRepository, SkillScanRepository, SkillSourceRepository, SkillVersionRepository, ToolRepository, type SqliteDatabase } from "@nexora/persistence";
 import { ApiHttpError } from "./errors.js";
 
 export type QueueJobSummary = Pick<QueueJob, "id" | "workspace_id" | "run_id" | "step_id" | "status" | "available_at" | "attempts" | "max_attempts" | "created_at" | "updated_at">;
@@ -65,6 +74,27 @@ export type GoalLoopDetail = {
   readonly version: number;
   readonly continuations: readonly GoalContinuation[];
   readonly commands: readonly GoalLoopCommand[];
+};
+
+export type SkillDetail = {
+  readonly skill: SkillDescriptor;
+  readonly versions: readonly SkillVersion[];
+  readonly sources: readonly SkillSource[];
+  readonly scans: readonly SkillScan[];
+  readonly reviews: readonly SkillReview[];
+  readonly installations: readonly SkillInstallation[];
+  readonly invocation_facts: readonly SkillInvocationFact[];
+  readonly candidates: readonly LearningCandidate[];
+  readonly learning_contexts: readonly LearningSourceContext[];
+};
+
+export type LearningSourceContext = {
+  readonly workspace_id: string;
+  readonly run_id: string;
+  readonly goal_loop_id: string;
+  readonly source_event_id: string;
+  readonly event_type: "learning.source";
+  readonly occurred_at: string;
 };
 
 export class QueryService {
@@ -100,6 +130,21 @@ export class QueryService {
   listEgressReceipts(workspaceId: string): readonly EgressReceipt[] { return this.list("egress_receipts", workspaceId, EgressReceiptSchema); }
   listReviews(workspaceId: string): readonly PublicReviewDecision[] { return this.list("review_decisions", workspaceId, ReviewDecisionSchema).map(publicReviewDecision); }
   listMemory(workspaceId: string): readonly PublicMemoryNote[] { return this.list("memory_notes", workspaceId, MemoryNoteSchema).map(publicMemoryNote); }
+  listSkills(workspaceId: string): readonly SkillDescriptor[] { return this.list("skills", workspaceId, SkillDescriptorSchema); }
+  getSkillDetail(workspaceId: string, id: string): SkillDetail {
+    const skill = requireDescriptor(new SkillRepository(this.database).get(workspaceId, DescriptorIdSchema.parse(id)));
+    return {
+      skill,
+      versions: new SkillVersionRepository(this.database).listBySkill(workspaceId, skill.id).filter((version) => version.status !== "draft"),
+      sources: new SkillSourceRepository(this.database).listBySkill(workspaceId, skill.id),
+      scans: new SkillScanRepository(this.database).listBySkill(workspaceId, skill.id),
+      reviews: new SkillReviewRepository(this.database).listBySkill(workspaceId, skill.id),
+      installations: new SkillInstallationRepository(this.database).listBySkill(workspaceId, skill.id),
+      invocation_facts: new SkillInvocationFactRepository(this.database).listBySkill(workspaceId, skill.id),
+      candidates: new LearningCandidateRepository(this.database).listBySkill(workspaceId, skill.id),
+      learning_contexts: this.listLearningSourceContexts(workspaceId, skill.id),
+    };
+  }
 
   getRegistry(workspaceId: string): RegistryCatalog {
     return RegistryCatalogSchema.parse({ schema_version: 1, workspace_id: workspaceId, runtimes: new RuntimeRepository(this.database).list(workspaceId), providers: new ProviderRepository(this.database).list(workspaceId), models: new ModelRepository(this.database).list(workspaceId), backends: new BackendRepository(this.database).list(workspaceId), tools: new ToolRepository(this.database).list(workspaceId) });
@@ -178,6 +223,55 @@ export class QueryService {
   private listCommandsByGoalLoop(workspaceId: string, goalLoopId: string): readonly GoalLoopCommand[] {
     const rows = this.database.prepare("SELECT payload_json FROM goal_loop_commands WHERE workspace_id = ? AND goal_loop_id = ? ORDER BY created_at ASC, rowid ASC").all(workspaceId, goalLoopId);
     return rows.map((row) => GoalLoopCommandSchema.parse(JSON.parse(readText(row["payload_json"]))));
+  }
+
+  private listLearningSourceContexts(workspaceId: string, skillId: string): readonly LearningSourceContext[] {
+    const rows = this.database.prepare(`SELECT e.workspace_id, e.run_id, gl.id AS goal_loop_id, e.event_id AS source_event_id, e.event_type, e.occurred_at FROM events e
+      JOIN goal_loops gl ON gl.workspace_id = e.workspace_id
+        AND gl.id = json_extract(e.payload_json, '$.payload.goal_loop_id')
+        AND gl.run_id = e.run_id
+        AND gl.continuation_cursor IS json_extract(e.payload_json, '$.payload.continuation_cursor')
+      WHERE e.workspace_id = ?
+        AND e.event_type = 'learning.source'
+        AND json_extract(e.payload_json, '$.payload.proposed_skill_id') = ?
+        AND (
+          (
+            NOT EXISTS (
+              SELECT 1 FROM skill_invocation_facts invocation_scope
+              WHERE invocation_scope.workspace_id = e.workspace_id
+                AND invocation_scope.skill_id = ?
+            )
+            AND NOT EXISTS (
+              SELECT 1 FROM learning_candidates candidate_scope
+              WHERE candidate_scope.workspace_id = e.workspace_id
+                AND candidate_scope.proposed_skill_id = ?
+            )
+          )
+          OR
+          EXISTS (
+            SELECT 1 FROM skill_invocation_facts invocation
+            WHERE invocation.workspace_id = e.workspace_id
+              AND invocation.skill_id = ?
+              AND invocation.run_id = e.run_id
+              AND invocation.goal_loop_id = gl.id
+          )
+          OR EXISTS (
+            SELECT 1 FROM learning_candidates candidate
+            WHERE candidate.workspace_id = e.workspace_id
+              AND candidate.proposed_skill_id = ?
+              AND candidate.run_id = e.run_id
+              AND candidate.goal_loop_id = gl.id
+          )
+        )
+      ORDER BY e.sequence DESC, e.event_id ASC LIMIT 8`).all(workspaceId, skillId, skillId, skillId, skillId, skillId);
+    return rows.map((row) => ({
+      workspace_id: readText(row["workspace_id"]),
+      run_id: readText(row["run_id"]),
+      goal_loop_id: readText(row["goal_loop_id"]),
+      source_event_id: readText(row["source_event_id"]),
+      event_type: "learning.source",
+      occurred_at: readText(row["occurred_at"]),
+    }));
   }
 }
 

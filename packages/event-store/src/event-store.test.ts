@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { EventEnvelopeSchema, type EventEnvelope } from "@nexora/contracts";
+import { EventEnvelopeSchema, LearningSourceEventSchema, type EventEnvelope } from "@nexora/contracts";
 import { migrate, openDatabase } from "@nexora/persistence";
 import { EventStore, EventStoreError } from "./event-store.js";
 
@@ -13,13 +13,45 @@ const FENCED_STEP_ID = "01GRZ3NDEKTSV4RRFFQ69G5FAV";
 const FENCED_ATTEMPT_ID = "01HRZ3NDEKTSV4RRFFQ69H5FAV";
 const JOB_ID = "01JRZ3NDEKTSV4RRFFQ69J5FAV";
 const LEASE_ID = "01KRZ3NDEKTSV4RRFFQ69K5FAV";
+const SESSION_ID = "01LRZ3NDEKTSV4RRFFQ69L5FAV";
+const GOAL_LOOP_ID = "01MRZ3NDEKTSV4RRFFQ69M5FAV";
 const TIME = "2026-08-26T04:00:00.000Z";
+const DEADLINE = "2026-08-26T05:00:00.000Z";
 
 function seedRun(database: ReturnType<typeof openDatabase>): void {
   database.prepare("INSERT INTO workspaces(id, name, schema_version, created_at, updated_at) VALUES (?, ?, 1, ?, ?)").run(WORKSPACE_ID, "Demo", TIME, TIME);
   database.prepare("INSERT INTO goals(id, workspace_id, title, objective, definition_of_done_json, payload_json, schema_version, created_at, updated_at) VALUES (?, ?, ?, ?, ?, ?, 1, ?, ?)").run(SYSTEM_ID, WORKSPACE_ID, "Goal", "Objective", "[]", "{}", TIME, TIME);
   database.prepare("INSERT INTO tickets(id, workspace_id, goal_id, status, idempotency_key, payload_json, schema_version, created_at, updated_at) VALUES (?, ?, ?, ?, ?, ?, 1, ?, ?)").run(TRACE_ID, WORKSPACE_ID, SYSTEM_ID, "ready", "ticket-c03", "{}", TIME, TIME);
   database.prepare("INSERT INTO runs(id, workspace_id, ticket_id, status, payload_json, schema_version, created_at, updated_at) VALUES (?, ?, ?, ?, ?, 1, ?, ?)").run(RUN_ID, WORKSPACE_ID, TRACE_ID, "queued", "{}", TIME, TIME);
+}
+
+function seedGatewaySessionLoop(database: ReturnType<typeof openDatabase>, continuationCursor: string | null): void {
+  const goalLoopPayload = {
+    id: GOAL_LOOP_ID,
+    workspace_id: WORKSPACE_ID,
+    schema_version: 1,
+    created_at: TIME,
+    updated_at: TIME,
+    goal_id: SYSTEM_ID,
+    run_id: RUN_ID,
+    session_id: SESSION_ID,
+    parent_loop_id: null,
+    root_loop_id: GOAL_LOOP_ID,
+    status: "running",
+    objective: "Learn from current run events.",
+    definition_of_done: ["learning source is scoped"],
+    max_turns: 5,
+    turn_count: 1,
+    budget: { max_tokens: 10_000, max_cost_usd: 1 },
+    deadline_at: DEADLINE,
+    continuation_cursor: continuationCursor,
+    judge: { done: false, reason: "Continue." },
+    descriptor_only: true,
+  };
+  database.prepare("INSERT INTO gateways(id, workspace_id, name, kind, descriptor_version, requested_version, actual_version, protocol_version, capabilities_json, health, status, enabled, execution_location, endpoint_ref, data_classification, last_heartbeat_at, payload_json, schema_version, created_at, updated_at) VALUES ('gateway-event-store', ?, 'Gateway Event Store', 'custom', '1.0.0', NULL, NULL, 1, '[\"sessions\"]', 'healthy', 'connected', 1, 'local', NULL, 'internal', ?, '{}', 1, ?, ?)").run(WORKSPACE_ID, TIME, TIME, TIME);
+  database.prepare("INSERT INTO channels(id, workspace_id, gateway_id, name, kind, descriptor_version, status, enabled, capabilities_json, credential_ref, endpoint_ref, allowlist_mode, data_classification, payload_json, schema_version, created_at, updated_at) VALUES ('channel-event-store', ?, 'gateway-event-store', 'Channel Event Store', 'custom', '1.0.0', 'connected', 1, '[\"sessions\"]', NULL, NULL, 'deny_by_default', 'internal', '{}', 1, ?, ?)").run(WORKSPACE_ID, TIME, TIME);
+  database.prepare("INSERT INTO sessions(id, workspace_id, gateway_id, channel_id, agent_id, run_id, external_session_ref, mode, status, cursor, last_message_id, last_event_at, payload_json, schema_version, created_at, updated_at) VALUES (?, ?, 'gateway-event-store', 'channel-event-store', NULL, ?, NULL, 'background', 'active', ?, NULL, ?, '{}', 1, ?, ?)").run(SESSION_ID, WORKSPACE_ID, RUN_ID, continuationCursor, TIME, TIME, TIME);
+  database.prepare("INSERT INTO goal_loops(id, workspace_id, goal_id, run_id, session_id, parent_loop_id, root_loop_id, status, objective, definition_of_done_json, max_turns, turn_count, budget_json, deadline_at, continuation_cursor, descriptor_only, payload_json, schema_version, created_at, updated_at) VALUES (?, ?, ?, ?, ?, NULL, ?, 'running', 'Learn from current run events.', ?, 5, 1, ?, ?, ?, 1, ?, 1, ?, ?)").run(GOAL_LOOP_ID, WORKSPACE_ID, SYSTEM_ID, RUN_ID, SESSION_ID, GOAL_LOOP_ID, JSON.stringify(["learning source is scoped"]), JSON.stringify({ max_tokens: 10_000, max_cost_usd: 1 }), DEADLINE, continuationCursor, JSON.stringify(goalLoopPayload), TIME, TIME);
 }
 
 function event(sequence: number, eventId: string): EventEnvelope {
@@ -42,6 +74,61 @@ function event(sequence: number, eventId: string): EventEnvelope {
 }
 
 describe("EventStore append", () => {
+  it("Given a typed learning source event When appending and listing Then provenance remains stream-safe", () => {
+    const database = openDatabase(":memory:");
+    migrate(database);
+    seedRun(database);
+    seedGatewaySessionLoop(database, "turn-1");
+    const store = new EventStore(database, { now: () => TIME });
+    const learningEvent = LearningSourceEventSchema.parse({
+      ...event(0, "01VRZ3NDEKTSV4RRFFQ69V5FAV"),
+      event_type: "learning.source",
+      payload: {
+        descriptor_only: true,
+        proposed_skill_id: "skill-visual-qa",
+        goal_loop_id: GOAL_LOOP_ID,
+        continuation_cursor: "turn-1",
+      },
+    });
+
+    expect(store.append(learningEvent, -1)).toEqual(learningEvent);
+    expect(store.listEvents({ workspaceId: WORKSPACE_ID, runId: RUN_ID, after: null, limit: 10 }).events).toEqual([learningEvent]);
+    database.close();
+  });
+
+  it("Given a learning source event without matching loop cursor When appending Then EventStore rejects the descriptor fact", () => {
+    const database = openDatabase(":memory:");
+    migrate(database);
+    seedRun(database);
+    seedGatewaySessionLoop(database, "turn-1");
+    const store = new EventStore(database, { now: () => TIME });
+    const staleCursorEvent = LearningSourceEventSchema.parse({
+      ...event(0, "01WRZ3NDEKTSV4RRFFQ69W5FAV"),
+      event_type: "learning.source",
+      payload: {
+        descriptor_only: true,
+        proposed_skill_id: "skill-visual-qa",
+        goal_loop_id: GOAL_LOOP_ID,
+        continuation_cursor: "turn-stale",
+      },
+    });
+    const missingLoopEvent = LearningSourceEventSchema.parse({
+      ...event(0, "01XRZ3NDEKTSV4RRFFQ69X5FAV"),
+      event_type: "learning.source",
+      payload: {
+        descriptor_only: true,
+        proposed_skill_id: "skill-visual-qa",
+        goal_loop_id: "01NRZ3NDEKTSV4RRFFQ69N5FAV",
+        continuation_cursor: "turn-1",
+      },
+    });
+
+    expect(() => store.append(staleCursorEvent, -1)).toThrowError(EventStoreError);
+    expect(() => store.append(missingLoopEvent, -1)).toThrowError(EventStoreError);
+    expect(store.listEvents({ workspaceId: WORKSPACE_ID, runId: RUN_ID, after: null, limit: 10 }).events).toEqual([]);
+    database.close();
+  });
+
   it("Given a current lease When appending a fenced event Then a stale lease cannot write after takeover", () => {
     const database = openDatabase(":memory:");
     migrate(database);

@@ -1,0 +1,101 @@
+
+ RUN  v3.2.7 /Users/zq/Desktop/ai-projs/posp/Nexora
+
+·······{"level":30,"time":1788318735441,"pid":9276,"hostname":"zqdeMacBook-Air.local","reqId":"req-1","req":{"method":"GET","url":"/v1/skills?workspace_id=01ARZ3NDEKTSV4RRFFQ69G5FAV","host":"localhost:80","remoteAddress":"127.0.0.1"},"msg":"incoming request"}
+·{"level":30,"time":1788318735476,"pid":9276,"hostname":"zqdeMacBook-Air.local","reqId":"req-1","req":{"method":"GET","url":"/v1/skills/skill-visual-qa?workspace_id=01ARZ3NDEKTSV4RRFFQ69G5FAV","host":"localhost:80","remoteAddress":"127.0.0.1"},"msg":"incoming request"}
+{"level":30,"time":1788318735507,"pid":9276,"hostname":"zqdeMacBook-Air.local","reqId":"req-1","req":{"method":"GET","url":"/v1/skills/skill-visual-qa?workspace_id=01ARZ3NDEKTSV4RRFFQ69G5FAV","host":"localhost:80","remoteAddress":"127.0.0.1"},"msg":"incoming request"}
+{"level":30,"time":1788318735535,"pid":9276,"hostname":"zqdeMacBook-Air.local","reqId":"req-1","req":{"method":"GET","url":"/v1/skills/skill-visual-qa?workspace_id=01ARZ3NDEKTSV4RRFFQ69G5FAV","host":"localhost:80","remoteAddress":"127.0.0.1"},"msg":"incoming request"}
+{"level":30,"time":1788318735565,"pid":9276,"hostname":"zqdeMacBook-Air.local","reqId":"req-1","req":{"method":"POST","url":"/v1/learning/candidates","host":"localhost:80","remoteAddress":"127.0.0.1"},"msg":"incoming request"}
+····{"level":30,"time":1788318735593,"pid":9276,"hostname":"zqdeMacBook-Air.local","reqId":"req-1","req":{"method":"POST","url":"/v1/learning/candidates","host":"localhost:80","remoteAddress":"127.0.0.1"},"msg":"incoming request"}
+{"level":30,"time":1788318735444,"pid":9276,"hostname":"zqdeMacBook-Air.local","reqId":"req-1","res":{"statusCode":200},"responseTime":2.544167000000016,"msg":"request completed"}
+{"level":30,"time":1788318735444,"pid":9276,"hostname":"zqdeMacBook-Air.local","reqId":"req-2","req":{"method":"GET","url":"/v1/skills/skill-visual-qa?workspace_id=01ARZ3NDEKTSV4RRFFQ69G5FAV","host":"localhost:80","remoteAddress":"127.0.0.1"},"msg":"incoming request"}
+{"level":30,"time":1788318735446,"pid":9276,"hostname":"zqdeMacBook-Air.local","reqId":"req-2","res":{"statusCode":200},"responseTime":1.0925000000000864,"msg":"request completed"}
+{"level":30,"time":1788318735446,"pid":9276,"hostname":"zqdeMacBook-Air.local","reqId":"req-3","req":{"method":"GET","url":"/v1/skills?workspace_id=01ARZ3NDEKTSV4RRFFQ69G5FAV","host":"localhost:80","remoteAddress":"127.0.0.1"},"msg":"incoming request"}
+{"level":30,"time":1788318735446,"pid":9276,"hostname":"zqdeMacBook-Air.local","reqId":"req-3","res":{"statusCode":403},"responseTime":0.6191669999999476,"msg":"request completed"}
+{"level":30,"time":1788318735477,"pid":9276,"hostname":"zqdeMacBook-Air.local","reqId":"req-1","res":{"statusCode":200},"responseTime":0.8723340000000235,"msg":"request completed"}
+{"level":30,"time":1788318735508,"pid":9276,"hostname":"zqdeMacBook-Air.local","reqId":"req-1","res":{"statusCode":200},"responseTime":0.9435829999999896,"msg":"request completed"}
+{"level":30,"time":1788318735536,"pid":9276,"hostname":"zqdeMacBook-Air.local","reqId":"req-1","res":{"statusCode":200},"responseTime":0.858167000000094,"msg":"request completed"}
+{"level":30,"time":1788318735567,"pid":9276,"hostname":"zqdeMacBook-Air.local","reqId":"req-1","res":{"statusCode":404},"responseTime":2.5778750000000628,"msg":"request completed"}
+{"level":30,"time":1788318735597,"pid":9276,"hostname":"zqdeMacBook-Air.local","reqId":"req-1","res":{"statusCode":202},"responseTime":3.2535420000000386,"msg":"request completed"}
+{"level":30,"time":1788318735597,"pid":9276,"hostname":"zqdeMacBook-Air.local","reqId":"req-2","req":{"method":"POST","url":"/v1/learning/candidates","host":"localhost:80","remoteAddress":"127.0.0.1"},"msg":"incoming request"}
+{"level":30,"time":1788318735598,"pid":9276,"hostname":"zqdeMacBook-Air.local","reqId":"req-2","res":{"statusCode":202},"responseTime":0.9500839999999471,"msg":"request completed"}
+{"level":30,"time":1788318735598,"pid":9276,"hostname":"zqdeMacBook-Air.local","reqId":"req-3","req":{"method":"POST","url":"/v1/learning/candidates","host":"localhost:80","remoteAddress":"127.0.0.1"},"msg":"incoming request"}
+{"level":30,"time":1788318735599,"pid":9276,"hostname":"zqdeMacBook-Air.local","reqId":"req-3","res":{"statusCode":409},"responseTime":0.48679200000003675,"msg":"request completed"}
+{"level":30,"time":1788318735599,"pid":9276,"hostname":"zqdeMacBook-Air.local","reqId":"req-4","req":{"method":"POST","url":"/v1/learning/candidates","host":"localhost:80","remoteAddress":"127.0.0.1"},"msg":"incoming request"}
+{"level":30,"time":1788318735599,"pid":9276,"hostname":"zqdeMacBook-Air.local","reqId":"req-4","res":{"statusCode":403},"responseTime":0.39420799999993505,"msg":"request completed"}
+{"level":30,"time":1788318735599,"pid":9276,"hostname":"zqdeMacBook-Air.local","reqId":"req-5","req":{"method":"POST","url":"/v1/learning/candidates","host":"localhost:80","remoteAddress":"127.0.0.1"},"msg":"incoming request"}
+{"level":30,"time":1788318735600,"pid":9276,"hostname":"zqdeMacBook-Air.local","reqId":"req-5","res":{"statusCode":400},"responseTime":0.5108330000000478,"msg":"request completed"}
+{"level":30,"time":1788318735600,"pid":9276,"hostname":"zqdeMacBook-Air.local","reqId":"req-6","req":{"method":"POST","url":"/v1/learning/candidates","host":"localhost:80","remoteAddress":"127.0.0.1"},"msg":"incoming request"}
+{"level":30,"time":1788318735603,"pid":9276,"hostname":"zqdeMacBook-Air.local","reqId":"req-6","res":{"statusCode":400},"responseTime":2.944667000000095,"msg":"request completed"}
+{"level":30,"time":1788318735603,"pid":9276,"hostname":"zqdeMacBook-Air.local","reqId":"req-7","req":{"method":"POST","url":"/v1/learning/candidates","host":"localhost:80","remoteAddress":"127.0.0.1"},"msg":"incoming request"}
+{"level":30,"time":1788318735604,"pid":9276,"hostname":"zqdeMacBook-Air.local","reqId":"req-7","res":{"statusCode":400},"responseTime":0.2955409999999574,"msg":"request completed"}
+{"level":30,"time":1788318735604,"pid":9276,"hostname":"zqdeMacBook-Air.local","reqId":"req-8","req":{"method":"POST","url":"/v1/learning/candidates","host":"localhost:80","remoteAddress":"127.0.0.1"},"msg":"incoming request"}
+{"level":30,"time":1788318735604,"pid":9276,"hostname":"zqdeMacBook-Air.local","reqId":"req-8","res":{"statusCode":400},"responseTime":0.28100000000006276,"msg":"request completed"}
+{"level":30,"time":1788318735604,"pid":9276,"hostname":"zqdeMacBook-Air.local","reqId":"req-9","req":{"method":"POST","url":"/v1/learning/candidates","host":"localhost:80","remoteAddress":"127.0.0.1"},"msg":"incoming request"}
+{"level":30,"time":1788318735604,"pid":9276,"hostname":"zqdeMacBook-Air.local","reqId":"req-9","res":{"statusCode":400},"responseTime":0.23020800000006147,"msg":"request completed"}
+{"level":30,"time":1788318735604,"pid":9276,"hostname":"zqdeMacBook-Air.local","reqId":"req-a","req":{"method":"POST","url":"/v1/learning/candidates","host":"localhost:80","remoteAddress":"127.0.0.1"},"msg":"incoming request"}
+{"level":30,"time":1788318735605,"pid":9276,"hostname":"zqdeMacBook-Air.local","reqId":"req-a","res":{"statusCode":400},"responseTime":0.2767079999999851,"msg":"request completed"}
+{"level":30,"time":1788318735605,"pid":9276,"hostname":"zqdeMacBook-Air.local","reqId":"req-b","req":{"method":"POST","url":"/v1/learning/candidates","host":"localhost:80","remoteAddress":"127.0.0.1"},"msg":"incoming request"}
+{"level":30,"time":1788318735605,"pid":9276,"hostname":"zqdeMacBook-Air.local","reqId":"req-b","res":{"statusCode":400},"responseTime":0.21916699999997036,"msg":"request completed"}
+{"level":30,"time":1788318735605,"pid":9276,"hostname":"zqdeMacBook-Air.local","reqId":"req-c","req":{"method":"POST","url":"/v1/learning/candidates","host":"localhost:80","remoteAddress":"127.0.0.1"},"msg":"incoming request"}
+{"level":30,"time":1788318735605,"pid":9276,"hostname":"zqdeMacBook-Air.local","reqId":"req-c","res":{"statusCode":400},"responseTime":0.2012920000000804,"msg":"request completed"}
+{"level":30,"time":1788318735605,"pid":9276,"hostname":"zqdeMacBook-Air.local","reqId":"req-d","req":{"method":"POST","url":"/v1/learning/candidates","host":"localhost:80","remoteAddress":"127.0.0.1"},"msg":"incoming request"}
+{"level":30,"time":1788318735606,"pid":9276,"hostname":"zqdeMacBook-Air.local","reqId":"req-d","res":{"statusCode":400},"responseTime":0.23733400000003257,"msg":"request completed"}
+{"level":30,"time":1788318735606,"pid":9276,"hostname":"zqdeMacBook-Air.local","reqId":"req-e","req":{"method":"POST","url":"/v1/learning/candidates","host":"localhost:80","remoteAddress":"127.0.0.1"},"msg":"incoming request"}
+{"level":30,"time":1788318735606,"pid":9276,"hostname":"zqdeMacBook-Air.local","reqId":"req-e","res":{"statusCode":404},"responseTime":0.4678750000000491,"msg":"request completed"}
+{"level":30,"time":1788318735606,"pid":9276,"hostname":"zqdeMacBook-Air.local","reqId":"req-f","req":{"method":"POST","url":"/v1/learning/candidates","host":"localhost:80","remoteAddress":"127.0.0.1"},"msg":"incoming request"}
+{"level":30,"time":1788318735634,"pid":9276,"hostname":"zqdeMacBook-Air.local","reqId":"req-1","req":{"method":"POST","url":"/v1/skills/skill-visual-qa/install","host":"localhost:80","remoteAddress":"127.0.0.1"},"msg":"incoming request"}
+{"level":30,"time":1788318735606,"pid":9276,"hostname":"zqdeMacBook-Air.local","reqId":"req-f","res":{"statusCode":404},"responseTime":0.20587499999999181,"msg":"request completed"}
+{"level":30,"time":1788318735606,"pid":9276,"hostname":"zqdeMacBook-Air.local","reqId":"req-g","req":{"method":"GET","url":"/v1/skills/skill-visual-qa?workspace_id=01ARZ3NDEKTSV4RRFFQ69G5FAV","host":"localhost:80","remoteAddress":"127.0.0.1"},"msg":"incoming request"}
+{"level":30,"time":1788318735607,"pid":9276,"hostname":"zqdeMacBook-Air.local","reqId":"req-g","res":{"statusCode":200},"responseTime":0.6466669999999795,"msg":"request completed"}
+{"level":30,"time":1788318735635,"pid":9276,"hostname":"zqdeMacBook-Air.local","reqId":"req-1","res":{"statusCode":409},"responseTime":0.7815829999999551,"msg":"request completed"}
+{"level":30,"time":1788318735635,"pid":9276,"hostname":"zqdeMacBook-Air.local","reqId":"req-2","req":{"method":"POST","url":"/v1/skills/skill-visual-qa/install","host":"localhost:80","remoteAddress":"127.0.0.1"},"msg":"incoming request"}
+{"level":30,"time":1788318735637,"pid":9276,"hostname":"zqdeMacBook-Air.local","reqId":"req-2","res":{"statusCode":202},"responseTime":2.010417000000075,"msg":"request completed"}
+{"level":30,"time":1788318735637,"pid":9276,"hostname":"zqdeMacBook-Air.local","reqId":"req-3","req":{"method":"POST","url":"/v1/skills/skill-visual-qa/install","host":"localhost:80","remoteAddress":"127.0.0.1"},"msg":"incoming request"}
+{"level":30,"time":1788318735637,"pid":9276,"hostname":"zqdeMacBook-Air.local","reqId":"req-3","res":{"statusCode":202},"responseTime":0.26529100000004746,"msg":"request completed"}
+{"level":30,"time":1788318735637,"pid":9276,"hostname":"zqdeMacBook-Air.local","reqId":"req-4","req":{"method":"POST","url":"/v1/skills/skill-visual-qa/install","host":"localhost:80","remoteAddress":"127.0.0.1"},"msg":"incoming request"}
+{"level":30,"time":1788318735638,"pid":9276,"hostname":"zqdeMacBook-Air.local","reqId":"req-4","res":{"statusCode":409},"responseTime":0.2756660000000011,"msg":"request completed"}
+{"level":30,"time":1788318735638,"pid":9276,"hostname":"zqdeMacBook-Air.local","reqId":"req-5","req":{"method":"POST","url":"/v1/skills/skill-visual-qa/install","host":"localhost:80","remoteAddress":"127.0.0.1"},"msg":"incoming request"}
+{"level":30,"time":1788318735638,"pid":9276,"hostname":"zqdeMacBook-Air.local","reqId":"req-5","res":{"statusCode":409},"responseTime":0.2864589999999225,"msg":"request completed"}
+{"level":30,"time":1788318735638,"pid":9276,"hostname":"zqdeMacBook-Air.local","reqId":"req-6","req":{"method":"POST","url":"/v1/skills/skill-visual-qa/quarantine","host":"localhost:80","remoteAddress":"127.0.0.1"},"msg":"incoming request"}
+{"level":30,"time":1788318735638,"pid":9276,"hostname":"zqdeMacBook-Air.local","reqId":"req-6","res":{"statusCode":428},"responseTime":0.20150000000001,"msg":"request completed"}
+{"level":30,"time":1788318735639,"pid":9276,"hostname":"zqdeMacBook-Air.local","reqId":"req-7","req":{"method":"POST","url":"/v1/skills/skill-visual-qa/quarantine","host":"localhost:80","remoteAddress":"127.0.0.1"},"msg":"incoming request"}
+{"level":30,"time":1788318735639,"pid":9276,"hostname":"zqdeMacBook-Air.local","reqId":"req-7","res":{"statusCode":403},"responseTime":0.2244590000000244,"msg":"request completed"}
+{"level":30,"time":1788318735639,"pid":9276,"hostname":"zqdeMacBook-Air.local","reqId":"req-8","req":{"method":"POST","url":"/v1/skills/skill-visual-qa/quarantine","host":"localhost:80","remoteAddress":"127.0.0.1"},"msg":"incoming request"}
+{"level":30,"time":1788318735639,"pid":9276,"hostname":"zqdeMacBook-Air.local","reqId":"req-8","res":{"statusCode":400},"responseTime":0.15208300000006147,"msg":"request completed"}
+{"level":30,"time":1788318735639,"pid":9276,"hostname":"zqdeMacBook-Air.local","reqId":"req-9","req":{"method":"POST","url":"/v1/skills/skill-visual-qa/quarantine","host":"localhost:80","remoteAddress":"127.0.0.1"},"msg":"incoming request"}
+{"level":30,"time":1788318735641,"pid":9276,"hostname":"zqdeMacBook-Air.local","reqId":"req-9","res":{"statusCode":202},"responseTime":2.1302080000000387,"msg":"request completed"}
+{"level":30,"time":1788318735641,"pid":9276,"hostname":"zqdeMacBook-Air.local","reqId":"req-a","req":{"method":"POST","url":"/v1/skills/skill-visual-qa/rollback","host":"localhost:80","remoteAddress":"127.0.0.1"},"msg":"incoming request"}
+{"level":30,"time":1788318735642,"pid":9276,"hostname":"zqdeMacBook-Air.local","reqId":"req-a","res":{"statusCode":409},"responseTime":0.4943749999999909,"msg":"request completed"}
+{"level":30,"time":1788318735642,"pid":9276,"hostname":"zqdeMacBook-Air.local","reqId":"req-b","req":{"method":"POST","url":"/v1/skills/skill-visual-qa/rollback","host":"localhost:80","remoteAddress":"127.0.0.1"},"msg":"incoming request"}
+{"level":30,"time":1788318735669,"pid":9276,"hostname":"zqdeMacBook-Air.local","reqId":"req-1","req":{"method":"POST","url":"/v1/skills/skill-visual-qa/install","host":"localhost:80","remoteAddress":"127.0.0.1"},"msg":"incoming request"}
+··{"level":30,"time":1788318735644,"pid":9276,"hostname":"zqdeMacBook-Air.local","reqId":"req-b","res":{"statusCode":202},"responseTime":1.8960420000000795,"msg":"request completed"}
+{"level":30,"time":1788318735644,"pid":9276,"hostname":"zqdeMacBook-Air.local","reqId":"req-c","req":{"method":"GET","url":"/v1/skills/skill-visual-qa?workspace_id=01ARZ3NDEKTSV4RRFFQ69G5FAV","host":"localhost:80","remoteAddress":"127.0.0.1"},"msg":"incoming request"}
+{"level":30,"time":1788318735645,"pid":9276,"hostname":"zqdeMacBook-Air.local","reqId":"req-c","res":{"statusCode":200},"responseTime":0.5814579999999978,"msg":"request completed"}
+{"level":30,"time":1788318735670,"pid":9276,"hostname":"zqdeMacBook-Air.local","reqId":"req-1","res":{"statusCode":400},"responseTime":0.54200000000003,"msg":"request completed"}
+{"level":30,"time":1788318735670,"pid":9276,"hostname":"zqdeMacBook-Air.local","reqId":"req-2","req":{"method":"POST","url":"/v1/skills/skill-visual-qa/install","host":"localhost:80","remoteAddress":"127.0.0.1"},"msg":"incoming request"}
+{"level":30,"time":1788318735697,"pid":9276,"hostname":"zqdeMacBook-Air.local","reqId":"req-1","req":{"method":"POST","url":"/v1/skills/skill-visual-qa/approve","host":"localhost:80","remoteAddress":"127.0.0.1"},"msg":"incoming request"}
+{"level":30,"time":1788318735670,"pid":9276,"hostname":"zqdeMacBook-Air.local","reqId":"req-2","res":{"statusCode":400},"responseTime":0.33541700000000674,"msg":"request completed"}
+{"level":30,"time":1788318735670,"pid":9276,"hostname":"zqdeMacBook-Air.local","reqId":"req-3","req":{"method":"GET","url":"/v1/skills/skill-visual-qa?workspace_id=01ARZ3NDEKTSV4RRFFQ69G5FAV","host":"localhost:80","remoteAddress":"127.0.0.1"},"msg":"incoming request"}
+{"level":30,"time":1788318735671,"pid":9276,"hostname":"zqdeMacBook-Air.local","reqId":"req-3","res":{"statusCode":200},"responseTime":0.505207999999925,"msg":"request completed"}
+{"level":30,"time":1788318735698,"pid":9276,"hostname":"zqdeMacBook-Air.local","reqId":"req-1","res":{"statusCode":409},"responseTime":0.7487919999999804,"msg":"request completed"}
+{"level":30,"time":1788318735726,"pid":9276,"hostname":"zqdeMacBook-Air.local","reqId":"req-1","req":{"method":"POST","url":"/v1/skills/skill-visual-qa/approve","host":"localhost:80","remoteAddress":"127.0.0.1"},"msg":"incoming request"}
+{"level":30,"time":1788318735698,"pid":9276,"hostname":"zqdeMacBook-Air.local","reqId":"req-2","req":{"method":"GET","url":"/v1/skills/skill-visual-qa?workspace_id=01ARZ3NDEKTSV4RRFFQ69G5FAV","host":"localhost:80","remoteAddress":"127.0.0.1"},"msg":"incoming request"}
+{"level":30,"time":1788318735698,"pid":9276,"hostname":"zqdeMacBook-Air.local","reqId":"req-2","res":{"statusCode":200},"responseTime":0.5976249999999936,"msg":"request completed"}
+{"level":30,"time":1788318735727,"pid":9276,"hostname":"zqdeMacBook-Air.local","reqId":"req-1","res":{"statusCode":202},"responseTime":1.605374999999981,"msg":"request completed"}
+{"level":30,"time":1788318735727,"pid":9276,"hostname":"zqdeMacBook-Air.local","reqId":"req-2","req":{"method":"POST","url":"/v1/skills/skill-visual-qa/revoke","host":"localhost:80","remoteAddress":"127.0.0.1"},"msg":"incoming request"}
+{"level":30,"time":1788318735728,"pid":9276,"hostname":"zqdeMacBook-Air.local","reqId":"req-2","res":{"statusCode":409},"responseTime":0.48283299999991414,"msg":"request completed"}
+{"level":30,"time":1788318735728,"pid":9276,"hostname":"zqdeMacBook-Air.local","reqId":"req-3","req":{"method":"POST","url":"/v1/skills/skill-visual-qa/revoke","host":"localhost:80","remoteAddress":"127.0.0.1"},"msg":"incoming request"}
+{"level":30,"time":1788318735758,"pid":9276,"hostname":"zqdeMacBook-Air.local","reqId":"req-1","req":{"method":"POST","url":"/v1/skills/skill-visual-qa/rollback","host":"localhost:80","remoteAddress":"127.0.0.1"},"msg":"incoming request"}
+{"level":30,"time":1788318735730,"pid":9276,"hostname":"zqdeMacBook-Air.local","reqId":"req-3","res":{"statusCode":202},"responseTime":1.8207909999999856,"msg":"request completed"}
+{"level":30,"time":1788318735730,"pid":9276,"hostname":"zqdeMacBook-Air.local","reqId":"req-4","req":{"method":"GET","url":"/v1/skills/skill-visual-qa?workspace_id=01ARZ3NDEKTSV4RRFFQ69G5FAV","host":"localhost:80","remoteAddress":"127.0.0.1"},"msg":"incoming request"}
+{"level":30,"time":1788318735730,"pid":9276,"hostname":"zqdeMacBook-Air.local","reqId":"req-4","res":{"statusCode":200},"responseTime":0.5530420000000049,"msg":"request completed"}
+{"level":30,"time":1788318735761,"pid":9276,"hostname":"zqdeMacBook-Air.local","reqId":"req-1","res":{"statusCode":409},"responseTime":3.221499999999992,"msg":"request completed"}
+{"level":30,"time":1788318735762,"pid":9276,"hostname":"zqdeMacBook-Air.local","reqId":"req-2","req":{"method":"GET","url":"/v1/skills/skill-visual-qa?workspace_id=01ARZ3NDEKTSV4RRFFQ69G5FAV","host":"localhost:80","remoteAddress":"127.0.0.1"},"msg":"incoming request"}
+{"level":30,"time":1788318735762,"pid":9276,"hostname":"zqdeMacBook-Air.local","reqId":"req-2","res":{"statusCode":200},"responseTime":0.5491660000000138,"msg":"request completed"}
+·····························································
+
+ Test Files  8 passed (8)
+      Tests  75 passed (75)
+   Start at  11:12:14
+   Duration  3.52s (transform 545ms, setup 0ms, collect 1.28s, tests 844ms, environment 1ms, prepare 270ms)

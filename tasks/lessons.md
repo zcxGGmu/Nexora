@@ -66,3 +66,27 @@
 - Pattern: After repeated continuation prompts, it is easy to restart broad discovery or stop at a prior handoff summary instead of finishing the remaining commit-stage work.
 - Correction: Re-read the local fact sources, verification artifacts, and Git state first, then continue from the smallest incomplete gate without assuming the previous report is sufficient.
 - Rule: On Nexora continuation turns, identify the current Cxx stage, last scoped commit, dirty/untracked boundary, freshest verification logs, and next unchecked gate before editing or reporting completion.
+
+## 2026-09-02 — Descriptor command idempotency must compare semantic payloads
+
+- Pattern: A descriptor-only command can appear idempotent while replaying a changed underlying resource payload when only the command wrapper fields are compared.
+- Correction: C21 `/learn` now compares the persisted candidate semantics, including lesson, diff, run, loop, source event, proposed skill, descriptor flag, and evidence refs, and rejects changed replay with `IDEMPOTENCY_KEY_REUSED`.
+- Rule: For Nexora descriptor stages, idempotency must bind the full client-controlled resource semantics, and database triggers must mirror repository scope checks for cross-resource pairings such as run/goal loop or skill/version/installation.
+
+## 2026-09-02 — QA seeds must follow hardened persistence invariants
+
+- Pattern: A manual QA seed can keep an obsolete insert order after a migration adds semantic triggers, causing the visual gate to fail even when production code is correct.
+- Correction: C21 visual QA now creates the goal loop/session facts before inserting the `learning.source` event required by the hardened source-event trigger.
+- Rule: After adding DB trigger invariants, rerun all manual QA seed scripts from scratch and update fixture ordering to satisfy the same production scope constraints.
+
+## 2026-09-02 — Dual optimistic concurrency must stay documented as implemented
+
+- Pattern: Fixing lifecycle concurrency in code can leave ADR/runbook text claiming the old single-revision contract, which misleads operators and future reviewers.
+- Correction: C21 docs now state that `If-Match` is always the skill descriptor revision, while revoke/quarantine/rollback also require `installation_revision` in the request body.
+- Rule: When a review changes a public API concurrency contract, update tests, API/UI callers, ADR, runbook, and verification notes in the same stage before commit.
+
+## 2026-09-02 — Rollback semantics need write-layer parity
+
+- Pattern: A lifecycle API can reject a no-op rollback while repository and raw SQL paths still allow the same invalid state.
+- Correction: C21 rollback now rejects `rollback_to_version_id === version_id` in service/repository logic and migration triggers, with RED/GREEN tests that include raw SQL bypass attempts.
+- Rule: For reversible lifecycle states, enforce semantic impossibilities at every write layer and include raw persistence bypass tests before closing the stage.
