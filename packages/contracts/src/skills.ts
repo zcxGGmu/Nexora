@@ -12,7 +12,7 @@ const SkillDescriptionSchema = secretSafeText(1000);
 const SkillCapabilitySchema = z.string().min(1).max(96).regex(/^[a-z][a-z0-9:._/-]*$/);
 const SkillTagSchema = z.string().min(1).max(64).regex(/^[a-z][a-z0-9._-]*$/);
 const SemverSchema = z.string().regex(/^\d+\.\d+\.\d+(?:-[0-9A-Za-z.-]+)?$/);
-const INTERNAL_REFERENCE_SCHEMES = new Set(["artifact", "workspace", "memory", "skill"]);
+const INTERNAL_REFERENCE_SCHEMES = new Set(["artifact", "workspace", "memory", "skill", "journal"]);
 const ActorRefSchema = z.string().min(1).max(160).regex(/^[a-z][a-z0-9._/-]*:[^\s]+$/)
   .refine((value) => !containsSecretLikeText(value), "secret-shaped text is not allowed")
   .refine((value) => !containsPathLikeText(value), "local paths and credential refs are not allowed");
@@ -299,11 +299,19 @@ export function containsPathLikeText(value: string): boolean {
   let current = value;
   for (let pass = 0; pass < 10; pass += 1) {
     if (containsPathLikeVariant(current)) return true;
+    const stripped = stripDefaultIgnorableCodePoints(current);
+    if (stripped !== current && containsPathLikeVariant(stripped)) return true;
     const decoded = decodePercentTriplets(current);
     if (decoded === current) return false;
     current = decoded;
   }
   return true;
+}
+
+const DEFAULT_IGNORABLE_CODE_POINT_PATTERN = /\p{Default_Ignorable_Code_Point}/gu;
+
+function stripDefaultIgnorableCodePoints(value: string): string {
+  return value.replace(DEFAULT_IGNORABLE_CODE_POINT_PATTERN, "");
 }
 
 function containsPathLikeVariant(value: string): boolean {
@@ -315,7 +323,7 @@ function containsPathLikeVariant(value: string): boolean {
   }
   if (/(?:^|[\s"'(=:])\/\/(?!\/)[^\s"')]+\/[^\s"')]+/i.test(schemeNeutral)) return true;
   if (/(?:^|[\s"'(=:])(?:~\/|\.{1,2}\/|\/(?!\/)(?:[^\s"')]+|$)|[A-Za-z]:\/)/i.test(normalized)) return true;
-  for (const match of normalized.matchAll(/(?:^|[\s"'(])(?:artifact|workspace|memory|skill):\/\/[^\s"')]+/gi)) {
+  for (const match of normalized.matchAll(/(?:^|[\s"'(])(?:artifact|workspace|memory|skill|journal):\/\/[^\s"')]+/gi)) {
     const reference = match[0].trim().replace(/^["'(]+/, "");
     if (isUnsafeInternalReference(reference)) return true;
   }

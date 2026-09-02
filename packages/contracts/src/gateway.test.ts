@@ -4,6 +4,7 @@ import {
   ChannelDescriptorSchema,
   DeliveryReceiptSchema,
   GatewayDescriptorSchema,
+  IdempotencyKeySchema,
   MessageEnvelopeSchema,
   canTransitionSession,
   SessionCommandSchema,
@@ -67,5 +68,14 @@ describe("gateway/channel/session contracts", () => {
     const message = MessageEnvelopeSchema.parse({ schema_version: 1, message_id: MESSAGE_ID, workspace_id: WORKSPACE_ID, session_id: SESSION_ID, channel_id: "channel-telegram", direction: "inbound", status: "accepted", idempotency_key: "telegram:update:1", sequence: 1, cursor: "telegram:1", occurred_at: TIME, trace_id: SESSION_ID, sender_ref: "user:1", recipient_ref: null, content: { text: "hello" }, content_type: "json", content_hash: "sha256:message" });
     expect(message.workspace_id).toBe(WORKSPACE_ID);
     expect(AllowlistEntrySchema.parse({ id: SESSION_ID, workspace_id: WORKSPACE_ID, schema_version: 1, created_at: TIME, updated_at: TIME, channel_id: "channel-telegram", subject_type: "user", subject_ref: "user:1", decision: "allow", reason: "paired", expires_at: null, created_by: null }).decision).toBe("allow");
+  });
+
+  it("rejects secret and path-shaped idempotency keys before they can become command ids", () => {
+    expect(IdempotencyKeySchema.parse("journal:writeback:request-1")).toBe("journal:writeback:request-1");
+    expect(IdempotencyKeySchema.safeParse("journal:writeback:token=abcd1234").success).toBe(false);
+    expect(IdempotencyKeySchema.safeParse("secret://providers/live-token").success).toBe(false);
+    expect(IdempotencyKeySchema.safeParse("journal/writeback/request").success).toBe(false);
+    expect(IdempotencyKeySchema.safeParse("journal:%2fwriteback").success).toBe(false);
+    expect(IdempotencyKeySchema.safeParse("sk-proj-abcdefghi").success).toBe(false);
   });
 });

@@ -7,7 +7,9 @@ import { DescriptorIdSchema } from "./registry.js";
 const DescriptorNameSchema = z.string().min(1).max(160);
 const DescriptorVersionSchema = z.string().regex(/^\d+\.\d+\.\d+(?:-[0-9A-Za-z.-]+)?$/);
 const CursorSchema = z.string().min(1).max(512).regex(/^\S+$/);
-const IdempotencyKeySchema = z.string().min(1).max(128);
+const IdempotencyKeySchema = z.string().min(1).max(128)
+  .regex(/^[A-Za-z0-9][A-Za-z0-9._:-]*$/)
+  .refine((value) => !containsIdempotencySecretMarker(value), "idempotency keys must not contain secret-shaped markers");
 const JsonValueSchema: z.ZodType<unknown> = z.lazy(() => z.union([z.string(), z.number().finite(), z.boolean(), z.null(), z.array(JsonValueSchema), z.record(JsonValueSchema)]));
 
 export const GatewayKindSchema = z.enum(["hermes", "openclaw", "custom"]);
@@ -192,4 +194,11 @@ export function canTransitionSession(from: SessionStatus, to: SessionStatus): bo
 
 export function sessionTransitions(): Readonly<Record<SessionStatus, readonly SessionStatus[]>> {
   return SESSION_STATUS_TRANSITIONS;
+}
+
+function containsIdempotencySecretMarker(value: string): boolean {
+  return /(?:^|[:._-])(?:api[_-]?key|access[_-]?token|authorization|private[_-]?key|client[_-]?secret|refresh[_-]?token|session[_-]?token|token|password|passwd|pwd|secret)(?:[:._-]|$)/i.test(value)
+    || /(?:^|[:._-])sk-(?:live|proj|test|ant)-/i.test(value)
+    || /(?:^|[:._-])xox[abprs]-/i.test(value)
+    || /(?:^|[:._-])gh[pousr]_/i.test(value);
 }

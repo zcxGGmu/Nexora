@@ -19,6 +19,13 @@ import {
   RegistryCatalogSchema,
   DescriptorIdSchema,
   SkillDescriptorSchema,
+  type GraphIndexSnapshot,
+  type JournalEntryDescriptor,
+  type JournalSource,
+  type MemoryCandidate,
+  type VaultBridgeDescriptor,
+  type WritebackDecision,
+  type WritebackRequest,
   type LearningCandidate,
   type SkillDescriptor,
   type SkillInstallation,
@@ -52,7 +59,7 @@ import {
   type Ticket,
 } from "@nexora/contracts";
 import type { QueueJob } from "@nexora/orchestration";
-import { BackendRepository, LearningCandidateRepository, ModelRepository, ProviderRepository, RuntimeRepository, SkillInstallationRepository, SkillInvocationFactRepository, SkillRepository, SkillReviewRepository, SkillScanRepository, SkillSourceRepository, SkillVersionRepository, ToolRepository, type SqliteDatabase } from "@nexora/persistence";
+import { BackendRepository, LearningCandidateRepository, ModelRepository, ProviderRepository, RuntimeRepository, SkillInstallationRepository, SkillInvocationFactRepository, SkillRepository, SkillReviewRepository, SkillScanRepository, SkillSourceRepository, SkillVersionRepository, ToolRepository, VaultBridgeRepository, JournalEntryRepository, JournalSourceRepository, GraphIndexSnapshotRepository, JournalMemoryCandidateRepository, WritebackRequestRepository, WritebackDecisionRepository, type SqliteDatabase } from "@nexora/persistence";
 import { ApiHttpError } from "./errors.js";
 
 export type QueueJobSummary = Pick<QueueJob, "id" | "workspace_id" | "run_id" | "step_id" | "status" | "available_at" | "attempts" | "max_attempts" | "created_at" | "updated_at">;
@@ -86,6 +93,16 @@ export type SkillDetail = {
   readonly invocation_facts: readonly SkillInvocationFact[];
   readonly candidates: readonly LearningCandidate[];
   readonly learning_contexts: readonly LearningSourceContext[];
+};
+
+export type JournalVaultDetail = {
+  readonly vault: VaultBridgeDescriptor;
+  readonly entries: readonly JournalEntryDescriptor[];
+  readonly sources: readonly JournalSource[];
+  readonly graph_indexes: readonly GraphIndexSnapshot[];
+  readonly memory_candidates: readonly MemoryCandidate[];
+  readonly writeback_requests: readonly WritebackRequest[];
+  readonly writeback_decisions: readonly WritebackDecision[];
 };
 
 export type LearningSourceContext = {
@@ -131,6 +148,24 @@ export class QueryService {
   listReviews(workspaceId: string): readonly PublicReviewDecision[] { return this.list("review_decisions", workspaceId, ReviewDecisionSchema).map(publicReviewDecision); }
   listMemory(workspaceId: string): readonly PublicMemoryNote[] { return this.list("memory_notes", workspaceId, MemoryNoteSchema).map(publicMemoryNote); }
   listSkills(workspaceId: string): readonly SkillDescriptor[] { return this.list("skills", workspaceId, SkillDescriptorSchema); }
+  listVaults(workspaceId: string): readonly VaultBridgeDescriptor[] { return new VaultBridgeRepository(this.database).list(workspaceId); }
+  getJournalEntry(workspaceId: string, id: string): JournalEntryDescriptor { return requireDescriptor(new JournalEntryRepository(this.database).get(workspaceId, id)); }
+  getJournalSource(workspaceId: string, id: string): JournalSource { return requireDescriptor(new JournalSourceRepository(this.database).get(workspaceId, id)); }
+  getJournalGraphIndex(workspaceId: string, id: string): GraphIndexSnapshot { return requireDescriptor(new GraphIndexSnapshotRepository(this.database).get(workspaceId, id)); }
+  getJournalMemoryCandidate(workspaceId: string, id: string): MemoryCandidate { return requireDescriptor(new JournalMemoryCandidateRepository(this.database).get(workspaceId, id)); }
+  getJournalWritebackRequest(workspaceId: string, id: string): WritebackRequest { return requireDescriptor(new WritebackRequestRepository(this.database).get(workspaceId, id)); }
+  getJournalVaultDetail(workspaceId: string, id: string): JournalVaultDetail {
+    const vault = requireDescriptor(new VaultBridgeRepository(this.database).get(workspaceId, DescriptorIdSchema.parse(id)));
+    return {
+      vault,
+      entries: new JournalEntryRepository(this.database).listByVault(workspaceId, vault.id),
+      sources: new JournalSourceRepository(this.database).listByVault(workspaceId, vault.id),
+      graph_indexes: new GraphIndexSnapshotRepository(this.database).listByVault(workspaceId, vault.id),
+      memory_candidates: new JournalMemoryCandidateRepository(this.database).listByVault(workspaceId, vault.id),
+      writeback_requests: new WritebackRequestRepository(this.database).listByVault(workspaceId, vault.id),
+      writeback_decisions: new WritebackDecisionRepository(this.database).listByVault(workspaceId, vault.id),
+    };
+  }
   getSkillDetail(workspaceId: string, id: string): SkillDetail {
     const skill = requireDescriptor(new SkillRepository(this.database).get(workspaceId, DescriptorIdSchema.parse(id)));
     return {

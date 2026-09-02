@@ -1,0 +1,140 @@
+{
+  "status": "pass",
+  "stamp": "20260902T170407Z",
+  "url": "http://127.0.0.1:4313/journal?workspace=ws-demo",
+  "screenshots": {
+    "desktop": "/Users/zq/Desktop/ai-projs/posp/Nexora/artifacts/progress/c22/current-verification/c22-journal-desktop-final-rerun-20260902T170407Z.png",
+    "desktopPostActions": "/Users/zq/Desktop/ai-projs/posp/Nexora/artifacts/progress/c22/current-verification/c22-journal-desktop-post-actions-final-rerun-20260902T170407Z.png",
+    "mobile": "/Users/zq/Desktop/ai-projs/posp/Nexora/artifacts/progress/c22/current-verification/c22-journal-mobile-final-rerun-20260902T170407Z.png"
+  },
+  "apiResponses": [
+    {
+      "method": "GET",
+      "status": 401,
+      "path": "/v1/vaults?workspace_id=01ARZ3NDEKTSV4RRFFQ69G5FAV"
+    },
+    {
+      "method": "POST",
+      "status": 204,
+      "path": "/v1/auth/local-session"
+    },
+    {
+      "method": "GET",
+      "status": 200,
+      "path": "/v1/vaults?workspace_id=01ARZ3NDEKTSV4RRFFQ69G5FAV"
+    },
+    {
+      "method": "GET",
+      "status": 200,
+      "path": "/v1/vaults/vault-obsidian-demo?workspace_id=01ARZ3NDEKTSV4RRFFQ69G5FAV"
+    },
+    {
+      "method": "POST",
+      "status": 202,
+      "path": "/v1/journal/writebacks"
+    },
+    {
+      "method": "GET",
+      "status": 200,
+      "path": "/v1/vaults?workspace_id=01ARZ3NDEKTSV4RRFFQ69G5FAV"
+    },
+    {
+      "method": "GET",
+      "status": 200,
+      "path": "/v1/vaults/vault-obsidian-demo?workspace_id=01ARZ3NDEKTSV4RRFFQ69G5FAV"
+    },
+    {
+      "method": "POST",
+      "status": 202,
+      "path": "/v1/journal/writebacks/01M1HH81W69F9ASR31VHW2TD8B/approve"
+    },
+    {
+      "method": "GET",
+      "status": 200,
+      "path": "/v1/vaults?workspace_id=01ARZ3NDEKTSV4RRFFQ69G5FAV"
+    },
+    {
+      "method": "GET",
+      "status": 200,
+      "path": "/v1/vaults/vault-obsidian-demo?workspace_id=01ARZ3NDEKTSV4RRFFQ69G5FAV"
+    },
+    {
+      "method": "GET",
+      "status": 200,
+      "path": "/v1/vaults?workspace_id=01ARZ3NDEKTSV4RRFFQ69G5FAV"
+    },
+    {
+      "method": "GET",
+      "status": 200,
+      "path": "/v1/vaults/vault-obsidian-demo?workspace_id=01ARZ3NDEKTSV4RRFFQ69G5FAV"
+    }
+  ],
+  "externalRequests": [],
+  "controlsBefore": {
+    "requestDisabled": false,
+    "approveDisabled": false,
+    "rejectDisabled": false
+  },
+  "desktopAudit": {
+    "label": "desktop",
+    "clientWidth": 1440,
+    "scrollWidth": 1440,
+    "overflow": 0,
+    "mobileNavItems": 5,
+    "duplicateIds": [],
+    "missingAriaRefs": [],
+    "tableCount": 0,
+    "requestControls": 1,
+    "approveControls": 1,
+    "rejectControls": 1,
+    "hasBoundary": true,
+    "hasJournalStatus": true,
+    "hasGraph": true,
+    "hasMemory": true,
+    "hasWriteback": true,
+    "hasBreakAll": false,
+    "bodySample": "Skip to route title\nws-demo\nread_write\nSearch\nStart\nCreate\nConnected\nNexora\nAgent OS control plane\nWorkbench\nMission Control\nInbox\nReview\nWork\nCowork\nGoals\nTickets\nWorkflows\nRuns\nArtifacts\nMemory\nSystem\nGateway\nSkills\nJournal\nRegistry\nDesign System\nSettings\n\nJournal Control\n\nJournal & Vault\n\nInspect vault bridge descriptors, daily journal facts, graph indexes, and approval-only writeback requests.\n\nDescriptor-only vault bridge\nNo external connection\n\nNo real Obsidian, OMI, MCP, or vault writeback is connected. This page records local descriptors, graph/FTS snapshots, memory candidates, and pending approval facts only.\n\nVault bridges\n1\nObsidian Demo Vault\nvault-obsidian-demo | obsidian | read_only\n\nSources: manual, omi, obsidian, memory, artifact | descriptor-only true\n\nindexed\nDaily journal\n1 pending writeback\nVault\nObsidian Demo Vault | read_only\nEntry\nDaily operating journal | 2026-09-02\nSources\n1 captured descriptor refs\nGraph/FTS index\ngraph_fts | 42 nodes | 8 docs\nMemory candidates\n1 candidates | candidate 01FRZ3NDEKTSV4RRFFQ69G5FAV\nWriteback approval\n1 pending | 0 approved | no vault write\nWriteback target refWriteback diff hashExpected target revisionWriteback reason\nRequest writeback\nApprove\nReject\nGraph/FTS index\n\ngraph_fts | 42 graph nodes | 8 searchable documents | append-only snapshot\n\nMemory candidates\n\n1 candidates require review before promotion. Approved writeback remains a descriptor fact until a later explicitly authorized vault connector stage.\n\nWriteback requires approval\n\nApprove and reject only append local decision facts and update request state. They do not write files, call Obsidian, sync OMI, or contact MCP providers.\n\nEvidence rail\nEmpty\n\nSelect a Run, Review, Artifact, or Memory item to inspect provenance.\n\nOpen Mission Control."
+  },
+  "desktopPostAudit": {
+    "label": "desktop-post-actions",
+    "clientWidth": 1440,
+    "scrollWidth": 1440,
+    "overflow": 0,
+    "mobileNavItems": 5,
+    "duplicateIds": [],
+    "missingAriaRefs": [],
+    "tableCount": 0,
+    "requestControls": 1,
+    "approveControls": 1,
+    "rejectControls": 1,
+    "hasBoundary": true,
+    "hasJournalStatus": true,
+    "hasGraph": true,
+    "hasMemory": true,
+    "hasWriteback": true,
+    "hasBreakAll": false,
+    "bodySample": "Skip to route title\nws-demo\nread_write\nSearch\nStart\nCreate\nConnected\nNexora\nAgent OS control plane\nWorkbench\nMission Control\nInbox\nReview\nWork\nCowork\nGoals\nTickets\nWorkflows\nRuns\nArtifacts\nMemory\nSystem\nGateway\nSkills\nJournal\nRegistry\nDesign System\nSettings\n\nJournal Control\n\nJournal & Vault\n\nInspect vault bridge descriptors, daily journal facts, graph indexes, and approval-only writeback requests.\n\nDescriptor-only vault bridge\nNo external connection\n\nNo real Obsidian, OMI, MCP, or vault writeback is connected. This page records local descriptors, graph/FTS snapshots, memory candidates, and pending approval facts only.\n\nVault bridges\n1\nObsidian Demo Vault\nvault-obsidian-demo | obsidian | read_only\n\nSources: manual, omi, obsidian, memory, artifact | descriptor-only true\n\nindexed\nDaily journal\n2 pending writeback\nVault\nObsidian Demo Vault | read_only\nEntry\nDaily operating journal | 2026-09-02\nSources\n1 captured descriptor refs\nGraph/FTS index\ngraph_fts | 42 nodes | 8 docs\nMemory candidates\n1 candidates | candidate 01FRZ3NDEKTSV4RRFFQ69G5FAV\nWriteback approval\n2 pending | 0 approved | no vault write\nWriteback target refWriteback diff hashExpected target revisionWriteback reason\nRequest writeback\nApprove\nReject\n\napprove accepted; rereading writeback facts.\n\nGraph/FTS index\n\ngraph_fts | 42 graph nodes | 8 searchable documents | append-only snapshot\n\nMemory candidates\n\n1 candidates require review before promotion. Approved writeback remains a descriptor fact until a later explicitly authorized vault connector stage.\n\nWriteback requires approval\n\nApprove and reject only append local decision facts and update request state. They do not write files, call Obsidian, sync OMI, or contact MCP providers.\n\nEvidence rail\nEmpty\n\nSelect a Run, Review, Artifact, or Memory item to inspect provenance.\n\nOpen Mission Control."
+  },
+  "mobileAudit": {
+    "label": "mobile",
+    "clientWidth": 390,
+    "scrollWidth": 390,
+    "overflow": 0,
+    "mobileNavItems": 5,
+    "duplicateIds": [],
+    "missingAriaRefs": [],
+    "tableCount": 0,
+    "requestControls": 1,
+    "approveControls": 1,
+    "rejectControls": 1,
+    "hasBoundary": true,
+    "hasJournalStatus": true,
+    "hasGraph": true,
+    "hasMemory": true,
+    "hasWriteback": true,
+    "hasBreakAll": false,
+    "bodySample": "Skip to route title\nws-demo\nStart\n\nJournal Control\n\nJournal & Vault\n\nInspect vault bridge descriptors, daily journal facts, graph indexes, and approval-only writeback requests.\n\nDescriptor-only vault bridge\nNo external connection\n\nNo real Obsidian, OMI, MCP, or vault writeback is connected. This page records local descriptors, graph/FTS snapshots, memory candidates, and pending approval facts only.\n\nVault bridges\n1\nObsidian Demo Vault\nvault-obsidian-demo | obsidian | read_only\n\nSources: manual, omi, obsidian, memory, artifact | descriptor-only true\n\nindexed\nDaily journal\n1 pending writeback\nVault\nObsidian Demo Vault | read_only\nEntry\nDaily operating journal | 2026-09-02\nSources\n1 captured descriptor refs\nGraph/FTS index\ngraph_fts | 42 nodes | 8 docs\nMemory candidates\n1 candidates | candidate 01FRZ3NDEKTSV4RRFFQ69G5FAV\nWriteback approval\n1 pending | 1 approved | no vault write\nWriteback target refWriteback diff hashExpected target revisionWriteback reason\nRequest writeback\nApprove\nReject\nGraph/FTS index\n\ngraph_fts | 42 graph nodes | 8 searchable documents | append-only snapshot\n\nMemory candidates\n\n1 candidates require review before promotion. Approved writeback remains a descriptor fact until a later explicitly authorized vault connector stage.\n\nWriteback requires approval\n\nApprove and reject only append local decision facts and update request state. They do not write files, call Obsidian, sync OMI, or contact MCP providers.\n\nInbox\n2\nRuns\n1\nGoals\n2\nReview\n3\nMore"
+  },
+  "boundary": "descriptor-only; no real Obsidian, OMI, MCP, provider, credential read, external network connector, or vault writeback side effect observed",
+  "failures": []
+}

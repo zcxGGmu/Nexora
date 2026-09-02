@@ -151,7 +151,7 @@ Ownership review: focused contracts/persistence/API gateway tests pass (13 tests
   - [x] C21.8c 重新生成 Skills/Learning 1440x900、390x844 和交互后截图，验证 PNG 格式/尺寸与移动端无溢出。
   - [x] C21.8d 独立代码审查发现 P1 no-op rollback persistence parity，已用 RED/GREEN 修复；后续独立复核和安全 reviewer 因平台线程上限/连接中断未完成，限制已记录，本地安全清单无 blocking finding。
 - [x] C21.9 更新 `artifacts/progress/c21/verification.log`、ADR/runbook、任务事实源和 lessons；C21 保持 descriptor/control-plane 边界。
-- [~] C21.10 创建单一 scoped C21 commit，提交后记录完整 SHA 再进入 C22。
+- [x] C21.10 创建单一 scoped C21 commit `51ab5e76a6a9a57736f03281c34e33afc297adce`，记录完整 SHA 后再进入 C22。
 
 ### C21 Review Blocker Remediation / 2026-09-02
 
@@ -168,6 +168,39 @@ Ownership review: focused contracts/persistence/API gateway tests pass (13 tests
 - [x] Visual QA PASS：`/skills?workspace=ws-demo` fresh PNGs at 1440x900、post-actions 1440x900、390x844 mobile、390x844 invalid workspace；无横向溢出，无非法 ARIA refs，五项移动导航、real DOM controls 和 no-external-connection boundary 可见。
 - [x] Code/security review：独立审查发现的 no-op rollback P1 已修复；本地 scope/RBAC/idempotency/optimistic concurrency/SQL trigger/append-only/approved snapshot/secret redaction/no external call 清单 PASS；独立安全 reviewer 受线程上限限制未完成。
 - [x] Evidence paths：`artifacts/progress/c21/verification.log`、`artifacts/progress/c21/current-verification/`、`docs/adr/0016-skills-learning-approved-snapshot.md`、`docs/runbooks/skills-learning-operations.md`。
+- [x] Scoped commit：`51ab5e76a6a9a57736f03281c34e33afc297adce`（`feat: add skills learning approved snapshots`）。
+
+## C22 / Obsidian、OMI、Journal（下一阶段）
+
+范围：实现 vault bridge、OMI/Journal descriptor、daily journal、graph/FTS index、memory candidate 和 writeback approval 控制面。C22 只处理本地 descriptor、索引和审批事实；默认只读，不连接真实 Obsidian/OMI/MCP，不读取真实凭据，不写回用户 vault，未经批准不产生外部副作用。
+
+- [x] C22.1 写 contracts RED/GREEN：VaultBridgeDescriptor、JournalEntryDescriptor、JournalSource、GraphIndexSnapshot、MemoryCandidate、WritebackRequest/Decision；严格 schema、workspace scope、source hash、descriptor-only、secret-safe refs。
+- [x] C22.2 写 persistence RED/GREEN：migration 13、vault/journal/graph/memory/writeback 表约束，唯一键、外键、append-only facts、workspace scope、默认只读、写回需批准。
+- [x] C22.3 写 API/CLI RED/GREEN：vault/journal 查询、journal candidate、memory candidate、writeback request/approve/reject；Owner 写权限、`run:read` 读权限、`Idempotency-Key` 和 `If-Match`。
+- [x] C22.4 写 Mission Control RED/GREEN：Obsidian/OMI/Journal 页面、graph/FTS/memory/writeback 状态、移动端响应式和 no external connection 边界。
+- [x] C22.5 运行 C22 RED suite，确认失败原因是缺失 C22 实现而非测试装配错误。
+- [x] C22.6 实现 contracts、SQLite migration、typed repositories、service/routes、CLI parser 和 Mission Control 页面。
+- [x] C22.7 完成 focused 验证、全量 lint/typecheck/test/integration/e2e/build、真实浏览器视觉 QA、本地安全扫描和代码/安全复核；vault policy parity、CLI/API timestamp idempotency、Unicode whitespace、unknown payload keys、writeback version jump、default-ignorable refs、encoded secret blockers、target-root binding 和 safe idempotency key 均已 RED/GREEN 修复；最终独立 subagent 复核受平台线程上限阻塞，已记录并完成本地代码/安全复核替代。
+- [x] C22.8 更新 verification log、ADR/runbook、任务事实源和 lessons；C22 scoped commit 待 staging 完成后创建，再进入 C23。
+
+### C22 Security Review Remediation / Current Continuation
+
+- [x] C22.R1 写 RED 覆盖 append-only 根事实 update/delete、terminal writeback mutation/delete、`journal://` reference grammar 和 accepted status URLs 的 live GET 路由。
+- [x] C22.R2 最小修复 migration triggers、typed repositories、contracts reference scheme 和 Journal API status routes；保持 descriptor-only，无真实 vault/writeback/connector 副作用。
+- [x] C22.R3 重跑 C22 focused suite 与 full verification matrix，记录 exit code、测试文件数和测试数量。
+- [x] C22.R4 重做 `/journal?workspace=ws-demo` 1440x900 和 390x844 真实浏览器视觉 QA，保存新鲜 PNG 并验证尺寸。
+- [x] C22.R5 完成代码/安全复核；fresh 安全复核返回两个 P1：writeback `target_ref` 未绑定 vault `root_ref`，以及 `Idempotency-Key` 可携带 secret/path-shaped 内容进入持久化和 accepted `command_id`，均已修复并复验；最终 subagent 复核因 `agent thread limit reached` 不可用，使用本地审查清单和 fresh focused/full/visual 证据替代。
+  - [x] C22.R5a 写 API、CLI、raw-SQL 和 contracts RED 覆盖 writeback target-root 绑定、safe idempotency key、vault allowed source kinds raw-SQL parity 和 writeback canonical hash。
+  - [x] C22.R5b 在 repository/migration/request-context/CLI parser/journal service 中修复，保持 descriptor-only 且不改变真实外部连接边界。
+  - [x] C22.R5c 重跑 C22 focused、full matrix、visual QA、代码/安全复核；subagent 独立复核受平台线程上限限制，限制已写入 verification log。
+
+### C22 Review
+
+- [x] Focused C22 validation PASS：`pnpm exec vitest run packages/contracts/src/journal.test.ts packages/persistence/src/c22-journal.test.ts apps/api/src/routes/journal.test.ts apps/cli/src/index.test.ts apps/cli/src/journal.test.ts apps/mission-control/src/app/journal-api.test.ts apps/mission-control/src/pages/journal.test.tsx apps/mission-control/src/app/router.test.tsx apps/mission-control/src/pages/goal-mode.test.tsx --reporter=dot`，exit 0，9 files / 54 tests；fresh evidence `artifacts/progress/c22/current-verification/full-matrix-final-20260903-005153/c22-focused.log`。
+- [x] Full verification PASS：`pnpm lint` 350 source files、`pnpm typecheck`、full Vitest 113 files / 630 tests、integration 14 files / 37 tests、E2E 6 tests、Mission Control build 全部 exit 0；fresh summary `artifacts/progress/c22/current-verification/full-matrix-final-20260903-005153/summary.log`。
+- [x] Visual QA PASS：`/journal?workspace=ws-demo` fresh PNGs `c22-journal-desktop-final-rerun-20260902T170407Z.png`、`c22-journal-desktop-post-actions-final-rerun-20260902T170407Z.png`、`c22-journal-mobile-final-rerun-20260902T170407Z.png` 经 `/usr/bin/file` 验证为 1440x900、1440x900、390x844；无横向溢出，无非法 ARIA refs，无宽表格，五项移动导航、real DOM controls 和 no-external-connection boundary 可见；observed 401 -> local bootstrap 204 -> scoped reads 200、writeback request 202、approve 202。
+- [x] Code/security review：独立代码审查发现 cross-vault writeback candidate raw SQL blocker、vault policy parity blocker、CLI/API timestamp idempotency blocker、SQLite `LIKE` case-insensitive descriptor-ref blocker、Unicode whitespace、unknown payload keys、writeback version jump、default-ignorable refs、encoded secret markers、target-root binding 和 idempotency key hygiene gaps，均已用 contracts/service/migration trigger/CHECK 和 RED/GREEN regression 修复；最终 subagent 复核受平台线程上限限制，本地 scope/RBAC/idempotency/optimistic concurrency/SQL/append-only/cursor-free replay/secret/no-external-call/API-UI wiring 审查无 blocking finding。
+- [x] Evidence paths：`artifacts/progress/c22/verification.log`、`artifacts/progress/c22/current-verification/`、`docs/adr/0017-obsidian-omi-journal-control-plane.md`、`docs/runbooks/journal-operations.md`。
 
 ## Review
 

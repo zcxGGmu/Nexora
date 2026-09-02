@@ -17,6 +17,7 @@ const MIGRATIONS = [
   { version: 10, path: "./migrations/0010_gateway_hardening.sql" },
   { version: 11, path: "./migrations/0011_goal_mode.sql" },
   { version: 12, path: "./migrations/0012_skills_learning.sql" },
+  { version: 13, path: "./migrations/0013_journal_vault.sql" },
 ] as const;
 
 export type SqliteDatabase = DatabaseSync;
@@ -62,7 +63,14 @@ export function rollback(database: SqliteDatabase): void {
   if (migrationTable === undefined) return;
 
   withTransaction(database, () => {
-    database.exec(`DROP TABLE IF EXISTS learning_commands;
+    database.exec(`DROP TABLE IF EXISTS journal_writeback_decisions;
+      DROP TABLE IF EXISTS journal_writeback_requests;
+      DROP TABLE IF EXISTS journal_memory_candidates;
+      DROP TABLE IF EXISTS journal_graph_indexes;
+      DROP TABLE IF EXISTS journal_sources;
+      DROP TABLE IF EXISTS journal_entries;
+      DROP TABLE IF EXISTS vault_bridges;
+      DROP TABLE IF EXISTS learning_commands;
       DROP TABLE IF EXISTS learning_candidates;
       DROP TABLE IF EXISTS skill_invocation_facts;
       DROP TABLE IF EXISTS skill_installations;

@@ -46,7 +46,14 @@ export const CORE_TABLES = [
   "skill_invocation_facts",
   "learning_candidates",
   "learning_commands",
+  "vault_bridges",
+  "journal_entries",
+  "journal_sources",
+  "journal_graph_indexes",
+  "journal_memory_candidates",
+  "journal_writeback_requests",
+  "journal_writeback_decisions",
 ] as const;
 
 export type CoreTable = (typeof CORE_TABLES)[number];
-export const CORE_MIGRATION_VERSION = 12;
+export const CORE_MIGRATION_VERSION = 13;

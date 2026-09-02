@@ -145,6 +145,34 @@ const SECRET_LIKE_PATTERNS: readonly RegExp[] = [
   /\bAIza[0-9A-Za-z_-]{20,}\b/,
 ];
 
+const DEFAULT_IGNORABLE_CODE_POINT_PATTERN = /\p{Default_Ignorable_Code_Point}/gu;
+
 export function containsSecretLikeText(value: string): boolean {
-  return SECRET_LIKE_PATTERNS.some((pattern) => pattern.test(value));
+  return secretDetectionCandidates(value).some((candidate) => SECRET_LIKE_PATTERNS.some((pattern) => pattern.test(candidate)));
+}
+
+function secretDetectionCandidates(value: string): readonly string[] {
+  const candidates: string[] = [value];
+  const pending: string[] = [value];
+  for (let pass = 0; pending.length > 0 && pass < 16; pass += 1) {
+    const current = pending.shift();
+    if (current === undefined) break;
+    appendTransformedCandidate(candidates, pending, stripDefaultIgnorableCodePoints(current));
+    appendTransformedCandidate(candidates, pending, decodePercentTriplets(current));
+  }
+  return candidates;
+}
+
+function appendTransformedCandidate(candidates: string[], pending: string[], value: string): void {
+  if (candidates.includes(value)) return;
+  candidates.push(value);
+  pending.push(value);
+}
+
+function stripDefaultIgnorableCodePoints(value: string): string {
+  return value.replace(DEFAULT_IGNORABLE_CODE_POINT_PATTERN, "");
+}
+
+function decodePercentTriplets(value: string): string {
+  return value.replace(/%([0-9a-fA-F]{2})/g, (_match: string, hex: string) => String.fromCharCode(Number.parseInt(hex, 16)));
 }

@@ -4,7 +4,10 @@
   "private": true,
   "type": "module",
   "exports": {
-    ".": "./src/goal-mode.ts"
+    ".": "./src/index.ts",
+    "./goal-mode": "./src/goal-mode.ts",
+    "./journal": "./src/journal.ts",
+    "./skills-learning": "./src/skills-learning.ts"
   },
   "scripts": {
     "test": "vitest --root ../.. apps/cli/src"

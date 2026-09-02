@@ -1,5 +1,5 @@
 import type { FastifyRequest } from "fastify";
-import { TraceIdSchema } from "@nexora/contracts";
+import { IdempotencyKeySchema, TraceIdSchema } from "@nexora/contracts";
 import type { PolicyActor } from "@nexora/policy";
 import { requireActor, type LocalAuthOptions } from "./auth.js";
 import { ApiHttpError } from "../services/errors.js";
@@ -12,8 +12,6 @@ export type RequestContext = {
   readonly idempotency_key: string | null;
   readonly expected_version: number | null;
 };
-
-const MAX_IDEMPOTENCY_KEY_LENGTH = 128;
 
 export function requestContext(request: FastifyRequest, auth: LocalAuthOptions): RequestContext {
   return {
@@ -29,10 +27,9 @@ export function requiredIdempotencyKey(context: RequestContext): string {
   if (key === undefined || key === "") {
     throw new ApiHttpError({ status_code: 400, code: "SCHEMA_INVALID", message: "Idempotency-Key header is required", retryable: false, required_action: "send_idempotency_key" });
   }
-  if (key.length > MAX_IDEMPOTENCY_KEY_LENGTH) {
-    throw new ApiHttpError({ status_code: 400, code: "SCHEMA_INVALID", message: "Idempotency-Key header must be 128 characters or fewer", retryable: false, required_action: "correct_idempotency_key" });
-  }
-  return key;
+  const parsed = IdempotencyKeySchema.safeParse(key);
+  if (!parsed.success) throw new ApiHttpError({ status_code: 400, code: "SCHEMA_INVALID", message: "Idempotency-Key header is invalid", retryable: false, required_action: "correct_idempotency_key" });
+  return parsed.data;
 }
 
 export function requiredExpectedVersion(context: RequestContext): number {

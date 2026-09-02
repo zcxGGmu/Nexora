@@ -1,0 +1,115 @@
+# C22 Obsidian/OMI/Journal Verification Log
+
+Date: 2026-09-02
+Branch: codex/agent-os-implementation
+Baseline: C21 `51ab5e76a6a9a57736f03281c34e33afc297adce`
+Stage commit: pending precommit scoped C22 commit
+Host Node: `v25.9.0` (project engine is `>=22.13.0 <23.0.0`; pnpm engine warning recorded only)
+Scope: descriptor/control-plane only. No real Obsidian, OMI, MCP, provider, connector, credential read, external network call, or user vault writeback side effect.
+
+## RED/GREEN Evidence
+
+- Contracts RED: `artifacts/progress/c22/current-verification/c22-contracts-red-20260902-113003.log`, failed because C22 journal contracts were missing.
+- Contracts GREEN: `artifacts/progress/c22/current-verification/c22-contracts-green-20260902-113119.log`, exit 0.
+- Persistence RED: `artifacts/progress/c22/current-verification/c22-persistence-red-20260902-113534.log`, failed because migration 13 and journal repositories were missing.
+- Security review remediation RED: `artifacts/progress/c22/current-verification/c22-review-red-20260902-142510.log`, failed on missing append-only/status hardening and status URL coverage.
+- Security review remediation GREEN: `artifacts/progress/c22/current-verification/c22-review-green-20260902-143759.log`, exit 0.
+- Cross-vault writeback candidate scope RED: `artifacts/progress/c22/current-verification/c22-persistence-scope-fix-20260902-081546.log`, exit 1 while the raw SQL bypass regression was being wired.
+- Cross-vault writeback candidate scope GREEN: `artifacts/progress/c22/current-verification/c22-persistence-scope-fix-20260902-082648.log`, exit 0, 1 file / 9 tests; migration trigger rejects raw SQL writeback requests that reference a candidate from another vault in the same workspace.
+- Descriptor ref casing/path RED: `artifacts/progress/c22/current-verification/c22-journal-ref-red-20260902-191614.log`, exit 1, 1 file / 10 tests with the new raw-SQL regression failing because SQLite `LIKE` accepted `WORKSPACE://...` descriptor refs.
+- Descriptor ref casing/path GREEN: `artifacts/progress/c22/current-verification/c22-journal-ref-green-20260902-191813.log`, exit 0, 1 file / 10 tests; migration 13 now uses case-sensitive `GLOB` checks plus four `c22_*_ref_shape_insert` triggers for `root_ref`, `source_ref`, `proposed_path`, and `target_ref`.
+- Descriptor ref Unicode whitespace / unknown payload RED: `artifacts/progress/c22/current-verification/c22-journal-ref-payload-red-20260902-194940.log`, exit 1 with raw-SQL regressions proving NBSP descriptor refs and unknown top-level `payload_json` fields could bypass database invariants before the hardening patch.
+- Writeback version jump RED: `artifacts/progress/c22/current-verification/c22-writeback-version-jump-red-20260902-195520.log`, exit 1, 1 file / 11 tests; raw SQL could append an approval decision then update a pending writeback request from version 1 to version 99.
+- Review blocker GREEN: `artifacts/progress/c22/current-verification/c22-journal-review-blockers-green-20260902-195559.log`, exit 0, 1 file / 11 tests; migration 13 now rejects Unicode whitespace descriptor refs, unknown top-level payload fields, and non-monotonic writeback request version updates.
+- Default-ignorable / encoded secret RED: `artifacts/progress/c22/current-verification/c22-default-ignorable-red-20260902-203738.log`, exit 1 with regressions for default-ignorable descriptor references and percent/double-percent encoded secret markers.
+- Default-ignorable / encoded secret GREEN: `artifacts/progress/c22/current-verification/c22-default-ignorable-green-20260902-203850.log`, exit 0; contracts and migration 13 now reject invisible-format descriptor spoofing and decoded secret/path markers.
+
+## Focused Verification
+
+- Command: `pnpm exec vitest run packages/contracts/src/journal.test.ts packages/persistence/src/c22-journal.test.ts apps/api/src/routes/journal.test.ts apps/cli/src/index.test.ts apps/cli/src/journal.test.ts apps/mission-control/src/app/journal-api.test.ts apps/mission-control/src/pages/journal.test.tsx apps/mission-control/src/app/router.test.tsx apps/mission-control/src/pages/goal-mode.test.tsx --reporter=dot`
+- Result: PASS, exit 0, 9 files / 54 tests.
+- Evidence: `artifacts/progress/c22/current-verification/c22-focused-post-idempotency-inputs-20260903-000808.log` and `.exit`.
+- Coverage highlights: readable descriptor IDs, strict unknown-field rejection, local-safe descriptor references including Unicode whitespace and default-ignorable rejection, exact top-level payload key enforcement, percent/double-percent decoded secret/path marker rejection, vault/entry/source/candidate/workspace scope, idempotency replay and conflict, append-only writeback decisions, monotonic writeback request version updates, `If-Match` conflicts, status URLs, no secret/path leakage in errors, API/CLI/Mission Control control-plane semantics.
+
+## Full Verification Matrix
+
+- `pnpm lint`: PASS, exit 0, 350 source files checked. Evidence: `artifacts/progress/c22/current-verification/pnpm-lint-20260902-203951.log`.
+- `pnpm typecheck`: PASS, exit 0. Evidence: `artifacts/progress/c22/current-verification/pnpm-typecheck-20260902-203951.log`.
+- `pnpm test --run --reporter=dot --silent`: PASS, exit 0, 113 files / 630 tests. Evidence: `artifacts/progress/c22/current-verification/full-matrix-post-idempotency-inputs-20260903-000855/pnpm-test-unit.log`.
+- `pnpm test:integration`: PASS, exit 0, 14 files / 37 tests. Evidence: `artifacts/progress/c22/current-verification/pnpm-test-integration-20260902-203951.log`.
+- `pnpm test:e2e`: PASS, exit 0, 6 tests. Evidence: `artifacts/progress/c22/current-verification/pnpm-test-e2e-20260902-203951.log`.
+- `pnpm --filter @nexora/mission-control build`: PASS, exit 0; existing third-party `use client` and chunk-size warnings only. Evidence: `artifacts/progress/c22/current-verification/mission-control-build-20260902-203951.log`.
+- Production audit: `pnpm audit --prod` PASS, exit 0, `No known vulnerabilities found`. Evidence: `artifacts/progress/c22/current-verification/pnpm-audit-prod-20260902-203951.log`.
+- Matrix summary: `artifacts/progress/c22/current-verification/full-matrix-post-idempotency-inputs-20260903-000855/summary.log`, all required full verification commands exit 0.
+
+## Visual QA
+
+- URL: `http://127.0.0.1:4313/journal?workspace=ws-demo`.
+- Seed evidence: `artifacts/progress/c22/current-verification/c22-visual-base-seed-post-idempotency-rerun-20260902T163733Z.log` and `artifacts/progress/c22/current-verification/c22-visual-api-seed-post-idempotency-rerun-20260902T163733Z.log`; DB used an absolute `NEXORA_DB_PATH`, and C22 journal facts were seeded through the local API after a direct SQLite workspace bootstrap.
+- Runner summary: `artifacts/progress/c22/current-verification/c22-journal-visual-summary-post-idempotency-rerun-20260902T163733Z.json`, status `pass`, failures `[]`.
+- Screenshots verified with `file`:
+  - `artifacts/progress/c22/current-verification/c22-journal-desktop-post-idempotency-rerun-20260902T163733Z.png`: PNG 1440x900.
+  - `artifacts/progress/c22/current-verification/c22-journal-desktop-post-actions-post-idempotency-rerun-20260902T163733Z.png`: PNG 1440x900.
+  - `artifacts/progress/c22/current-verification/c22-journal-mobile-post-idempotency-rerun-20260902T163733Z.png`: PNG 390x844.
+- File evidence: `artifacts/progress/c22/current-verification/c22-journal-visual-file-verify-post-idempotency-rerun-20260902T163733Z.log`.
+- Observed: desktop and mobile render the Journal Control page from live local API calls, 401 -> local bootstrap 204 -> scoped read 200 occurred, controls exist and were enabled for request/approve/reject, live writeback request and approve commands returned `202`, mobile scroll width equals client width, bottom navigation has 5 items, duplicate IDs and missing ARIA references are empty, table count is 0.
+- Visible boundary: Descriptor-only vault bridge, No external connection, no real Obsidian/OMI/MCP/vault writeback, graph/FTS index, memory candidates, writeback approval, and no vault write.
+
+## Code Review and Security Review
+
+- Independent code review found a HIGH blocker: `journal_writeback_requests` lacked a database-level same-vault constraint for `candidate_id`; repository code rejected it, but raw SQL could insert a vault A request pointing at a vault B candidate in the same workspace.
+- Fix: added migration trigger `c22_writeback_requests_candidate_scope_insert` and a raw SQL regression in `packages/persistence/src/c22-journal.test.ts`; focused persistence and full C22 verification passed after the fix.
+- Replacement independent code review found a HIGH blocker: SQLite `LIKE` is ASCII case-insensitive, so raw SQL could insert uppercase descriptor refs that contract parsing later rejected.
+- Fix: added raw-SQL descriptor ref regression coverage and hardened migration 13 with case-sensitive `GLOB` column checks plus `c22_vault_bridges_ref_shape_insert`, `c22_journal_sources_ref_shape_insert`, `c22_journal_candidates_ref_shape_insert`, and `c22_writeback_requests_ref_shape_insert`.
+- Independent security review then found blockers for Unicode whitespace descriptor refs and unknown top-level `payload_json` fields on raw SQL inserts.
+- Fix: added raw-SQL RED/GREEN coverage and hardened migration 13 with Unicode whitespace rejection in all journal ref-shape triggers plus exact top-level payload key triggers for C22 payload tables.
+- Final independent code review found a HIGH blocker: raw SQL could append an approval decision and jump `journal_writeback_requests.version` from 1 to 99.
+- Fix: added a raw-SQL version jump RED/GREEN regression and required `NEW.version = OLD.version + 1` in `c22_writeback_requests_safe_update`.
+- Replacement independent code review after these fixes found no blocking correctness/security issues; residual non-blocking risks: some JSON array enum/cardinality validation remains contract/repository-level, and the local planning fixture fallback remains network/5xx-only.
+- A replacement independent code review and security review were relaunched after continuation because the previous final security result was not observable; during the final continuation, the platform reported `agent thread limit reached`, and the listed inherited agent IDs returned `not_found`, so no fresh subagent could be attached. This platform limitation is recorded instead of fabricating an independent result.
+- Local security checklist PASS: workspace scope, Owner write / `run:read` read, idempotency, optimistic concurrency, parameterized repository SQL, foreign keys/triggers, append-only journal facts, default read-only vault bridge, approval-only writeback, secret/path redaction, no real Obsidian/OMI/MCP/provider/connector/network/vault-write side effects, API/UI live wiring.
+
+## Environment Notes
+
+- Node version remains outside the project engine range: wanted `>=22.13.0 <23.0.0`, current `v25.9.0`; this was recorded as a warning only and no engine constraints were changed.
+- Mission Control build emits existing third-party Vite warnings for module-level `use client` directives and one large chunk; these warnings did not fail the build.
+- Visual QA used local loopback API/UI and Playwright/browser automation only. It did not connect to external services.
+
+## Stage Closeout
+
+- Tasks pending update: `tasks/todo.md`, `tasks/agent-os-progress.md`, and `tasks/lessons.md`.
+- Docs updated: `docs/adr/0017-obsidian-omi-journal-control-plane.md` and `docs/runbooks/journal-operations.md`.
+- Boundary confirmed: C22 remains descriptor/control-plane only and does not connect, fetch, execute, send, read credentials, or write real vault content.
+
+## Continuation Rerun / 2026-09-02 23:07-23:21 CST
+
+- Constraint refresh: on-disk `AGENTS.md` is missing, so the user-pasted AGENTS instructions were treated as authoritative; `tasks/todo.md`, `tasks/agent-os-progress.md`, `tasks/lessons.md`, `git status --short`, `git diff --stat`, and C22 Journal source/test files were reread before editing.
+- Commit baseline confirmed: current branch `codex/agent-os-implementation`, HEAD `51ab5e76a6a9a57736f03281c34e33afc297adce`; C17/C18 `58b80300e4fce98bfeeac75998d2f5d503df3961`, C19 `174c288f6365eeab879d08e6cad9f04c28029a78`, C20 `05c4a51baec221f83db821b83ed14fe5626cbc7a`, and C21 `51ab5e76a6a9a57736f03281c34e33afc297adce` are scoped commits. C22 remains uncommitted.
+- CLI-shaped API RED rerun: `pnpm exec vitest run apps/api/src/routes/journal.test.ts --reporter=dot`, exit 1, 1 failed / 4 passed; source POST without client timestamps returned 400 instead of 202. Evidence: `artifacts/progress/c22/current-verification/c22-cli-shaped-api-red-rerun-20260902-230730.log`.
+- Fix: `apps/api/src/services/journal-service.ts` now fills missing Journal metadata timestamps server-side, preserves supplied semantic event timestamps (`captured_at` / `indexed_at`), and registers idempotency with a stable client-semantic hash that ignores `created_at` / `updated_at` drift.
+- P1 GREEN rerun: `pnpm exec vitest run apps/api/src/routes/journal.test.ts apps/cli/src/journal.test.ts packages/persistence/src/c22-journal.test.ts --reporter=dot`, exit 0, 3 files / 25 tests. Evidence: `artifacts/progress/c22/current-verification/c22-review-p1-green-rerun-20260902-230857.log`.
+- Focused C22 rerun: `pnpm exec vitest run packages/contracts/src/journal.test.ts packages/persistence/src/c22-journal.test.ts apps/api/src/routes/journal.test.ts apps/cli/src/index.test.ts apps/cli/src/journal.test.ts apps/mission-control/src/app/journal-api.test.ts apps/mission-control/src/pages/journal.test.tsx apps/mission-control/src/app/router.test.tsx apps/mission-control/src/pages/goal-mode.test.tsx --reporter=dot`, exit 0, 9 files / 50 tests. Evidence: `artifacts/progress/c22/current-verification/c22-focused-rerun-20260902-230945.log`.
+- Full verification matrix rerun: `pnpm lint` exit 0, 350 source files; `pnpm typecheck` exit 0; `pnpm test --run --reporter=dot --silent` exit 0, 113 files / 625 tests; `pnpm test:integration` exit 0, 14 files / 37 tests; `pnpm test:e2e` exit 0, 6 tests; `pnpm --filter @nexora/mission-control build` exit 0; `pnpm audit --prod` exit 0, no known vulnerabilities. Summary: `artifacts/progress/c22/current-verification/full-matrix-rerun-20260902-231211/summary.log`.
+- Environment note: a first matrix attempt under `/bin/bash` failed because bash resolved `/usr/local/bin/node` v14.17.0 and pnpm refused to run; the valid matrix rerun used the project zsh login environment with Node v25.9.0. Node remains outside the project engine `>=22.13.0 <23.0.0`, producing warnings only.
+- Visual QA rerun: stopped old C22 local QA processes on ports 4312/4313, started a fresh temporary SQLite + local API + Vite stack, opened `http://127.0.0.1:4313/journal?workspace=ws-demo` in Playwright Chromium, clicked Request writeback and Approve controls, verified no external requests, no horizontal overflow, no duplicate IDs, no missing ARIA refs, no wide tables, no CJK-hostile `word-break: break-all`, and five mobile nav items. Summary: `artifacts/progress/c22/current-verification/c22-journal-visual-summary-rerun-20260902T152119Z.json`.
+- Visual PNG verification: `/usr/bin/file` confirms `c22-journal-desktop-rerun-20260902T152119Z.png` is 1440x900, `c22-journal-desktop-post-actions-rerun-20260902T152119Z.png` is 1440x900, and `c22-journal-mobile-rerun-20260902T152119Z.png` is 390x844. File evidence: `artifacts/progress/c22/current-verification/c22-journal-visual-file-verify-rerun-20260902T152119Z.log`.
+- Local static review: no `any`, `@ts-ignore`, `@ts-expect-error`, or non-null assertions were found in the C22 source/test scope scanned; external-service terms in Journal UI are boundary copy, and the browser QA blocked non-loopback hosts.
+- Independent review status: fresh code and security reviewer agents were relaunched after the timestamp/idempotency fix; C22 must remain uncommitted until their results return or a concrete platform limitation is recorded.
+
+## Final Continuation Closeout / 2026-09-03 00:08-00:37 CST
+
+- Latest C22 focused verification: `pnpm exec vitest run packages/contracts/src/journal.test.ts packages/persistence/src/c22-journal.test.ts apps/api/src/routes/journal.test.ts apps/cli/src/index.test.ts apps/cli/src/journal.test.ts apps/mission-control/src/app/journal-api.test.ts apps/mission-control/src/pages/journal.test.tsx apps/mission-control/src/app/router.test.tsx apps/mission-control/src/pages/goal-mode.test.tsx --reporter=dot`, exit 0, 9 files / 54 tests. Evidence: `artifacts/progress/c22/current-verification/c22-focused-post-idempotency-inputs-20260903-000808.log`.
+- Latest full matrix: `pnpm lint` exit 0, 350 source files; `pnpm typecheck` exit 0; `pnpm test --run --reporter=dot --silent` exit 0, 113 files / 630 tests; `pnpm test:integration` exit 0, 14 files / 37 tests; `pnpm test:e2e` exit 0, 6 tests; `pnpm --filter @nexora/mission-control build` exit 0. Summary: `artifacts/progress/c22/current-verification/full-matrix-post-idempotency-inputs-20260903-000855/summary.log`.
+- Latest visual QA: Playwright opened `http://127.0.0.1:4313/journal?workspace=ws-demo` against live local API/UI on `127.0.0.1:4312/4313`, observed 401 -> local bootstrap 204 -> scoped reads 200, writeback request 202, approve 202, zero external requests, no horizontal overflow, no duplicate IDs, no missing ARIA refs, no wide tables, no CJK-hostile `word-break: break-all`, and five mobile nav items. Summary: `artifacts/progress/c22/current-verification/c22-journal-visual-summary-post-idempotency-rerun-20260902T163733Z.json`.
+- Latest visual PNG verification: `/usr/bin/file` confirms `c22-journal-desktop-post-idempotency-rerun-20260902T163733Z.png` is 1440x900, `c22-journal-desktop-post-actions-post-idempotency-rerun-20260902T163733Z.png` is 1440x900, and `c22-journal-mobile-post-idempotency-rerun-20260902T163733Z.png` is 390x844.
+- Visual QA debug notes: failed attempts were caused by an existing seeded vault conflict, unquoted zsh URL globbing for `?workspace=ws-demo`, an obsolete plaintext bearer token after HMAC local-auth hardening, a relative `NEXORA_DB_PATH` that split seed/API databases, and an obsolete `.mobile-tabbar` selector; the final run used a fresh temp data dir, quoted URLs, HMAC local token, absolute DB path, and `.mobile-nav a`.
+- Final local review: subagent dispatch was unavailable (`agent thread limit reached`; inherited IDs returned `not_found`), so the final pass used direct code/security review plus focused/full/visual evidence. No blocking C22 issues were found in scope isolation, RBAC, idempotency, optimistic concurrency, SQL parameterization/FKs/triggers, append-only facts, target-root binding, raw SQL policy parity, secret redaction, no external side effects, and live API/UI wiring.
+
+## Precommit Fresh Verification / 2026-09-03 00:51-01:04 CST
+
+- Final focused C22 verification rerun: `pnpm exec vitest run packages/contracts/src/journal.test.ts packages/persistence/src/c22-journal.test.ts apps/api/src/routes/journal.test.ts apps/cli/src/index.test.ts apps/cli/src/journal.test.ts apps/mission-control/src/app/journal-api.test.ts apps/mission-control/src/pages/journal.test.tsx apps/mission-control/src/app/router.test.tsx apps/mission-control/src/pages/goal-mode.test.tsx --reporter=dot`, exit 0, 9 files / 54 tests. Evidence: `artifacts/progress/c22/current-verification/full-matrix-final-20260903-005153/c22-focused.log` and `.exit`.
+- Final full matrix rerun: `pnpm lint` exit 0, 350 source files; `pnpm typecheck` exit 0; `pnpm test --run --reporter=dot --silent` exit 0, 113 files / 630 tests; `pnpm test:integration` exit 0, 14 files / 37 tests; `pnpm test:e2e` exit 0, 6 tests; `pnpm --filter @nexora/mission-control build` exit 0. Summary: `artifacts/progress/c22/current-verification/full-matrix-final-20260903-005153/summary.log`.
+- Final visual QA rerun: Playwright opened `http://127.0.0.1:4313/journal?workspace=ws-demo` against fresh local API/UI on `127.0.0.1:4312/4313`, after seeding C22 facts into the same absolute SQLite DB path used by the API. It observed 401 -> local bootstrap 204 -> scoped reads 200, writeback request 202, approve 202, zero external requests, no horizontal overflow, no duplicate IDs, no missing ARIA refs, no wide tables, no `word-break: break-all`, and five mobile nav items. Summary: `artifacts/progress/c22/current-verification/c22-journal-visual-summary-final-rerun-20260902T170407Z.json`.
+- Final visual PNG verification: `/usr/bin/file` confirms `c22-journal-desktop-final-rerun-20260902T170407Z.png` is 1440x900, `c22-journal-desktop-post-actions-final-rerun-20260902T170407Z.png` is 1440x900, and `c22-journal-mobile-final-rerun-20260902T170407Z.png` is 390x844. File evidence: `artifacts/progress/c22/current-verification/c22-journal-visual-file-verify-final-rerun-20260902T170407Z.log`.
+- Visual QA debug note: an earlier precommit rerun produced only an empty-projection desktop screenshot because the API was launched through the package cwd with a relative `NEXORA_DB_PATH`, while the seed used the repository cwd. The passing rerun used an absolute `NEXORA_DB_PATH` and waited for `Obsidian Demo Vault` plus enabled Journal controls before taking screenshots and clicks.
+- Independent review status: fresh subagent code/security review could not be relaunched because the platform returned `agent thread limit reached`; no inherited review agent could be attached. The final closeout therefore relies on local code/security review plus fresh focused/full/visual evidence, and this limitation is explicitly recorded rather than treated as an independent pass.

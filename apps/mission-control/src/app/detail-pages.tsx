@@ -3,7 +3,7 @@ import type { JSX } from "react";
 import { EmptyState } from "../components/states/EmptyState.js";
 import { ArtifactPage, artifactFixture } from "../pages/ArtifactPage.js";
 import { DesignSystemPage } from "../pages/DesignSystemPage.js";
-import { GoalPage } from "../pages/GoalPage.js";
+import { GoalPage, goalWorkspaceFixture } from "../pages/GoalPage.js";
 import { InboxPage, inboxFixture } from "../pages/InboxPage.js";
 import { MemoryPage, memoryFixture } from "../pages/MemoryPage.js";
 import { MissionControlPage, MissionControlRail, missionControlFixture } from "../pages/MissionControlPage.js";
@@ -12,6 +12,7 @@ import { PlaceholderPage } from "../pages/PlaceholderPage.js";
 import { ReviewPage, reviewFixture, staleReviewFixture } from "../pages/ReviewPage.js";
 import { RegistryPage, registryFixture } from "../pages/RegistryPage.js";
 import { GatewayPage } from "../pages/GatewayPage.js";
+import { JournalPage } from "../pages/JournalPage.js";
 import { SkillsLearningPage } from "../pages/SkillsLearningPage.js";
 import { blockedRunDetailFixture, RunDetailPage, runDetailFixture } from "../pages/RunDetailPage.js";
 import { TicketPage, ticketFixture } from "../pages/TicketPage.js";
@@ -30,11 +31,14 @@ export function pageForRoute(route: ParsedRoute): JSX.Element {
     case "design-system":
       return <DesignSystemPage />;
     case "goals":
-      return <GoalPage workspaceId={route.urlState.workspace ?? "ws-demo"} />;
+      if (route.path === "/goal-mode") return <GoalPage workspaceId={route.urlState.workspace ?? "ws-demo"} />;
+      return <GoalPage view={goalWorkspaceFixture} />;
     case "gateway":
       return <GatewayPage workspaceId={route.urlState.workspace ?? "ws-demo"} />;
     case "inbox":
       return <InboxPage selectedTab={route.urlState.tab} view={inboxFixture} />;
+    case "journal":
+      return <JournalPage workspaceId={route.urlState.workspace ?? "ws-demo"} />;
     case "memory":
       return <MemoryPage view={memoryFixture} />;
     case "mission-control":

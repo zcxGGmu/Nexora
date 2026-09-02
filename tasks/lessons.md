@@ -90,3 +90,39 @@
 - Pattern: A lifecycle API can reject a no-op rollback while repository and raw SQL paths still allow the same invalid state.
 - Correction: C21 rollback now rejects `rollback_to_version_id === version_id` in service/repository logic and migration triggers, with RED/GREEN tests that include raw SQL bypass attempts.
 - Rule: For reversible lifecycle states, enforce semantic impossibilities at every write layer and include raw persistence bypass tests before closing the stage.
+
+## 2026-09-02 — Cross-resource scope invariants need raw SQL parity
+
+- Pattern: A repository can correctly reject cross-resource pairing while the database still permits a raw SQL insert that combines two valid parents from different scoped children.
+- Correction: C22 writeback requests now require the referenced memory candidate to match the same workspace and same vault at the migration trigger layer, not only in repository code.
+- Rule: For append-only descriptor stages, test parent-child invariants with raw SQL bypass attempts whenever a fact references both a parent descriptor and a child fact, especially same-workspace/same-vault pairings.
+
+## 2026-09-02 — SQLite LIKE is not descriptor grammar validation
+
+- Pattern: SQLite `LIKE` is ASCII case-insensitive by default, so `CHECK (ref LIKE 'workspace://%')` can admit uppercase descriptor schemes that contract schemas reject later.
+- Correction: C22 journal refs now use case-sensitive `GLOB` table checks plus raw-SQL trigger coverage for lowercase scheme, non-empty path, whitespace, nested scheme, traversal, encoded traversal, and backslash rejection.
+- Rule: For descriptor-reference columns, use positive case-sensitive grammar checks at the database layer and prove them with raw SQL bypass tests; never rely on `LIKE` for scheme validation.
+
+## 2026-09-02 — Invisible and encoded secret markers need DB parity
+
+- Pattern: Contract-level scanners can reject percent-decoded secrets and default-ignorable characters while raw SQL still stores visually safe-looking descriptor refs or encoded secret markers.
+- Correction: C22 added RED/GREEN coverage for default-ignorable descriptor refs and percent/double-percent encoded secret/path markers, then mirrored the rejection in contracts and migration triggers.
+- Rule: When a descriptor stage rejects secrets, paths, or refs after normalization/decoding, add raw persistence bypass tests for the same transformed forms before closing the stage.
+
+## 2026-09-02 — Descriptor policy fields require write-layer enforcement
+
+- Pattern: A descriptor can expose policy fields such as allowed source kinds or graph/FTS enablement while repository and raw SQL writes still accept facts that violate those fields.
+- Correction: C22 added RED/GREEN coverage and repository plus migration trigger enforcement for vault `allowed_source_kinds`, `graph_enabled`, and `fts_enabled` before closing Journal source and graph index writes.
+- Rule: Whenever a descriptor records an allowlist, mode, capability, or disable flag, add both repository and raw SQL bypass tests that prove the policy is enforced at write time, not only displayed in the UI.
+
+## 2026-09-02 — Server-owned timestamps must not poison idempotency
+
+- Pattern: A CLI/control-plane command that injects fresh wall-clock timestamps can make an identical retry reuse the same idempotency key with a different request hash.
+- Correction: C22 changed Journal CLI descriptor commands to omit server-owned timestamps and changed the API service to fill missing timestamps while hashing only stable client-controlled semantics for `created_at` and `updated_at`.
+- Rule: For idempotent descriptor commands, keep volatile metadata server-owned or explicit stable inputs, and make replay/conflict tests run the same command across different wall-clock times.
+
+## 2026-09-03 — Visual QA must use the same auth and database as the app
+
+- Pattern: A browser QA rerun can fail for reasons unrelated to UI code when the seed script, API, and browser use different tokens, relative database paths, stale seeded descriptors, or obsolete selectors.
+- Correction: C22 Journal visual QA was rerun with a fresh temp data dir, HMAC local auth token, quoted URLs, an absolute `NEXORA_DB_PATH`, API-seeded journal facts, and the current `.mobile-nav a` selector.
+- Rule: For Nexora control-plane visual gates, start from a clean fixture root, seed through the same local API/database path the browser will read, verify the token mode after auth hardening, quote shell URLs with query strings, and refresh selectors from current DOM before declaring a visual failure or pass.
