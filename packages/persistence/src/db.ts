@@ -20,6 +20,7 @@ const MIGRATIONS = [
   { version: 13, path: "./migrations/0013_journal_vault.sql" },
   { version: 14, path: "./migrations/0014_browser_computer.sql" },
   { version: 15, path: "./migrations/0015_voice_jarvis.sql" },
+  { version: 16, path: "./migrations/0016_studio_media.sql" },
 ] as const;
 
 export type SqliteDatabase = DatabaseSync;
@@ -65,7 +66,15 @@ export function rollback(database: SqliteDatabase): void {
   if (migrationTable === undefined) return;
 
   withTransaction(database, () => {
-    database.exec(`DROP TABLE IF EXISTS voice_commands;
+    database.exec(`DROP TABLE IF EXISTS studio_commands;
+      DROP TABLE IF EXISTS studio_shares;
+      DROP TABLE IF EXISTS avatar_profiles;
+      DROP TABLE IF EXISTS notebook_generations;
+      DROP TABLE IF EXISTS notebook_sources;
+      DROP TABLE IF EXISTS notebooks;
+      DROP TABLE IF EXISTS media_render_jobs;
+      DROP TABLE IF EXISTS media_artifacts;
+      DROP TABLE IF EXISTS voice_commands;
       DROP TABLE IF EXISTS voice_transcripts;
       DROP TABLE IF EXISTS voice_sessions;
       DROP TABLE IF EXISTS voice_wake_words;

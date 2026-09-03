@@ -9,14 +9,14 @@
 | 字段 | 当前值 |
 |---|---|
 | 项目 | Nexora Agent OS |
-| 进度状态 | `c24_complete_pending_commit` |
-| 当前阶段 | `C24` Voice / Jarvis control-plane 已完成实现、focused/full validation、视觉 QA、review blocker 修复和证据收口；等待 scoped commit SHA 回写。 |
-| 当前工作 | 创建 C24 scoped commit；下一阶段只能进入 C25 Studio/Media/NotebookLM/Avatar RED 测试，仍禁止读取麦克风、播放音频、连接真实语音 provider、MCP、凭据或产生外部副作用。 |
+| 进度状态 | `c25_complete_pending_commit` |
+| 当前阶段 | `C25` Studio / Media / NotebookLM / Avatar control-plane 已完成实现、focused/full validation、视觉 QA、append-only command blocker 修复和证据收口；等待 scoped commit SHA 回写。 |
+| 当前工作 | 创建 C25 scoped commit；下一阶段只能进入 C26 Teams/Paperclip/Antigravity RED 测试，仍禁止真实 NotebookLM、媒体 provider、Avatar provider、MCP、凭据读取、真实渲染、发布或外部副作用。 |
 | 当前分支 | `codex/agent-os-implementation` |
 | 计划版本 | `2026-08-23-agent-os-implementation` |
 | 前端设计版本 | `nexora-agent-os-ui-design.zh-CN` + `DESIGN.zh-CN.md` + `nexora-agent-os-ui-diagrams.zh-CN.md`；C10-C16 的必读契约 |
 | 最后更新 | 2026-09-04 |
-| 已完成 commit | C23 `3a4652aaed9b0a313460a6753865311aeca13959`（browser computer control plane）；C22 `12451447dfbfcf9fd466988d99017bf896caf7c7`（journal vault control plane）；C21 `51ab5e76a6a9a57736f03281c34e33afc297adce`（skills learning approved snapshots）；C20 `05c4a51baec221f83db821b83ed14fe5626cbc7a`（goal mode loop and judge control plane）；C19 `174c288f6365eeab879d08e6cad9f04c28029a78`（gateway channels sessions control plane）；C17/C18 `58b80300e4fce98bfeeac75998d2f5d503df3961`（runtime registry and provider catalog）；C16 `bcda211cb7c0954f7cace82aceac5fe89f74a25a`（release hardening/full QA）；`ca8f256544d789afcf37c4070e09f674df92a111`（C15 observability/recovery/security operations）；`0fe5eb3004404946f1c9a7251ac657830eb25acc`（C14 durable schedules）；`fad5c6cf45f9d36d3c2570078aa0bd0343c74c1e`（C13 hardening）；C13 base 为 `240e7f1deea5ce0cfe8ae8973faf66922658aa84`、C12 为 `b3dd32e03371eaf5f609fd4e942c0f2fe5f84d1b` |
+| 已完成 commit | C24 `1cc3b04630d5900fd5ffcb3eb45ebc0b43867ebe`（voice jarvis control plane）；C23 `3a4652aaed9b0a313460a6753865311aeca13959`（browser computer control plane）；C22 `12451447dfbfcf9fd466988d99017bf896caf7c7`（journal vault control plane）；C21 `51ab5e76a6a9a57736f03281c34e33afc297adce`（skills learning approved snapshots）；C20 `05c4a51baec221f83db821b83ed14fe5626cbc7a`（goal mode loop and judge control plane）；C19 `174c288f6365eeab879d08e6cad9f04c28029a78`（gateway channels sessions control plane）；C17/C18 `58b80300e4fce98bfeeac75998d2f5d503df3961`（runtime registry and provider catalog）；C16 `bcda211cb7c0954f7cace82aceac5fe89f74a25a`（release hardening/full QA）；`ca8f256544d789afcf37c4070e09f674df92a111`（C15 observability/recovery/security operations）；`0fe5eb3004404946f1c9a7251ac657830eb25acc`（C14 durable schedules）；`fad5c6cf45f9d36d3c2570078aa0bd0343c74c1e`（C13 hardening）；C13 base 为 `240e7f1deea5ce0cfe8ae8973faf66922658aa84`、C12 为 `b3dd32e03371eaf5f609fd4e942c0f2fe5f84d1b` |
 | 事实源 | SQLite：运行域和事件；Markdown vault：Memory、SOP、receipt 摘要和 Artifact 文件 |
 | 首版范围 | 本地 Web Mission Control、deterministic adapter、本地 subprocess adapter、SEO draft workflow；不自动发布 |
 
@@ -932,8 +932,8 @@ Known limitations: Host Node is still `v25.9.0` while project engines require `>
 | `[x]` | C21 Skills/Learning | Skill entity/version/install/quarantine/scan/approve/revoke、`/learn` | Commit `51ab5e76a6a9a57736f03281c34e33afc297adce`；C18+C20；approved snapshot、source hash/diff、rollback、quarantine、automation/QA/review evidence complete |
 | `[x]` | C22 Obsidian/OMI/Journal | Vault bridge、MCP 只读优先、graph/FTS、daily journal、memory candidate | Commit `12451447dfbfcf9fd466988d99017bf896caf7c7`；C18+C21；implementation、fresh focused/full validation、fresh visual QA、known blocker remediation 和本地最终复核完成；真实 Obsidian/OMI/MCP/vault writeback 未接入 |
 | `[x]` | C23 Browser/Computer Use | 沙箱、域名/应用 allowlist、截图/action receipt、人工批准、stop/takeover | Commit `3a4652aaed9b0a313460a6753865311aeca13959`；C18+C20+C22；自动化验证、视觉 QA、screenshot/action receipt scope hardening 和独立复审通过；真实浏览器/桌面执行仍未授权 |
-| `[x]` | C24 Voice/Jarvis | STT/VAD/TTS、wake word、Wall mode、实时 interrupt、录音和声纹政策 | Commit pending post-commit SHA capture；C18+C20+C22；contracts/persistence/API/CLI/Mission Control、focused/full validation、visual QA、review blocker remediation、ADR/runbook/verification log complete；真实语音/音频/provider 副作用未授权 |
-| `[ ]` | C25 Studio/Media/NotebookLM/Avatar | MediaArtifact、render worker、Notebook source/generation、preview/share、AvatarProfile | C18+C22；provenance、moderation、重渲染、临时 URL 失效恢复 |
+| `[x]` | C24 Voice/Jarvis | STT/VAD/TTS、wake word、Wall mode、实时 interrupt、录音和声纹政策 | Commit `1cc3b04630d5900fd5ffcb3eb45ebc0b43867ebe`；C18+C20+C22；contracts/persistence/API/CLI/Mission Control、focused/full validation、visual QA、review blocker remediation、ADR/runbook/verification log complete；真实语音/音频/provider 副作用未授权 |
+| `[x]` | C25 Studio/Media/NotebookLM/Avatar | MediaArtifact、render worker、Notebook source/generation、preview/share、AvatarProfile | Commit pending post-commit SHA capture；C18+C22；contracts/persistence/API/CLI/Mission Control、focused/full validation、visual QA、append-only command id blocker remediation、ADR/runbook/verification log complete；真实 NotebookLM/媒体/avatar provider/MCP/凭据读取/外部副作用未授权 |
 | `[ ]` | C26 Teams/Paperclip/Antigravity | Team/Member/Mailbox、parallel Attempt、依赖、merge/review、具体 CLI adapter | C17-C21；成员隔离、冲突、成本和合并证据可见 |
 | `[ ]` | C27 Business Connectors | Oracle、GSC、WordPress、Hunter、Firecrawl、Google Workspace、Outreach | C18-C25；默认 draft/review，OAuth/退订/发布回滚，真实凭据显式授权 |
 | `[ ]` | C28 VPS/Private/Mobile | Hermes/OpenClaw packaged deployment、backup/restore、Tailscale/Cloudflare、mobile approval | C19-C27；出境分类、密钥轮换、灾备、远程撤销可验证 |
@@ -1024,7 +1024,8 @@ Known limitations: Host Node is still `v25.9.0` while project engines require `>
 
 ### Handoff 2026-09-04 / C24 Voice and Jarvis
 
-- 当前状态：`[x]` C24 contracts/persistence/API/CLI/Mission Control focused RED/GREEN、full verification matrix、真实浏览器视觉 QA、review blocker remediation、ADR/runbook/verification log 已完成；scoped commit 待创建并回写 SHA。
+- 当前状态：`[x]` C24 contracts/persistence/API/CLI/Mission Control focused RED/GREEN、full verification matrix、真实浏览器视觉 QA、review blocker remediation、ADR/runbook/verification log 和 scoped commit 已完成。
+- Commit：`1cc3b04630d5900fd5ffcb3eb45ebc0b43867ebe`（`feat: add voice jarvis control plane`）；C23 基线为 `3a4652aaed9b0a313460a6753865311aeca13959`。
 - 当前边界：C24 只允许记录 Voice/Jarvis descriptors、audio policy、wake-word policy、transcript lifecycle 和 local control commands；禁止读取麦克风、播放音频、连接真实 STT/TTS/provider/MCP、读取凭据或产生外部副作用。
 - 本次完成：VoiceSessionDescriptor、AudioPolicy、WakeWordDescriptor、TranscriptDescriptor、VoiceCommand、interrupt/pause/resume/wake、retention/delete/export policy、CLI parser、Voice/Jarvis API routes 和 Mission Control `/voice-jarvis` 控制面语义。
 - 持久化：SQLite migration 15 新增 audio policies、wake words、voice sessions、transcripts 和 voice commands；workspace/run/gateway-session/voice-session/transcript scope、payload/column parity、descriptor immutability、append-only transcript/command facts、initial idle/zero-turn/no-current-transcript session state、same-workspace/session/run `current_transcript_id`、workspace-global command idempotency、command-backed session transitions 和 normalized secret/path rejection 由 repository 与 SQL triggers 双层强制。
@@ -1033,7 +1034,20 @@ Known limitations: Host Node is still `v25.9.0` while project engines require `>
 - Visual QA evidence：`/voice-jarvis?workspace=ws-demo` fresh PNGs `c24-voice-jarvis-desktop-20260903T202312Z.png`、`c24-voice-jarvis-desktop-post-actions-20260903T202312Z.png`、`c24-voice-jarvis-mobile-20260903T202312Z.png` 经 `file` 验证为 1440x900、1440x900、390x844；summary 确认无横向溢出、无非法 ARIA refs、五项移动导航、Wake/Interrupt/Pause/Delete transcript/Export transcript 真实 DOM 控件、descriptor-only/no-external/no-microphone 边界可见，请求来源仅 `127.0.0.1:4310` 和 `127.0.0.1:4313`。
 - 审查结果：raw SQL unsafe refs、payload parity、descriptor/session immutability、`current_transcript_id` scope、workspace-global command idempotency 和 idle resume forgery blockers 已用 RED/GREEN 修复；post-fix 独立代码与安全审查无 blocking/high finding；本轮 fresh subagent dispatch 受 `agent thread limit reached` 限制未启动，使用本地代码/安全清单、`git diff --check` 和 `pnpm audit --audit-level=high` 补充复核，不伪造新的独立通过。
 - 环境限制：主机 Node `v25.9.0` 超出项目 `<23` engine range，pnpm 仅发出 warning；一次嵌套 bash validation 尝试落到 Node `v14.17.0` 并在 pnpm 启动前失败，已改用项目 zsh 环境重跑通过；Mission Control build 仍有第三方 `use client` bundler warning 和 chunk-size warning。
-- 下一步唯一动作：创建 C24 scoped commit 并回写完整 SHA 后进入 C25 Studio/Media/NotebookLM/Avatar RED tests；C25 仍保持 descriptor/control-plane only，真实 NotebookLM、媒体 provider、Avatar provider、MCP、凭据读取和外部副作用必须另行授权。
+- 下一步唯一动作：进入 C25 Studio/Media/NotebookLM/Avatar RED tests；C25 仍保持 descriptor/control-plane only，真实 NotebookLM、媒体 provider、Avatar provider、MCP、凭据读取和外部副作用必须另行授权。
+
+### Handoff 2026-09-04 / C25 Studio, Media, Notebook, and Avatar
+
+- 当前状态：`[x]` C25 contracts/persistence/API/CLI/Mission Control focused RED/GREEN、full verification matrix、真实浏览器视觉 QA、append-only command blocker remediation、ADR/runbook/verification log 已完成；scoped commit 待创建并回写 SHA。
+- 当前边界：C25 只允许记录 Studio/Media/NotebookLM/Avatar descriptors、render/share/generation/command facts、temporary URL expiry recovery 和 Avatar consent/revoke control intent；禁止真实 NotebookLM、媒体 provider、Avatar provider、MCP、凭据读取、URL/PDF/Drive pull、真实渲染、发布或外部副作用。
+- 本次完成：MediaArtifactDescriptor、RenderJobDescriptor、NotebookDescriptor、NotebookSourceDescriptor、NotebookGenerationDescriptor、AvatarProfileDescriptor、StudioShareDescriptor、StudioCommand、preview/share/rerender/notebook_generate/revoke_avatar、CLI parser、Studio API routes 和 Mission Control `/studio-media` 控制面语义。
+- 持久化：SQLite migration 16 新增 media artifacts、render jobs、notebooks、notebook sources、notebook generations、avatar profiles、studio shares 和 studio commands；workspace/run scope、Notebook source/generation binding、render/share/media binding、command target/kind binding、payload/column parity、append-only render/generation/share/command facts、safe descriptor refs、temporary URL expiry state、avatar consent/revoke policy 和 normalized secret/path rejection 由 repository 与 SQL triggers 双层强制。
+- Fresh focused evidence：`pnpm exec vitest run packages/contracts/src/studio-media.test.ts packages/persistence/src/c25-studio-media.test.ts apps/api/src/routes/studio-media.test.ts apps/cli/src/studio-media.test.ts apps/mission-control/src/pages/studio-media.test.tsx apps/mission-control/src/app/router.test.tsx --reporter=dot`，final rerun exit 0，6 files / 30 tests，证据 `artifacts/progress/c25/current-verification/c25-focused-final-20260903T221205Z.log`。
+- Full required verification evidence：`artifacts/progress/c25/current-verification/full-matrix-final-rerun-20260903T221250Z/summary.log`；`pnpm lint` PASS（387 source files）；`pnpm typecheck` PASS；full Vitest PASS（129 files / 736 tests）；integration PASS（14 files / 37 tests）；E2E PASS（6 tests）；Mission Control build PASS。Earlier `pnpm audit --audit-level=high` PASS recorded in `full-matrix-final-20260903T220144Z`; latest audit rerun failed only with npm registry `ERR_SOCKET_TIMEOUT` and no package files changed.
+- Visual QA evidence：`/studio-media?workspace=ws-demo` fresh PNGs `c25-studio-media-desktop-20260903T220404Z.png`、`c25-studio-media-desktop-post-actions-20260903T220404Z.png`、`c25-studio-media-mobile-20260903T220404Z.png` 经 `file` 验证为 1440x900、1440x900、390x844；summary 确认无横向溢出、无非法 ARIA refs、五项移动导航、Preview/Share/Rerender/Generate brief/Revoke avatar 真实 DOM 控件、media/render/notebook/avatar/share/command 状态、temporary URL recovery 和 descriptor-only/no-external/no-NotebookLM 边界可见，请求来源仅 `127.0.0.1:4310` 和 `127.0.0.1:4313`。
+- 审查结果：append-only command id blocker 已用 API RED/GREEN regression 修复，`StudioMediaService.command()` 对新 idempotency reservation 使用 fresh `idFactory()` resource id，replay 仍返回 persisted reservation id；本轮 fresh subagent dispatch 受 `agent thread limit reached` 限制未启动，使用本地代码/安全清单、`git diff --check` 和 prior passing `pnpm audit --audit-level=high` 补充复核，不伪造独立通过。
+- 环境限制：主机 Node `v25.9.0` 超出项目 `<23` engine range，pnpm 仅发出 warning；Mission Control build 仍有第三方 `use client` bundler warning 和 chunk-size warning；latest `pnpm audit --audit-level=high` rerun 受 npm registry `ERR_SOCKET_TIMEOUT` 限制失败，prior C25 audit pass 已记录；C25 temporary URL/share recovery 仍是 descriptor state，不是 live preview hosting 或发布撤销。
+- 下一步唯一动作：创建 C25 scoped commit 并回写完整 SHA 后进入 C26 Teams/Paperclip/Antigravity RED tests；C26 仍保持 control-plane only，不能扩大到真实外部连接器、NotebookLM、浏览器控制、语音或业务 SaaS。
 
 ## 9. 完成判定
 

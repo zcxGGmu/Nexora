@@ -36,6 +36,9 @@ export function requiredExpectedVersion(context: RequestContext): number {
   if (context.expected_version === null) {
     throw new ApiHttpError({ status_code: 428, code: "VERSION_CONFLICT", message: "If-Match header is required", retryable: true, required_action: "send_current_version" });
   }
+  if (context.expected_version < 1) {
+    throw new ApiHttpError({ status_code: 409, code: "VERSION_CONFLICT", message: "If-Match version is stale", retryable: true, required_action: "refresh_state" });
+  }
   return context.expected_version;
 }
 
@@ -59,7 +62,7 @@ function ifMatchVersion(value: string | string[] | undefined): number | null {
   const unquoted = header.startsWith('"') && header.endsWith('"') ? header.slice(1, -1) : header;
   if (!/^\d+$/.test(unquoted)) throw new ApiHttpError({ status_code: 400, code: "SCHEMA_INVALID", message: "If-Match must be a positive integer version", retryable: false, required_action: "correct_if_match" });
   const version = Number(unquoted);
-  if (!Number.isSafeInteger(version) || version < 1) throw new ApiHttpError({ status_code: 400, code: "SCHEMA_INVALID", message: "If-Match must be a positive integer version", retryable: false, required_action: "correct_if_match" });
+  if (!Number.isSafeInteger(version) || version < 0) throw new ApiHttpError({ status_code: 400, code: "SCHEMA_INVALID", message: "If-Match must be a non-negative integer version", retryable: false, required_action: "correct_if_match" });
   return version;
 }
 

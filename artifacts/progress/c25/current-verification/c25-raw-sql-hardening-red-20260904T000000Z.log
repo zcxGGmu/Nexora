@@ -1,0 +1,459 @@
+
+ RUN  v3.2.7 /Users/zq/Desktop/ai-projs/posp/Nexora
+
+x·xxxx
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 5 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  packages/persistence/src/c25-studio-media.test.ts > C25 Studio/Media/NotebookLM/Avatar persistence > Given migrations run When schema is validated Then C25 tables and migration version 16 exist
+AssertionError: expected [ 'memory_versions_no_update', …(358) ] to deeply equal ArrayContaining{…}
+
+- Expected
++ Received
+
+- ArrayContaining [
+-   "c25_media_artifacts_ref_text_safe_insert",
+-   "c25_render_jobs_payload_json_insert",
+-   "c25_notebook_sources_payload_json_insert",
+-   "c25_studio_commands_target_scope_insert",
++ [
++   "memory_versions_no_update",
++   "memory_versions_no_delete",
++   "artifact_versions_no_update",
++   "artifact_versions_no_delete",
++   "events_no_update",
++   "events_no_delete",
++   "channels_gateway_binding_no_update",
++   "sessions_gateway_channel_topology_insert",
++   "sessions_gateway_channel_topology_update",
++   "sessions_last_message_scope_insert",
++   "sessions_last_message_scope_update",
++   "session_messages_session_channel_topology_insert",
++   "session_messages_outbound_allowlist_insert",
++   "delivery_receipts_message_session_topology_insert",
++   "session_cursor_checkpoints_message_cursor_insert",
++   "session_cursor_checkpoints_message_cursor_update",
++   "session_messages_no_update",
++   "session_messages_no_delete",
++   "delivery_receipts_no_update",
++   "delivery_receipts_no_delete",
++   "goal_loops_session_run_topology_insert",
++   "goal_loops_session_run_topology_update",
++   "goal_loops_payload_columns_match_insert",
++   "goal_loops_payload_columns_match_update",
++   "goal_loops_scope_immutable",
++   "goal_loops_terminal_status_immutable",
++   "goal_loops_terminal_status_requires_judge_gate",
++   "goal_loops_terminal_status_requires_matching_judge",
++   "goal_loops_terminal_status_requires_matching_judge_insert",
++   "goal_continuations_loop_run_session_topology_insert",
++   "goal_continuations_terminal_loop_insert",
++   "goal_continuations_normal_cursor_progress_insert",
++   "goal_continuations_normal_previous_cursor_insert",
++   "goal_continuations_payload_columns_match_insert",
++   "goal_loop_commands_loop_run_session_topology_insert",
++   "goal_loop_commands_kind_shape_insert",
++   "goal_loop_commands_payload_columns_match_insert",
++   "goal_loop_commands_no_update",
++   "goal_loop_commands_no_delete",
++   "goal_continuations_no_update",
++   "goal_continuations_no_delete",
++   "skills_payload_columns_match_insert",
++   "skills_payload_columns_match_update",
++   "skill_versions_payload_columns_match_insert",
++   "skill_versions_payload_columns_match_update",
++   "skill_sources_payload_columns_match_insert",
++   "skill_scans_payload_columns_match_insert",
++   "skill_reviews_payload_columns_match_insert",
++   "skill_installations_payload_columns_match_insert",
++   "skill_installations_payload_columns_match_update",
++   "skill_invocations_payload_columns_match_insert",
++   "learning_candidates_payload_columns_match_insert",
++   "learning_candidates_payload_columns_match_update",
++   "learning_commands_payload_columns_match_insert",
++   "learning_commands_kind_fields_insert",
++   "skills_active_requires_approved_pointer_insert",
++   "skills_active_requires_approved_pointer_update",
++   "skills_current_version_scope_insert",
++   "skills_current_version_scope_update",
++   "skills_active_current_version_trust_chain_insert",
++   "skills_active_current_version_trust_chain_update",
++   "skills_approved_version_trust_chain_insert",
++   "skills_approved_version_trust_chain_update",
++   "skill_versions_snapshot_ref_safe_insert",
++   "skill_versions_snapshot_ref_safe_update",
++   "skill_versions_approved_requires_snapshot_insert",
++   "skill_versions_approved_requires_snapshot_update",
++   "skill_versions_approved_review_trust_update",
++   "skill_sources_source_ref_safe_insert",
++   "skill_scans_passed_requires_clean_findings_insert",
++   "skill_reviews_approval_requires_clean_scan_insert",
++   "skill_installations_require_approved_version_insert",
++   "skill_installations_require_approved_version_update",
++   "skill_sources_skill_version_scope_insert",
++   "skill_scans_skill_version_scope_insert",
++   "skill_reviews_skill_version_scope_insert",
++   "skill_reviews_scan_version_scope_insert",
++   "skill_installations_require_rollback_target_insert",
++   "skill_installations_require_rollback_snapshot_insert",
++   "skill_installations_status_transition_update",
++   "skill_installations_require_rollback_target_update",
++   "skill_installations_require_rollback_snapshot_update",
++   "skill_invocations_require_installed_snapshot_insert",
++   "skill_invocations_goal_run_scope_insert",
++   "learning_candidates_goal_run_scope_insert",
++   "learning_candidates_goal_run_scope_update",
++   "learning_source_events_envelope_insert",
++   "learning_candidates_proposed_skill_scope_insert",
++   "learning_candidates_proposed_skill_scope_update",
++   "learning_candidates_source_event_scope_insert",
++   "learning_candidates_source_event_scope_update",
++   "skill_versions_snapshot_ref_safe_terminal_insert",
++   "skill_versions_snapshot_ref_safe_terminal_update",
++   "skill_sources_source_ref_safe_terminal_insert",
++   "learning_candidates_evidence_refs_safe_insert",
++   "learning_candidates_evidence_refs_safe_update",
++   "skills_text_safe_insert",
++   "skills_text_safe_update",
++   "skills_text_drive_safe_insert",
++   "skills_text_drive_safe_update",
++   "skill_versions_text_safe_insert",
++   "skill_sources_text_safe_insert",
++   "skill_scans_text_safe_insert",
++   "skill_reviews_text_safe_insert",
++   "skill_installations_text_safe_insert",
++   "skill_installations_text_safe_update",
++   "skill_invocations_text_safe_insert",
++   "learning_candidates_text_safe_insert",
++   "learning_candidates_text_safe_update",
++   "learning_commands_text_safe_insert",
++   "c21_snapshot_ref_hardened_insert",
++   "c21_snapshot_ref_hardened_update",
++   "c21_source_ref_hardened_insert",
++   "c21_evidence_refs_hardened_insert",
++   "c21_evidence_refs_hardened_update",
++   "c21_text_windows_drive_versions_insert",
++   "c21_text_windows_drive_versions_update",
++   "c21_text_windows_drive_sources_insert",
++   "c21_text_windows_drive_scans_insert",
++   "c21_text_windows_drive_reviews_insert",
++   "c21_text_windows_drive_installations_insert",
++   "c21_text_windows_drive_installations_update",
++   "c21_text_windows_drive_invocations_insert",
++   "c21_text_windows_drive_candidates_insert",
++   "c21_text_windows_drive_candidates_update",
++   "c21_text_windows_drive_commands_insert",
++   "c21_text_unc_paths_skills_insert",
++   "c21_text_unc_paths_skills_update",
++   "c21_text_unc_paths_versions_insert",
++   "c21_text_unc_paths_versions_update",
++   "c21_text_unc_paths_sources_insert",
++   "c21_text_unc_paths_scans_insert",
++   "c21_text_unc_paths_reviews_insert",
++   "c21_text_unc_paths_installations_insert",
++   "c21_text_unc_paths_installations_update",
++   "c21_text_unc_paths_invocations_insert",
++   "c21_text_unc_paths_candidates_insert",
++   "c21_text_unc_paths_candidates_update",
++   "c21_text_unc_paths_commands_insert",
++   "skill_versions_text_hardened_insert",
++   "skill_versions_text_hardened_update",
++   "c21_fact_text_hardened_skill_sources_insert",
++   "c21_fact_text_hardened_skill_scans_insert",
++   "c21_fact_text_hardened_skill_reviews_insert",
++   "c21_fact_text_hardened_skill_installations_insert",
++   "c21_fact_text_hardened_skill_installations_update",
++   "c21_fact_text_hardened_skill_invocations_insert",
++   "c21_fact_text_hardened_learning_candidates_insert",
++   "c21_fact_text_hardened_learning_candidates_update",
++   "c21_fact_text_hardened_learning_commands_insert",
++   "c21_single_colon_network_hardened_skills_insert",
++   "c21_single_colon_network_hardened_skills_update",
++   "c21_single_colon_network_hardened_versions_insert",
++   "c21_single_colon_network_hardened_versions_update",
++   "c21_single_colon_network_hardened_sources_insert",
++   "c21_single_colon_network_hardened_scans_insert",
++   "c21_single_colon_network_hardened_reviews_insert",
++   "c21_single_colon_network_hardened_installations_insert",
++   "c21_single_colon_network_hardened_installations_update",
++   "c21_single_colon_network_hardened_invocations_insert",
++   "c21_single_colon_network_hardened_candidates_insert",
++   "c21_single_colon_network_hardened_candidates_update",
++   "c21_single_colon_network_hardened_candidate_evidence_insert",
++   "c21_single_colon_network_hardened_candidate_evidence_update",
++   "c21_single_colon_network_hardened_commands_insert",
++   "skill_sources_append_only_update",
++   "skill_sources_append_only_delete",
++   "skill_scans_append_only_update",
++   "skill_scans_append_only_delete",
++   "skill_reviews_append_only_update",
++   "skill_reviews_append_only_delete",
++   "skill_invocations_append_only_update",
++   "skill_invocations_append_only_delete",
++   "learning_commands_append_only_update",
++   "learning_commands_append_only_delete",
++   "c22_vault_bridges_allowed_source_kinds_insert",
++   "c22_journal_sources_allowed_kind_insert",
++   "c22_journal_graph_indexes_enabled_insert",
++   "c22_vault_bridges_payload_columns_match_insert",
++   "c22_vault_bridges_payload_columns_match_update",
++   "c22_journal_entries_payload_columns_match_insert",
++   "c22_journal_entries_payload_columns_match_update",
++   "c22_journal_sources_payload_columns_match_insert",
++   "c22_journal_graph_indexes_payload_columns_match_insert",
++   "c22_journal_candidates_payload_columns_match_insert",
++   "c22_writeback_requests_payload_columns_match_insert",
++   "c22_writeback_requests_payload_columns_match_update",
++   "c22_writeback_decisions_payload_columns_match_insert",
++   "c22_vault_bridges_payload_known_keys_insert",
++   "c22_journal_entries_payload_known_keys_insert",
++   "c22_journal_sources_payload_known_keys_insert",
++   "c22_journal_graph_indexes_payload_known_keys_insert",
++   "c22_journal_candidates_payload_known_keys_insert",
++   "c22_writeback_requests_payload_known_keys_insert",
++   "c22_writeback_requests_payload_known_keys_update",
++   "c22_writeback_decisions_payload_known_keys_insert",
++   "c22_journal_entries_goal_run_scope_insert",
++   "c22_journal_entries_goal_run_scope_update",
++   "c22_journal_sources_entry_listing_insert",
++   "c22_journal_candidates_entry_listing_insert",
++   "c22_journal_candidates_sources_scope_insert",
++   "c22_vault_bridges_ref_shape_insert",
++   "c22_journal_sources_ref_shape_insert",
++   "c22_journal_candidates_ref_shape_insert",
++   "c22_writeback_requests_ref_shape_insert",
++   "c22_vault_bridges_text_safe_insert",
++   "c22_journal_entries_text_safe_insert",
++   "c22_journal_entries_text_safe_update",
++   "c22_journal_sources_text_safe_insert",
++   "c22_journal_graph_indexes_text_safe_insert",
++   "c22_journal_candidates_text_safe_insert",
++   "c22_writeback_requests_text_safe_insert",
++   "c22_writeback_requests_text_safe_update",
++   "c22_writeback_decisions_text_safe_insert",
++   "c22_vault_bridges_encoded_secret_safe_insert",
++   "c22_journal_entries_encoded_secret_safe_insert",
++   "c22_journal_entries_encoded_secret_safe_update",
++   "c22_journal_sources_encoded_secret_safe_insert",
++   "c22_journal_graph_indexes_encoded_secret_safe_insert",
++   "c22_journal_candidates_encoded_secret_safe_insert",
++   "c22_writeback_requests_encoded_secret_safe_insert",
++   "c22_writeback_requests_encoded_secret_safe_update",
++   "c22_writeback_decisions_encoded_secret_safe_insert",
++   "c22_vault_bridges_normalized_text_safe_insert",
++   "c22_journal_entries_normalized_text_safe_insert",
++   "c22_journal_entries_normalized_text_safe_update",
++   "c22_journal_sources_normalized_text_safe_insert",
++   "c22_journal_graph_indexes_normalized_text_safe_insert",
++   "c22_journal_candidates_normalized_text_safe_insert",
++   "c22_writeback_requests_normalized_text_safe_insert",
++   "c22_writeback_requests_normalized_text_safe_update",
++   "c22_writeback_decisions_normalized_text_safe_insert",
++   "c22_vault_bridges_safe_insert",
++   "c22_journal_sources_safe_insert",
++   "c22_journal_candidates_safe_insert",
++   "c22_journal_candidates_pending_insert",
++   "c22_writeback_requests_safe_insert",
++   "c22_writeback_requests_pending_insert",
++   "c22_writeback_requests_candidate_scope_insert",
++   "c22_writeback_requests_target_root_insert",
++   "c22_writeback_requests_safe_update",
++   "c22_writeback_decisions_safe_insert",
++   "vault_bridges_no_update",
++   "vault_bridges_no_delete",
++   "journal_entries_no_update",
++   "journal_entries_no_delete",
++   "journal_sources_no_update",
++   "journal_sources_no_delete",
++   "journal_graph_indexes_no_update",
++   "journal_graph_indexes_no_delete",
++   "journal_memory_candidates_no_update",
++   "journal_memory_candidates_no_delete",
++   "journal_writeback_requests_terminal_no_update",
++   "journal_writeback_requests_no_delete",
++   "journal_writeback_decisions_no_update",
++   "journal_writeback_decisions_no_delete",
++   "c23_sandbox_allowed_target_kinds_insert",
++   "c23_sessions_gateway_scope_insert",
++   "c23_sessions_payload_json_insert",
++   "c23_sandbox_policies_payload_json_insert",
++   "c23_allowlist_payload_json_insert",
++   "c23_action_intents_payload_json_insert",
++   "c23_human_approvals_payload_json_insert",
++   "c23_action_receipts_payload_json_insert",
++   "c23_screenshot_receipts_payload_json_insert",
++   "c23_sandbox_payload_secret_shape_insert",
++   "c23_allowlist_payload_secret_shape_insert",
++   "c23_action_intents_payload_secret_shape_insert",
++   "c23_human_approvals_payload_secret_shape_insert",
++   "c23_action_receipts_payload_secret_shape_insert",
++   "c23_screenshot_receipts_payload_secret_shape_insert",
++   "c23_secret_safe_text_insert",
++   "c23_session_secret_safe_text_insert",
++   "c23_sessions_target_safe_insert",
++   "c23_allowlist_target_safe_insert",
++   "c23_allowlist_secret_safe_text_insert",
++   "c23_action_intents_target_allowlist_insert",
++   "c23_action_intents_secret_safe_text_insert",
++   "c23_human_approvals_action_scope_insert",
++   "c23_human_approvals_secret_safe_text_insert",
++   "c23_sandbox_policies_normalized_text_safe_insert",
++   "c23_sessions_normalized_text_safe_insert",
++   "c23_allowlist_normalized_text_safe_insert",
++   "c23_action_intents_normalized_text_safe_insert",
++   "c23_human_approvals_normalized_text_safe_insert",
++   "c23_action_receipts_normalized_text_safe_insert",
++   "c23_screenshot_receipts_normalized_text_safe_insert",
++   "c23_action_intents_session_run_scope_insert",
++   "c23_action_receipts_scope_insert",
++   "c23_action_receipts_screenshot_scope_insert",
++   "c23_action_receipts_executable_insert",
++   "c23_screenshot_receipts_scope_insert",
++   "c23_screenshot_receipts_executable_insert",
++   "c23_action_receipts_ref_safe_insert",
++   "c23_screenshot_receipts_ref_safe_insert",
++   "c23_sandbox_policies_no_update",
++   "c23_sandbox_policies_no_delete",
++   "c23_allowlist_no_update",
++   "c23_allowlist_no_delete",
++   "c23_action_intents_no_update",
++   "c23_action_intents_no_delete",
++   "c23_sessions_guarded_update",
++   "c23_sessions_no_delete",
++   "c23_action_receipts_no_update",
++   "c23_action_receipts_no_delete",
++   "c23_screenshot_receipts_no_update",
++   "c23_screenshot_receipts_no_delete",
++   "c23_human_approvals_no_update",
++   "c23_human_approvals_no_delete",
++   "c24_voice_audio_policies_retention_insert",
++   "c24_voice_audio_policies_payload_json_insert",
++   "c24_voice_audio_policies_secret_safe_text_insert",
++   "c24_voice_audio_policies_normalized_text_safe_insert",
++   "c24_voice_wake_words_secret_safe_text_insert",
++   "c24_voice_wake_words_normalized_text_safe_insert",
++   "c24_voice_wake_words_payload_json_insert",
++   "c24_voice_sessions_gateway_scope_insert",
++   "c24_voice_sessions_current_transcript_initial_insert",
++   "c24_voice_sessions_initial_state_insert",
++   "c24_voice_sessions_payload_json_insert",
++   "c24_voice_sessions_secret_safe_text_insert",
++   "c24_voice_sessions_normalized_text_safe_insert",
++   "c24_voice_sessions_guarded_update",
++   "c24_voice_sessions_current_transcript_scope_update",
++   "c24_voice_sessions_command_backing_update",
++   "c24_voice_sessions_normalized_text_safe_update",
++   "c24_voice_audio_policies_no_update",
++   "c24_voice_audio_policies_no_delete",
++   "c24_voice_wake_words_no_update",
++   "c24_voice_wake_words_no_delete",
++   "c24_voice_transcripts_scope_insert",
++   "c24_voice_transcripts_initial_lifecycle_insert",
++   "c24_voice_transcripts_artifact_ref_shape_insert",
++   "c24_voice_transcripts_secret_safe_text_insert",
++   "c24_voice_transcripts_normalized_text_safe_insert",
++   "c24_voice_transcripts_payload_json_insert",
++   "c24_voice_commands_session_scope_insert",
++   "c24_voice_commands_transcript_scope_insert",
++   "c24_voice_commands_lifecycle_policy_insert",
++   "c24_voice_commands_single_lifecycle_insert",
++   "c24_voice_commands_secret_safe_text_insert",
++   "c24_voice_commands_normalized_text_safe_insert",
++   "c24_voice_commands_payload_json_insert",
++   "c24_voice_transcripts_no_update",
++   "c24_voice_transcripts_no_delete",
++   "c24_voice_commands_no_update",
++   "c24_voice_commands_no_delete",
++   "c25_media_artifacts_payload_json_insert",
++   "c25_notebooks_payload_json_insert",
++   "c25_notebook_generations_source_scope_insert",
++   "c25_media_artifacts_ref_safe_insert",
++   "c25_notebook_sources_ref_safe_insert",
++   "c25_avatar_profiles_ref_safe_insert",
++   "c25_render_jobs_no_update",
++   "c25_render_jobs_no_delete",
++   "c25_avatar_profiles_no_update",
++   "c25_avatar_profiles_no_delete",
++   "c25_studio_commands_no_update",
++   "c25_studio_commands_no_delete",
+  ]
+
+ ❯ packages/persistence/src/c25-studio-media.test.ts:49:24
+
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/5]⎯
+
+ FAIL  packages/persistence/src/c25-studio-media.test.ts > C25 Studio/Media/NotebookLM/Avatar persistence > Given C25 descriptors When repositories write them Then scope payload parity and append-only facts hold
+AssertionError: expected [Function] to throw an error
+
+- Expected:
+null
+
++ Received:
+undefined
+
+ ❯ packages/persistence/src/c25-studio-media.test.ts:73:162
+
+ ❯ withDatabase packages/persistence/src/c25-studio-media.test.ts:148:5
+ ❯ packages/persistence/src/c25-studio-media.test.ts:56:5
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/5]⎯
+
+ FAIL  packages/persistence/src/c25-studio-media.test.ts > C25 Studio/Media/NotebookLM/Avatar persistence > Given raw SQL C25 refs When encoded nested path or invisible variants are inserted Then every ref surface rejects them
+AssertionError: expected [Function] to throw an error
+
+- Expected:
+null
+
++ Received:
+undefined
+
+ ❯ packages/persistence/src/c25-studio-media.test.ts:94:176
+
+ ❯ withDatabase packages/persistence/src/c25-studio-media.test.ts:148:5
+ ❯ packages/persistence/src/c25-studio-media.test.ts:88:5
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/5]⎯
+
+ FAIL  packages/persistence/src/c25-studio-media.test.ts > C25 Studio/Media/NotebookLM/Avatar persistence > Given raw SQL text payloads When secret or path markers are obfuscated Then all C25 text surfaces reject them
+AssertionError: expected [Function] to throw an error
+
+- Expected:
+null
+
++ Received:
+undefined
+
+ ❯ packages/persistence/src/c25-studio-media.test.ts:110:147
+
+ ❯ withDatabase packages/persistence/src/c25-studio-media.test.ts:148:5
+ ❯ packages/persistence/src/c25-studio-media.test.ts:106:5
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[4/5]⎯
+
+ FAIL  packages/persistence/src/c25-studio-media.test.ts > C25 Studio/Media/NotebookLM/Avatar persistence > Given raw SQL inserts When workspace run parent or payload parity drifts Then database rejects them
+AssertionError: expected [Function] to throw an error
+
+- Expected:
+null
+
++ Received:
+undefined
+
+ ❯ packages/persistence/src/c25-studio-media.test.ts:127:146
+    125|       new NotebookSourceRepository(database).create(notebookSource());
+    126|
+    127|       expect(() => insertRawMediaArtifact(database, { ...mediaArtifact…
+       |                                                                                                                                                  ^
+    128|       expect(() => insertRawRenderJob(database, { ...renderJob(), id: …
+    129|       expect(() => insertRawNotebookSource(database, { ...notebookSour…
+ ❯ withDatabase packages/persistence/src/c25-studio-media.test.ts:148:5
+ ❯ packages/persistence/src/c25-studio-media.test.ts:122:5
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[5/5]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  5 failed | 1 passed (6)
+   Start at  05:19:28
+   Duration  726ms (transform 174ms, setup 0ms, collect 265ms, tests 266ms, environment 0ms, prepare 39ms)

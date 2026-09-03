@@ -39,7 +39,7 @@ describe("C24 voice and Jarvis persistence", () => {
       const tables = database.prepare("SELECT name FROM sqlite_master WHERE type = 'table'").all().map((row) => row["name"]);
       const triggers = database.prepare("SELECT name FROM sqlite_master WHERE type = 'trigger'").all().map((row) => row["name"]);
 
-      expect(CORE_MIGRATION_VERSION).toBe(15);
+      expect(CORE_MIGRATION_VERSION).toBeGreaterThanOrEqual(15);
       expect(CORE_TABLES).toEqual(expect.arrayContaining(["voice_audio_policies", "voice_wake_words", "voice_sessions", "voice_transcripts", "voice_commands"]));
       expect(tables).toEqual(expect.arrayContaining(["voice_audio_policies", "voice_wake_words", "voice_sessions", "voice_transcripts", "voice_commands"]));
       expect(triggers).toEqual(expect.arrayContaining(["c24_voice_transcripts_no_update", "c24_voice_commands_no_update", "c24_voice_sessions_guarded_update"]));

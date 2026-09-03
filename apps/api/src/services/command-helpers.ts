@@ -94,6 +94,22 @@ function resourcePath(objectType: string, objectId: string): string {
       return `/v1/voice-transcripts/${objectId}`;
     case "voice_command":
       return `/v1/voice-commands/${objectId}`;
+    case "media_artifact":
+      return `/v1/studio/media-artifacts/${objectId}`;
+    case "render_job":
+      return `/v1/studio/render-jobs/${objectId}`;
+    case "notebook":
+      return `/v1/studio/notebooks/${objectId}`;
+    case "notebook_source":
+      return `/v1/studio/notebook-sources/${objectId}`;
+    case "notebook_generation":
+      return `/v1/studio/notebook-generations/${objectId}`;
+    case "avatar_profile":
+      return `/v1/studio/avatar-profiles/${objectId}`;
+    case "studio_share":
+      return `/v1/studio/shares/${objectId}`;
+    case "studio_command":
+      return `/v1/studio/commands/${objectId}`;
     case "tool_descriptor":
       return `/v1/registry/tools/${objectId}`;
     default:

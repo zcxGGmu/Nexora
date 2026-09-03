@@ -1,7 +1,7 @@
-import { BookOpen, Boxes, BrainCircuit, FileText, Gauge, GitPullRequestArrow, Inbox, MemoryStick, MessageSquareText, MicOff, MonitorCog, RadioTower, Settings, Target, Ticket } from "lucide-react";
+import { BookOpen, Boxes, BrainCircuit, Clapperboard, FileText, Gauge, GitPullRequestArrow, Inbox, MemoryStick, MessageSquareText, MicOff, MonitorCog, RadioTower, Settings, Target, Ticket } from "lucide-react";
 import type { JSX } from "react";
 
-export type ShellRouteKey = "design-system" | "mission-control" | "cowork" | "inbox" | "goals" | "tickets" | "runs" | "review" | "artifacts" | "memory" | "workflows" | "settings" | "registry" | "gateway" | "skills" | "journal" | "browser-computer" | "voice-jarvis";
+export type ShellRouteKey = "design-system" | "mission-control" | "cowork" | "inbox" | "goals" | "tickets" | "runs" | "review" | "artifacts" | "memory" | "workflows" | "settings" | "registry" | "gateway" | "skills" | "journal" | "browser-computer" | "voice-jarvis" | "studio-media";
 
 export type ShellNavItem = {
   readonly key: ShellRouteKey;
@@ -33,6 +33,7 @@ const icons = {
   journal: BookOpen,
   "browser-computer": MonitorCog,
   "voice-jarvis": MicOff,
+  "studio-media": Clapperboard,
 } as const;
 
 export function Sidebar(props: { readonly currentRoute: ShellRouteKey; readonly groups: readonly ShellNavGroup[] }): JSX.Element {

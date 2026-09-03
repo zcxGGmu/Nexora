@@ -1,0 +1,78 @@
+
+ RUN  v3.2.7 /Users/zq/Desktop/ai-projs/posp/Nexora
+
+{"level":30,"time":1788470809210,"pid":54241,"hostname":"192.168.31.140","reqId":"req-1","req":{"method":"POST","url":"/v1/studio/media-artifacts","host":"localhost:80","remoteAddress":"127.0.0.1"},"msg":"incoming request"}
+{"level":30,"time":1788470809220,"pid":54241,"hostname":"192.168.31.140","reqId":"req-1","res":{"statusCode":202},"responseTime":9.09287500000005,"msg":"request completed"}
+{"level":30,"time":1788470809220,"pid":54241,"hostname":"192.168.31.140","reqId":"req-2","req":{"method":"POST","url":"/v1/studio/render-jobs","host":"localhost:80","remoteAddress":"127.0.0.1"},"msg":"incoming request"}
+{"level":30,"time":1788470809222,"pid":54241,"hostname":"192.168.31.140","reqId":"req-2","res":{"statusCode":202},"responseTime":2.2467080000000124,"msg":"request completed"}
+{"level":30,"time":1788470809223,"pid":54241,"hostname":"192.168.31.140","reqId":"req-3","req":{"method":"POST","url":"/v1/studio/notebooks","host":"localhost:80","remoteAddress":"127.0.0.1"},"msg":"incoming request"}
+{"level":30,"time":1788470809223,"pid":54241,"hostname":"192.168.31.140","reqId":"req-3","res":{"statusCode":202},"responseTime":0.8914580000000569,"msg":"request completed"}
+{"level":30,"time":1788470809224,"pid":54241,"hostname":"192.168.31.140","reqId":"req-4","req":{"method":"POST","url":"/v1/studio/notebook-sources","host":"localhost:80","remoteAddress":"127.0.0.1"},"msg":"incoming request"}
+{"level":30,"time":1788470809225,"pid":54241,"hostname":"192.168.31.140","reqId":"req-4","res":{"statusCode":202},"responseTime":1.332667000000015,"msg":"request completed"}
+{"level":30,"time":1788470809225,"pid":54241,"hostname":"192.168.31.140","reqId":"req-5","req":{"method":"POST","url":"/v1/studio/notebook-generations","host":"localhost:80","remoteAddress":"127.0.0.1"},"msg":"incoming request"}
+{"level":30,"time":1788470809227,"pid":54241,"hostname":"192.168.31.140","reqId":"req-5","res":{"statusCode":202},"responseTime":1.7909160000000384,"msg":"request completed"}
+{"level":30,"time":1788470809227,"pid":54241,"hostname":"192.168.31.140","reqId":"req-6","req":{"method":"POST","url":"/v1/studio/avatar-profiles","host":"localhost:80","remoteAddress":"127.0.0.1"},"msg":"incoming request"}
+{"level":30,"time":1788470809228,"pid":54241,"hostname":"192.168.31.140","reqId":"req-6","res":{"statusCode":202},"responseTime":1.1657500000000027,"msg":"request completed"}
+{"level":30,"time":1788470809229,"pid":54241,"hostname":"192.168.31.140","reqId":"req-7","req":{"method":"POST","url":"/v1/studio/shares","host":"localhost:80","remoteAddress":"127.0.0.1"},"msg":"incoming request"}
+{"level":30,"time":1788470809295,"pid":54241,"hostname":"192.168.31.140","reqId":"req-1","req":{"method":"POST","url":"/v1/studio/media-artifacts","host":"localhost:80","remoteAddress":"127.0.0.1"},"msg":"incoming request"}
+{"level":30,"time":1788470809229,"pid":54241,"hostname":"192.168.31.140","reqId":"req-7","res":{"statusCode":202},"responseTime":0.8817079999998896,"msg":"request completed"}
+{"level":30,"time":1788470809230,"pid":54241,"hostname":"192.168.31.140","reqId":"req-8","req":{"method":"GET","url":"/v1/studio?workspace_id=01ARZ3NDEKTSV4RRFFQ69G5FAV","host":"localhost:80","remoteAddress":"127.0.0.1"},"msg":"incoming request"}
+{"level":30,"time":1788470809231,"pid":54241,"hostname":"192.168.31.140","reqId":"req-8","res":{"statusCode":200},"responseTime":1.0798749999999018,"msg":"request completed"}
+{"level":30,"time":1788470809231,"pid":54241,"hostname":"192.168.31.140","reqId":"req-9","req":{"method":"GET","url":"/v1/studio/render-jobs/01DRZ3NDEKTSV4RRFFQ69G5FAV?workspace_id=01ARZ3NDEKTSV4RRFFQ69G5FAV","host":"localhost:80","remoteAddress":"127.0.0.1"},"msg":"incoming request"}
+{"level":30,"time":1788470809231,"pid":54241,"hostname":"192.168.31.140","reqId":"req-9","msg":"Route GET:/v1/studio/render-jobs/01DRZ3NDEKTSV4RRFFQ69G5FAV?workspace_id=01ARZ3NDEKTSV4RRFFQ69G5FAV not found"}
+{"level":30,"time":1788470809231,"pid":54241,"hostname":"192.168.31.140","reqId":"req-9","res":{"statusCode":404},"responseTime":0.11954099999991286,"msg":"request completed"}
+{"level":30,"time":1788470809231,"pid":54241,"hostname":"192.168.31.140","reqId":"req-a","req":{"method":"GET","url":"/v1/studio/notebook-sources/01ERZ3NDEKTSV4RRFFQ69G5FAV?workspace_id=01ARZ3NDEKTSV4RRFFQ69G5FAV","host":"localhost:80","remoteAddress":"127.0.0.1"},"msg":"incoming request"}
+{"level":30,"time":1788470809231,"pid":54241,"hostname":"192.168.31.140","reqId":"req-a","msg":"Route GET:/v1/studio/notebook-sources/01ERZ3NDEKTSV4RRFFQ69G5FAV?workspace_id=01ARZ3NDEKTSV4RRFFQ69G5FAV not found"}
+{"level":30,"time":1788470809231,"pid":54241,"hostname":"192.168.31.140","reqId":"req-a","res":{"statusCode":404},"responseTime":0.09029200000009041,"msg":"request completed"}
+{"level":30,"time":1788470809231,"pid":54241,"hostname":"192.168.31.140","reqId":"req-b","req":{"method":"GET","url":"/v1/studio/notebook-generations/01FRZ3NDEKTSV4RRFFQ69G5FAV?workspace_id=01ARZ3NDEKTSV4RRFFQ69G5FAV","host":"localhost:80","remoteAddress":"127.0.0.1"},"msg":"incoming request"}
+{"level":30,"time":1788470809231,"pid":54241,"hostname":"192.168.31.140","reqId":"req-b","msg":"Route GET:/v1/studio/notebook-generations/01FRZ3NDEKTSV4RRFFQ69G5FAV?workspace_id=01ARZ3NDEKTSV4RRFFQ69G5FAV not found"}
+{"level":30,"time":1788470809232,"pid":54241,"hostname":"192.168.31.140","reqId":"req-b","res":{"statusCode":404},"responseTime":0.051957999999899585,"msg":"request completed"}
+{"level":30,"time":1788470809232,"pid":54241,"hostname":"192.168.31.140","reqId":"req-c","req":{"method":"GET","url":"/v1/studio/shares/01GRZ3NDEKTSV4RRFFQ69G5FAV?workspace_id=01ARZ3NDEKTSV4RRFFQ69G5FAV","host":"localhost:80","remoteAddress":"127.0.0.1"},"msg":"incoming request"}
+{"level":30,"time":1788470809232,"pid":54241,"hostname":"192.168.31.140","reqId":"req-c","msg":"Route GET:/v1/studio/shares/01GRZ3NDEKTSV4RRFFQ69G5FAV?workspace_id=01ARZ3NDEKTSV4RRFFQ69G5FAV not found"}
+{"level":30,"time":1788470809232,"pid":54241,"hostname":"192.168.31.140","reqId":"req-c","res":{"statusCode":404},"responseTime":0.04016699999999673,"msg":"request completed"}
+{"level":30,"time":1788470809298,"pid":54241,"hostname":"192.168.31.140","reqId":"req-1","res":{"statusCode":202},"responseTime":2.6194580000000087,"msg":"request completed"}
+{"level":30,"time":1788470809298,"pid":54241,"hostname":"192.168.31.140","reqId":"req-2","req":{"method":"POST","url":"/v1/studio/media-artifacts/01CRZ3NDEKTSV4RRFFQ69G5FAV/share","host":"localhost:80","remoteAddress":"127.0.0.1"},"msg":"incoming request"}
+{"level":30,"time":1788470809300,"pid":54241,"hostname":"192.168.31.140","reqId":"req-2","res":{"statusCode":202},"responseTime":2.240542000000005,"msg":"request completed"}
+{"level":30,"time":1788470809300,"pid":54241,"hostname":"192.168.31.140","reqId":"req-3","req":{"method":"POST","url":"/v1/studio/media-artifacts/01CRZ3NDEKTSV4RRFFQ69G5FAV/share","host":"localhost:80","remoteAddress":"127.0.0.1"},"msg":"incoming request"}
+{"level":30,"time":1788470809301,"pid":54241,"hostname":"192.168.31.140","reqId":"req-3","res":{"statusCode":202},"responseTime":0.5756249999999454,"msg":"request completed"}
+{"level":30,"time":1788470809301,"pid":54241,"hostname":"192.168.31.140","reqId":"req-4","req":{"method":"POST","url":"/v1/studio/media-artifacts/01CRZ3NDEKTSV4RRFFQ69G5FAV/share","host":"localhost:80","remoteAddress":"127.0.0.1"},"msg":"incoming request"}
+{"level":30,"time":1788470809302,"pid":54241,"hostname":"192.168.31.140","reqId":"req-4","res":{"statusCode":409},"responseTime":0.9004170000000613,"msg":"request completed"}
+{"level":30,"time":1788470809302,"pid":54241,"hostname":"192.168.31.140","reqId":"req-5","req":{"method":"POST","url":"/v1/studio/media-artifacts/01CRZ3NDEKTSV4RRFFQ69G5FAV/rerender","host":"localhost:80","remoteAddress":"127.0.0.1"},"msg":"incoming request"}
+{"level":30,"time":1788470809357,"pid":54241,"hostname":"192.168.31.140","reqId":"req-1","req":{"method":"POST","url":"/v1/studio/media-artifacts","host":"localhost:80","remoteAddress":"127.0.0.1"},"msg":"incoming request"}
+x·{"level":30,"time":1788470809305,"pid":54241,"hostname":"192.168.31.140","reqId":"req-5","res":{"statusCode":409},"responseTime":2.3952920000000404,"msg":"request completed"}
+{"level":30,"time":1788470809359,"pid":54241,"hostname":"192.168.31.140","reqId":"req-1","res":{"statusCode":400},"responseTime":1.5251250000000027,"msg":"request completed"}
+{"level":30,"time":1788470809359,"pid":54241,"hostname":"192.168.31.140","reqId":"req-2","req":{"method":"POST","url":"/v1/studio/avatar-profiles","host":"localhost:80","remoteAddress":"127.0.0.1"},"msg":"incoming request"}
+{"level":30,"time":1788470809359,"pid":54241,"hostname":"192.168.31.140","reqId":"req-2","res":{"statusCode":403},"responseTime":0.32895799999994324,"msg":"request completed"}
+·
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  apps/api/src/routes/studio-media.test.ts > C25 Studio/Media API > Given media notebook and avatar descriptors When owner posts them Then descriptor-only facts are accepted and readers can inspect them
+AssertionError: expected { schema_version: 1, …(6) } to match object { object_type: 'render_job', …(2) }
+(4 matching properties omitted from actual)
+
+- Expected
++ Received
+
+  {
+    "object_id": "01DRZ3NDEKTSV4RRFFQ69G5FAV",
+    "object_type": "render_job",
+-   "status_url": "/v1/studio/render-jobs/01DRZ3NDEKTSV4RRFFQ69G5FAV",
++   "status_url": "/v1/studio/render-jobs/01DRZ3NDEKTSV4RRFFQ69G5FAV?workspace_id=01ARZ3NDEKTSV4RRFFQ69G5FAV",
+  }
+
+ ❯ apps/api/src/routes/studio-media.test.ts:45:61
+     43|       expect(share.statusCode).toBe(202);
+     44|       expect(AcceptedCommandSchema.parse(media.json())).toMatchObject(…
+     45|       expect(AcceptedCommandSchema.parse(renderJob.json())).toMatchObj…
+       |                                                             ^
+     46|       expect(detail.statusCode).toBe(200);
+     47|       expect(renderDetail.statusCode).toBe(200);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 2 passed (3)
+   Start at  05:26:48
+   Duration  1.02s (transform 345ms, setup 0ms, collect 563ms, tests 254ms, environment 0ms, prepare 39ms)
