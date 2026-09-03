@@ -47,14 +47,14 @@ const DIFF_HASH = "sha256:cccccccccccccccccccccccccccccccccccccccccccccccccccccc
 const DEFAULT_IGNORABLE_REFERENCE_CODE_POINTS = [0x00ad, 0x034f, 0x061c, 0x180e, 0x200b, 0x2060, 0x2061, 0x2062, 0x2063, 0x2064, 0xfe0f, 0xe0061] as const;
 
 describe("C22 journal and vault persistence", () => {
-  it("Given migrations run When schema is validated Then C22 tables and migration version 13 exist", () => {
+  it("Given migrations run When schema is validated Then C22 tables and current migration exist", () => {
     const database = openDatabase(":memory:");
     try {
       migrate(database, { now: () => TIME });
       const tables = database.prepare("SELECT name FROM sqlite_master WHERE type = 'table'").all().map((row) => row["name"]);
       const triggers = database.prepare("SELECT name FROM sqlite_master WHERE type = 'trigger'").all().map((row) => row["name"]);
 
-      expect(database.prepare("SELECT version FROM schema_migrations ORDER BY version").all().map((row) => row["version"])).toEqual([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13]);
+      expect(database.prepare("SELECT version FROM schema_migrations ORDER BY version").all().map((row) => row["version"])).toEqual([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14]);
       expect(CORE_TABLES).toEqual(expect.arrayContaining(["vault_bridges", "journal_entries", "journal_sources", "journal_graph_indexes", "journal_memory_candidates", "journal_writeback_requests", "journal_writeback_decisions"]));
       expect(tables).toEqual(expect.arrayContaining(["vault_bridges", "journal_entries", "journal_sources", "journal_graph_indexes", "journal_memory_candidates", "journal_writeback_requests", "journal_writeback_decisions"]));
       expect(triggers).toEqual(expect.arrayContaining([

@@ -18,6 +18,7 @@ const MIGRATIONS = [
   { version: 11, path: "./migrations/0011_goal_mode.sql" },
   { version: 12, path: "./migrations/0012_skills_learning.sql" },
   { version: 13, path: "./migrations/0013_journal_vault.sql" },
+  { version: 14, path: "./migrations/0014_browser_computer.sql" },
 ] as const;
 
 export type SqliteDatabase = DatabaseSync;
@@ -63,7 +64,14 @@ export function rollback(database: SqliteDatabase): void {
   if (migrationTable === undefined) return;
 
   withTransaction(database, () => {
-    database.exec(`DROP TABLE IF EXISTS journal_writeback_decisions;
+    database.exec(`DROP TABLE IF EXISTS browser_computer_screenshot_receipts;
+      DROP TABLE IF EXISTS browser_computer_action_receipts;
+      DROP TABLE IF EXISTS browser_computer_human_approvals;
+      DROP TABLE IF EXISTS browser_computer_action_intents;
+      DROP TABLE IF EXISTS browser_computer_allowlist;
+      DROP TABLE IF EXISTS browser_computer_sessions;
+      DROP TABLE IF EXISTS browser_computer_sandbox_policies;
+      DROP TABLE IF EXISTS journal_writeback_decisions;
       DROP TABLE IF EXISTS journal_writeback_requests;
       DROP TABLE IF EXISTS journal_memory_candidates;
       DROP TABLE IF EXISTS journal_graph_indexes;

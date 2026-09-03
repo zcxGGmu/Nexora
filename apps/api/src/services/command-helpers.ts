@@ -78,6 +78,16 @@ function resourcePath(objectType: string, objectId: string): string {
       return `/v1/registry/models/${objectId}`;
     case "backend_descriptor":
       return `/v1/registry/backends/${objectId}`;
+    case "browser_action":
+      return `/v1/browser-actions/${objectId}`;
+    case "browser_allowlist":
+      return `/v1/browser-allowlist/${objectId}`;
+    case "browser_approval":
+      return `/v1/browser-approvals/${objectId}`;
+    case "browser_action_receipt":
+      return `/v1/browser-action-receipts/${objectId}`;
+    case "browser_session":
+      return `/v1/browser-sessions/${objectId}`;
     case "tool_descriptor":
       return `/v1/registry/tools/${objectId}`;
     default:

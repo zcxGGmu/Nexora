@@ -126,3 +126,9 @@
 - Pattern: A browser QA rerun can fail for reasons unrelated to UI code when the seed script, API, and browser use different tokens, relative database paths, stale seeded descriptors, or obsolete selectors.
 - Correction: C22 Journal visual QA was rerun with a fresh temp data dir, HMAC local auth token, quoted URLs, an absolute `NEXORA_DB_PATH`, API-seeded journal facts, and the current `.mobile-nav a` selector.
 - Rule: For Nexora control-plane visual gates, start from a clean fixture root, seed through the same local API/database path the browser will read, verify the token mode after auth hardening, quote shell URLs with query strings, and refresh selectors from current DOM before declaring a visual failure or pass.
+
+## 2026-09-03 — Receipt references need same-fact write-layer binding
+
+- Pattern: A descriptor receipt can pass action-level policy checks while carrying a foreign or nonexistent child fact reference, leaving durable audit rows with dangling evidence pointers.
+- Correction: C23 action receipts now reject non-null `screenshot_id` unless the referenced screenshot receipt already exists for the same workspace, browser/computer session, and action intent; the invariant is enforced in both repository code and SQLite triggers with RED/GREEN coverage for repository and raw SQL paths.
+- Rule: When append-only facts reference sibling evidence facts, validate existence and same-parent scope at every write layer, not only the primary action/session policy; include raw SQL bypass tests before closing the stage.

@@ -9,14 +9,14 @@
 | 字段 | 当前值 |
 |---|---|
 | 项目 | Nexora Agent OS |
-| 进度状态 | `c22_precommit_verification` |
-| 当前阶段 | `C22` Obsidian / OMI / Journal control-plane 实现、自动化验证、视觉 QA、已知审查 blocker 修复和本地最终代码/安全复核完成；最终 subagent 复核受平台线程上限限制，C22 scoped commit 尚未创建。 |
-| 当前工作 | Fresh C22 focused/full/visual 验证已完成；正在完成 scoped staging、`git diff --cached --check`、C22 commit 和 SHA 回填。真实 Obsidian/OMI/MCP 连接、凭据读取和用户 vault 写回继续禁止。 |
+| 进度状态 | `c23_complete_pending_commit` |
+| 当前阶段 | `C23` Browser / Computer Use control-plane 已完成实现、验证、视觉 QA 和独立复审，等待 scoped commit SHA 回写。 |
+| 当前工作 | 创建 C23 scoped commit；下一阶段仅能进入 C24 Voice/Jarvis RED 测试，仍禁止真实浏览器、桌面、语音、provider、MCP、凭据读取和外部副作用。 |
 | 当前分支 | `codex/agent-os-implementation` |
 | 计划版本 | `2026-08-23-agent-os-implementation` |
 | 前端设计版本 | `nexora-agent-os-ui-design.zh-CN` + `DESIGN.zh-CN.md` + `nexora-agent-os-ui-diagrams.zh-CN.md`；C10-C16 的必读契约 |
-| 最后更新 | 2026-09-02 |
-| 已完成 commit | C21 `51ab5e76a6a9a57736f03281c34e33afc297adce`（skills learning approved snapshots）；C20 `05c4a51baec221f83db821b83ed14fe5626cbc7a`（goal mode loop and judge control plane）；C19 `174c288f6365eeab879d08e6cad9f04c28029a78`（gateway channels sessions control plane）；C17/C18 `58b80300e4fce98bfeeac75998d2f5d503df3961`（runtime registry and provider catalog）；C16 `bcda211cb7c0954f7cace82aceac5fe89f74a25a`（release hardening/full QA）；`ca8f256544d789afcf37c4070e09f674df92a111`（C15 observability/recovery/security operations）；`0fe5eb3004404946f1c9a7251ac657830eb25acc`（C14 durable schedules）；`fad5c6cf45f9d36d3c2570078aa0bd0343c74c1e`（C13 hardening）；C13 base 为 `240e7f1deea5ce0cfe8ae8973faf66922658aa84`、C12 为 `b3dd32e03371eaf5f609fd4e942c0f2fe5f84d1b` |
+| 最后更新 | 2026-09-03 |
+| 已完成 commit | C23 pending post-commit SHA capture（browser computer control plane）；C22 `12451447dfbfcf9fd466988d99017bf896caf7c7`（journal vault control plane）；C21 `51ab5e76a6a9a57736f03281c34e33afc297adce`（skills learning approved snapshots）；C20 `05c4a51baec221f83db821b83ed14fe5626cbc7a`（goal mode loop and judge control plane）；C19 `174c288f6365eeab879d08e6cad9f04c28029a78`（gateway channels sessions control plane）；C17/C18 `58b80300e4fce98bfeeac75998d2f5d503df3961`（runtime registry and provider catalog）；C16 `bcda211cb7c0954f7cace82aceac5fe89f74a25a`（release hardening/full QA）；`ca8f256544d789afcf37c4070e09f674df92a111`（C15 observability/recovery/security operations）；`0fe5eb3004404946f1c9a7251ac657830eb25acc`（C14 durable schedules）；`fad5c6cf45f9d36d3c2570078aa0bd0343c74c1e`（C13 hardening）；C13 base 为 `240e7f1deea5ce0cfe8ae8973faf66922658aa84`、C12 为 `b3dd32e03371eaf5f609fd4e942c0f2fe5f84d1b` |
 | 事实源 | SQLite：运行域和事件；Markdown vault：Memory、SOP、receipt 摘要和 Artifact 文件 |
 | 首版范围 | 本地 Web Mission Control、deterministic adapter、本地 subprocess adapter、SEO draft workflow；不自动发布 |
 
@@ -930,8 +930,8 @@ Known limitations: Host Node is still `v25.9.0` while project engines require `>
 | `[x]` | C19 Gateway/Channels/Sessions | Telegram、Discord、Slack、WhatsApp、Signal、Web/API 的 session、cursor、delivery、pause/steer/resume | C17+C18；workspace-scoped control plane、断线恢复、消息幂等、allowlist、delivery receipt complete；真实连接器仍未授权 |
 | `[x]` | C20 Goal Mode/Loop/Judge | 跨轮 continuation、Judge JSON、max turns、subgoal、pause/resume、预算和 deadline | Commit `05c4a51baec221f83db821b83ed14fe5626cbc7a`；C17-C19；自动化验证、视觉 QA 和独立审查通过；真实辅助 Judge provider 未接入 |
 | `[x]` | C21 Skills/Learning | Skill entity/version/install/quarantine/scan/approve/revoke、`/learn` | Commit `51ab5e76a6a9a57736f03281c34e33afc297adce`；C18+C20；approved snapshot、source hash/diff、rollback、quarantine、automation/QA/review evidence complete |
-| `[~]` | C22 Obsidian/OMI/Journal | Vault bridge、MCP 只读优先、graph/FTS、daily journal、memory candidate | C18+C21；implementation、fresh focused/full validation、fresh visual QA、已知审查 blocker 修复和本地最终复核完成；等待 scoped commit |
-| `[ ]` | C23 Browser/Computer Use | 沙箱、域名/应用 allowlist、截图/action receipt、人工批准、stop/takeover | C18+C20；Mac/Windows/Linux 分平台验证，禁止 SSRF/越权 |
+| `[x]` | C22 Obsidian/OMI/Journal | Vault bridge、MCP 只读优先、graph/FTS、daily journal、memory candidate | Commit `12451447dfbfcf9fd466988d99017bf896caf7c7`；C18+C21；implementation、fresh focused/full validation、fresh visual QA、known blocker remediation 和本地最终复核完成；真实 Obsidian/OMI/MCP/vault writeback 未接入 |
+| `[x]` | C23 Browser/Computer Use | 沙箱、域名/应用 allowlist、截图/action receipt、人工批准、stop/takeover | Commit pending post-commit SHA capture；C18+C20+C22；自动化验证、视觉 QA、screenshot/action receipt scope hardening 和独立复审通过；真实浏览器/桌面执行仍未授权 |
 | `[ ]` | C24 Voice/Jarvis | STT/VAD/TTS、wake word、Wall mode、实时 interrupt、录音和声纹政策 | C18+C20+C22；测量延迟，支持删除/导出转录 |
 | `[ ]` | C25 Studio/Media/NotebookLM/Avatar | MediaArtifact、render worker、Notebook source/generation、preview/share、AvatarProfile | C18+C22；provenance、moderation、重渲染、临时 URL 失效恢复 |
 | `[ ]` | C26 Teams/Paperclip/Antigravity | Team/Member/Mailbox、parallel Attempt、依赖、merge/review、具体 CLI adapter | C17-C21；成员隔离、冲突、成本和合并证据可见 |
@@ -996,8 +996,8 @@ Known limitations: Host Node is still `v25.9.0` while project engines require `>
 
 ### Handoff 2026-09-02 / C22 Obsidian, OMI, and Journal
 
-- 当前状态：`[~]` C22 control-plane 实现、RED/GREEN、全量自动化验证、浏览器 QA、cross-vault raw SQL、vault policy parity、CLI/API timestamp idempotency、SQLite `LIKE` descriptor-ref、Unicode whitespace、unknown payload keys、writeback version jump、default-ignorable refs、encoded secret marker、target-root binding 和 safe idempotency key blocker 修复已完成；最终 subagent 复核受平台线程上限限制，尚未创建 scoped commit。
-- Commit：待 scoped commit 生成后回写；C21 基线为 `51ab5e76a6a9a57736f03281c34e33afc297adce`。
+- 当前状态：`[x]` C22 control-plane 实现、RED/GREEN、全量自动化验证、浏览器 QA、cross-vault raw SQL、vault policy parity、CLI/API timestamp idempotency、SQLite `LIKE` descriptor-ref、Unicode whitespace、unknown payload keys、writeback version jump、default-ignorable refs、encoded secret marker、target-root binding、safe idempotency key blocker 修复和 scoped commit 均已完成；最终 subagent 复核受平台线程上限限制，未伪造独立通过。
+- Commit：`12451447dfbfcf9fd466988d99017bf896caf7c7`（`feat: add journal vault control plane`）；C21 基线为 `51ab5e76a6a9a57736f03281c34e33afc297adce`。
 - 本次完成：VaultBridgeDescriptor、JournalEntryDescriptor、JournalSource、GraphIndexSnapshot、MemoryCandidate、WritebackRequest/Decision、daily journal、graph/FTS snapshot、memory candidate、writeback request/approve/reject、CLI parser、Journal API routes 和 Mission Control `/journal` 控制面语义。
 - 持久化：SQLite migration 13 新增 vault/journal/source/graph/memory/writeback tables；root journal facts append-only，writeback request 仅能通过 append-only decision 从 pending 转为 approved/rejected，source/candidate/request same-workspace/same-vault invariants 由 repository 与 SQL triggers 双层强制；writeback `target_ref` 必须等于对应 vault `root_ref` 或其子路径；descriptor refs 由 case-sensitive `GLOB` checks 和 `c22_*_ref_shape_insert` triggers 拒绝 uppercase scheme、ASCII/Unicode whitespace、nested scheme、traversal 和 encoded traversal；payload exact-key triggers 拒绝未知 top-level payload fields；writeback request update trigger 要求 `NEW.version = OLD.version + 1`。
 - 自动化验证：C22 focused PASS（9 files / 54 tests，`artifacts/progress/c22/current-verification/full-matrix-final-20260903-005153/c22-focused.log`）；`pnpm lint` PASS（350 source files）；`pnpm typecheck` PASS；full Vitest PASS（113 files / 630 tests）；integration PASS（14 files / 37 tests）；E2E PASS（6 tests）；Mission Control build PASS；fresh matrix summary `artifacts/progress/c22/current-verification/full-matrix-final-20260903-005153/summary.log`。
@@ -1006,7 +1006,21 @@ Known limitations: Host Node is still `v25.9.0` while project engines require `>
 - 安全边界：C22 默认只读 descriptor/control-plane；允许引用仅限 `workspace://`、`artifact://`、`memory://`、`journal://`；拒绝 `file://`、`secret://`、HTTP(S)、绝对路径、traversal 和 secret-shaped text；禁止连接真实 Obsidian/OMI/MCP，禁止读取真实凭据，禁止直接写用户 vault，批准写回仍只是本地 descriptor fact。
 - 环境限制：主机 Node `v25.9.0` 超出项目 `<23` engine range，pnpm 仅发出 warning；Mission Control build 仍有第三方 `use client` bundler warning 和 chunk-size warning。
 - 证据路径：`artifacts/progress/c22/verification.log`、`artifacts/progress/c22/current-verification/`、`docs/adr/0017-obsidian-omi-journal-control-plane.md`、`docs/runbooks/journal-operations.md`、`packages/persistence/src/c22-journal.test.ts`、`apps/api/src/routes/journal.test.ts`、`apps/mission-control/src/pages/journal.test.tsx`。
-- 下一步唯一动作：创建 C22 scoped commit，再进入 C23 Browser/Computer Use RED tests。
+- 下一步唯一动作：进入 C23 Browser/Computer Use RED tests，先覆盖 sandbox、allowlist、screenshot/action receipt、manual approval、stop/takeover、SSRF/越权拒绝和 API/UI 控制面语义。
+
+### Handoff 2026-09-02 / C23 Browser and Computer Use
+
+- 当前状态：`[x]` C23 control-plane 实现、RED/GREEN、全量自动化验证、真实浏览器 QA、独立代码复审、安全复核和 scoped commit 准备已完成；不宣称已接入真实浏览器自动化、桌面控制、外部网站、provider、MCP 或凭据。
+- Commit：pending post-commit SHA capture（`feat: add browser computer control plane`）；C22 基线为 `12451447dfbfcf9fd466988d99017bf896caf7c7`。
+- 本次完成：SandboxPolicy、BrowserSessionDescriptor、ComputerUseSessionDescriptor、TargetAllowlistEntry、HumanApproval、ActionIntent、ActionReceipt、ScreenshotReceipt、BrowserComputerCommand、pause/resume/stop/takeover、acknowledge、CLI parser、Browser/Computer API routes 和 Mission Control `/browser-computer` 控制面语义。
+- 持久化：SQLite migration 14 新增 browser/computer sandbox policies、sessions、allowlist、action intents、human approvals、action receipts 和 screenshot receipts；workspace/run/session/action scope、payload parity、safe target refs、default deny allowlist、approval hash binding、expired allowlist receipt recheck、append-only receipts/approvals/actions、guarded session transitions 和 action receipt `screenshot_id` same workspace/session/action 绑定由 repository 与 SQL triggers 双层强制。
+- 自动化验证：C23 focused PASS（5 files / 39 tests，`artifacts/progress/c23/current-verification/c23-focused-post-screenshot-scope-20260903T193049.log`）；`pnpm lint` PASS（362 source files）；`pnpm typecheck` PASS；full Vitest PASS（118 files / 669 tests）；integration PASS（14 files / 37 tests）；E2E PASS（6 tests）；Mission Control build PASS；`pnpm audit --audit-level=high` PASS。
+- 视觉 QA：真实浏览器访问 `http://127.0.0.1:4313/browser-computer?workspace=ws-demo`；fresh PNGs `c23-browser-computer-desktop-20260903T193322.png`、`c23-browser-computer-desktop-post-actions-20260903T193322.png`、`c23-browser-computer-mobile-20260903T193322.png` 均经 `file` 验证为 PNG，尺寸分别为 1440x900、1440x900、390x844；summary 确认无横向溢出、无非法 ARIA refs、五项移动导航、Pause/Stop/Takeover/Approve/Acknowledge 控件、session heading 可读、descriptor-only/no-external-connection 边界可见，请求来源仅 `127.0.0.1:4310` 和 `127.0.0.1:4313`。
+- 审查结果：独立代码审查发现 CRITICAL dangling screenshot reference blocker，已用 RED/GREEN 修复 repository 和 raw SQL 两条路径；post-fix 独立代码复审无 blocking finding；独立安全复核无 blocking finding；本地 `git diff --check` 无 whitespace error，`pnpm audit --audit-level=high` 无已知高危漏洞。
+- 安全边界：C23 只记录 descriptor、allowlist、approval、action、receipt 和 screenshot artifact refs；拒绝 private/metadata IP、userinfo、raw path、wildcard domain bypass、encoded/default-ignorable secret markers、unsafe idempotency keys、`secret://` 和外部执行标志；禁止真实浏览器导航、点击、输入、桌面 takeover、文件访问、credential read、provider/MCP 调用和外部网络副作用。
+- 环境限制：主机 Node `v25.9.0` 超出项目 `<23` engine range，pnpm 仅发出 warning；Mission Control build 仍有第三方 `use client` bundler warning 和 chunk-size warning；C23 target validation 是 descriptor-only lexical guard，未来 live execution adapter 仍需 DNS/private-network resolution 和 rate-limit 设计。
+- 证据路径：`artifacts/progress/c23/verification.log`、`artifacts/progress/c23/current-verification/`、`docs/adr/0018-browser-computer-use-control-plane.md`、`docs/runbooks/browser-computer-operations.md`、`packages/persistence/src/c23-browser-computer.test.ts`、`apps/api/src/routes/browser-computer.test.ts`、`apps/mission-control/src/pages/browser-computer.test.tsx`。
+- 下一步唯一动作：创建 C23 scoped commit 并回写完整 SHA 后进入 C24 Voice/Jarvis RED tests；C24 仍保持 descriptor/control-plane only，不读取麦克风、不播放音频、不连接真实语音 provider、不读取凭据、不产生外部副作用。
 
 ## 9. 完成判定
 

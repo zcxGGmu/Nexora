@@ -55,13 +55,13 @@ const HASH = "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
 const DIFF_HASH = "sha256:bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb";
 
 describe("C21 skills and learning persistence", () => {
-  it("Given migrations run When schema is validated Then C21 tables and migration version 12 exist", () => {
+  it("Given migrations run When schema is validated Then C21 tables and current migration exist", () => {
     const database = openDatabase(":memory:");
     try {
       migrate(database, { now: () => TIME });
       const tables = database.prepare("SELECT name FROM sqlite_master WHERE type = 'table'").all().map((row) => row["name"]);
 
-      expect(database.prepare("SELECT version FROM schema_migrations ORDER BY version").all().map((row) => row["version"])).toEqual([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13]);
+      expect(database.prepare("SELECT version FROM schema_migrations ORDER BY version").all().map((row) => row["version"])).toEqual([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14]);
       expect(tables).toEqual(expect.arrayContaining(["skills", "skill_versions", "skill_sources", "skill_scans", "skill_reviews", "skill_installations", "skill_invocation_facts", "learning_candidates", "learning_commands"]));
     } finally {
       database.close();

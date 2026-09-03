@@ -181,7 +181,7 @@ Ownership review: focused contracts/persistence/API gateway tests pass (13 tests
 - [x] C22.5 运行 C22 RED suite，确认失败原因是缺失 C22 实现而非测试装配错误。
 - [x] C22.6 实现 contracts、SQLite migration、typed repositories、service/routes、CLI parser 和 Mission Control 页面。
 - [x] C22.7 完成 focused 验证、全量 lint/typecheck/test/integration/e2e/build、真实浏览器视觉 QA、本地安全扫描和代码/安全复核；vault policy parity、CLI/API timestamp idempotency、Unicode whitespace、unknown payload keys、writeback version jump、default-ignorable refs、encoded secret blockers、target-root binding 和 safe idempotency key 均已 RED/GREEN 修复；最终独立 subagent 复核受平台线程上限阻塞，已记录并完成本地代码/安全复核替代。
-- [x] C22.8 更新 verification log、ADR/runbook、任务事实源和 lessons；C22 scoped commit 待 staging 完成后创建，再进入 C23。
+- [x] C22.8 更新 verification log、ADR/runbook、任务事实源和 lessons；C22 scoped commit `12451447dfbfcf9fd466988d99017bf896caf7c7` 已创建。
 
 ### C22 Security Review Remediation / Current Continuation
 
@@ -201,6 +201,41 @@ Ownership review: focused contracts/persistence/API gateway tests pass (13 tests
 - [x] Visual QA PASS：`/journal?workspace=ws-demo` fresh PNGs `c22-journal-desktop-final-rerun-20260902T170407Z.png`、`c22-journal-desktop-post-actions-final-rerun-20260902T170407Z.png`、`c22-journal-mobile-final-rerun-20260902T170407Z.png` 经 `/usr/bin/file` 验证为 1440x900、1440x900、390x844；无横向溢出，无非法 ARIA refs，无宽表格，五项移动导航、real DOM controls 和 no-external-connection boundary 可见；observed 401 -> local bootstrap 204 -> scoped reads 200、writeback request 202、approve 202。
 - [x] Code/security review：独立代码审查发现 cross-vault writeback candidate raw SQL blocker、vault policy parity blocker、CLI/API timestamp idempotency blocker、SQLite `LIKE` case-insensitive descriptor-ref blocker、Unicode whitespace、unknown payload keys、writeback version jump、default-ignorable refs、encoded secret markers、target-root binding 和 idempotency key hygiene gaps，均已用 contracts/service/migration trigger/CHECK 和 RED/GREEN regression 修复；最终 subagent 复核受平台线程上限限制，本地 scope/RBAC/idempotency/optimistic concurrency/SQL/append-only/cursor-free replay/secret/no-external-call/API-UI wiring 审查无 blocking finding。
 - [x] Evidence paths：`artifacts/progress/c22/verification.log`、`artifacts/progress/c22/current-verification/`、`docs/adr/0017-obsidian-omi-journal-control-plane.md`、`docs/runbooks/journal-operations.md`。
+- [x] Scoped commit：`12451447dfbfcf9fd466988d99017bf896caf7c7`（`feat: add journal vault control plane`）。
+
+## C23 / Browser、Computer Use（当前阶段）
+
+范围：实现 Browser/Computer Use 的 control-plane descriptors、sandbox policy、allowlist、human approval、screenshot/action receipts 和 stop/takeover 语义。C23 仍为 descriptor/control-plane only；默认拒绝外部网络、桌面操作和文件系统副作用，禁止读取凭据或连接真实 provider/MCP。
+
+- [x] C23.1 写 contracts RED/GREEN：BrowserSessionDescriptor、ComputerUseSessionDescriptor、SandboxPolicy、TargetAllowlist、HumanApproval、ActionIntent、ActionReceipt、ScreenshotReceipt、Takeover/Pause/Stop command。
+- [x] C23.2 写 persistence RED/GREEN：migration 14、typed repositories、append-only action/screenshot receipts、allowlist 默认拒绝、approval gate、workspace/run/session scope、optimistic versioning。
+- [x] C23.3 写 API/CLI RED/GREEN：Owner 写、`run:read` 读、Idempotency-Key、If-Match、denied action 不产生 receipt、错误响应不泄露 secret/path。
+- [x] C23.4 写 Mission Control RED/GREEN：Browser/Computer Use 页面、desktop/mobile responsive、approval/stop/takeover/acknowledge controls、descriptor-only boundary、no real external side effect。
+- [x] C23.5 运行 focused RED/GREEN，确认失败原因是 C23 实现缺失和后续 review blocker，而非装配错误。
+- [x] C23.6 修复代码/安全审查 blocker：raw SQL target/host parity、expired allowlist receipt recheck、encoded/default-ignorable secret markers、wildcard domain bypass、acknowledgement idempotency/duplicate ack，以及 action receipt `screenshot_id` same workspace/session/action 绑定。
+- [x] C23.7 运行 C23 focused 验证、全量 lint/typecheck/test/integration/e2e/build、`pnpm audit --audit-level=high`，保存 fresh exit code、测试文件数和测试数量。
+- [x] C23.8 完成 `/browser-computer?workspace=ws-demo` 真实浏览器 1440x900、post-actions 1440x900、390x844 视觉 QA，验证 PNG 格式/尺寸、移动端无溢出、五项底部导航、真实 DOM 控件和 no-external-connection 边界。
+- [x] C23.9 完成独立代码复审和安全复核；post-fix reviewers 均无 blocking finding，raw `current-verification` 不批量提交。
+- [x] C23.10 更新 `artifacts/progress/c23/verification.log`、ADR-0018、Browser/Computer runbook、任务事实源和 lessons；C23 保持 descriptor/control-plane 边界。
+
+### C23 Review
+
+- [x] Focused C23 validation PASS：`pnpm exec vitest run packages/contracts/src/browser-computer.test.ts packages/persistence/src/c23-browser-computer.test.ts apps/api/src/routes/browser-computer.test.ts apps/cli/src/browser-computer.test.ts apps/mission-control/src/pages/browser-computer.test.tsx --reporter=dot`，exit 0，5 files / 39 tests；fresh evidence `artifacts/progress/c23/current-verification/c23-focused-post-screenshot-scope-20260903T193049.log`。
+- [x] Full verification PASS：`pnpm lint` 362 source files、`pnpm typecheck`、full Vitest 118 files / 669 tests、integration 14 files / 37 tests、E2E 6 tests、Mission Control build、`pnpm audit --audit-level=high` 全部 exit 0；fresh summary `artifacts/progress/c23/current-verification/full-matrix-post-screenshot-scope-20260903T193119/summary.log`。
+- [x] Visual QA PASS：`/browser-computer?workspace=ws-demo` fresh PNGs `c23-browser-computer-desktop-20260903T193322.png`、`c23-browser-computer-desktop-post-actions-20260903T193322.png`、`c23-browser-computer-mobile-20260903T193322.png` 经 `file` 验证为 1440x900、1440x900、390x844；summary 确认无横向溢出、无非法 ARIA refs、五项移动导航、Pause/Stop/Takeover/Approve/Acknowledge 控件、descriptor-only 和 no-external-connection 边界可见，仅访问 `127.0.0.1:4310`/`4313`。
+- [x] Code/security review：独立代码审查发现 action receipt 可引用不存在 screenshot 的 CRITICAL blocker，已用 repository guard、SQLite trigger 和 RED/GREEN raw SQL/repository regression 修复；post-fix 独立代码复审与安全复核均无 blocking finding；本地 `git diff --check` 与 `pnpm audit --audit-level=high` exit 0。
+- [x] Evidence paths：`artifacts/progress/c23/verification.log`、`artifacts/progress/c23/current-verification/`、`docs/adr/0018-browser-computer-use-control-plane.md`、`docs/runbooks/browser-computer-operations.md`。
+- [x] Scoped commit：pending post-commit SHA capture（`feat: add browser computer control plane`）。
+
+## C24 / Voice、Jarvis（下一阶段）
+
+范围：实现 Voice/Jarvis control-plane descriptors、STT/VAD/TTS/wake word/Wall mode/interrupt/recording policy/voiceprint policy/transcript lifecycle 的测试优先切片。C24 仍保持 descriptor/control-plane only，默认不读取麦克风、不播放音频、不连接真实语音 provider、不读取凭据、不产生外部副作用。
+
+- [ ] C24.1 写 contracts RED：VoiceSessionDescriptor、AudioPolicy、WakeWordDescriptor、TranscriptDescriptor、VoiceCommand、Interrupt/Pause/Resume、retention/delete/export policy。
+- [ ] C24.2 写 persistence RED：migration、typed repositories、append-only transcript/command facts、workspace/run/session scope、budget/deadline、optimistic versioning。
+- [ ] C24.3 写 API/CLI RED：Owner 写、`run:read` 读、Idempotency-Key、If-Match、`/voice`/`/jarvis` 控制命令保持 descriptor-only。
+- [ ] C24.4 写 Mission Control RED：Voice/Jarvis 页面、desktop/mobile responsive、wake/interrupt/delete/export controls、no microphone/provider boundary。
+- [ ] C24.5 运行 focused RED，确认失败原因是 C24 实现缺失而非装配错误。
 
 ## Review
 

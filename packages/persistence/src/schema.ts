@@ -53,7 +53,14 @@ export const CORE_TABLES = [
   "journal_memory_candidates",
   "journal_writeback_requests",
   "journal_writeback_decisions",
+  "browser_computer_sandbox_policies",
+  "browser_computer_sessions",
+  "browser_computer_allowlist",
+  "browser_computer_action_intents",
+  "browser_computer_action_receipts",
+  "browser_computer_screenshot_receipts",
+  "browser_computer_human_approvals",
 ] as const;
 
 export type CoreTable = (typeof CORE_TABLES)[number];
-export const CORE_MIGRATION_VERSION = 13;
+export const CORE_MIGRATION_VERSION = 14;
