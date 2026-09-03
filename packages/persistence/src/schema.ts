@@ -65,7 +65,15 @@ export const CORE_TABLES = [
   "voice_sessions",
   "voice_transcripts",
   "voice_commands",
+  "media_artifacts",
+  "media_render_jobs",
+  "notebooks",
+  "notebook_sources",
+  "notebook_generations",
+  "avatar_profiles",
+  "studio_shares",
+  "studio_commands",
 ] as const;
 
 export type CoreTable = (typeof CORE_TABLES)[number];
-export const CORE_MIGRATION_VERSION = 15;
+export const CORE_MIGRATION_VERSION = 16;

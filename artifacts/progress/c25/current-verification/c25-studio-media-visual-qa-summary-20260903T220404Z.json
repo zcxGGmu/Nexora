@@ -1,0 +1,120 @@
+{
+  "url": "http://127.0.0.1:4313/studio-media?workspace=ws-demo",
+  "descriptorOnlyVisible": true,
+  "seed": [
+    {
+      "path": "/v1/studio/media-artifacts",
+      "status": 202,
+      "accepted": true
+    },
+    {
+      "path": "/v1/studio/render-jobs",
+      "status": 202,
+      "accepted": true
+    },
+    {
+      "path": "/v1/studio/notebooks",
+      "status": 202,
+      "accepted": true
+    },
+    {
+      "path": "/v1/studio/notebook-sources",
+      "status": 202,
+      "accepted": true
+    },
+    {
+      "path": "/v1/studio/notebook-generations",
+      "status": 202,
+      "accepted": true
+    },
+    {
+      "path": "/v1/studio/avatar-profiles",
+      "status": 202,
+      "accepted": true
+    },
+    {
+      "path": "/v1/studio/shares",
+      "status": 202,
+      "accepted": true
+    }
+  ],
+  "controls": {
+    "Preview": true,
+    "Share": true,
+    "Rerender": true,
+    "Generate brief": true,
+    "Revoke avatar": true
+  },
+  "actionFeedback": [
+    "Connected",
+    "Descriptor-only studio controlNo external providerNo NotebookLM, media generation provider, Avatar provider, MCP, credential, URL/PDF/Drive pull, real render, publish action, or external side effect is attempted.",
+    "No external provider",
+    "video",
+    "01CRZ3NDEKTSV4RRFFQ69G5FAV | revision 1 | run 01BRZ3NDEKTSV4RRFFQ69G5FAV",
+    "needs_review",
+    "render job",
+    "01DRZ3NDEKTSV4RRFFQ69G5FAV | media 01CRZ3NDEKTSV4RRFFQ69G5FAV",
+    "queued",
+    "notebook-c25-market-brief | revision 1",
+    "draft",
+    "01FRZ3NDEKTSV4RRFFQ69G5FAV | sources 1",
+    "draft",
+    "media_artifact",
+    "01M1MMSY3GCJQCTA97189EDB0Y | target 01CRZ3NDEKTSV4RRFFQ69G5FAV | rev 1",
+    "2026-09-03T22:04:07.152Z",
+    "media_artifact",
+    "01M1MMSY7M65WXKCF3CX0MCJQ7 | target 01CRZ3NDEKTSV4RRFFQ69G5FAV | rev 1",
+    "2026-09-03T22:04:07.284Z",
+    "media_artifact",
+    "01M1MMSY9M88FH4PFD7W8B686V | target 01CRZ3NDEKTSV4RRFFQ69G5FAV | rev 1",
+    "2026-09-03T22:04:07.348Z",
+    "notebook",
+    "01M1MMSYBPYWRBXWD44KE1Y63P | target notebook-c25-market-brief | rev 1",
+    "2026-09-03T22:04:07.414Z",
+    "avatar_profile",
+    "01M1MMSYEAZC3NVWG7TB30AX35 | target avatar-c25-founder-demo | rev 1",
+    "2026-09-03T22:04:07.499Z",
+    "Evidence railEmptySelect a Run, Review, Artifact, or Memory item to inspect provenance.Open Mission Control.",
+    "Empty"
+  ],
+  "statusSections": {
+    "mediaArtifacts": true,
+    "renderQueue": true,
+    "notebookSnapshots": true,
+    "notebookSources": true,
+    "notebookGenerations": true,
+    "avatarConsent": true,
+    "shareFacts": true,
+    "commandReceipts": true
+  },
+  "temporaryUrlTextPresent": true,
+  "temporaryUrlVisibleElements": 10,
+  "desktop": {
+    "path": "artifacts/progress/c25/current-verification/c25-studio-media-desktop-20260903T220404Z.png",
+    "width": 1440,
+    "height": 900,
+    "overflow": false
+  },
+  "desktopPostActions": {
+    "path": "artifacts/progress/c25/current-verification/c25-studio-media-desktop-post-actions-20260903T220404Z.png",
+    "width": 1440,
+    "height": 900,
+    "overflow": false
+  },
+  "mobile": {
+    "path": "artifacts/progress/c25/current-verification/c25-studio-media-mobile-20260903T220404Z.png",
+    "width": 390,
+    "height": 844,
+    "overflow": false,
+    "mobileNavItems": 5
+  },
+  "noInvalidAriaRefs": true,
+  "noCjkGlyphs": true,
+  "noExternalConnection": true,
+  "requestOrigins": [
+    "http://127.0.0.1:4310",
+    "http://127.0.0.1:4313"
+  ],
+  "apiLog": "artifacts/progress/c25/current-verification/visual-qa-data-20260903T220404Z/api.log",
+  "webLog": "artifacts/progress/c25/current-verification/visual-qa-data-20260903T220404Z/mission-control.log"
+}

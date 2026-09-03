@@ -25,6 +25,7 @@ describe("C10 route contract", () => {
       "/gateway",
       "/browser-computer",
       "/voice-jarvis",
+      "/studio-media",
       "/skills",
       "/journal",
     ]);

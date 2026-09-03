@@ -1,0 +1,120 @@
+# C25 Studio/Media/NotebookLM/Avatar Verification Log
+
+Date: 2026-09-04 CST / 2026-09-03 UTC
+Branch: `codex/agent-os-implementation`
+Baseline: C24 `1cc3b04630d5900fd5ffcb3eb45ebc0b43867ebe`
+Stage commit: pending scoped commit creation; final SHA is recorded after commit capture.
+Scope: C25 Studio/Media/NotebookLM/Avatar control-plane descriptors, persistence, API/CLI, Mission Control, docs, and evidence only.
+
+## Boundary
+
+- Descriptor/control-plane only.
+- No real NotebookLM, media generation provider, Avatar provider, MCP, credential read, URL/PDF/Drive pull, render execution, publish action, outbound message, or external side effect was implemented or attempted.
+- Browser QA only contacted `http://127.0.0.1:4310` and `http://127.0.0.1:4313`.
+
+## RED/GREEN And Blocker Remediation
+
+- C25 RED coverage was added for contracts, persistence, API, CLI, Mission Control, router wiring, raw SQL hardening, status URLs, and avatar run scope.
+- RED logs include `c25-red-20260903T203905Z.log`, `c25-red-expanded-20260903T210944Z.log`, `c25-avatar-run-scope-red-20260903T213643Z.log`, `c25-raw-sql-hardening-red-20260904T000000Z.log`, and `c25-status-url-red-20260904T000000Z.log`.
+- GREEN logs include focused C25, avatar run scope, raw SQL hardening, and status URL reruns under `artifacts/progress/c25/current-verification/`.
+- A real append-only command bug was found: `StudioMediaService.command()` derived `command_id` from target and kind, causing a second operator command with a fresh `Idempotency-Key` against the same target/kind to return `409` instead of appending a new command fact.
+- Added API regression coverage requiring a second `share` command with a new idempotency key to return `202`, produce a different accepted `object_id`, and leave two `share` command facts in the Studio projection.
+- Fixed command creation to allocate fresh command ids through the service `idFactory()` while idempotent replay still returns the persisted reservation `resource_id`.
+
+## Focused Verification
+
+```bash
+pnpm exec vitest run \
+  packages/contracts/src/studio-media.test.ts \
+  packages/persistence/src/c25-studio-media.test.ts \
+  apps/api/src/routes/studio-media.test.ts \
+  apps/cli/src/studio-media.test.ts \
+  apps/mission-control/src/pages/studio-media.test.tsx \
+  apps/mission-control/src/app/router.test.tsx \
+  --reporter=dot
+```
+
+- Result: exit 0, 6 files / 30 tests.
+- Evidence: `artifacts/progress/c25/current-verification/c25-focused-post-command-append-20260903T215902Z.log` and `.log.exit`.
+- Final rerun after docs/task fact updates: exit 0, 6 files / 30 tests.
+- Final rerun evidence: `artifacts/progress/c25/current-verification/c25-focused-final-20260903T221205Z.log` and `.log.exit`.
+
+Command append regression:
+
+```bash
+pnpm exec vitest run apps/api/src/routes/studio-media.test.ts --reporter=dot
+```
+
+- Result: exit 0, 1 file / 4 tests after the fresh command id fix.
+
+## Full Matrix
+
+Evidence directory: `artifacts/progress/c25/current-verification/full-matrix-final-20260903T220144Z`
+
+| Command | Exit | Result |
+|---|---:|---|
+| `pnpm lint` | 0 | `lint: 387 source files checked` |
+| `pnpm typecheck` | 0 | TypeScript project compiled with `--noEmit` |
+| `pnpm test --run --reporter=dot --silent` | 0 | 129 files / 736 tests |
+| `pnpm test:integration` | 0 | 14 files / 37 tests |
+| `pnpm test:e2e` | 0 | 6 Playwright tests |
+| `pnpm --filter @nexora/mission-control build` | 0 | Vite build completed in 1.41s |
+| `pnpm audit --audit-level=high` | 0 | No known vulnerabilities found |
+
+Final required-command rerun after docs/task fact updates: `artifacts/progress/c25/current-verification/full-matrix-final-rerun-20260903T221250Z`
+
+| Command | Exit | Result |
+|---|---:|---|
+| `pnpm lint` | 0 | `lint: 387 source files checked` |
+| `pnpm typecheck` | 0 | TypeScript project compiled with `--noEmit` |
+| `pnpm test --run --reporter=dot --silent` | 0 | 129 files / 736 tests |
+| `pnpm test:integration` | 0 | 14 files / 37 tests |
+| `pnpm test:e2e` | 0 | 6 Playwright tests |
+| `pnpm --filter @nexora/mission-control build` | 0 | Vite build completed in 1.51s |
+
+Additional audit rerun:
+
+- `pnpm audit --audit-level=high` previously passed in `full-matrix-final-20260903T220144Z`.
+- A later audit rerun returned exit 1 because `https://registry.npmjs.org/-/npm/v1/security/audits` repeatedly timed out with `ERR_SOCKET_TIMEOUT`.
+- No package manifest or lockfile changed between the passing audit and the latest required-command rerun.
+
+Known warnings:
+
+- Host Node emitted the expected engine warning: project wants `>=22.13.0 <23.0.0`, current host is `v25.9.0` with pnpm `10.10.0`.
+- Vite emitted existing third-party `"use client"` bundle warnings and a chunk-size warning for Mission Control.
+- The final audit rerun was blocked by npm registry socket timeouts; this is recorded as an environment/network limitation, not as a code test failure.
+
+## Visual QA
+
+URL: `http://127.0.0.1:4313/studio-media?workspace=ws-demo`
+
+Command:
+
+```bash
+NEXORA_C25_QA_STAMP=20260903T220404Z \
+  pnpm exec tsx artifacts/progress/c25/current-verification/studio-media-visual-qa.ts
+file artifacts/progress/c25/current-verification/c25-studio-media-desktop-20260903T220404Z.png \
+  artifacts/progress/c25/current-verification/c25-studio-media-desktop-post-actions-20260903T220404Z.png \
+  artifacts/progress/c25/current-verification/c25-studio-media-mobile-20260903T220404Z.png
+```
+
+- Result: visual QA exit 0; `file` exit 0.
+- Desktop screenshot: `c25-studio-media-desktop-20260903T220404Z.png`, PNG 1440 x 900.
+- Desktop post-actions screenshot: `c25-studio-media-desktop-post-actions-20260903T220404Z.png`, PNG 1440 x 900.
+- Mobile screenshot: `c25-studio-media-mobile-20260903T220404Z.png`, PNG 390 x 844.
+- Summary: `c25-studio-media-visual-qa-summary-20260903T220404Z.json`.
+- Observed: Gateway-style health boundary, media artifacts, render queue, Notebook snapshots, Notebook sources, Notebook generations, Avatar consent, share facts, command receipts, cursor-like temporary URL expiry/recovery state, Preview, Share, Rerender, Generate brief, and Revoke avatar controls were visible.
+- Layout: no horizontal overflow on desktop or mobile, mobile bottom navigation had 5 items, no invalid ARIA references were detected, and no CJK glyph wrapping issue was present on the current surface.
+
+## Code And Security Review
+
+- Fresh independent subagent review dispatch in this continuation failed with `agent thread limit reached`; this is recorded as an environment limitation and is not counted as an independent pass.
+- Local review covered scope isolation, RBAC, idempotency, optimistic concurrency, SQL parameterization, SQLite triggers/foreign keys, append-only render/generation/share/command facts, temporary URL expiry recovery, avatar consent and revocation, raw-SQL parity, normalized secret/path redaction, API/UI live wiring, and no external provider or NotebookLM side effects.
+- Local scans found no C25 source use of real NotebookLM, media/avatar provider SDKs, MCP calls, credential reads, URL/PDF/Drive pulls, render execution, publish calls, external network side effects, `any`, `@ts-ignore`, `@ts-expect-error`, or non-null assertion patterns.
+- Scan hits were limited to negative test strings, migration rejection guards, loopback QA origins, and the shared migration loader's expected `readFileSync` call.
+- Repository writes use parameterized SQLite statements and C25 migration triggers mirror repository checks for workspace/run scope, payload parity, append-only facts, command target binding, and unsafe normalized text rejection.
+
+## Remaining Limits
+
+- C25 does not integrate live NotebookLM, media generation, avatar generation, MCP, credential brokerage, URL/PDF/Drive ingestion, render workers, preview hosting, or publishing.
+- Temporary URLs and share states are descriptor facts only; future live media stages need separate provider credential mediation, sandboxing, consent, rate limits, artifact writers, takedown/expiry jobs, and external side-effect receipts.

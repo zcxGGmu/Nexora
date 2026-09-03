@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { LearningSourceEventSchema } from "@nexora/contracts";
-import { migrate, openDatabase, type SqliteDatabase } from "./index.js";
+import { CORE_MIGRATION_VERSION, migrate, openDatabase, type SqliteDatabase } from "./index.js";
 import {
   GoalLoopRepository,
   LearningCandidateRepository,
@@ -61,7 +61,7 @@ describe("C21 skills and learning persistence", () => {
       migrate(database, { now: () => TIME });
       const tables = database.prepare("SELECT name FROM sqlite_master WHERE type = 'table'").all().map((row) => row["name"]);
 
-      expect(database.prepare("SELECT version FROM schema_migrations ORDER BY version").all().map((row) => row["version"])).toEqual([1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15]);
+      expect(database.prepare("SELECT version FROM schema_migrations ORDER BY version").all().map((row) => row["version"])).toEqual(currentMigrationVersions());
       expect(tables).toEqual(expect.arrayContaining(["skills", "skill_versions", "skill_sources", "skill_scans", "skill_reviews", "skill_installations", "skill_invocation_facts", "learning_candidates", "learning_commands"]));
     } finally {
       database.close();
@@ -276,6 +276,10 @@ describe("C21 skills and learning persistence", () => {
     }
   });
 });
+
+function currentMigrationVersions(): readonly number[] {
+  return Array.from({ length: CORE_MIGRATION_VERSION }, (_unused, index) => index + 1);
+}
 
 function createDatabase(): SqliteDatabase {
   const database = openDatabase(":memory:");

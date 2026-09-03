@@ -11,6 +11,7 @@ import type { SkillsService } from "../services/skills-service.js";
 import type { JournalService } from "../services/journal-service.js";
 import type { BrowserComputerService } from "../services/browser-computer-service.js";
 import type { VoiceJarvisService } from "../services/voice-jarvis-service.js";
+import type { StudioMediaService } from "../services/studio-media-service.js";
 import { traceId } from "../plugins/request-context.js";
 import { registerAgentRoutes } from "./agents.js";
 import { registerArtifactRoutes } from "./artifacts.js";
@@ -28,6 +29,7 @@ import { registerSkillsLearningRoutes } from "./skills-learning.js";
 import { registerJournalRoutes } from "./journal.js";
 import { registerBrowserComputerRoutes } from "./browser-computer.js";
 import { registerVoiceJarvisRoutes } from "./voice-jarvis.js";
+import { registerStudioMediaRoutes } from "./studio-media.js";
 
 export type ControlRouteOptions = {
   readonly commands: CommandService;
@@ -41,6 +43,7 @@ export type ControlRouteOptions = {
   readonly journal: JournalService;
   readonly browserComputer: BrowserComputerService;
   readonly voiceJarvis: VoiceJarvisService;
+  readonly studioMedia: StudioMediaService;
 };
 
 export async function registerControlRoutes(app: FastifyInstance, options: ControlRouteOptions): Promise<void> {
@@ -64,4 +67,5 @@ export async function registerControlRoutes(app: FastifyInstance, options: Contr
   await app.register(registerJournalRoutes, options);
   await app.register(registerBrowserComputerRoutes, options);
   await app.register(registerVoiceJarvisRoutes, options);
+  await app.register(registerStudioMediaRoutes, options);
 }

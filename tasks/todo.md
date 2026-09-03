@@ -240,7 +240,7 @@ Ownership review: focused contracts/persistence/API gateway tests pass (13 tests
 - [x] C24.7 完成 `/voice-jarvis?workspace=ws-demo` 真实浏览器 1440x900 与 390x844 视觉 QA，保存新鲜 PNG 并验证格式/尺寸；desktop、post-actions、mobile 无横向溢出，移动底部导航 5 项。
 - [x] C24.8 完成代码/安全复核：post-fix 独立代码和安全审查均无 blocking/high finding；本轮 fresh subagent 复核因 `agent thread limit reached` 无法启动，已记录限制并完成本地 scope/RBAC/idempotency/optimistic concurrency/SQL trigger/append-only/secret/no-external-call/API-UI wiring 清单。
 - [x] C24.9 更新 `artifacts/progress/c24/verification.log`、ADR/runbook、任务事实源和 lessons；新增 command-backed state transition 和 normalized DB parity lessons。
-- [ ] C24.10 创建单一 scoped C24 commit，记录完整 SHA 后再进入 C25。
+- [x] C24.10 创建单一 scoped C24 commit `1cc3b04630d5900fd5ffcb3eb45ebc0b43867ebe`，记录完整 SHA 后再进入 C25。
 
 ### C24 Review Blocker Remediation / Current Continuation
 
@@ -257,7 +257,28 @@ Ownership review: focused contracts/persistence/API gateway tests pass (13 tests
 - [x] Visual QA PASS：`/voice-jarvis?workspace=ws-demo` fresh PNGs `c24-voice-jarvis-desktop-20260903T202312Z.png`、`c24-voice-jarvis-desktop-post-actions-20260903T202312Z.png`、`c24-voice-jarvis-mobile-20260903T202312Z.png` 经 `file` 验证为 1440x900、1440x900、390x844；summary 确认无横向溢出、无非法 ARIA refs、五项移动导航、Wake/Interrupt/Pause/Delete transcript/Export transcript 控件、descriptor-only/no-external/no-microphone 边界可见。
 - [x] Code/security review：review blocker 包括 raw SQL unsafe refs、payload parity、immutable descriptor/session drift、`current_transcript_id` scope、workspace-global command idempotency 和 idle resume forgery，均已用 contracts/service/repository/migration triggers 和 RED/GREEN regressions 修复；post-fix 独立代码/安全审查无 blocking/high finding；本轮 fresh reviewer dispatch 受 `agent thread limit reached` 限制，本地清单与 `git diff --check`/`pnpm audit` 无 blocker。
 - [x] Evidence paths：`artifacts/progress/c24/verification.log`、`artifacts/progress/c24/current-verification/`、`docs/adr/0019-voice-jarvis-control-plane.md`、`docs/runbooks/voice-jarvis-operations.md`。
-- [ ] Scoped commit：pending post-commit SHA capture（`feat: add voice jarvis control plane`）。
+- [x] Scoped commit：`1cc3b04630d5900fd5ffcb3eb45ebc0b43867ebe`（`feat: add voice jarvis control plane`）。
+
+## C25 / Studio、Media、NotebookLM、Avatar（当前阶段）
+
+范围：实现 Studio/Media/NotebookLM/Avatar control-plane descriptors，覆盖 MediaArtifact、render job/worker descriptor、Notebook source/generation、preview/share、AvatarProfile/consent 和 moderation/provenance/re-render/temporary URL expiry recovery。C25 仍保持 descriptor/control-plane only，默认不连接真实 NotebookLM、媒体生成 provider、Avatar provider、MCP，不读取凭据，不拉取 URL/PDF/Drive，不渲染或发布真实媒体，不产生外部副作用。
+
+- [x] C25.1 写 contracts RED：MediaArtifactDescriptor、RenderJobDescriptor、NotebookDescriptor、NotebookSourceDescriptor、NotebookGenerationDescriptor、AvatarProfileDescriptor、StudioCommand；严格 schema、workspace scope、source hash、moderation、preview/share、descriptor-only 和 secret/path-safe refs。
+- [x] C25.2 写 persistence RED：migration 16、typed repositories、media/notebook/avatar/render/share 表约束、append-only render/generation/share facts、workspace/run scope、temporary URL expiry recovery、payload parity 和 optimistic versioning。
+- [x] C25.3 写 API/CLI RED：Studio/Media/Notebook/Avatar 查询与控制路由，Owner 写权限、`run:read` 读权限、`Idempotency-Key`、`If-Match`、descriptor-only 命令和错误脱敏。
+- [x] C25.4 写 Mission Control RED：Studio/Media 页面、Notebook sources/generations、Avatar consent、preview/share/re-render controls、desktop/mobile responsive、no external provider/NotebookLM boundary。
+- [x] C25.5 运行 C25 RED suite，确认失败原因是缺失 C25 实现而非测试装配错误。
+- [x] C25.6 实现 contracts、SQLite migration 16、typed repositories、service/routes、CLI parser 和 Mission Control 页面；保持 control-plane only。
+- [x] C25.7 完成 focused 验证、全量 lint/typecheck/test/integration/e2e/build、真实浏览器视觉 QA、代码/安全复核、ADR/runbook/verification log；scoped commit 待创建并回写 SHA。
+
+### C25 Review
+
+- [x] Focused C25 validation PASS：`pnpm exec vitest run packages/contracts/src/studio-media.test.ts packages/persistence/src/c25-studio-media.test.ts apps/api/src/routes/studio-media.test.ts apps/cli/src/studio-media.test.ts apps/mission-control/src/pages/studio-media.test.tsx apps/mission-control/src/app/router.test.tsx --reporter=dot`，final rerun exit 0，6 files / 30 tests；fresh evidence `artifacts/progress/c25/current-verification/c25-focused-final-20260903T221205Z.log`。
+- [x] Full required verification PASS：`pnpm lint` 387 source files、`pnpm typecheck`、full Vitest 129 files / 736 tests、integration 14 files / 37 tests、E2E 6 tests、Mission Control build 全部 exit 0；fresh summary `artifacts/progress/c25/current-verification/full-matrix-final-rerun-20260903T221250Z/summary.log`。Earlier `pnpm audit --audit-level=high` passed in `full-matrix-final-20260903T220144Z`; latest audit rerun failed only with npm registry `ERR_SOCKET_TIMEOUT` and no package files changed.
+- [x] Visual QA PASS：`/studio-media?workspace=ws-demo` fresh PNGs `c25-studio-media-desktop-20260903T220404Z.png`、`c25-studio-media-desktop-post-actions-20260903T220404Z.png`、`c25-studio-media-mobile-20260903T220404Z.png` 经 `file` 验证为 1440x900、1440x900、390x844；summary 确认无横向溢出、无非法 ARIA refs、五项移动导航、Preview/Share/Rerender/Generate brief/Revoke avatar 控件、temporary URL recovery、descriptor-only/no-external/no-NotebookLM 边界可见。
+- [x] Code/security review：append-only command id blocker 已用 API RED/GREEN regression 修复；本轮独立 reviewer dispatch 受 `agent thread limit reached` 限制未启动，已记录限制；本地清单覆盖 scope/RBAC/idempotency/optimistic concurrency/SQL trigger/FK/append-only facts/cursor-like expiry recovery/avatar consent/secret redaction/no external call/API-UI wiring，无 blocking finding；latest audit rerun blocked by npm registry timeout, prior C25 audit pass remains recorded.
+- [x] Evidence paths：`artifacts/progress/c25/verification.log`、`artifacts/progress/c25/current-verification/`、`docs/adr/0020-studio-media-notebook-avatar-control-plane.md`、`docs/runbooks/studio-media-operations.md`。
+- [ ] Scoped commit：pending post-commit SHA capture（`feat: add studio media control plane`）。
 
 ## Review
 

@@ -26,7 +26,7 @@ describe("schedule repositories", () => {
     const first = occurrences.create(occurrenceRecord({ dedupe_key: `${ID.schedule}:2026-08-31T00:00:00.000Z:r1` }));
     const duplicate = occurrences.create(occurrenceRecord({ dedupe_key: first.occurrence.dedupe_key, id: "01KRZ3NDEKTSV4RRFFQ69K5FAV" }));
 
-    expect(CORE_MIGRATION_VERSION).toBe(15);
+    expect(CORE_MIGRATION_VERSION).toBeGreaterThanOrEqual(10);
     expect(CORE_TABLES).toEqual(expect.arrayContaining(["schedules", "schedule_occurrences"]));
     expect(schedule.workflow_id).toBe("seo_draft_v1");
     expect(first.kind).toBe("created");

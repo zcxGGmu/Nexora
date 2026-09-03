@@ -1,0 +1,201 @@
+
+ RUN  v3.2.7 /Users/zq/Desktop/ai-projs/posp/Nexora
+
+·xxxx·{"level":30,"time":1788471405754,"pid":64501,"hostname":"192.168.31.140","reqId":"req-1","req":{"method":"POST","url":"/v1/studio/media-artifacts","host":"localhost:80","remoteAddress":"127.0.0.1"},"msg":"incoming request"}
+{"level":30,"time":1788471405763,"pid":64501,"hostname":"192.168.31.140","reqId":"req-1","res":{"statusCode":202},"responseTime":9.000875000000065,"msg":"request completed"}
+{"level":30,"time":1788471405764,"pid":64501,"hostname":"192.168.31.140","reqId":"req-2","req":{"method":"POST","url":"/v1/studio/render-jobs","host":"localhost:80","remoteAddress":"127.0.0.1"},"msg":"incoming request"}
+{"level":30,"time":1788471405766,"pid":64501,"hostname":"192.168.31.140","reqId":"req-2","res":{"statusCode":202},"responseTime":2.4712500000000546,"msg":"request completed"}
+{"level":30,"time":1788471405766,"pid":64501,"hostname":"192.168.31.140","reqId":"req-3","req":{"method":"POST","url":"/v1/studio/notebooks","host":"localhost:80","remoteAddress":"127.0.0.1"},"msg":"incoming request"}
+{"level":30,"time":1788471405767,"pid":64501,"hostname":"192.168.31.140","reqId":"req-3","res":{"statusCode":202},"responseTime":0.9045419999999922,"msg":"request completed"}
+{"level":30,"time":1788471405767,"pid":64501,"hostname":"192.168.31.140","reqId":"req-4","req":{"method":"POST","url":"/v1/studio/notebook-sources","host":"localhost:80","remoteAddress":"127.0.0.1"},"msg":"incoming request"}
+{"level":30,"time":1788471405769,"pid":64501,"hostname":"192.168.31.140","reqId":"req-4","res":{"statusCode":202},"responseTime":1.1695839999999862,"msg":"request completed"}
+{"level":30,"time":1788471405769,"pid":64501,"hostname":"192.168.31.140","reqId":"req-5","req":{"method":"POST","url":"/v1/studio/notebook-generations","host":"localhost:80","remoteAddress":"127.0.0.1"},"msg":"incoming request"}
+{"level":30,"time":1788471405770,"pid":64501,"hostname":"192.168.31.140","reqId":"req-5","res":{"statusCode":202},"responseTime":1.4487080000000105,"msg":"request completed"}
+{"level":30,"time":1788471405770,"pid":64501,"hostname":"192.168.31.140","reqId":"req-6","req":{"method":"POST","url":"/v1/studio/avatar-profiles","host":"localhost:80","remoteAddress":"127.0.0.1"},"msg":"incoming request"}
+{"level":30,"time":1788471405772,"pid":64501,"hostname":"192.168.31.140","reqId":"req-6","res":{"statusCode":400},"responseTime":1.1111250000000155,"msg":"request completed"}
+{"level":30,"time":1788471405772,"pid":64501,"hostname":"192.168.31.140","reqId":"req-7","req":{"method":"POST","url":"/v1/studio/shares","host":"localhost:80","remoteAddress":"127.0.0.1"},"msg":"incoming request"}
+{"level":30,"time":1788471405838,"pid":64501,"hostname":"192.168.31.140","reqId":"req-1","req":{"method":"POST","url":"/v1/studio/media-artifacts","host":"localhost:80","remoteAddress":"127.0.0.1"},"msg":"incoming request"}
+{"level":30,"time":1788471405773,"pid":64501,"hostname":"192.168.31.140","reqId":"req-7","res":{"statusCode":202},"responseTime":0.958417000000054,"msg":"request completed"}
+{"level":30,"time":1788471405773,"pid":64501,"hostname":"192.168.31.140","reqId":"req-8","req":{"method":"GET","url":"/v1/studio?workspace_id=01ARZ3NDEKTSV4RRFFQ69G5FAV","host":"localhost:80","remoteAddress":"127.0.0.1"},"msg":"incoming request"}
+{"level":30,"time":1788471405774,"pid":64501,"hostname":"192.168.31.140","reqId":"req-8","res":{"statusCode":200},"responseTime":1.0484589999999798,"msg":"request completed"}
+{"level":30,"time":1788471405774,"pid":64501,"hostname":"192.168.31.140","reqId":"req-9","req":{"method":"GET","url":"/v1/studio/render-jobs/01DRZ3NDEKTSV4RRFFQ69G5FAV?workspace_id=01ARZ3NDEKTSV4RRFFQ69G5FAV","host":"localhost:80","remoteAddress":"127.0.0.1"},"msg":"incoming request"}
+{"level":30,"time":1788471405775,"pid":64501,"hostname":"192.168.31.140","reqId":"req-9","res":{"statusCode":200},"responseTime":0.23987500000009732,"msg":"request completed"}
+{"level":30,"time":1788471405775,"pid":64501,"hostname":"192.168.31.140","reqId":"req-a","req":{"method":"GET","url":"/v1/studio/notebook-sources/01ERZ3NDEKTSV4RRFFQ69G5FAV?workspace_id=01ARZ3NDEKTSV4RRFFQ69G5FAV","host":"localhost:80","remoteAddress":"127.0.0.1"},"msg":"incoming request"}
+{"level":30,"time":1788471405775,"pid":64501,"hostname":"192.168.31.140","reqId":"req-a","res":{"statusCode":200},"responseTime":0.2696249999999054,"msg":"request completed"}
+{"level":30,"time":1788471405775,"pid":64501,"hostname":"192.168.31.140","reqId":"req-b","req":{"method":"GET","url":"/v1/studio/notebook-generations/01FRZ3NDEKTSV4RRFFQ69G5FAV?workspace_id=01ARZ3NDEKTSV4RRFFQ69G5FAV","host":"localhost:80","remoteAddress":"127.0.0.1"},"msg":"incoming request"}
+{"level":30,"time":1788471405775,"pid":64501,"hostname":"192.168.31.140","reqId":"req-b","res":{"statusCode":200},"responseTime":0.21195899999997891,"msg":"request completed"}
+{"level":30,"time":1788471405775,"pid":64501,"hostname":"192.168.31.140","reqId":"req-c","req":{"method":"GET","url":"/v1/studio/shares/01GRZ3NDEKTSV4RRFFQ69G5FAV?workspace_id=01ARZ3NDEKTSV4RRFFQ69G5FAV","host":"localhost:80","remoteAddress":"127.0.0.1"},"msg":"incoming request"}
+{"level":30,"time":1788471405776,"pid":64501,"hostname":"192.168.31.140","reqId":"req-c","res":{"statusCode":200},"responseTime":0.1875840000000153,"msg":"request completed"}
+{"level":30,"time":1788471405840,"pid":64501,"hostname":"192.168.31.140","reqId":"req-1","res":{"statusCode":202},"responseTime":2.665542000000073,"msg":"request completed"}
+{"level":30,"time":1788471405841,"pid":64501,"hostname":"192.168.31.140","reqId":"req-2","req":{"method":"POST","url":"/v1/studio/media-artifacts/01CRZ3NDEKTSV4RRFFQ69G5FAV/share","host":"localhost:80","remoteAddress":"127.0.0.1"},"msg":"incoming request"}
+{"level":30,"time":1788471405842,"pid":64501,"hostname":"192.168.31.140","reqId":"req-2","res":{"statusCode":202},"responseTime":1.7803750000000491,"msg":"request completed"}
+{"level":30,"time":1788471405843,"pid":64501,"hostname":"192.168.31.140","reqId":"req-3","req":{"method":"POST","url":"/v1/studio/media-artifacts/01CRZ3NDEKTSV4RRFFQ69G5FAV/share","host":"localhost:80","remoteAddress":"127.0.0.1"},"msg":"incoming request"}
+{"level":30,"time":1788471405843,"pid":64501,"hostname":"192.168.31.140","reqId":"req-3","res":{"statusCode":202},"responseTime":0.5879999999999654,"msg":"request completed"}
+{"level":30,"time":1788471405843,"pid":64501,"hostname":"192.168.31.140","reqId":"req-4","req":{"method":"POST","url":"/v1/studio/media-artifacts/01CRZ3NDEKTSV4RRFFQ69G5FAV/share","host":"localhost:80","remoteAddress":"127.0.0.1"},"msg":"incoming request"}
+{"level":30,"time":1788471405844,"pid":64501,"hostname":"192.168.31.140","reqId":"req-4","res":{"statusCode":409},"responseTime":0.7227080000000115,"msg":"request completed"}
+{"level":30,"time":1788471405844,"pid":64501,"hostname":"192.168.31.140","reqId":"req-5","req":{"method":"POST","url":"/v1/studio/media-artifacts/01CRZ3NDEKTSV4RRFFQ69G5FAV/rerender","host":"localhost:80","remoteAddress":"127.0.0.1"},"msg":"incoming request"}
+{"level":30,"time":1788471405902,"pid":64501,"hostname":"192.168.31.140","reqId":"req-1","req":{"method":"POST","url":"/v1/studio/media-artifacts","host":"localhost:80","remoteAddress":"127.0.0.1"},"msg":"incoming request"}
+x·{"level":30,"time":1788471405845,"pid":64501,"hostname":"192.168.31.140","reqId":"req-5","res":{"statusCode":409},"responseTime":0.3322080000000369,"msg":"request completed"}
+{"level":30,"time":1788471405903,"pid":64501,"hostname":"192.168.31.140","reqId":"req-1","res":{"statusCode":400},"responseTime":1.007541999999944,"msg":"request completed"}
+{"level":30,"time":1788471405904,"pid":64501,"hostname":"192.168.31.140","reqId":"req-2","req":{"method":"POST","url":"/v1/studio/avatar-profiles","host":"localhost:80","remoteAddress":"127.0.0.1"},"msg":"incoming request"}
+{"level":30,"time":1788471405954,"pid":64501,"hostname":"192.168.31.140","reqId":"req-1","req":{"method":"POST","url":"/v1/studio/avatar-profiles","host":"localhost:80","remoteAddress":"127.0.0.1"},"msg":"incoming request"}
+{"level":30,"time":1788471405904,"pid":64501,"hostname":"192.168.31.140","reqId":"req-2","res":{"statusCode":403},"responseTime":0.40983399999993253,"msg":"request completed"}
+{"level":30,"time":1788471405955,"pid":64501,"hostname":"192.168.31.140","reqId":"req-1","res":{"statusCode":400},"responseTime":0.5470000000000255,"msg":"request completed"}
+{"level":30,"time":1788471405955,"pid":64501,"hostname":"192.168.31.140","reqId":"req-2","req":{"method":"POST","url":"/v1/studio/avatar-profiles/avatar-c25-founder-demo/revoke","host":"localhost:80","remoteAddress":"127.0.0.1"},"msg":"incoming request"}
+{"level":50,"time":1788471405955,"pid":64501,"hostname":"192.168.31.140","reqId":"req-2","req":{"method":"POST","url":"/v1/studio/avatar-profiles/avatar-c25-founder-demo/revoke","host":"localhost:80","remoteAddress":"127.0.0.1"},"res":{"statusCode":500},"err":{"type":"Error","message":"Test id factory exhausted","stack":"Error: Test id factory exhausted\n    at /Users/zq/Desktop/ai-projs/posp/Nexora/apps/api/src/routes/test-fixtures.ts:94:33\n    at commandIdForRouteTarget (/Users/zq/Desktop/ai-projs/posp/Nexora/apps/api/src/services/studio-media-service.ts:276:31)\n    at /Users/zq/Desktop/ai-projs/posp/Nexora/apps/api/src/services/studio-media-service.ts:228:25\n    at withTransaction (/Users/zq/Desktop/ai-projs/posp/Nexora/packages/persistence/src/db.ts:151:20)\n    at StudioMediaService.command (/Users/zq/Desktop/ai-projs/posp/Nexora/apps/api/src/services/studio-media-service.ts:220:12)\n    at Object.<anonymous> (/Users/zq/Desktop/ai-projs/posp/Nexora/apps/api/src/routes/studio-media.ts:159:55)\n    at preHandlerCallbackInner (/Users/zq/Desktop/ai-projs/posp/Nexora/node_modules/.pnpm/fastify@5.12.1/node_modules/fastify/lib/handle-request.js:203:24)\n    at preHandlerCallback (/Users/zq/Desktop/ai-projs/posp/Nexora/node_modules/.pnpm/fastify@5.12.1/node_modules/fastify/lib/handle-request.js:168:5)\n    at validationCompleted (/Users/zq/Desktop/ai-projs/posp/Nexora/node_modules/.pnpm/fastify@5.12.1/node_modules/fastify/lib/handle-request.js:158:5)\n    at preValidationCallback (/Users/zq/Desktop/ai-projs/posp/Nexora/node_modules/.pnpm/fastify@5.12.1/node_modules/fastify/lib/handle-request.js:135:5)"},"msg":"Test id factory exhausted"}
+{"level":30,"time":1788471405957,"pid":64501,"hostname":"192.168.31.140","reqId":"req-2","res":{"statusCode":500},"responseTime":2.7280419999999594,"msg":"request completed"}
+·x·····x····x·········
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 8 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  apps/cli/src/studio-media.test.ts > C25 Studio/Media CLI control semantics > Given avatar and share commands When parsed Then consent and review-gated share semantics are explicit
+Error: Unsupported --run
+ ❯ rejectUnknownFlags apps/cli/src/studio-media.ts:126:35
+    124| function rejectUnknownFlags(flags: ReadonlyMap<string, string>, allowe…
+    125|   for (const name of flags.keys()) {
+    126|     if (!allowed.has(name)) throw new Error(`Unsupported --${name}`);
+       |                                   ^
+    127|   }
+    128| }
+ ❯ parseAvatar apps/cli/src/studio-media.ts:64:3
+ ❯ parseStudioMediaCommand apps/cli/src/studio-media.ts:38:34
+ ❯ parseNexoraCliCommand apps/cli/src/index.ts:21:89
+ ❯ apps/cli/src/studio-media.test.ts:27:12
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/8]⎯
+
+ FAIL  packages/contracts/src/studio-media.test.ts > C25 Studio/Media/NotebookLM/Avatar contracts > Given avatar profile descriptors When parsed Then consent expiry and disabled voice cloning are explicit
+ZodError: [
+  {
+    "code": "unrecognized_keys",
+    "keys": [
+      "run_id"
+    ],
+    "path": [],
+    "message": "Unrecognized key(s) in object: 'run_id'"
+  }
+]
+ ❯ Object.get error [as error] node_modules/.pnpm/zod@3.25.76/node_modules/zod/v3/types.js:39:31
+ ❯ ZodEffects.parse node_modules/.pnpm/zod@3.25.76/node_modules/zod/v3/types.js:114:22
+ ❯ packages/contracts/src/studio-media.test.ts:155:42
+    153|
+    154|   it("Given avatar profile descriptors When parsed Then consent expiry…
+    155|     expect(AvatarProfileDescriptorSchema.parse(avatarProfile)).toMatch…
+       |                                          ^
+    156|     expect(AvatarProfileDescriptorSchema.safeParse({ ...avatarProfile,…
+    157|     expect(AvatarProfileDescriptorSchema.safeParse({ ...avatarProfile,…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/8]⎯
+
+ FAIL  packages/persistence/src/c25-studio-media.test.ts > C25 Studio/Media/NotebookLM/Avatar persistence > Given C25 descriptors When repositories write them Then scope payload parity and append-only facts hold
+ZodError: [
+  {
+    "code": "unrecognized_keys",
+    "keys": [
+      "run_id"
+    ],
+    "path": [],
+    "message": "Unrecognized key(s) in object: 'run_id'"
+  }
+]
+ ❯ Object.get error [as error] node_modules/.pnpm/zod@3.25.76/node_modules/zod/v3/types.js:39:31
+ ❯ ZodEffects.parse node_modules/.pnpm/zod@3.25.76/node_modules/zod/v3/types.js:114:22
+ ❯ AvatarProfileRepository.create packages/persistence/src/repositories/studio-media.ts:176:50
+
+ ❯ packages/persistence/src/c25-studio-media.test.ts:62:60
+ ❯ withDatabase packages/persistence/src/c25-studio-media.test.ts:150:5
+ ❯ packages/persistence/src/c25-studio-media.test.ts:56:5
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/8]⎯
+
+ FAIL  packages/persistence/src/c25-studio-media.test.ts > C25 Studio/Media/NotebookLM/Avatar persistence > Given raw SQL bypass attempts When refs or scope drift Then migration triggers reject secrets paths URLs and foreign sources
+AssertionError: expected [Function] to throw error matching /ref|secret|path|abort|constraint/i but got 'table avatar_profiles has no column n…'
+
+- Expected:
+/ref|secret|path|abort|constraint/i
+
++ Received:
+"table avatar_profiles has no column named run_id"
+
+ ❯ packages/persistence/src/c25-studio-media.test.ts:84:131
+     82|       new NotebookRepository(database).create(notebookDescriptor());
+     83|       expect(() => insertRawNotebookSource(database, { ...notebookSour…
+     84|       expect(() => insertRawAvatarProfile(database, { ...avatarProfile…
+       |                                                                                                                                   ^
+     85|     });
+     86|   });
+ ❯ withDatabase packages/persistence/src/c25-studio-media.test.ts:150:5
+ ❯ packages/persistence/src/c25-studio-media.test.ts:80:5
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[4/8]⎯
+
+ FAIL  packages/persistence/src/c25-studio-media.test.ts > C25 Studio/Media/NotebookLM/Avatar persistence > Given raw SQL C25 refs When encoded nested path or invisible variants are inserted Then every ref surface rejects them
+AssertionError: expected [Function] to throw error matching /ref|secret|path|normalized|abort|con…/i but got 'table avatar_profiles has no column n…'
+
+- Expected:
+/ref|secret|path|normalized|abort|constraint/i
+
++ Received:
+"table avatar_profiles has no column named run_id"
+
+ ❯ packages/persistence/src/c25-studio-media.test.ts:102:173
+
+ ❯ withDatabase packages/persistence/src/c25-studio-media.test.ts:150:5
+ ❯ packages/persistence/src/c25-studio-media.test.ts:89:5
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[5/8]⎯
+
+ FAIL  packages/persistence/src/c25-studio-media.test.ts > C25 Studio/Media/NotebookLM/Avatar persistence > Given raw SQL text payloads When secret or path markers are obfuscated Then all C25 text surfaces reject them
+AssertionError: expected [Function] to throw error matching /secret|path|safe|normalized|abort|co…/i but got 'table avatar_profiles has no column n…'
+
+- Expected:
+/secret|path|safe|normalized|abort|constraint/i
+
++ Received:
+"table avatar_profiles has no column named run_id"
+
+ ❯ packages/persistence/src/c25-studio-media.test.ts:115:147
+
+ ❯ withDatabase packages/persistence/src/c25-studio-media.test.ts:150:5
+ ❯ packages/persistence/src/c25-studio-media.test.ts:107:5
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[6/8]⎯
+
+ FAIL  apps/api/src/routes/studio-media.test.ts > C25 Studio/Media API > Given media notebook and avatar descriptors When owner posts them Then descriptor-only facts are accepted and readers can inspect them
+AssertionError: expected 400 to be 202 // Object.is equality
+
+- Expected
++ Received
+
+- 202
++ 400
+
+ ❯ apps/api/src/routes/studio-media.test.ts:43:33
+     41|       expect(source.statusCode).toBe(202);
+     42|       expect(generation.statusCode).toBe(202);
+     43|       expect(avatar.statusCode).toBe(202);
+       |                                 ^
+     44|       expect(share.statusCode).toBe(202);
+     45|       expect(AcceptedCommandSchema.parse(media.json())).toMatchObject(…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[7/8]⎯
+
+ FAIL  apps/api/src/routes/studio-media.test.ts > C25 Studio/Media API > Given an avatar profile bound to one run When revoke uses another run Then the command is rejected
+AssertionError: expected 400 to be 202 // Object.is equality
+
+- Expected
++ Received
+
+- 202
++ 400
+
+ ❯ apps/api/src/routes/studio-media.test.ts:116:33
+
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[8/8]⎯
+
+
+ Test Files  4 failed | 2 passed (6)
+      Tests  8 failed | 22 passed (30)
+   Start at  05:36:44
+   Duration  3.06s (transform 584ms, setup 0ms, collect 1.31s, tests 667ms, environment 1ms, prepare 201ms)

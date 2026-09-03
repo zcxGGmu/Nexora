@@ -1,0 +1,209 @@
+
+ RUN  v3.2.7 /Users/zq/Desktop/ai-projs/posp/Nexora
+
+xxx{"level":30,"time":1788467948003,"pid":18221,"hostname":"192.168.31.140","reqId":"req-1","req":{"method":"POST","url":"/v1/studio/media-artifacts","host":"localhost:80","remoteAddress":"127.0.0.1"},"msg":"incoming request"}
+{"level":30,"time":1788467948005,"pid":18221,"hostname":"192.168.31.140","reqId":"req-1","msg":"Route POST:/v1/studio/media-artifacts not found"}
+{"level":30,"time":1788467948007,"pid":18221,"hostname":"192.168.31.140","reqId":"req-1","res":{"statusCode":404},"responseTime":3.80925000000002,"msg":"request completed"}
+{"level":30,"time":1788467948008,"pid":18221,"hostname":"192.168.31.140","reqId":"req-2","req":{"method":"POST","url":"/v1/studio/notebooks","host":"localhost:80","remoteAddress":"127.0.0.1"},"msg":"incoming request"}
+{"level":30,"time":1788467948008,"pid":18221,"hostname":"192.168.31.140","reqId":"req-2","msg":"Route POST:/v1/studio/notebooks not found"}
+{"level":30,"time":1788467948009,"pid":18221,"hostname":"192.168.31.140","reqId":"req-2","res":{"statusCode":404},"responseTime":1.0354579999999487,"msg":"request completed"}
+{"level":30,"time":1788467948009,"pid":18221,"hostname":"192.168.31.140","reqId":"req-3","req":{"method":"POST","url":"/v1/studio/avatar-profiles","host":"localhost:80","remoteAddress":"127.0.0.1"},"msg":"incoming request"}
+{"level":30,"time":1788467948062,"pid":18221,"hostname":"192.168.31.140","reqId":"req-1","req":{"method":"POST","url":"/v1/studio/media-artifacts","host":"localhost:80","remoteAddress":"127.0.0.1"},"msg":"incoming request"}
+{"level":30,"time":1788467948009,"pid":18221,"hostname":"192.168.31.140","reqId":"req-3","msg":"Route POST:/v1/studio/avatar-profiles not found"}
+{"level":30,"time":1788467948009,"pid":18221,"hostname":"192.168.31.140","reqId":"req-3","res":{"statusCode":404},"responseTime":0.20549999999991542,"msg":"request completed"}
+{"level":30,"time":1788467948009,"pid":18221,"hostname":"192.168.31.140","reqId":"req-4","req":{"method":"GET","url":"/v1/studio?workspace_id=01ARZ3NDEKTSV4RRFFQ69G5FAV","host":"localhost:80","remoteAddress":"127.0.0.1"},"msg":"incoming request"}
+{"level":30,"time":1788467948010,"pid":18221,"hostname":"192.168.31.140","reqId":"req-4","msg":"Route GET:/v1/studio?workspace_id=01ARZ3NDEKTSV4RRFFQ69G5FAV not found"}
+{"level":30,"time":1788467948010,"pid":18221,"hostname":"192.168.31.140","reqId":"req-4","res":{"statusCode":404},"responseTime":0.1109159999999747,"msg":"request completed"}
+{"level":30,"time":1788467948062,"pid":18221,"hostname":"192.168.31.140","reqId":"req-1","msg":"Route POST:/v1/studio/media-artifacts not found"}
+{"level":30,"time":1788467948062,"pid":18221,"hostname":"192.168.31.140","reqId":"req-1","res":{"statusCode":404},"responseTime":0.36541699999997945,"msg":"request completed"}
+{"level":30,"time":1788467948063,"pid":18221,"hostname":"192.168.31.140","reqId":"req-2","req":{"method":"POST","url":"/v1/studio/media-artifacts/01CRZ3NDEKTSV4RRFFQ69G5FAV/share","host":"localhost:80","remoteAddress":"127.0.0.1"},"msg":"incoming request"}
+{"level":30,"time":1788467948063,"pid":18221,"hostname":"192.168.31.140","reqId":"req-2","msg":"Route POST:/v1/studio/media-artifacts/01CRZ3NDEKTSV4RRFFQ69G5FAV/share not found"}
+{"level":30,"time":1788467948063,"pid":18221,"hostname":"192.168.31.140","reqId":"req-2","res":{"statusCode":404},"responseTime":0.20258300000000418,"msg":"request completed"}
+{"level":30,"time":1788467948063,"pid":18221,"hostname":"192.168.31.140","reqId":"req-3","req":{"method":"POST","url":"/v1/studio/media-artifacts/01CRZ3NDEKTSV4RRFFQ69G5FAV/share","host":"localhost:80","remoteAddress":"127.0.0.1"},"msg":"incoming request"}
+{"level":30,"time":1788467948063,"pid":18221,"hostname":"192.168.31.140","reqId":"req-3","msg":"Route POST:/v1/studio/media-artifacts/01CRZ3NDEKTSV4RRFFQ69G5FAV/share not found"}
+{"level":30,"time":1788467948063,"pid":18221,"hostname":"192.168.31.140","reqId":"req-3","res":{"statusCode":404},"responseTime":0.191208999999958,"msg":"request completed"}
+{"level":30,"time":1788467948063,"pid":18221,"hostname":"192.168.31.140","reqId":"req-4","req":{"method":"POST","url":"/v1/studio/media-artifacts/01CRZ3NDEKTSV4RRFFQ69G5FAV/share","host":"localhost:80","remoteAddress":"127.0.0.1"},"msg":"incoming request"}
+{"level":30,"time":1788467948064,"pid":18221,"hostname":"192.168.31.140","reqId":"req-4","msg":"Route POST:/v1/studio/media-artifacts/01CRZ3NDEKTSV4RRFFQ69G5FAV/share not found"}
+{"level":30,"time":1788467948064,"pid":18221,"hostname":"192.168.31.140","reqId":"req-4","res":{"statusCode":404},"responseTime":0.1544579999999769,"msg":"request completed"}
+{"level":30,"time":1788467948064,"pid":18221,"hostname":"192.168.31.140","reqId":"req-5","req":{"method":"POST","url":"/v1/studio/media-artifacts/01CRZ3NDEKTSV4RRFFQ69G5FAV/rerender","host":"localhost:80","remoteAddress":"127.0.0.1"},"msg":"incoming request"}
+{"level":30,"time":1788467948115,"pid":18221,"hostname":"192.168.31.140","reqId":"req-1","req":{"method":"POST","url":"/v1/studio/media-artifacts","host":"localhost:80","remoteAddress":"127.0.0.1"},"msg":"incoming request"}
+{"level":30,"time":1788467948064,"pid":18221,"hostname":"192.168.31.140","reqId":"req-5","msg":"Route POST:/v1/studio/media-artifacts/01CRZ3NDEKTSV4RRFFQ69G5FAV/rerender not found"}
+{"level":30,"time":1788467948064,"pid":18221,"hostname":"192.168.31.140","reqId":"req-5","res":{"statusCode":404},"responseTime":0.16491599999994833,"msg":"request completed"}
+{"level":30,"time":1788467948116,"pid":18221,"hostname":"192.168.31.140","reqId":"req-1","msg":"Route POST:/v1/studio/media-artifacts not found"}
+{"level":30,"time":1788467948116,"pid":18221,"hostname":"192.168.31.140","reqId":"req-1","res":{"statusCode":404},"responseTime":1.0102499999999281,"msg":"request completed"}
+{"level":30,"time":1788467948117,"pid":18221,"hostname":"192.168.31.140","reqId":"req-2","req":{"method":"POST","url":"/v1/studio/avatar-profiles","host":"localhost:80","remoteAddress":"127.0.0.1"},"msg":"incoming request"}
+xx{"level":30,"time":1788467948117,"pid":18221,"hostname":"192.168.31.140","reqId":"req-2","msg":"Route POST:/v1/studio/avatar-profiles not found"}
+{"level":30,"time":1788467948117,"pid":18221,"hostname":"192.168.31.140","reqId":"req-2","res":{"statusCode":404},"responseTime":0.2937500000000455,"msg":"request completed"}
+xxxx
+
+⎯⎯⎯⎯⎯⎯ Failed Suites 2 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  packages/contracts/src/studio-media.test.ts [ packages/contracts/src/studio-media.test.ts ]
+Error: Cannot find module './studio-media.js' imported from '/Users/zq/Desktop/ai-projs/posp/Nexora/packages/contracts/src/studio-media.test.ts'
+ ❯ packages/contracts/src/studio-media.test.ts:2:1
+      1| import { describe, expect, it } from "vitest";
+      2| import {
+       | ^
+      3|   AvatarProfileDescriptorSchema,
+      4|   MediaArtifactDescriptorSchema,
+
+Caused by: Error: Failed to load url ./studio-media.js (resolved id: ./studio-media.js) in /Users/zq/Desktop/ai-projs/posp/Nexora/packages/contracts/src/studio-media.test.ts. Does the file exist?
+ ❯ loadAndTransform node_modules/.pnpm/vite@6.4.3_@types+node@22.20.1_tsx@4.23.12/node_modules/vite/dist/node/chunks/dep-Dm0c1Wj2.js:35835:17
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/11]⎯
+
+ FAIL  apps/mission-control/src/pages/studio-media.test.tsx [ apps/mission-control/src/pages/studio-media.test.tsx ]
+Error: Cannot find module './StudioMediaPage.js' imported from '/Users/zq/Desktop/ai-projs/posp/Nexora/apps/mission-control/src/pages/studio-media.test.tsx'
+ ❯ apps/mission-control/src/pages/studio-media.test.tsx:5:1
+      3| import { pageForRoute } from "../app/detail-pages.js";
+      4| import { buildRouteHref, parseRouteUrl } from "../app/router.js";
+      5| import { StudioMediaPage, StudioMediaPageContent, studioMediaFixture }…
+       | ^
+      6|
+      7| describe("C25 Studio/Media Mission Control surface", () => {
+
+Caused by: Error: Failed to load url ./StudioMediaPage.js (resolved id: ./StudioMediaPage.js) in /Users/zq/Desktop/ai-projs/posp/Nexora/apps/mission-control/src/pages/studio-media.test.tsx. Does the file exist?
+ ❯ loadAndTransform node_modules/.pnpm/vite@6.4.3_@types+node@22.20.1_tsx@4.23.12/node_modules/vite/dist/node/chunks/dep-Dm0c1Wj2.js:35835:17
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[2/11]⎯
+
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 9 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  apps/cli/src/studio-media.test.ts > C25 Studio/Media CLI control semantics > Given studio render and notebook commands When parsed Then they stay descriptor-only local control requests
+Error: Unsupported Nexora CLI command
+ ❯ parseNexoraCliCommand apps/cli/src/index.ts:22:9
+     20|   if (command === "/learn" || command === "/skill") return parseLearni…
+     21|   if (command === "/journal") return parseJournalCommand(input);
+     22|   throw new Error("Unsupported Nexora CLI command");
+       |         ^
+     23| }
+     24|
+ ❯ apps/cli/src/studio-media.test.ts:14:12
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[3/11]⎯
+
+ FAIL  apps/cli/src/studio-media.test.ts > C25 Studio/Media CLI control semantics > Given avatar and share commands When parsed Then consent and review-gated share semantics are explicit
+Error: Unsupported Nexora CLI command
+ ❯ parseNexoraCliCommand apps/cli/src/index.ts:22:9
+     20|   if (command === "/learn" || command === "/skill") return parseLearni…
+     21|   if (command === "/journal") return parseJournalCommand(input);
+     22|   throw new Error("Unsupported Nexora CLI command");
+       |         ^
+     23| }
+     24|
+ ❯ apps/cli/src/studio-media.test.ts:27:12
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[4/11]⎯
+
+ FAIL  apps/cli/src/studio-media.test.ts > C25 Studio/Media CLI control semantics > Given live NotebookLM media provider or credential flags When parsed Then CLI rejects before command construction
+AssertionError: expected [Function] to throw error matching /notebooklm|credential|descriptor-onl…/i but got 'Unsupported Nexora CLI command'
+
+- Expected:
+/notebooklm|credential|descriptor-only|external/i
+
++ Received:
+"Unsupported Nexora CLI command"
+
+ ❯ apps/cli/src/studio-media.test.ts:32:218
+
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[5/11]⎯
+
+ FAIL  packages/persistence/src/c25-studio-media.test.ts > C25 Studio/Media/NotebookLM/Avatar persistence > Given migrations run When schema is validated Then C25 tables and migration version 16 exist
+AssertionError: expected 15 to be 16 // Object.is equality
+
+- Expected
++ Received
+
+- 16
++ 15
+
+ ❯ packages/persistence/src/c25-studio-media.test.ts:39:38
+
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[6/11]⎯
+
+ FAIL  packages/persistence/src/c25-studio-media.test.ts > C25 Studio/Media/NotebookLM/Avatar persistence > Given C25 descriptors When repositories write them Then scope payload parity and append-only facts hold
+TypeError: MediaArtifactRepository is not a constructor
+ ❯ packages/persistence/src/c25-studio-media.test.ts:52:21
+     50|     try {
+     51|       migrate(database, { now: () => TIME });
+     52|       const media = new MediaArtifactRepository(database).create(media…
+       |                     ^
+     53|       const render = new RenderJobRepository(database).create(renderJo…
+     54|       const notebook = new NotebookRepository(database).create(noteboo…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[7/11]⎯
+
+ FAIL  packages/persistence/src/c25-studio-media.test.ts > C25 Studio/Media/NotebookLM/Avatar persistence > Given raw SQL bypass attempts When refs or scope drift Then migration triggers reject secrets paths URLs and foreign sources
+AssertionError: expected [Function] to throw error matching /ref|secret|path|abort|constraint/i but got 'no such table: media_artifacts'
+
+- Expected:
+/ref|secret|path|abort|constraint/i
+
++ Received:
+"no such table: media_artifacts"
+
+ ❯ packages/persistence/src/c25-studio-media.test.ts:77:132
+     75|     try {
+     76|       migrate(database, { now: () => TIME });
+     77|       expect(() => insertRawMediaArtifact(database, { ...mediaArtifact…
+       |                                                                                                                                    ^
+     78|       expect(() => insertRawNotebookSource(database, { ...notebookSour…
+     79|       expect(() => insertRawAvatarProfile(database, { ...avatarProfile…
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[8/11]⎯
+
+ FAIL  apps/api/src/routes/studio-media.test.ts > C25 Studio/Media API > Given media notebook and avatar descriptors When owner posts them Then descriptor-only facts are accepted and readers can inspect them
+AssertionError: expected 404 to be 202 // Object.is equality
+
+- Expected
++ Received
+
+- 202
++ 404
+
+ ❯ apps/api/src/routes/studio-media.test.ts:25:32
+     23|       const detail = await fixture.api.inject({ method: "GET", url: `/…
+     24|
+     25|       expect(media.statusCode).toBe(202);
+       |                                ^
+     26|       expect(notebook.statusCode).toBe(202);
+     27|       expect(avatar.statusCode).toBe(202);
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[9/11]⎯
+
+ FAIL  apps/api/src/routes/studio-media.test.ts > C25 Studio/Media API > Given preview share rerender and notebook generation commands When posted Then Idempotency-Key and If-Match semantics are enforced
+AssertionError: expected 404 to be 202 // Object.is equality
+
+- Expected
++ Received
+
+- 202
++ 404
+
+ ❯ apps/api/src/routes/studio-media.test.ts:46:32
+
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[10/11]⎯
+
+ FAIL  apps/api/src/routes/studio-media.test.ts > C25 Studio/Media API > Given unsafe refs provider claims or non-owner caller When posted Then errors are scope-safe and redacted
+AssertionError: expected 404 to be 400 // Object.is equality
+
+- Expected
++ Received
+
+- 400
++ 404
+
+ ❯ apps/api/src/routes/studio-media.test.ts:63:33
+
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[11/11]⎯
+
+
+ Test Files  5 failed (5)
+      Tests  9 failed (9)
+   Start at  04:39:06
+   Duration  2.45s (transform 583ms, setup 0ms, collect 704ms, tests 384ms, environment 0ms, prepare 183ms)

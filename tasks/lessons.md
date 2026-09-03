@@ -150,3 +150,9 @@
 - Pattern: C24 service logic created wake/pause/interrupt/resume command facts, but raw SQL could update a voice session into resumed state from an invalid old state without the matching append-only command evidence.
 - Correction: Add RED coverage for idle resume forgery, then require migration triggers to validate both the old state and same-workspace/session/run command backing before accepting descriptor state changes.
 - Rule: Whenever a descriptor stage derives mutable status from append-only command facts, enforce the transition preconditions and command binding in repository code and SQLite triggers, not only in API/service handlers.
+
+## 2026-09-04 — Append-only command facts need fresh ids per new action
+
+- Pattern: A control-plane command service can accidentally derive command ids from target and kind, collapsing distinct operator actions that use fresh idempotency keys into the same resource and returning conflicts instead of append-only facts.
+- Correction: C25 Studio commands now allocate a fresh command id through the service id factory for every new idempotency reservation, while replay still returns the persisted reservation resource id.
+- Rule: For append-only command logs, bind idempotent replay to the stored reservation id, but allocate a fresh resource id for every new idempotency key; never derive command fact ids solely from target, route, or command kind.
