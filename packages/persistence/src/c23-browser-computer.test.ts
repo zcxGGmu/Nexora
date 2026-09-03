@@ -31,14 +31,14 @@ const AFTER_ALLOWLIST_EXPIRY = "2026-09-02T04:10:00.000Z";
 const HASH = "sha256:aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa";
 
 describe("C23 browser and computer use persistence", () => {
-  it("Given migrations run When schema is validated Then C23 tables and migration version 14 exist", () => {
+  it("Given migrations run When schema is validated Then C23 tables and current migration exist", () => {
     const database = openDatabase(":memory:");
     try {
       migrate(database, { now: () => TIME });
       const tables = database.prepare("SELECT name FROM sqlite_master WHERE type = 'table'").all().map((row) => row["name"]);
       const triggers = database.prepare("SELECT name FROM sqlite_master WHERE type = 'trigger'").all().map((row) => row["name"]);
 
-      expect(CORE_MIGRATION_VERSION).toBe(14);
+      expect(CORE_MIGRATION_VERSION).toBe(15);
       expect(CORE_TABLES).toEqual(expect.arrayContaining(["browser_computer_sessions", "browser_computer_sandbox_policies", "browser_computer_allowlist", "browser_computer_action_intents", "browser_computer_action_receipts", "browser_computer_screenshot_receipts", "browser_computer_human_approvals"]));
       expect(tables).toEqual(expect.arrayContaining(["browser_computer_sessions", "browser_computer_sandbox_policies", "browser_computer_allowlist", "browser_computer_action_intents", "browser_computer_action_receipts", "browser_computer_screenshot_receipts", "browser_computer_human_approvals"]));
       expect(triggers).toEqual(expect.arrayContaining(["c23_action_receipts_no_update", "c23_screenshot_receipts_no_update", "c23_action_intents_target_allowlist_insert", "c23_human_approvals_no_update"]));

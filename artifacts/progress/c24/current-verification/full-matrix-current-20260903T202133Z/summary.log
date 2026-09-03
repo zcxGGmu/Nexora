@@ -1,0 +1,7 @@
+pnpm-lint exit 0
+pnpm-typecheck exit 0
+pnpm-test-unit exit 0
+pnpm-test-integration exit 0
+pnpm-test-e2e exit 0
+mission-control-build exit 0
+pnpm-audit-high exit 0

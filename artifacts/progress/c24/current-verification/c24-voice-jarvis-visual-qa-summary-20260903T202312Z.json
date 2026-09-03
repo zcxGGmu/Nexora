@@ -1,0 +1,90 @@
+{
+  "url": "http://127.0.0.1:4313/voice-jarvis?workspace=ws-demo",
+  "descriptorOnlyVisible": true,
+  "seed": [
+    {
+      "path": "/v1/gateways",
+      "status": 202,
+      "accepted": true
+    },
+    {
+      "path": "/v1/channels",
+      "status": 202,
+      "accepted": true
+    },
+    {
+      "path": "/v1/sessions",
+      "status": 202,
+      "accepted": true
+    },
+    {
+      "path": "/v1/voice-sessions",
+      "status": 202,
+      "accepted": true
+    },
+    {
+      "path": "/v1/voice-transcripts",
+      "status": 202,
+      "accepted": true
+    },
+    {
+      "path": "/v1/voice-sessions/01ERZ3NDEKTSV4RRFFQ69G5FAV/wake",
+      "status": 202,
+      "accepted": true
+    }
+  ],
+  "controls": {
+    "Wake": true,
+    "Interrupt": true,
+    "Pause": true,
+    "Delete transcript": true,
+    "Export transcript": true
+  },
+  "feedback": [
+    "Connected",
+    "Descriptor-only voice controlNo external connectionNo microphone is read, no speaker audio is played, and no STT, VAD, TTS, MCP, credential, or provider connection is attempted. Only workspace-scoped control-plane facts are recorded.",
+    "No external connection",
+    "wall",
+    "01ERZ3NDEKTSV4RRFFQ69G5FAV | revision 3 | run 01CRZ3NDEKTSV4RRFFQ69G5FAV",
+    "paused",
+    "01FRZ3NDEKTSV4RRFFQ69G5FAV",
+    "redacted",
+    "01M1MF170N1K48FMTZZ58HYEW9 | expected revision 1",
+    "session",
+    "01M1MF180T8TB9YAJYVH475NAF | expected revision 2",
+    "session",
+    "01M1MF184WFB99QJJ0P21T4WH3 | expected revision 3",
+    "transcript",
+    "Audio and provider side effects disabledWake word, interrupt, transcript delete, and transcript export controls write local command facts only. Real microphone capture, audio playback, provider STT/TTS calls, voiceprint storage, and external messaging remain disabled.",
+    "Evidence railEmptySelect a Run, Review, Artifact, or Memory item to inspect provenance.Open Mission Control.",
+    "Empty"
+  ],
+  "sessionHeadingReadable": true,
+  "desktop": {
+    "path": "artifacts/progress/c24/current-verification/c24-voice-jarvis-desktop-20260903T202312Z.png",
+    "width": 1440,
+    "height": 900,
+    "overflow": false
+  },
+  "desktopPostActions": {
+    "path": "artifacts/progress/c24/current-verification/c24-voice-jarvis-desktop-post-actions-20260903T202312Z.png",
+    "width": 1440,
+    "height": 900,
+    "overflow": false
+  },
+  "mobile": {
+    "path": "artifacts/progress/c24/current-verification/c24-voice-jarvis-mobile-20260903T202312Z.png",
+    "width": 390,
+    "height": 844,
+    "overflow": false,
+    "mobileNavItems": 5
+  },
+  "noInvalidAriaRefs": true,
+  "noExternalConnection": true,
+  "requestOrigins": [
+    "http://127.0.0.1:4310",
+    "http://127.0.0.1:4313"
+  ],
+  "apiLog": "artifacts/progress/c24/current-verification/visual-qa-data-20260903T202312Z/api.log",
+  "webLog": "artifacts/progress/c24/current-verification/visual-qa-data-20260903T202312Z/mission-control.log"
+}

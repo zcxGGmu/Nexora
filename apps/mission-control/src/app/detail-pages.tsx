@@ -13,6 +13,7 @@ import { ReviewPage, reviewFixture, staleReviewFixture } from "../pages/ReviewPa
 import { RegistryPage, registryFixture } from "../pages/RegistryPage.js";
 import { GatewayPage } from "../pages/GatewayPage.js";
 import { BrowserComputerPage } from "../pages/BrowserComputerPage.js";
+import { VoiceJarvisPage } from "../pages/VoiceJarvisPage.js";
 import { JournalPage } from "../pages/JournalPage.js";
 import { SkillsLearningPage } from "../pages/SkillsLearningPage.js";
 import { blockedRunDetailFixture, RunDetailPage, runDetailFixture } from "../pages/RunDetailPage.js";
@@ -38,6 +39,8 @@ export function pageForRoute(route: ParsedRoute): JSX.Element {
       return <GatewayPage workspaceId={route.urlState.workspace ?? "ws-demo"} />;
     case "browser-computer":
       return <BrowserComputerPage workspaceId={route.urlState.workspace ?? "ws-demo"} />;
+    case "voice-jarvis":
+      return <VoiceJarvisPage workspaceId={route.urlState.workspace ?? "ws-demo"} />;
     case "inbox":
       return <InboxPage selectedTab={route.urlState.tab} view={inboxFixture} />;
     case "journal":

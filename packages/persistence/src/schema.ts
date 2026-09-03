@@ -60,7 +60,12 @@ export const CORE_TABLES = [
   "browser_computer_action_receipts",
   "browser_computer_screenshot_receipts",
   "browser_computer_human_approvals",
+  "voice_audio_policies",
+  "voice_wake_words",
+  "voice_sessions",
+  "voice_transcripts",
+  "voice_commands",
 ] as const;
 
 export type CoreTable = (typeof CORE_TABLES)[number];
-export const CORE_MIGRATION_VERSION = 14;
+export const CORE_MIGRATION_VERSION = 15;

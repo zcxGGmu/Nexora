@@ -21,4 +21,5 @@ export * from "./sessions.js";
 export * from "./skills.js";
 export * from "./journal.js";
 export * from "./browser-computer.js";
+export * from "./voice-jarvis.js";
 export { z } from "zod";

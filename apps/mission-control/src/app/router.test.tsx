@@ -24,6 +24,7 @@ describe("C10 route contract", () => {
       "/registry",
       "/gateway",
       "/browser-computer",
+      "/voice-jarvis",
       "/skills",
       "/journal",
     ]);
@@ -85,5 +86,12 @@ describe("C10 route contract", () => {
     expect(route.key).toBe("journal");
     expect(route.urlState.workspace).toBe("ws-demo");
     expect(buildRouteHref("journal", route.urlState)).toBe("/journal?workspace=ws-demo");
+  });
+
+  it("preserves workspace on the Voice/Jarvis deep link", () => {
+    const route = parseRouteUrl("http://nexora.local/voice-jarvis?workspace=ws-demo");
+    expect(route.key).toBe("voice-jarvis");
+    expect(route.urlState.workspace).toBe("ws-demo");
+    expect(buildRouteHref("voice-jarvis", route.urlState)).toBe("/voice-jarvis?workspace=ws-demo");
   });
 });

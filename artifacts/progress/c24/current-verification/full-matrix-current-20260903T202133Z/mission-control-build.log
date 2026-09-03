@@ -1,0 +1,36 @@
+.                                        |  WARN  Unsupported engine: wanted: {"node":">=22.13.0 <23.0.0"} (current: {"node":"v25.9.0","pnpm":"10.10.0"})
+
+> @nexora/mission-control@0.1.0 build /Users/zq/Desktop/ai-projs/posp/Nexora/apps/mission-control
+> vite build
+
+vite v6.4.3 building for production...
+transforming...
+../../node_modules/.pnpm/@tanstack+react-query@5.102.8_react@19.2.8/node_modules/@tanstack/react-query/build/modern/HydrationBoundary.js (1:0): Module level directives cause errors when bundled, "use client" in "../../node_modules/.pnpm/@tanstack+react-query@5.102.8_react@19.2.8/node_modules/@tanstack/react-query/build/modern/HydrationBoundary.js" was ignored.
+../../node_modules/.pnpm/@tanstack+react-query@5.102.8_react@19.2.8/node_modules/@tanstack/react-query/build/modern/useQueries.js (1:0): Module level directives cause errors when bundled, "use client" in "../../node_modules/.pnpm/@tanstack+react-query@5.102.8_react@19.2.8/node_modules/@tanstack/react-query/build/modern/useQueries.js" was ignored.
+../../node_modules/.pnpm/@tanstack+react-query@5.102.8_react@19.2.8/node_modules/@tanstack/react-query/build/modern/useQuery.js (1:0): Module level directives cause errors when bundled, "use client" in "../../node_modules/.pnpm/@tanstack+react-query@5.102.8_react@19.2.8/node_modules/@tanstack/react-query/build/modern/useQuery.js" was ignored.
+../../node_modules/.pnpm/@tanstack+react-query@5.102.8_react@19.2.8/node_modules/@tanstack/react-query/build/modern/QueryClientProvider.js (1:0): Module level directives cause errors when bundled, "use client" in "../../node_modules/.pnpm/@tanstack+react-query@5.102.8_react@19.2.8/node_modules/@tanstack/react-query/build/modern/QueryClientProvider.js" was ignored.
+../../node_modules/.pnpm/@tanstack+react-query@5.102.8_react@19.2.8/node_modules/@tanstack/react-query/build/modern/IsRestoringProvider.js (1:0): Module level directives cause errors when bundled, "use client" in "../../node_modules/.pnpm/@tanstack+react-query@5.102.8_react@19.2.8/node_modules/@tanstack/react-query/build/modern/IsRestoringProvider.js" was ignored.
+../../node_modules/.pnpm/@tanstack+react-query@5.102.8_react@19.2.8/node_modules/@tanstack/react-query/build/modern/QueryErrorResetBoundary.js (1:0): Module level directives cause errors when bundled, "use client" in "../../node_modules/.pnpm/@tanstack+react-query@5.102.8_react@19.2.8/node_modules/@tanstack/react-query/build/modern/QueryErrorResetBoundary.js" was ignored.
+../../node_modules/.pnpm/@tanstack+react-query@5.102.8_react@19.2.8/node_modules/@tanstack/react-query/build/modern/useMutationState.js (1:0): Module level directives cause errors when bundled, "use client" in "../../node_modules/.pnpm/@tanstack+react-query@5.102.8_react@19.2.8/node_modules/@tanstack/react-query/build/modern/useMutationState.js" was ignored.
+../../node_modules/.pnpm/@tanstack+react-query@5.102.8_react@19.2.8/node_modules/@tanstack/react-query/build/modern/useIsFetching.js (1:0): Module level directives cause errors when bundled, "use client" in "../../node_modules/.pnpm/@tanstack+react-query@5.102.8_react@19.2.8/node_modules/@tanstack/react-query/build/modern/useIsFetching.js" was ignored.
+../../node_modules/.pnpm/@tanstack+react-query@5.102.8_react@19.2.8/node_modules/@tanstack/react-query/build/modern/useMutation.js (1:0): Module level directives cause errors when bundled, "use client" in "../../node_modules/.pnpm/@tanstack+react-query@5.102.8_react@19.2.8/node_modules/@tanstack/react-query/build/modern/useMutation.js" was ignored.
+../../node_modules/.pnpm/@tanstack+react-query@5.102.8_react@19.2.8/node_modules/@tanstack/react-query/build/modern/useInfiniteQuery.js (1:0): Module level directives cause errors when bundled, "use client" in "../../node_modules/.pnpm/@tanstack+react-query@5.102.8_react@19.2.8/node_modules/@tanstack/react-query/build/modern/useInfiniteQuery.js" was ignored.
+../../node_modules/.pnpm/@tanstack+react-query@5.102.8_react@19.2.8/node_modules/@tanstack/react-query/build/modern/useSuspenseQueries.js (1:0): Module level directives cause errors when bundled, "use client" in "../../node_modules/.pnpm/@tanstack+react-query@5.102.8_react@19.2.8/node_modules/@tanstack/react-query/build/modern/useSuspenseQueries.js" was ignored.
+../../node_modules/.pnpm/@tanstack+react-query@5.102.8_react@19.2.8/node_modules/@tanstack/react-query/build/modern/useSuspenseQuery.js (1:0): Module level directives cause errors when bundled, "use client" in "../../node_modules/.pnpm/@tanstack+react-query@5.102.8_react@19.2.8/node_modules/@tanstack/react-query/build/modern/useSuspenseQuery.js" was ignored.
+../../node_modules/.pnpm/@tanstack+react-query@5.102.8_react@19.2.8/node_modules/@tanstack/react-query/build/modern/useSuspenseInfiniteQuery.js (1:0): Module level directives cause errors when bundled, "use client" in "../../node_modules/.pnpm/@tanstack+react-query@5.102.8_react@19.2.8/node_modules/@tanstack/react-query/build/modern/useSuspenseInfiniteQuery.js" was ignored.
+../../node_modules/.pnpm/@tanstack+react-query@5.102.8_react@19.2.8/node_modules/@tanstack/react-query/build/modern/errorBoundaryUtils.js (1:0): Module level directives cause errors when bundled, "use client" in "../../node_modules/.pnpm/@tanstack+react-query@5.102.8_react@19.2.8/node_modules/@tanstack/react-query/build/modern/errorBoundaryUtils.js" was ignored.
+../../node_modules/.pnpm/@tanstack+react-query@5.102.8_react@19.2.8/node_modules/@tanstack/react-query/build/modern/useBaseQuery.js (1:0): Module level directives cause errors when bundled, "use client" in "../../node_modules/.pnpm/@tanstack+react-query@5.102.8_react@19.2.8/node_modules/@tanstack/react-query/build/modern/useBaseQuery.js" was ignored.
+../../node_modules/.pnpm/lucide-react@1.34.0_react@19.2.8/node_modules/lucide-react/dist/esm/context.mjs (2:0): Module level directives cause errors when bundled, "use client" in "../../node_modules/.pnpm/lucide-react@1.34.0_react@19.2.8/node_modules/lucide-react/dist/esm/context.mjs" was ignored.
+../../node_modules/.pnpm/lucide-react@1.34.0_react@19.2.8/node_modules/lucide-react/dist/esm/Icon.mjs (2:0): Module level directives cause errors when bundled, "use client" in "../../node_modules/.pnpm/lucide-react@1.34.0_react@19.2.8/node_modules/lucide-react/dist/esm/Icon.mjs" was ignored.
+✓ 2007 modules transformed.
+rendering chunks...
+computing gzip size...
+dist/index.html                   0.41 kB │ gzip:   0.27 kB
+dist/assets/index-Ca-72htf.css   12.35 kB │ gzip:   2.94 kB
+dist/assets/index-B0SVSeRs.js   668.73 kB │ gzip: 181.17 kB
+
+(!) Some chunks are larger than 500 kB after minification. Consider:
+- Using dynamic import() to code-split the application
+- Use build.rollupOptions.output.manualChunks to improve chunking: https://rollupjs.org/configuration-options/#output-manualchunks
+- Adjust chunk size limit for this warning via build.chunkSizeWarningLimit.
+✓ built in 1.53s
