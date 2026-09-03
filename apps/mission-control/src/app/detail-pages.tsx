@@ -12,6 +12,7 @@ import { PlaceholderPage } from "../pages/PlaceholderPage.js";
 import { ReviewPage, reviewFixture, staleReviewFixture } from "../pages/ReviewPage.js";
 import { RegistryPage, registryFixture } from "../pages/RegistryPage.js";
 import { GatewayPage } from "../pages/GatewayPage.js";
+import { BrowserComputerPage } from "../pages/BrowserComputerPage.js";
 import { JournalPage } from "../pages/JournalPage.js";
 import { SkillsLearningPage } from "../pages/SkillsLearningPage.js";
 import { blockedRunDetailFixture, RunDetailPage, runDetailFixture } from "../pages/RunDetailPage.js";
@@ -35,6 +36,8 @@ export function pageForRoute(route: ParsedRoute): JSX.Element {
       return <GoalPage view={goalWorkspaceFixture} />;
     case "gateway":
       return <GatewayPage workspaceId={route.urlState.workspace ?? "ws-demo"} />;
+    case "browser-computer":
+      return <BrowserComputerPage workspaceId={route.urlState.workspace ?? "ws-demo"} />;
     case "inbox":
       return <InboxPage selectedTab={route.urlState.tab} view={inboxFixture} />;
     case "journal":

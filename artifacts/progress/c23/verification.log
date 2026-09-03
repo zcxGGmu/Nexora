@@ -1,0 +1,88 @@
+# C23 Browser/Computer Use Verification Log
+
+Date: 2026-09-03
+Branch: codex/agent-os-implementation
+Baseline: C22 12451447dfbfcf9fd466988d99017bf896caf7c7
+Commit: pending scoped commit creation; final SHA is recorded in the post-commit task fact source.
+Scope: Browser/Computer Use descriptor/control-plane only. No real browser automation, desktop control, external provider, MCP, credential read, file access, outbound message, or external network side effect was enabled.
+
+## RED/GREEN blocker remediation
+
+- RED: `pnpm exec vitest run packages/persistence/src/c23-browser-computer.test.ts --reporter=dot`
+  - Evidence: `artifacts/progress/c23/current-verification/c23-red-screenshot-receipt-scope-20260903T192747.log`
+  - Result: exit 1, 1 file, 1 failing test. Repository accepted an action receipt with a non-null `screenshot_id` and no matching screenshot receipt.
+- GREEN: `pnpm exec vitest run packages/persistence/src/c23-browser-computer.test.ts --reporter=dot`
+  - Evidence: `artifacts/progress/c23/current-verification/c23-persistence-screenshot-scope-green-20260903T193029.log`
+  - Result: exit 0, 1 file / 14 tests.
+- Fix summary: `BrowserComputerReceiptRepository.recordActionReceipt()` now rejects non-null `screenshot_id` unless the screenshot receipt exists with the same `workspace_id`, `session_id`, `action_intent_id`, and id. Migration 14 mirrors the invariant with `c23_action_receipts_screenshot_scope_insert`. The regression covers missing screenshot, wrong-action screenshot, and matching screenshot through both repository and raw SQL paths.
+
+## Focused validation
+
+Command:
+
+```bash
+pnpm exec vitest run \
+  packages/contracts/src/browser-computer.test.ts \
+  packages/persistence/src/c23-browser-computer.test.ts \
+  apps/api/src/routes/browser-computer.test.ts \
+  apps/cli/src/browser-computer.test.ts \
+  apps/mission-control/src/pages/browser-computer.test.tsx \
+  --reporter=dot
+```
+
+Result: exit 0, 5 files / 39 tests.
+Evidence: `artifacts/progress/c23/current-verification/c23-focused-post-screenshot-scope-20260903T193049.log`.
+
+Covered behavior includes strict descriptor schemas, readable IDs, unknown-field rejection, secret/path-safe target refs, workspace/run/session/action scope, allowlist default deny, expired allowlist denial, approval gate, action idempotency replay/conflict, denied action with no receipt, append-only action/screenshot receipts, action receipt screenshot consistency, pause/resume/stop/takeover legal and illegal transitions, `If-Match` version conflicts, CLI descriptor-only parsing, Mission Control control wiring, and redacted errors.
+
+## Full validation matrix
+
+Matrix directory: `artifacts/progress/c23/current-verification/full-matrix-post-screenshot-scope-20260903T193119`.
+
+- `pnpm lint`: exit 0, `lint: 362 source files checked`.
+- `pnpm typecheck`: exit 0.
+- `pnpm test --run --reporter=dot --silent`: exit 0, 118 files / 669 tests.
+- `pnpm test:integration`: exit 0, 14 files / 37 tests.
+- `pnpm test:e2e`: exit 0, 6 tests.
+- `pnpm --filter @nexora/mission-control build`: exit 0.
+- `pnpm audit --audit-level=high`: exit 0, no known vulnerabilities.
+
+Host environment: Node v25.9.0 with pnpm 10.10.0. Project engine expects Node >=22.13.0 <23.0.0; pnpm emitted the expected unsupported-engine warning. Project engine constraints were not changed.
+
+## Visual QA
+
+Command:
+
+```bash
+NEXORA_C23_QA_STAMP=20260903T193322 pnpm exec tsx artifacts/progress/c23/current-verification/browser-computer-visual-qa.ts
+```
+
+Result: exit 0.
+URL: `http://127.0.0.1:4313/browser-computer?workspace=ws-demo`.
+Summary: `artifacts/progress/c23/current-verification/c23-browser-computer-visual-qa-summary-20260903T193322.json`.
+
+Fresh PNG evidence verified with `file`:
+
+- `artifacts/progress/c23/current-verification/c23-browser-computer-desktop-20260903T193322.png`: PNG 1440x900.
+- `artifacts/progress/c23/current-verification/c23-browser-computer-desktop-post-actions-20260903T193322.png`: PNG 1440x900.
+- `artifacts/progress/c23/current-verification/c23-browser-computer-mobile-20260903T193322.png`: PNG 390x844.
+
+Observed: desktop and mobile had no horizontal overflow; mobile bottom navigation kept five items; no invalid ARIA references were reported; Gateway/session health, sandbox, allowlist, approval, action, delivery/action receipt, screenshot receipt, and descriptor-only/no-external-connection boundary were visible; Pause, Stop, Takeover, Approve, and Acknowledge controls were real DOM controls with observable feedback; request origins were limited to `http://127.0.0.1:4310` and `http://127.0.0.1:4313`.
+
+## Review and security
+
+- Initial independent code review found a CRITICAL blocker: action receipts accepted dangling `screenshot_id` values. Fixed with repository guard, SQLite trigger, and RED/GREEN tests.
+- Post-fix independent code review: no blocking findings. Reviewer verified screenshot scope in repository and raw SQL paths plus focused C23 suite exit 0, 5 files / 39 tests.
+- Post-fix independent security review: no blocking findings. Reviewer verified scope isolation, RBAC/OCC/idempotency, SQL parameterization/triggers, append-only facts, secret/path redaction, default deny allowlist, no real external side effects, and artifact hygiene.
+- Local scan: no unexpected `any`, `@ts-ignore`, `@ts-expect-error`, non-null assertion pattern, real browser/desktop execution flag, external provider/MCP call, or production external network call was found in C23 production files. Expected hits were guard strings, tests, and the local-only visual QA script.
+- `git diff --check`: exit 0.
+
+## Artifact hygiene
+
+`artifacts/progress/c23/current-verification/` contains raw local logs, SQLite databases, and old screenshots. It must not be staged wholesale. The scoped commit should include this sanitized `verification.log`, C23 implementation/tests, ADR/runbook, and task fact sources only.
+
+## Residual risks
+
+- C23 target validation is lexical and descriptor-only by design. Future live execution adapters need DNS rebinding/private-network resolution checks at execution time.
+- `VITE_NEXORA_API_BASE_URL` can point Mission Control at a configured control API; deployment config must preserve server-side descriptor-only behavior.
+- C23-specific rate limiting is not implemented in this stage; RBAC and idempotency constrain impact, but route throttling should be added before exposing live execution surfaces.

@@ -23,6 +23,7 @@ describe("C10 route contract", () => {
       "/settings",
       "/registry",
       "/gateway",
+      "/browser-computer",
       "/skills",
       "/journal",
     ]);
