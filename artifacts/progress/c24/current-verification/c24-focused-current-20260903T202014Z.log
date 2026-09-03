@@ -1,0 +1,53 @@
+
+ RUN  v3.2.7 /Users/zq/Desktop/ai-projs/posp/Nexora
+
+···················{"level":30,"time":1788466817009,"pid":5929,"hostname":"192.168.31.140","reqId":"req-1","req":{"method":"POST","url":"/v1/voice-sessions","host":"localhost:80","remoteAddress":"127.0.0.1"},"msg":"incoming request"}
+{"level":30,"time":1788466817018,"pid":5929,"hostname":"192.168.31.140","reqId":"req-1","res":{"statusCode":202},"responseTime":9.089709000000084,"msg":"request completed"}
+{"level":30,"time":1788466817019,"pid":5929,"hostname":"192.168.31.140","reqId":"req-2","req":{"method":"POST","url":"/v1/voice-sessions","host":"localhost:80","remoteAddress":"127.0.0.1"},"msg":"incoming request"}
+{"level":30,"time":1788466817021,"pid":5929,"hostname":"192.168.31.140","reqId":"req-2","res":{"statusCode":202},"responseTime":1.7903749999999263,"msg":"request completed"}
+{"level":30,"time":1788466817021,"pid":5929,"hostname":"192.168.31.140","reqId":"req-3","req":{"method":"POST","url":"/v1/voice-sessions","host":"localhost:80","remoteAddress":"127.0.0.1"},"msg":"incoming request"}
+{"level":30,"time":1788466817073,"pid":5929,"hostname":"192.168.31.140","reqId":"req-1","req":{"method":"POST","url":"/v1/voice-sessions","host":"localhost:80","remoteAddress":"127.0.0.1"},"msg":"incoming request"}
+{"level":30,"time":1788466817022,"pid":5929,"hostname":"192.168.31.140","reqId":"req-3","res":{"statusCode":403},"responseTime":1.040124999999989,"msg":"request completed"}
+{"level":30,"time":1788466817022,"pid":5929,"hostname":"192.168.31.140","reqId":"req-4","req":{"method":"GET","url":"/v1/voice-sessions?workspace_id=01ARZ3NDEKTSV4RRFFQ69G5FAV","host":"localhost:80","remoteAddress":"127.0.0.1"},"msg":"incoming request"}
+{"level":30,"time":1788466817023,"pid":5929,"hostname":"192.168.31.140","reqId":"req-4","res":{"statusCode":200},"responseTime":0.4237500000000409,"msg":"request completed"}
+{"level":30,"time":1788466817023,"pid":5929,"hostname":"192.168.31.140","reqId":"req-5","req":{"method":"GET","url":"/v1/voice-sessions/01DRZ3NDEKTSV4RRFFQ69G5FAV?workspace_id=01ARZ3NDEKTSV4RRFFQ69G5FAV","host":"localhost:80","remoteAddress":"127.0.0.1"},"msg":"incoming request"}
+{"level":30,"time":1788466817023,"pid":5929,"hostname":"192.168.31.140","reqId":"req-5","res":{"statusCode":200},"responseTime":0.48187499999994543,"msg":"request completed"}
+{"level":30,"time":1788466817075,"pid":5929,"hostname":"192.168.31.140","reqId":"req-1","res":{"statusCode":202},"responseTime":2.520334000000048,"msg":"request completed"}
+{"level":30,"time":1788466817076,"pid":5929,"hostname":"192.168.31.140","reqId":"req-2","req":{"method":"POST","url":"/v1/voice-transcripts","host":"localhost:80","remoteAddress":"127.0.0.1"},"msg":"incoming request"}
+{"level":30,"time":1788466817078,"pid":5929,"hostname":"192.168.31.140","reqId":"req-2","res":{"statusCode":202},"responseTime":1.804540999999972,"msg":"request completed"}
+{"level":30,"time":1788466817078,"pid":5929,"hostname":"192.168.31.140","reqId":"req-3","req":{"method":"POST","url":"/v1/voice-sessions/01DRZ3NDEKTSV4RRFFQ69G5FAV/wake","host":"localhost:80","remoteAddress":"127.0.0.1"},"msg":"incoming request"}
+{"level":30,"time":1788466817080,"pid":5929,"hostname":"192.168.31.140","reqId":"req-3","res":{"statusCode":202},"responseTime":2.4583330000000387,"msg":"request completed"}
+{"level":30,"time":1788466817080,"pid":5929,"hostname":"192.168.31.140","reqId":"req-4","req":{"method":"POST","url":"/v1/voice-sessions/01DRZ3NDEKTSV4RRFFQ69G5FAV/interrupt","host":"localhost:80","remoteAddress":"127.0.0.1"},"msg":"incoming request"}
+{"level":30,"time":1788466817082,"pid":5929,"hostname":"192.168.31.140","reqId":"req-4","res":{"statusCode":202},"responseTime":1.9400420000000622,"msg":"request completed"}
+{"level":30,"time":1788466817082,"pid":5929,"hostname":"192.168.31.140","reqId":"req-5","req":{"method":"POST","url":"/v1/voice-sessions/01DRZ3NDEKTSV4RRFFQ69G5FAV/pause","host":"localhost:80","remoteAddress":"127.0.0.1"},"msg":"incoming request"}
+{"level":30,"time":1788466817085,"pid":5929,"hostname":"192.168.31.140","reqId":"req-5","res":{"statusCode":409},"responseTime":2.5716249999999263,"msg":"request completed"}
+{"level":30,"time":1788466817085,"pid":5929,"hostname":"192.168.31.140","reqId":"req-6","req":{"method":"POST","url":"/v1/voice-transcripts/01ERZ3NDEKTSV4RRFFQ69G5FAV/delete","host":"localhost:80","remoteAddress":"127.0.0.1"},"msg":"incoming request"}
+{"level":30,"time":1788466817088,"pid":5929,"hostname":"192.168.31.140","reqId":"req-6","res":{"statusCode":202},"responseTime":2.2547499999999445,"msg":"request completed"}
+{"level":30,"time":1788466817088,"pid":5929,"hostname":"192.168.31.140","reqId":"req-7","req":{"method":"POST","url":"/v1/voice-transcripts/01ERZ3NDEKTSV4RRFFQ69G5FAV/delete","host":"localhost:80","remoteAddress":"127.0.0.1"},"msg":"incoming request"}
+{"level":30,"time":1788466817088,"pid":5929,"hostname":"192.168.31.140","reqId":"req-7","res":{"statusCode":202},"responseTime":0.49654099999997925,"msg":"request completed"}
+{"level":30,"time":1788466817088,"pid":5929,"hostname":"192.168.31.140","reqId":"req-8","req":{"method":"POST","url":"/v1/voice-sessions/01DRZ3NDEKTSV4RRFFQ69G5FAV/resume","host":"localhost:80","remoteAddress":"127.0.0.1"},"msg":"incoming request"}
+{"level":30,"time":1788466817091,"pid":5929,"hostname":"192.168.31.140","reqId":"req-8","res":{"statusCode":202},"responseTime":2.5014169999999467,"msg":"request completed"}
+{"level":30,"time":1788466817091,"pid":5929,"hostname":"192.168.31.140","reqId":"req-9","req":{"method":"POST","url":"/v1/voice-transcripts/01ERZ3NDEKTSV4RRFFQ69G5FAV/delete","host":"localhost:80","remoteAddress":"127.0.0.1"},"msg":"incoming request"}
+{"level":30,"time":1788466817094,"pid":5929,"hostname":"192.168.31.140","reqId":"req-9","res":{"statusCode":202},"responseTime":2.847541000000092,"msg":"request completed"}
+{"level":30,"time":1788466817094,"pid":5929,"hostname":"192.168.31.140","reqId":"req-a","req":{"method":"POST","url":"/v1/voice-transcripts/01ERZ3NDEKTSV4RRFFQ69G5FAV/export","host":"localhost:80","remoteAddress":"127.0.0.1"},"msg":"incoming request"}
+{"level":30,"time":1788466817143,"pid":5929,"hostname":"192.168.31.140","reqId":"req-1","req":{"method":"POST","url":"/v1/voice-sessions","host":"localhost:80","remoteAddress":"127.0.0.1"},"msg":"incoming request"}
+··{"level":30,"time":1788466817095,"pid":5929,"hostname":"192.168.31.140","reqId":"req-a","res":{"statusCode":409},"responseTime":0.9445419999999558,"msg":"request completed"}
+{"level":30,"time":1788466817095,"pid":5929,"hostname":"192.168.31.140","reqId":"req-b","req":{"method":"GET","url":"/v1/voice-sessions/01DRZ3NDEKTSV4RRFFQ69G5FAV?workspace_id=01ARZ3NDEKTSV4RRFFQ69G5FAV","host":"localhost:80","remoteAddress":"127.0.0.1"},"msg":"incoming request"}
+{"level":30,"time":1788466817096,"pid":5929,"hostname":"192.168.31.140","reqId":"req-b","res":{"statusCode":200},"responseTime":0.5212920000000167,"msg":"request completed"}
+{"level":30,"time":1788466817144,"pid":5929,"hostname":"192.168.31.140","reqId":"req-1","res":{"statusCode":400},"responseTime":0.6849999999999454,"msg":"request completed"}
+{"level":30,"time":1788466817144,"pid":5929,"hostname":"192.168.31.140","reqId":"req-2","req":{"method":"POST","url":"/v1/voice-transcripts","host":"localhost:80","remoteAddress":"127.0.0.1"},"msg":"incoming request"}
+{"level":30,"time":1788466817144,"pid":5929,"hostname":"192.168.31.140","reqId":"req-2","res":{"statusCode":400},"responseTime":0.3282080000000178,"msg":"request completed"}
+{"level":30,"time":1788466817145,"pid":5929,"hostname":"192.168.31.140","reqId":"req-3","req":{"method":"POST","url":"/v1/voice-sessions","host":"localhost:80","remoteAddress":"127.0.0.1"},"msg":"incoming request"}
+{"level":30,"time":1788466817145,"pid":5929,"hostname":"192.168.31.140","reqId":"req-3","res":{"statusCode":400},"responseTime":0.39629200000001674,"msg":"request completed"}
+{"level":30,"time":1788466817145,"pid":5929,"hostname":"192.168.31.140","reqId":"req-4","req":{"method":"POST","url":"/v1/voice-sessions","host":"localhost:80","remoteAddress":"127.0.0.1"},"msg":"incoming request"}
+{"level":30,"time":1788466817190,"pid":5929,"hostname":"192.168.31.140","reqId":"req-1","req":{"method":"POST","url":"/v1/voice-sessions","host":"localhost:80","remoteAddress":"127.0.0.1"},"msg":"incoming request"}
+{"level":30,"time":1788466817145,"pid":5929,"hostname":"192.168.31.140","reqId":"req-4","res":{"statusCode":403},"responseTime":0.22262499999999363,"msg":"request completed"}
+{"level":30,"time":1788466817191,"pid":5929,"hostname":"192.168.31.140","reqId":"req-1","res":{"statusCode":409},"responseTime":0.5849160000000211,"msg":"request completed"}
+{"level":30,"time":1788466817191,"pid":5929,"hostname":"192.168.31.140","reqId":"req-2","req":{"method":"POST","url":"/v1/voice-sessions","host":"localhost:80","remoteAddress":"127.0.0.1"},"msg":"incoming request"}
+{"level":30,"time":1788466817191,"pid":5929,"hostname":"192.168.31.140","reqId":"req-2","res":{"statusCode":409},"responseTime":0.35162500000001273,"msg":"request completed"}
+·······························
+
+ Test Files  7 passed (7)
+      Tests  52 passed (52)
+   Start at  04:20:14
+   Duration  3.99s (transform 605ms, setup 0ms, collect 1.42s, tests 1.29s, environment 1ms, prepare 245ms)

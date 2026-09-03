@@ -13,4 +13,5 @@ export { GoalContinuationRepository, GoalLoopCommandRepository, GoalLoopReposito
 export { LearningCandidateRepository, LearningCommandRepository, SkillInstallationRepository, SkillInvocationFactRepository, SkillRepository, SkillReviewRepository, SkillScanRepository, SkillSourceRepository, SkillVersionRepository } from "./skills.js";
 export { GraphIndexSnapshotRepository, JournalEntryRepository, JournalMemoryCandidateRepository, JournalSourceRepository, VaultBridgeRepository, WritebackDecisionRepository, WritebackRequestRepository } from "./journal.js";
 export { BrowserComputerActionRepository, BrowserComputerAllowlistRepository, BrowserComputerApprovalRepository, BrowserComputerReceiptRepository, BrowserComputerSessionRepository, SandboxPolicyRepository, type BrowserComputerActionIntentResult } from "./browser-computer.js";
+export { AudioPolicyRepository, VoiceCommandRepository, VoiceSessionRepository, VoiceTranscriptRepository, WakeWordRepository, type VoiceCommandRecordResult } from "./voice-jarvis.js";
 export { PersistenceError } from "./utils.js";

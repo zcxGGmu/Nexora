@@ -8,6 +8,7 @@ import { GatewayService } from "./services/gateway-service.js";
 import { SkillsService } from "./services/skills-service.js";
 import { JournalService } from "./services/journal-service.js";
 import { BrowserComputerService } from "./services/browser-computer-service.js";
+import { VoiceJarvisService } from "./services/voice-jarvis-service.js";
 import type { SqliteDatabase } from "@nexora/persistence";
 
 const CROCKFORD = "0123456789ABCDEFGHJKMNPQRSTVWXYZ";
@@ -28,6 +29,7 @@ export function createControlServices(input: ControlServicesInput): {
   readonly skills: SkillsService;
   readonly journal: JournalService;
   readonly browserComputer: BrowserComputerService;
+  readonly voiceJarvis: VoiceJarvisService;
 } {
   const idFactory = input.idFactory ?? createUlidFactory();
   return {
@@ -40,6 +42,7 @@ export function createControlServices(input: ControlServicesInput): {
     skills: new SkillsService({ database: input.database, clock: input.clock, idFactory }),
     journal: new JournalService({ database: input.database, clock: input.clock, idFactory }),
     browserComputer: new BrowserComputerService({ database: input.database, clock: input.clock, idFactory }),
+    voiceJarvis: new VoiceJarvisService({ database: input.database, clock: input.clock, idFactory }),
   };
 }
 

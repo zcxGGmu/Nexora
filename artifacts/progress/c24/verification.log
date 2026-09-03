@@ -1,0 +1,100 @@
+# C24 Voice/Jarvis Verification Log
+
+Date: 2026-09-04 CST / 2026-09-03 UTC
+Branch: `codex/agent-os-implementation`
+Scope: C24 Voice/Jarvis control-plane descriptors, persistence, API/CLI, Mission Control, docs, and evidence only.
+
+## Boundary
+
+- Descriptor/control-plane only.
+- No microphone read, speaker playback, STT/VAD/TTS provider call, wake word provider call, MCP call, credential read, external message, or external side effect was implemented or attempted.
+- Browser QA only contacted `http://127.0.0.1:4310` and `http://127.0.0.1:4313`.
+
+## Review Blocker Remediation
+
+- Previous independent review found that C24 SQLite triggers still accepted contract-invalid refs and obfuscated secrets when inserted through raw SQL.
+- Added RED raw-SQL regressions for percent-encoded and double-encoded transcript refs, nested schemes, whitespace, empty artifact paths, leading slash, traversal, backslashes, default-ignorable secret markers, encoded idempotency keys, and encoded payload secret markers.
+- Added RED/GREEN regressions for audio policy and wake word payload parity, descriptor immutability, initial voice session state, immutable session facts, current transcript scope, workspace-global voice command idempotency, and raw SQL idle-resume forgery.
+- Strengthened migration 15 with payload/column parity triggers, transcript artifact ref shape checks, normalized text guards on audio policies, wake words, voice sessions, transcripts, and commands, command-backed state transitions, and same-workspace/session/run `current_transcript_id` checks.
+- The new RED tests failed before the migration fix, then passed after the trigger hardening.
+
+## Focused Verification
+
+```bash
+pnpm exec vitest run \
+  packages/contracts/src/voice-jarvis.test.ts \
+  packages/persistence/src/c24-voice-jarvis.test.ts \
+  apps/api/src/routes/voice-jarvis.test.ts \
+  apps/cli/src/voice-jarvis.test.ts \
+  apps/mission-control/src/app/voice-jarvis-api.test.ts \
+  apps/mission-control/src/pages/voice-jarvis.test.tsx \
+  apps/mission-control/src/app/router.test.tsx \
+  --reporter=dot
+```
+
+- Result: exit 0, 7 files / 52 tests.
+- Evidence: `artifacts/progress/c24/current-verification/c24-focused-current-20260903T202014Z.log` and `.exit`.
+
+Persistence blocker proof:
+
+```bash
+pnpm exec vitest run packages/persistence/src/c24-voice-jarvis.test.ts --reporter=dot
+```
+
+- RED before migration hardening: exit 1, failing tests for raw SQL transcript artifact grammar, normalized secret markers, payload parity, immutable descriptors, initial session state, `current_transcript_id` scope, command idempotency scope, and idle resume forgery.
+- GREEN after migration hardening: exit 0, 1 file / 19 tests.
+
+## Full Matrix
+
+Evidence directory: `artifacts/progress/c24/current-verification/full-matrix-current-20260903T202133Z`
+
+| Command | Exit | Result |
+|---|---:|---|
+| `pnpm lint` | 0 | `lint: 375 source files checked` |
+| `pnpm typecheck` | 0 | TypeScript project compiled with `--noEmit` |
+| `pnpm test --run --reporter=dot --silent` | 0 | 124 files / 714 tests |
+| `pnpm test:integration` | 0 | 14 files / 37 tests |
+| `pnpm test:e2e` | 0 | 6 Playwright tests |
+| `pnpm --filter @nexora/mission-control build` | 0 | Vite build completed |
+| `pnpm audit --audit-level=high` | 0 | No known vulnerabilities found |
+
+Known warnings:
+
+- Host Node emitted the expected engine warning: project wants `>=22.13.0 <23.0.0`, current host is `v25.9.0` with pnpm `10.10.0`.
+- Vite emitted existing third-party `"use client"` bundle warnings and a chunk-size warning for Mission Control.
+- One discarded retry attempt under a nested bash login shell used Node `v14.17.0` and failed all pnpm commands before any validation ran. The passing matrix above was rerun under the project shell with Node `v25.9.0`; no engine constraints were changed.
+
+## Visual QA
+
+URL: `http://127.0.0.1:4313/voice-jarvis?workspace=ws-demo`
+
+Command:
+
+```bash
+NEXORA_C24_QA_STAMP=20260903T202312Z \
+  pnpm exec tsx artifacts/progress/c24/current-verification/voice-jarvis-visual-qa.ts
+file artifacts/progress/c24/current-verification/c24-voice-jarvis-desktop-20260903T202312Z.png \
+  artifacts/progress/c24/current-verification/c24-voice-jarvis-desktop-post-actions-20260903T202312Z.png \
+  artifacts/progress/c24/current-verification/c24-voice-jarvis-mobile-20260903T202312Z.png
+```
+
+- Result: visual QA exit 0; `file` exit 0.
+- Desktop screenshot: `c24-voice-jarvis-desktop-20260903T202312Z.png`, PNG 1440 x 900.
+- Desktop post-actions screenshot: `c24-voice-jarvis-desktop-post-actions-20260903T202312Z.png`, PNG 1440 x 900.
+- Mobile screenshot: `c24-voice-jarvis-mobile-20260903T202312Z.png`, PNG 390 x 844.
+- Summary: `c24-voice-jarvis-visual-qa-summary-20260903T202312Z.json`.
+- Observed: audio policy, wake word, voice sessions, transcript facts, command facts, descriptor-only/no external/no microphone boundary, Wake, Interrupt, Pause, Delete transcript, and Export transcript controls were visible.
+- Layout: no horizontal overflow on desktop or mobile, mobile bottom navigation had 5 items, and no invalid `aria-labelledby` references were detected.
+
+## Code And Security Review
+
+- Earlier post-fix independent code review reported no blocking/high findings after the idle-resume raw SQL forgery fix.
+- Earlier post-fix independent security review reported no blocking/high security findings after descriptor-only audio/provider, Owner writes, `run:read`, `If-Match`, idempotency, SQL parity, append-only facts, current transcript scope, normalized redaction, and live API/UI wiring review.
+- A fresh independent-review rerun in this continuation could not start because the platform returned `agent thread limit reached`. This limitation is recorded rather than treated as a new independent pass.
+- Local review covered scope isolation, RBAC, idempotency, optimistic concurrency, SQL parameterization, SQLite triggers/foreign keys, append-only transcript/command facts, command-backed session transitions, transcript lifecycle derivation, raw-SQL parity, normalized secret redaction, API/UI live wiring, and no external audio/provider side effects.
+- Local scans found no C24 source use of real microphone APIs, audio playback APIs, provider SDK calls, MCP calls, external network side effects, `any`, `@ts-ignore`, `@ts-expect-error`, non-null assertion patterns, or unstaged whitespace errors.
+
+## Remaining Limits
+
+- C24 has no live audio runtime, no voice provider integration, no transcript artifact writer, no voiceprint storage, and no external connector/MCP execution.
+- Future live Voice/Jarvis stages need separate consent, sandboxing, provider credential mediation, retention policy, rate limits, and external side-effect receipts.

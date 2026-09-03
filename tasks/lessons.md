@@ -132,3 +132,21 @@
 - Pattern: A descriptor receipt can pass action-level policy checks while carrying a foreign or nonexistent child fact reference, leaving durable audit rows with dangling evidence pointers.
 - Correction: C23 action receipts now reject non-null `screenshot_id` unless the referenced screenshot receipt already exists for the same workspace, browser/computer session, and action intent; the invariant is enforced in both repository code and SQLite triggers with RED/GREEN coverage for repository and raw SQL paths.
 - Rule: When append-only facts reference sibling evidence facts, validate existence and same-parent scope at every write layer, not only the primary action/session policy; include raw SQL bypass tests before closing the stage.
+
+## 2026-09-03 — Resume requests must continue from live workspace state
+
+- Pattern: After repeated “continue” requests, stopping at a handoff summary or restarting stale checks wastes the user's correction and leaves the next concrete action undone.
+- Correction: Resume turns must first read live `git status`, current fact sources, and the handoff boundary, then immediately execute the next safe scoped action.
+- Rule: When the user says “继续” after an interruption, treat the newest request as an execution command: verify live state, preserve dirty work, and advance the current phase without waiting for another prompt.
+
+## 2026-09-04 — Voice descriptor redaction needs normalized DB parity
+
+- Pattern: C24 contract and repository checks rejected unsafe Voice/Jarvis refs, but raw SQLite inserts could still persist percent-encoded, double-encoded, default-ignorable, nested-scheme, whitespace, traversal, or backslash-shaped transcript refs and command text.
+- Correction: Add raw-SQL RED tests before closing the stage, then mirror contract normalization in migration triggers for every C24 text surface and transcript artifact ref grammar.
+- Rule: For Voice/Jarvis or other descriptor stages, a focused green suite is insufficient until raw persistence bypass tests cover normalized secret/path variants across refs, payload JSON, reasons, and idempotency keys.
+
+## 2026-09-04 — Descriptor state transitions need command-backed SQL parity
+
+- Pattern: C24 service logic created wake/pause/interrupt/resume command facts, but raw SQL could update a voice session into resumed state from an invalid old state without the matching append-only command evidence.
+- Correction: Add RED coverage for idle resume forgery, then require migration triggers to validate both the old state and same-workspace/session/run command backing before accepting descriptor state changes.
+- Rule: Whenever a descriptor stage derives mutable status from append-only command facts, enforce the transition preconditions and command binding in repository code and SQLite triggers, not only in API/service handlers.

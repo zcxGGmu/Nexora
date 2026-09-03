@@ -88,6 +88,12 @@ function resourcePath(objectType: string, objectId: string): string {
       return `/v1/browser-action-receipts/${objectId}`;
     case "browser_session":
       return `/v1/browser-sessions/${objectId}`;
+    case "voice_session":
+      return `/v1/voice-sessions/${objectId}`;
+    case "voice_transcript":
+      return `/v1/voice-transcripts/${objectId}`;
+    case "voice_command":
+      return `/v1/voice-commands/${objectId}`;
     case "tool_descriptor":
       return `/v1/registry/tools/${objectId}`;
     default:

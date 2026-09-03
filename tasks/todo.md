@@ -225,17 +225,39 @@ Ownership review: focused contracts/persistence/API gateway tests pass (13 tests
 - [x] Visual QA PASS：`/browser-computer?workspace=ws-demo` fresh PNGs `c23-browser-computer-desktop-20260903T193322.png`、`c23-browser-computer-desktop-post-actions-20260903T193322.png`、`c23-browser-computer-mobile-20260903T193322.png` 经 `file` 验证为 1440x900、1440x900、390x844；summary 确认无横向溢出、无非法 ARIA refs、五项移动导航、Pause/Stop/Takeover/Approve/Acknowledge 控件、descriptor-only 和 no-external-connection 边界可见，仅访问 `127.0.0.1:4310`/`4313`。
 - [x] Code/security review：独立代码审查发现 action receipt 可引用不存在 screenshot 的 CRITICAL blocker，已用 repository guard、SQLite trigger 和 RED/GREEN raw SQL/repository regression 修复；post-fix 独立代码复审与安全复核均无 blocking finding；本地 `git diff --check` 与 `pnpm audit --audit-level=high` exit 0。
 - [x] Evidence paths：`artifacts/progress/c23/verification.log`、`artifacts/progress/c23/current-verification/`、`docs/adr/0018-browser-computer-use-control-plane.md`、`docs/runbooks/browser-computer-operations.md`。
-- [x] Scoped commit：pending post-commit SHA capture（`feat: add browser computer control plane`）。
+- [x] Scoped commit：`3a4652aaed9b0a313460a6753865311aeca13959`（`feat: add browser computer control plane`）。
 
 ## C24 / Voice、Jarvis（下一阶段）
 
 范围：实现 Voice/Jarvis control-plane descriptors、STT/VAD/TTS/wake word/Wall mode/interrupt/recording policy/voiceprint policy/transcript lifecycle 的测试优先切片。C24 仍保持 descriptor/control-plane only，默认不读取麦克风、不播放音频、不连接真实语音 provider、不读取凭据、不产生外部副作用。
 
-- [ ] C24.1 写 contracts RED：VoiceSessionDescriptor、AudioPolicy、WakeWordDescriptor、TranscriptDescriptor、VoiceCommand、Interrupt/Pause/Resume、retention/delete/export policy。
-- [ ] C24.2 写 persistence RED：migration、typed repositories、append-only transcript/command facts、workspace/run/session scope、budget/deadline、optimistic versioning。
-- [ ] C24.3 写 API/CLI RED：Owner 写、`run:read` 读、Idempotency-Key、If-Match、`/voice`/`/jarvis` 控制命令保持 descriptor-only。
-- [ ] C24.4 写 Mission Control RED：Voice/Jarvis 页面、desktop/mobile responsive、wake/interrupt/delete/export controls、no microphone/provider boundary。
-- [ ] C24.5 运行 focused RED，确认失败原因是 C24 实现缺失而非装配错误。
+- [x] C24.1 写 contracts RED/GREEN：VoiceSessionDescriptor、AudioPolicy、WakeWordDescriptor、TranscriptDescriptor、VoiceCommand、Interrupt/Pause/Resume、retention/delete/export policy。
+- [x] C24.2 写 persistence RED/GREEN：migration 15、typed repositories、append-only transcript/command facts、workspace/run/session scope、budget/deadline、optimistic versioning。
+- [x] C24.3 写 API/CLI RED/GREEN：Owner 写、`run:read` 读、Idempotency-Key、If-Match、`/voice`/`/jarvis` 控制命令保持 descriptor-only。
+- [x] C24.4 写 Mission Control RED/GREEN：Voice/Jarvis 页面、desktop/mobile responsive、wake/interrupt/delete/export controls、no microphone/provider boundary。
+- [x] C24.5 运行 focused RED/GREEN，确认失败原因是 C24 实现缺失和后续 raw-SQL / idle-resume review blocker，而非装配错误；当前 C24 focused suite PASS，7 files / 52 tests。
+- [x] C24.6 运行 full verification matrix：`pnpm lint`、`pnpm typecheck`、full Vitest、integration、e2e、Mission Control build 和安全扫描；fresh matrix 全部 exit 0，unit 124 files / 714 tests，integration 14 files / 37 tests，E2E 6 tests。
+- [x] C24.7 完成 `/voice-jarvis?workspace=ws-demo` 真实浏览器 1440x900 与 390x844 视觉 QA，保存新鲜 PNG 并验证格式/尺寸；desktop、post-actions、mobile 无横向溢出，移动底部导航 5 项。
+- [x] C24.8 完成代码/安全复核：post-fix 独立代码和安全审查均无 blocking/high finding；本轮 fresh subagent 复核因 `agent thread limit reached` 无法启动，已记录限制并完成本地 scope/RBAC/idempotency/optimistic concurrency/SQL trigger/append-only/secret/no-external-call/API-UI wiring 清单。
+- [x] C24.9 更新 `artifacts/progress/c24/verification.log`、ADR/runbook、任务事实源和 lessons；新增 command-backed state transition 和 normalized DB parity lessons。
+- [ ] C24.10 创建单一 scoped C24 commit，记录完整 SHA 后再进入 C25。
+
+### C24 Review Blocker Remediation / Current Continuation
+
+- [x] C24.R1 写 RED 覆盖 audio policy / wake word payload parity、voice session update immutable/secret drift、`current_transcript_id` create/update scope。
+- [x] C24.R2 最小修复 migration、typed repositories 和 API service；保持 descriptor/control-plane only，不读取麦克风、不播放音频、不连接 provider。
+- [x] C24.R3 重跑 C24 focused suite、typecheck 和完整验证矩阵，记录 fresh exit code、测试文件数和测试数量。
+- [x] C24.R4 重做 `/voice-jarvis?workspace=ws-demo` 1440x900、post-actions 和 390x844 真实浏览器视觉 QA，验证 PNG 格式和尺寸。
+- [x] C24.R5 完成 post-fix 独立代码/安全复核；idle-resume raw SQL blocker 已 RED/GREEN 修复，post-fix reviewer 无 blocking/high finding，本轮 fresh reviewer dispatch 因平台线程上限不可用并已记录。
+
+### C24 Review
+
+- [x] Focused C24 validation PASS：`pnpm exec vitest run packages/contracts/src/voice-jarvis.test.ts packages/persistence/src/c24-voice-jarvis.test.ts apps/api/src/routes/voice-jarvis.test.ts apps/cli/src/voice-jarvis.test.ts apps/mission-control/src/app/voice-jarvis-api.test.ts apps/mission-control/src/pages/voice-jarvis.test.tsx apps/mission-control/src/app/router.test.tsx --reporter=dot`，exit 0，7 files / 52 tests；fresh evidence `artifacts/progress/c24/current-verification/c24-focused-current-20260903T202014Z.log`。
+- [x] Full verification PASS：`pnpm lint` 375 source files、`pnpm typecheck`、full Vitest 124 files / 714 tests、integration 14 files / 37 tests、E2E 6 tests、Mission Control build、`pnpm audit --audit-level=high` 全部 exit 0；fresh summary `artifacts/progress/c24/current-verification/full-matrix-current-20260903T202133Z/summary.log`。
+- [x] Visual QA PASS：`/voice-jarvis?workspace=ws-demo` fresh PNGs `c24-voice-jarvis-desktop-20260903T202312Z.png`、`c24-voice-jarvis-desktop-post-actions-20260903T202312Z.png`、`c24-voice-jarvis-mobile-20260903T202312Z.png` 经 `file` 验证为 1440x900、1440x900、390x844；summary 确认无横向溢出、无非法 ARIA refs、五项移动导航、Wake/Interrupt/Pause/Delete transcript/Export transcript 控件、descriptor-only/no-external/no-microphone 边界可见。
+- [x] Code/security review：review blocker 包括 raw SQL unsafe refs、payload parity、immutable descriptor/session drift、`current_transcript_id` scope、workspace-global command idempotency 和 idle resume forgery，均已用 contracts/service/repository/migration triggers 和 RED/GREEN regressions 修复；post-fix 独立代码/安全审查无 blocking/high finding；本轮 fresh reviewer dispatch 受 `agent thread limit reached` 限制，本地清单与 `git diff --check`/`pnpm audit` 无 blocker。
+- [x] Evidence paths：`artifacts/progress/c24/verification.log`、`artifacts/progress/c24/current-verification/`、`docs/adr/0019-voice-jarvis-control-plane.md`、`docs/runbooks/voice-jarvis-operations.md`。
+- [ ] Scoped commit：pending post-commit SHA capture（`feat: add voice jarvis control plane`）。
 
 ## Review
 
