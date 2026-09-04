@@ -1,26 +1,93 @@
 # Nexora
-Nexora is a next-generation multi-agent workspace for OpenClaw, Hermes, and beyond. It provides a unified command surface for orchestrating agent sessions, managing tasks, reviewing outputs, approving tool actions, extending skills, and observing agent collaboration across local and remote runtimes.
 
-## Development
+Nexora is a local-first Agent OS control plane for coordinating multi-agent work across Mission Control, typed APIs, durable SQLite facts, review gates, skills, memory, and descriptor-only integrations.
 
-Nexora uses a pnpm TypeScript monorepo and targets Node.js 22. The C00 bootstrap is intentionally local-first: the API and worker validate their environment at startup, while the Mission Control app is a real React/Vite DOM shell.
+The project is inspired by the README shape of [LazyCodex](https://github.com/code-yeongyu/lazycodex): start with the promise, show the install and verification path, keep the command surface visible, and make the completion boundary explicit. Nexora applies that style to its own system: a product runtime with strict contracts, append-only evidence, Mission Control UI, and no hidden external side effects.
+
+## Current Status
+
+- Latest completed stage: C25 Studio / Media / NotebookLM / Avatar control plane.
+- Latest scoped commit: `0a3df795210f4b1520036f85b2a1df55adbc5335` (`feat: add studio media control plane`).
+- Current readiness: C26 Teams / Paperclip / Antigravity is the next planned stage.
+- Runtime boundary: local control-plane and descriptor-only unless a later stage explicitly enables a real adapter.
+- Verification evidence: focused, unit, integration, e2e, Mission Control build, visual QA, ADRs, runbooks, and progress logs live under `artifacts/progress/` and `docs/`.
+
+## What Works Today
+
+Nexora currently provides a verified local control plane for:
+
+| Area | What it covers | Boundary |
+|---|---|---|
+| Runtime registry | Runtime, provider, model, backend, tool, and MCP catalog descriptors | No real provider or MCP execution |
+| Gateway | Gateway, channel, session, cursor checkpoint, message idempotency, delivery receipts, allowlists | No Telegram, Discord, Slack, WhatsApp, Signal, Web, or API provider connection |
+| Goal Mode | Continuation, auxiliary Judge JSON, max turns, subgoals, pause/resume, deadline and budget controls | No real external Judge provider |
+| Skills/Learning | Skill descriptors, versions, approved snapshots, quarantine, learning candidates, `/learn` | No external skill install or MCP execution |
+| Journal | Vault bridge descriptors, source snapshots, graph/FTS snapshots, memory candidates, writeback review facts | No real Obsidian/OMI/MCP writeback |
+| Browser/Computer | Browser/computer session descriptors, sandbox policy, target allowlists, approvals, action and screenshot receipts | No live browser or desktop automation |
+| Voice/Jarvis | Audio policy, wake word, voice session, transcript lifecycle, wall-mode commands | No microphone read, speaker playback, STT/VAD/TTS, or voice provider call |
+| Studio/Media | Media artifacts, render jobs, Notebook sources/generations, avatar consent, share and command facts | No NotebookLM, media/avatar provider, URL/PDF/Drive pull, render, or publish |
+
+## Install
+
+Use Node.js 22 and pnpm 10.10.0. The repository is intentionally local-first and does not require an external database, queue, provider account, telemetry collector, or SaaS credential.
 
 ```bash
-pnpm install
+nvm use
+pnpm install --frozen-lockfile
 cp .env.example .env
-pnpm typecheck
-pnpm test --run
 ```
+
+Minimum environment:
+
+```bash
+NEXORA_DATA_DIR=./.nexora/data
+NEXORA_API_HOST=127.0.0.1
+NEXORA_API_PORT=4310
+NEXORA_LOG_LEVEL=info
+NEXORA_AUTH_MODE=local
+NEXORA_DB_PATH=./.nexora/data/nexora.sqlite
+NEXORA_MIGRATION_MODE=auto
+```
+
+## Verify It Works
+
+Nexora does not have a single `doctor` command yet. Use this verification loop as the project health check:
+
+```bash
+pnpm lint
+pnpm typecheck
+pnpm test --run --reporter=dot --silent
+pnpm test:integration
+pnpm test:e2e
+pnpm --filter @nexora/mission-control build
+```
+
+Useful focused checks:
+
+```bash
+pnpm exec vitest run packages/contracts/src/studio-media.test.ts packages/persistence/src/c25-studio-media.test.ts apps/api/src/routes/studio-media.test.ts apps/cli/src/studio-media.test.ts apps/mission-control/src/pages/studio-media.test.tsx apps/mission-control/src/app/router.test.tsx --reporter=dot
+pnpm exec vitest run apps/api/src/routes/gateway.test.ts apps/api/src/routes/goal-mode.test.ts apps/api/src/routes/skills-learning.test.ts --reporter=dot
+```
+
+The desktop environment may emit an engine warning if Node is newer than the project range. The project target is `>=22.13.0 <23.0.0`; record the warning instead of changing the engine constraint.
+
+## Run Locally
 
 Run the services in separate terminals:
 
 ```bash
 pnpm dev:api       # http://127.0.0.1:4310
-pnpm dev:worker    # structured idle log; Ctrl-C stops it
+pnpm dev:worker    # local orchestration worker
 pnpm dev:web       # http://127.0.0.1:4311
 ```
 
-Run a release-like local stack with SQLite in a named volume:
+Seed a deterministic local workspace graph:
+
+```bash
+NEXORA_DATA_DIR=/tmp/nexora-local/data pnpm tsx tests/fixtures/seed-workspace.ts --data-dir /tmp/nexora-local/data
+```
+
+Run a release-like loopback stack with SQLite in a named volume:
 
 ```bash
 docker compose config
@@ -31,60 +98,118 @@ curl -fsS -I http://127.0.0.1:4311/
 docker compose down
 ```
 
-The compose file is local-only: API and web bind to loopback, auth is disabled only for this smoke stack, and no external database, queue, telemetry backend, provider, or connector is started.
+The compose stack is local-only: API and web bind to loopback, SQLite stays local, and no provider, connector, external database, queue, or telemetry backend is started.
 
-Create a deterministic QA workspace graph and exercise the explicit fault fixture:
+## Command And API Surface
 
-```bash
-NEXORA_DATA_DIR=/tmp/nexora-c16/data pnpm tsx tests/fixtures/seed-workspace.ts --data-dir /tmp/nexora-c16/data
+HTTP commands return `202 Accepted` when a control fact is recorded. That status does not mean external business work completed. Completion, review, and recovery are observed through persisted descriptors, events, receipts, and projections.
+
+Common API surfaces:
+
+| Surface | Example |
+|---|---|
+| Health | `GET /v1/health` |
+| Registry | `GET /v1/registry?workspace_id=...` |
+| Gateway | `GET /v1/gateway?workspace_id=...` |
+| Goal Mode | `GET /v1/goal-loops?workspace_id=...` |
+| Skills/Learning | `GET /v1/skills?workspace_id=...` |
+| Journal | `GET /v1/journal?workspace_id=...` |
+| Browser/Computer | `GET /v1/browser-computer?workspace_id=...` |
+| Voice/Jarvis | `GET /v1/voice-sessions?workspace_id=...` |
+| Studio/Media | `GET /v1/studio?workspace_id=...` |
+
+Writes require Owner workspace authority and an `Idempotency-Key`. Versioned updates and operator commands require `If-Match`. Reads require `run:read`. Error responses use stable redacted contracts and never echo secrets, tokens, rejected raw values, or internal file paths.
+
+## Mission Control
+
+Mission Control is a React/Vite control surface for local operations. Current pages include:
+
+- Inbox, goals, tickets, runs, reviews, artifacts, memory, workflows, and design system.
+- Registry, Gateway, Goal Mode, Skills/Learning, Journal, Browser/Computer, Voice/Jarvis, and Studio/Media.
+- Desktop and mobile responsive layouts with a five-item mobile bottom nav used by the current QA gates.
+
+Representative local URLs:
+
+```text
+http://127.0.0.1:4311/
+http://127.0.0.1:4311/registry?workspace=ws-demo
+http://127.0.0.1:4311/gateway?workspace=ws-demo
+http://127.0.0.1:4311/studio-media?workspace=ws-demo
 ```
 
-See [docs/runbooks/development.md](docs/runbooks/development.md), [docs/runbooks/release.md](docs/runbooks/release.md), and [docs/runbooks/e2e-journeys.md](docs/runbooks/e2e-journeys.md) for the full verification and handoff flow. Backup and security recovery remain documented in [docs/runbooks/backup-restore.md](docs/runbooks/backup-restore.md) and [docs/runbooks/security-incident.md](docs/runbooks/security-incident.md).
+Some stage visual QA scripts use port `4313` to isolate browser tests from the normal development server.
 
-The API requires `NEXORA_DATA_DIR`; other C00 settings have local-safe defaults. Configuration errors are typed and only report field names, never environment values. The bootstrap health contract is:
+## Safety Model
 
-```json
-{"status":"ok","version":"0.1.0","checks":{"api":"ok","db":"not_configured","queue":"not_configured"}}
-```
+Nexora is built around conservative control-plane guarantees:
+
+- Strict Zod wire contracts reject unknown fields and invalid versions.
+- SQLite migrations enforce workspace/run scope, foreign keys, payload/column parity, append-only facts, and guarded state transitions.
+- Idempotency keys bind to stable client-controlled semantics; changed replay is rejected.
+- `If-Match` optimistic concurrency prevents stale operator commands from silently winning.
+- Descriptor references reject `secret://`, raw local paths, HTTP(S) where unsafe, traversal, backslashes, encoded secret/path markers, default-ignorable characters, and credential-shaped text.
+- External execution is denied by default until a later stage adds an explicit adapter, consent, sandbox, policy, receipts, and verification gates.
 
 ## Repository Layout
 
 ```text
-apps/api/              Fastify Control API and health route
-apps/worker/           stoppable idle worker entrypoint
-apps/mission-control/  React/Vite Mission Control shell
-packages/config/       Zod environment boundary
-tests/fixtures/        deterministic seed and fault injection fixtures
-Dockerfile.*           Node 22 service images for local release smoke
-docker-compose.yml      API, worker, web, and SQLite data volume
-docs/adr/              architecture decisions
-artifacts/progress/    command and runtime evidence by commit
+apps/api/              Fastify Control API, auth, command routes, local bootstrap
+apps/cli/              Parser for descriptor-only control commands
+apps/mission-control/  React/Vite Mission Control UI
+apps/worker/           Local orchestration worker entrypoint
+packages/contracts/    Versioned Zod wire contracts
+packages/persistence/  SQLite migrations, schema, repositories, rollback checks
+packages/policy/       Workspace scope and authorization decisions
+packages/orchestration/ Durable queue, schedules, leases, recovery
+packages/runtime-adapters/ Deterministic, local, and remote adapter contracts
+packages/memory/       Markdown-backed memory and receipts
+packages/artifacts/    Artifact metadata and persistence helpers
+packages/connectors/   Connector contracts and policy-safe descriptors
+tests/                 Integration, e2e, fixtures, and recovery drills
+docs/adr/              Architecture decision records
+docs/runbooks/         Operator runbooks and incident/recovery procedures
+artifacts/progress/    Stage evidence, verification logs, screenshots, handoffs
 ```
 
 ## Architecture
 
-The production direction is a single TypeScript monorepo. React/Vite Mission Control calls the Fastify Control API. The current release candidate includes typed domain commands, SQLite as the state source, an append-only event store, durable worker orchestration, schedules, recovery, and a workspace-scoped Runtime/Provider Registry. Registry descriptors are declarative facts only: they do not connect Hermes, call a provider, install MCP, or execute a tool.
+Nexora is a TypeScript monorepo. Mission Control calls the Fastify Control API. The API writes strict descriptor records and command facts into SQLite. Domain packages define contracts, policy, persistence, orchestration, runtime adapter boundaries, memory, artifacts, and connector descriptors.
 
-## Versioned Contracts
+The design favors durable facts over implicit process memory:
 
-The `@nexora/contracts` package is the C01 wire-contract boundary. Persisted domain records use raw canonical uppercase 26-character ULIDs and include `schema_version: 1` with workspace and UTC timestamp metadata. Contract objects are strict: unknown top-level and nested fields are rejected. Schema version and runtime protocol version are independent axes and are rejected when old or future.
+- SQLite is the source of truth for run state, descriptors, events, schedules, receipts, and projections.
+- Markdown vault files summarize memory and operational artifacts where human readability matters.
+- Append-only facts back reviews, delivery receipts, browser/computer actions, voice commands, render jobs, Notebook generations, shares, and Studio commands.
+- Recovery is based on checkpoints, leases, persisted cursors, idempotency records, and explicit runbooks.
 
-C02 uses Node 22.13+'s built-in `node:sqlite` module. `pnpm db:migrate` applies the versioned SQLite migration to `NEXORA_DB_PATH` (defaulting to `<NEXORA_DATA_DIR>/nexora.sqlite`); `NEXORA_MIGRATION_MODE=validate` checks that migration 1 is already applied without changing the database.
+## Documentation
 
-Commands are asynchronous. An HTTP `202 Accepted` means the command was accepted for processing; it does not mean business work completed. Clients observe completion through versioned run and event contracts.
+Start here for operations and design details:
 
-The C17/C18 registry surface is available at `GET /v1/registry?workspace_id=...` and typed `GET/POST/PUT /v1/registry/{runtimes,providers,models,backends,tools}` routes. Reads require `run:read`; registration and updates require `workspace:admin`, an `Idempotency-Key`, and updates also require `If-Match`. See [docs/runbooks/registry-operations.md](docs/runbooks/registry-operations.md) and [ADR-0013](docs/adr/0013-runtime-provider-registry.md).
+- [Development runbook](docs/runbooks/development.md)
+- [Release runbook](docs/runbooks/release.md)
+- [Backup and restore](docs/runbooks/backup-restore.md)
+- [Registry operations](docs/runbooks/registry-operations.md)
+- [Gateway operations](docs/runbooks/gateway-operations.md)
+- [Goal Mode operations](docs/runbooks/goal-mode-operations.md)
+- [Skills/Learning operations](docs/runbooks/skills-learning-operations.md)
+- [Journal operations](docs/runbooks/journal-operations.md)
+- [Browser/Computer operations](docs/runbooks/browser-computer-operations.md)
+- [Voice/Jarvis operations](docs/runbooks/voice-jarvis-operations.md)
+- [Studio/Media operations](docs/runbooks/studio-media-operations.md)
 
-Error responses have a stable shape and never echo rejected values or third-party text:
+Architecture decisions live in [docs/adr](docs/adr). The active progress ledger is [tasks/agent-os-progress.md](tasks/agent-os-progress.md).
 
-```json
-{
-  "schema_version": 1,
-  "code": "SCHEMA_INVALID",
-  "message": "Contract validation failed",
-  "retryable": false,
-  "required_action": "correct_request",
-  "trace_id": "01ARZ3NDEKTSV4RRFFQ69G5FAV",
-  "details": [{"path":["title"],"code":"invalid_type"}]
-}
-```
+## Roadmap
+
+The next planned stages are:
+
+| Stage | Scope | Boundary |
+|---|---|---|
+| C26 | Teams, Paperclip, Antigravity descriptors, parallel attempts, dependencies, merge/review facts | Control-plane only |
+| C27 | Business connector descriptors for Oracle, GSC, WordPress, Hunter, Firecrawl, Google Workspace, and Outreach | Draft/review by default; real OAuth and side effects require explicit authorization |
+| C28 | VPS/private/mobile deployment, backup/restore, Tailscale/Cloudflare, mobile approval, remote revoke | Deployment and remote safety gates before live operation |
+
+## License
+
+Private repository. Add a license file before distributing outside the project owner boundary.
