@@ -1,14 +1,14 @@
 # Nexora
 
-Nexora is a local-first Agent OS control plane for coordinating multi-agent work across Mission Control, typed APIs, durable SQLite facts, review gates, skills, memory, and descriptor-only integrations.
+Nexora is a local-first Agent OS control plane for coordinating multi-agent work across Mission Control, typed APIs, durable facts, review gates, skills, memory, and descriptor-only integrations.
 
-The project is inspired by the README shape of [LazyCodex](https://github.com/code-yeongyu/lazycodex): start with the promise, show the install and verification path, keep the command surface visible, and make the completion boundary explicit. Nexora applies that style to its own system: a product runtime with strict contracts, append-only evidence, Mission Control UI, and no hidden external side effects.
+It is designed to make the operating boundary explicit: commands record durable control-plane facts, reviews, receipts, and checkpoints, while external execution stays disabled until a later stage adds explicit adapters, consent, sandboxing, policy gates, and verification evidence.
 
 ## Current Status
 
-- Latest completed stage: C25 Studio / Media / NotebookLM / Avatar control plane.
+- Latest completed stage: C25 Studio / Media / Avatar control plane.
 - Latest scoped commit: `0a3df795210f4b1520036f85b2a1df55adbc5335` (`feat: add studio media control plane`).
-- Current readiness: C26 Teams / Paperclip / Antigravity is the next planned stage.
+- Current readiness: C26 multi-agent team coordination and attachment descriptors are the next planned stage.
 - Runtime boundary: local control-plane and descriptor-only unless a later stage explicitly enables a real adapter.
 - Verification evidence: focused, unit, integration, e2e, Mission Control build, visual QA, ADRs, runbooks, and progress logs live under `artifacts/progress/` and `docs/`.
 
@@ -18,14 +18,14 @@ Nexora currently provides a verified local control plane for:
 
 | Area | What it covers | Boundary |
 |---|---|---|
-| Runtime registry | Runtime, provider, model, backend, tool, and MCP catalog descriptors | No real provider or MCP execution |
-| Gateway | Gateway, channel, session, cursor checkpoint, message idempotency, delivery receipts, allowlists | No Telegram, Discord, Slack, WhatsApp, Signal, Web, or API provider connection |
+| Runtime registry | Runtime, provider, model, backend, tool, and protocol catalog descriptors | No real provider or external tool execution |
+| Gateway | Gateway, channel, session, cursor checkpoint, message idempotency, delivery receipts, allowlists | No live messaging, web, or API provider connection |
 | Goal Mode | Continuation, auxiliary Judge JSON, max turns, subgoals, pause/resume, deadline and budget controls | No real external Judge provider |
-| Skills/Learning | Skill descriptors, versions, approved snapshots, quarantine, learning candidates, `/learn` | No external skill install or MCP execution |
-| Journal | Vault bridge descriptors, source snapshots, graph/FTS snapshots, memory candidates, writeback review facts | No real Obsidian/OMI/MCP writeback |
+| Skills/Learning | Skill descriptors, versions, approved snapshots, quarantine, learning candidates, `/learn` | No external skill install or tool execution |
+| Journal | Vault bridge descriptors, source snapshots, graph/FTS snapshots, memory candidates, writeback review facts | No real external vault, wearable, or protocol writeback |
 | Browser/Computer | Browser/computer session descriptors, sandbox policy, target allowlists, approvals, action and screenshot receipts | No live browser or desktop automation |
 | Voice/Jarvis | Audio policy, wake word, voice session, transcript lifecycle, wall-mode commands | No microphone read, speaker playback, STT/VAD/TTS, or voice provider call |
-| Studio/Media | Media artifacts, render jobs, Notebook sources/generations, avatar consent, share and command facts | No NotebookLM, media/avatar provider, URL/PDF/Drive pull, render, or publish |
+| Studio/Media | Media artifacts, render jobs, source/generation descriptors, avatar consent, share and command facts | No media/avatar provider, URL/PDF/Drive pull, render, or publish |
 
 ## Install
 
@@ -122,7 +122,7 @@ Writes require Owner workspace authority and an `Idempotency-Key`. Versioned upd
 
 ## Mission Control
 
-Mission Control is a React/Vite control surface for local operations. Current pages include:
+Mission Control is the local web control surface for operations. Current pages include:
 
 - Inbox, goals, tickets, runs, reviews, artifacts, memory, workflows, and design system.
 - Registry, Gateway, Goal Mode, Skills/Learning, Journal, Browser/Computer, Voice/Jarvis, and Studio/Media.
@@ -143,7 +143,7 @@ Some stage visual QA scripts use port `4313` to isolate browser tests from the n
 
 Nexora is built around conservative control-plane guarantees:
 
-- Strict Zod wire contracts reject unknown fields and invalid versions.
+- Strict wire contracts reject unknown fields and invalid versions.
 - SQLite migrations enforce workspace/run scope, foreign keys, payload/column parity, append-only facts, and guarded state transitions.
 - Idempotency keys bind to stable client-controlled semantics; changed replay is rejected.
 - `If-Match` optimistic concurrency prevents stale operator commands from silently winning.
@@ -153,11 +153,11 @@ Nexora is built around conservative control-plane guarantees:
 ## Repository Layout
 
 ```text
-apps/api/              Fastify Control API, auth, command routes, local bootstrap
+apps/api/              Control API, auth, command routes, local bootstrap
 apps/cli/              Parser for descriptor-only control commands
-apps/mission-control/  React/Vite Mission Control UI
+apps/mission-control/  Mission Control web UI
 apps/worker/           Local orchestration worker entrypoint
-packages/contracts/    Versioned Zod wire contracts
+packages/contracts/    Versioned wire contracts
 packages/persistence/  SQLite migrations, schema, repositories, rollback checks
 packages/policy/       Workspace scope and authorization decisions
 packages/orchestration/ Durable queue, schedules, leases, recovery
@@ -173,13 +173,13 @@ artifacts/progress/    Stage evidence, verification logs, screenshots, handoffs
 
 ## Architecture
 
-Nexora is a TypeScript monorepo. Mission Control calls the Fastify Control API. The API writes strict descriptor records and command facts into SQLite. Domain packages define contracts, policy, persistence, orchestration, runtime adapter boundaries, memory, artifacts, and connector descriptors.
+Nexora is a TypeScript monorepo. Mission Control calls the Control API. The API writes strict descriptor records and command facts into the local database. Domain packages define contracts, policy, persistence, orchestration, runtime adapter boundaries, memory, artifacts, and connector descriptors.
 
 The design favors durable facts over implicit process memory:
 
 - SQLite is the source of truth for run state, descriptors, events, schedules, receipts, and projections.
 - Markdown vault files summarize memory and operational artifacts where human readability matters.
-- Append-only facts back reviews, delivery receipts, browser/computer actions, voice commands, render jobs, Notebook generations, shares, and Studio commands.
+- Append-only facts back reviews, delivery receipts, browser/computer actions, voice commands, render jobs, generation descriptors, shares, and Studio commands.
 - Recovery is based on checkpoints, leases, persisted cursors, idempotency records, and explicit runbooks.
 
 ## Documentation
@@ -206,9 +206,9 @@ The next planned stages are:
 
 | Stage | Scope | Boundary |
 |---|---|---|
-| C26 | Teams, Paperclip, Antigravity descriptors, parallel attempts, dependencies, merge/review facts | Control-plane only |
-| C27 | Business connector descriptors for Oracle, GSC, WordPress, Hunter, Firecrawl, Google Workspace, and Outreach | Draft/review by default; real OAuth and side effects require explicit authorization |
-| C28 | VPS/private/mobile deployment, backup/restore, Tailscale/Cloudflare, mobile approval, remote revoke | Deployment and remote safety gates before live operation |
+| C26 | Multi-agent team descriptors, attachments, parallel attempts, dependencies, merge/review facts | Control-plane only |
+| C27 | Business connector descriptors for enterprise systems, search, publishing, enrichment, workspace, and customer engagement surfaces | Draft/review by default; real authorization and side effects require explicit approval |
+| C28 | Private/mobile deployment, backup/restore, secure networking, mobile approval, remote revoke | Deployment and remote safety gates before live operation |
 
 ## License
 
