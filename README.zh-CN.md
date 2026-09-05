@@ -28,6 +28,22 @@ pnpm --filter @nexora/mission-control build
 - **数据模型：** 本地数据库保存描述符、事件、回执、检查点、调度和投影。
 - **默认边界：** 允许记录描述符式控制事实；默认拒绝真实外部执行。
 
+## 产品截图
+
+以下截图来自当前 Mission Control 前端，用于展示主要操作界面。
+
+| 总览 | 目标规划 |
+|---|---|
+| <img src="docs/assets/readme/01-mission-control.png" alt="Mission Control 总览，展示关注事项、活跃运行、目标、产物和健康侧栏" width="420" /> | <img src="docs/assets/readme/02-goal-portfolio.png" alt="目标组合界面，展示目标树、规划看板和状态控件" width="420" /> |
+
+| 运行操作 | 审查门 |
+|---|---|
+| <img src="docs/assets/readme/03-run-detail.png" alt="运行详情，展示摘要、预算、时间线和恢复上下文" width="420" /> | <img src="docs/assets/readme/04-review-gate.png" alt="审查中心，展示载荷差异、来源回执和决策表" width="420" /> |
+
+| 产物回执 | 记忆溯源 |
+|---|---|
+| <img src="docs/assets/readme/05-artifact-receipts.png" alt="产物工作区，展示预览标签和不可变回执详情" width="420" /> | <img src="docs/assets/readme/06-memory-vault.png" alt="记忆浏览器，展示 scoped notes 和 provenance details" width="420" /> |
+
 ## 当前状态
 
 - 最新完成阶段：C25 Studio / Media / Avatar 控制平面。

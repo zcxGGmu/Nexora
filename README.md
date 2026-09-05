@@ -28,6 +28,22 @@ pnpm --filter @nexora/mission-control build
 - **Data model:** the local database stores descriptors, events, receipts, checkpoints, schedules, and projections.
 - **Default boundary:** descriptor-only control facts are allowed; live external execution is denied by default.
 
+## Product Screenshots
+
+These screenshots are captured from the current Mission Control frontend and show the main operating surfaces.
+
+| Overview | Goal planning |
+|---|---|
+| <img src="docs/assets/readme/01-mission-control.png" alt="Mission Control overview showing attention items, active runs, goals, artifacts, and health rail" width="420" /> | <img src="docs/assets/readme/02-goal-portfolio.png" alt="Goal portfolio showing goal tree, planning Kanban, and status controls" width="420" /> |
+
+| Run operations | Review gate |
+|---|---|
+| <img src="docs/assets/readme/03-run-detail.png" alt="Run detail showing summary, budget, timeline, and recovery context" width="420" /> | <img src="docs/assets/readme/04-review-gate.png" alt="Review center showing payload diff, source receipts, and decision sheet" width="420" /> |
+
+| Artifact receipts | Memory provenance |
+|---|---|
+| <img src="docs/assets/readme/05-artifact-receipts.png" alt="Artifact workspace showing preview tabs and immutable receipt details" width="420" /> | <img src="docs/assets/readme/06-memory-vault.png" alt="Memory explorer showing scoped notes and provenance details" width="420" /> |
+
 ## Current Status
 
 - Latest completed stage: C25 Studio / Media / Avatar control plane.
