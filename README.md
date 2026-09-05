@@ -4,6 +4,8 @@
 
 <h1 align="center">Nexora</h1>
 
+<p align="center"><a href="README.zh-CN.md">简体中文</a></p>
+
 <p align="center"><strong>Local-first Agent OS control plane for durable, reviewed automation.</strong></p>
 
 <p align="center">Coordinate multi-agent work through Mission Control, typed APIs, durable facts, review gates, receipts, checkpoints, skills, memory, and descriptor-only integrations.</p>
@@ -47,7 +49,7 @@ Nexora currently provides a verified local control plane for:
 | Journal | Vault bridge descriptors, source snapshots, graph/FTS snapshots, memory candidates, writeback review facts | No real external vault, wearable, or protocol writeback |
 | Browser/Computer | Browser/computer session descriptors, sandbox policy, target allowlists, approvals, action and screenshot receipts | No live browser or desktop automation |
 | Voice/Jarvis | Audio policy, wake word, voice session, transcript lifecycle, wall-mode commands | No microphone read, speaker playback, STT/VAD/TTS, or voice provider call |
-| Studio/Media | Media artifacts, render jobs, source/generation descriptors, avatar consent, share and command facts | No media/avatar provider, URL/PDF/Drive pull, render, or publish |
+| Studio/Media | Media artifacts, render jobs, source/generation descriptors, avatar consent, share and command facts | No media/avatar provider, URL/PDF/cloud-file pull, render, or publish |
 
 ## Install
 
