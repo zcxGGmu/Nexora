@@ -1,8 +1,30 @@
-# Nexora
+<p align="center">
+  <img src="docs/assets/nexora-icon.svg" alt="Nexora project icon" width="112" height="112" />
+</p>
 
-Nexora is a local-first Agent OS control plane for coordinating multi-agent work across Mission Control, typed APIs, durable facts, review gates, skills, memory, and descriptor-only integrations.
+<h1 align="center">Nexora</h1>
 
-It is designed to make the operating boundary explicit: commands record durable control-plane facts, reviews, receipts, and checkpoints, while external execution stays disabled until a later stage adds explicit adapters, consent, sandboxing, policy gates, and verification evidence.
+<p align="center"><strong>Local-first Agent OS control plane for durable, reviewed automation.</strong></p>
+
+<p align="center">Coordinate multi-agent work through Mission Control, typed APIs, durable facts, review gates, receipts, checkpoints, skills, memory, and descriptor-only integrations.</p>
+
+Nexora keeps the operating boundary visible. Commands record control-plane facts; external execution stays disabled until a later stage adds explicit adapters, consent, sandboxing, policy gates, receipts, and verification evidence.
+
+## Start Here
+
+```bash
+nvm use
+pnpm install --frozen-lockfile
+pnpm lint
+pnpm typecheck
+pnpm test --run --reporter=dot --silent
+pnpm --filter @nexora/mission-control build
+```
+
+- **Run locally:** `pnpm dev:api`, `pnpm dev:worker`, and `pnpm dev:web` in separate terminals.
+- **Control surface:** Mission Control opens at `http://127.0.0.1:4311/` after the web service starts.
+- **Data model:** the local database stores descriptors, events, receipts, checkpoints, schedules, and projections.
+- **Default boundary:** descriptor-only control facts are allowed; live external execution is denied by default.
 
 ## Current Status
 
